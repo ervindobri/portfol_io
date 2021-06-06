@@ -1,0 +1,110 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:portfol_io/constants/globals.dart';
+import 'package:portfol_io/constants/theme_utils.dart';
+
+typedef ScrollCallback = void Function(int);
+
+class MenuTablet extends StatelessWidget {
+  final ScrollCallback onItemTapCallback;
+
+  const MenuTablet({
+    Key? key,
+    required int selectedIndex,
+    required this.onItemTapCallback,
+  })  : _selectedIndex = selectedIndex,
+        super(key: key);
+
+  final int _selectedIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      child: SingleChildScrollView(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: Container(
+                width: Get.width * .1,
+                height: 100,
+                decoration: BoxDecoration(
+                    image:
+                        DecorationImage(image: AssetImage("assets/logo1.png"))),
+              ),
+            ),
+            Container(
+              width: Get.width * .8,
+              // color: Colors.blueAccent,
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 12,
+                children: getList(),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  getList() {
+    List<Widget> list = [];
+    list.addAll(List.generate(
+        Globals.menu.length,
+        (index) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: InkWell(
+                onTap: () {
+                  onItemTapCallback(index);
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      Globals.menu[index],
+                      style: TextStyle(
+                        color: ThemeUtils.primaryColor,
+                        fontWeight: FontWeight.w100,
+                        fontSize: 20,
+                      ),
+                    ),
+                    Container(
+                      width: 5,
+                      height: 5,
+                      decoration: BoxDecoration(
+                          color: _selectedIndex == index
+                              ? ThemeUtils.primaryColor
+                              : Colors.transparent,
+                          shape: BoxShape.circle),
+                    )
+                  ],
+                ),
+              ),
+            )));
+    list.add(ElevatedButton(
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(ThemeUtils.primaryColor),
+          shadowColor: MaterialStateProperty.all(ThemeUtils.primaryColor),
+          shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))),
+      onPressed: () {
+        print("button");
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          Globals.contactMe,
+          style: TextStyle(
+            color: ThemeUtils.white,
+            fontSize: 20,
+          ),
+        ),
+      ),
+    ));
+    return list;
+  }
+}
