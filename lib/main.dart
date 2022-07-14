@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:portfol_io/constants/theme_utils.dart';
+import 'package:portfol_io/constants/theme.dart';
+import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/pages/main_page.dart';
-import 'package:responsive_framework/responsive_wrapper.dart';
 
 void main() {
   Paint.enableDithering = true;
+  init();
   runApp(MyApp());
 }
 
@@ -16,24 +15,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       title: 'PortfolIO',
-      theme: ThemeData(
-        // Define the default brightness and colors.
-        brightness: Brightness.dark,
-        primaryColor: ThemeUtils.primaryColor,
-        accentColor: ThemeUtils.primaryColor,
-        // Define the default font family.
-        fontFamily: 'Poppins',
-        textTheme: GoogleFonts.poppinsTextTheme(TextTheme(
-          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-          headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-          bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
-        )),
-      ),
+      theme: PortfolioTheme.theme,
       home: HomePage(),
       // home: ResponsiveWrapper.builder(,
-      //     maxWidth: Get.width,
+      //     maxWidth: width,
       //     minWidth: 480,
       //     defaultScale: true,
       //     breakpoints: [

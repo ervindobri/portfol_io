@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:portfol_io/constants/globals.dart';
 import 'package:portfol_io/constants/theme_utils.dart';
 
@@ -20,6 +18,8 @@ class MenuTablet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: SingleChildScrollView(
@@ -29,7 +29,7 @@ class MenuTablet extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Container(
-                width: Get.width * .1,
+                width: width * .1,
                 height: 100,
                 decoration: BoxDecoration(
                     image:
@@ -37,7 +37,7 @@ class MenuTablet extends StatelessWidget {
               ),
             ),
             Container(
-              width: Get.width * .8,
+              width: width * .8,
               // color: Colors.blueAccent,
               child: Wrap(
                 spacing: 8,
@@ -67,7 +67,7 @@ class MenuTablet extends StatelessWidget {
                     Text(
                       Globals.menu[index],
                       style: TextStyle(
-                        color: ThemeUtils.primaryColor,
+                        color: GlobalColors.primaryColor,
                         fontWeight: FontWeight.w100,
                         fontSize: 20,
                       ),
@@ -77,7 +77,7 @@ class MenuTablet extends StatelessWidget {
                       height: 5,
                       decoration: BoxDecoration(
                           color: _selectedIndex == index
-                              ? ThemeUtils.primaryColor
+                              ? GlobalColors.primaryColor
                               : Colors.transparent,
                           shape: BoxShape.circle),
                     )
@@ -87,8 +87,8 @@ class MenuTablet extends StatelessWidget {
             )));
     list.add(ElevatedButton(
       style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(ThemeUtils.primaryColor),
-          shadowColor: MaterialStateProperty.all(ThemeUtils.primaryColor),
+          backgroundColor: MaterialStateProperty.all(GlobalColors.primaryColor),
+          shadowColor: MaterialStateProperty.all(GlobalColors.primaryColor),
           shape: MaterialStateProperty.all(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))),
       onPressed: () {
@@ -99,7 +99,7 @@ class MenuTablet extends StatelessWidget {
         child: Text(
           Globals.contactMe,
           style: TextStyle(
-            color: ThemeUtils.white,
+            color: GlobalColors.white,
             fontSize: 20,
           ),
         ),

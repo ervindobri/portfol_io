@@ -9,7 +9,13 @@ class SocialMediaBubble extends StatefulWidget {
   final Color iconColor;
   final String href;
 
-  const SocialMediaBubble({Key? key, required this.icon, required this.href, this.bgColor = CupertinoColors.white, this.iconColor = ThemeUtils.primaryColor}) : super(key: key);
+  const SocialMediaBubble(
+      {Key? key,
+      required this.icon,
+      required this.href,
+      this.bgColor = CupertinoColors.white,
+      this.iconColor = GlobalColors.primaryColor})
+      : super(key: key);
   @override
   _SocialMediaBubbleState createState() => _SocialMediaBubbleState();
 }
@@ -24,10 +30,8 @@ class _SocialMediaBubbleState extends State<SocialMediaBubble> {
       child: Container(
         height: 50,
         width: 50,
-        decoration: BoxDecoration(
-          color: widget.bgColor,
-          shape: BoxShape.circle
-        ),
+        decoration:
+            BoxDecoration(color: widget.bgColor, shape: BoxShape.circle),
         child: Center(
           child: FaIcon(
             widget.icon,

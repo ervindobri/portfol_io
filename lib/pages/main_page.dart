@@ -1,19 +1,13 @@
-import 'dart:math';
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mouse_parallax/mouse_parallax.dart';
 import 'package:portfol_io/constants/globals.dart';
+import 'package:portfol_io/constants/theme_ext.dart';
 import 'package:portfol_io/constants/theme_utils.dart';
-import 'package:portfol_io/controller/home_controller.dart';
-import 'package:portfol_io/custom_widgets/bg_shape.dart';
-import 'package:portfol_io/custom_widgets/sliding_widget.dart';
+import 'package:portfol_io/injection_manager.dart';
+import 'package:portfol_io/manager/menu_manager.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'home_section/aboutme_contet.dart';
+import 'home_section/work_content.dart';
 import 'home_section/home/home_content.dart';
 import 'package:portfol_io/pages/home_section/services_content.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -29,128 +23,65 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  int _selectedIndex = 0;
+  final uiMenuManager = sl<UiMenuManager>();
 
-  ScrollController _scrollController = ScrollController();
-  ItemScrollController _itemScrollController = ItemScrollController();
-  ItemPositionsListener _itemPositionListener = ItemPositionsListener.create();
-
-  HomeController homeController = Get.put(HomeController())!;
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final width = Get.width;
-    final height = Get.height;
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
+        backgroundColor: GlobalColors.primaryColor,
         body: Stack(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [ThemeUtils.bezier1, ThemeUtils.bezier3],
-                  end: Alignment.topLeft,
-                  begin: Alignment.bottomRight)),
-          child: SlidingWidget(
-            offset: Offset(-.2, 0.0),
-            animation: homeController.delayedAnimations[3],
-            child: BackgroundShape(
-              offset: Offset(250, 200),
-              colors: [ThemeUtils.bezier1, ThemeUtils.bezier1],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
-        SlidingWidget(
-          offset: Offset(-.4, 0.0),
-          animation: homeController.delayedAnimations[2],
-          child: BackgroundShape(
-            offset: Offset(-50, 100),
-            colors: [ThemeUtils.bezier1, ThemeUtils.bezier2],
-            begin: Alignment.bottomRight,
-            end: Alignment.topLeft,
-          ),
-        ),
-        SlidingWidget(
-          offset: Offset(-.6, 0.0),
-          animation: homeController.delayedAnimations[0],
-          child: BackgroundShape(
-            offset: Offset(-200, -50),
-            colors: [ThemeUtils.bezier1, ThemeUtils.darkGrey],
-            begin: Alignment.bottomRight,
-            end: Alignment.topLeft,
-          ),
-        ),
-        NotificationListener<ScrollNotification>(
-          onNotification: (scrollState) {
-            if (scrollState is ScrollNotification) {
-              setState(() {
-                _selectedIndex = scrollState.metrics.pixels ~/ Get.height;
-              });
-            }
-            return false;
-          },
-          child: Scrollbar(
-            child: Container(
+          children: [
+            Container(
               child: ScrollablePositionedList.builder(
-                itemScrollController: _itemScrollController,
-                itemPositionsListener: _itemPositionListener,
-                // addAutomaticKeepAlives: false,
-                physics: AlwaysScrollableScrollPhysics(),
+                itemScrollController: uiMenuManager.itemScrollController,
+                itemPositionsListener: uiMenuManager.itemPositionListener,
+                physics: PageScrollPhysics(),
                 itemCount: Globals.menu.length,
                 itemBuilder: (context, index) {
                   return sectionWidget(index);
                 },
               ),
             ),
-          ),
-        ),
-        Positioned(
-          child: ClipRRect(
-            child: Container(
-              height: Get.height * .15,
-              // color: ThemeUtils.darkGrey.withOpacity(.0),
-              child: topMenu(),
+            Positioned(
+              top: 0,
+              child: Container(
+                height: 60,
+                width: width,
+                color: GlobalColors.primaryColor.withOpacity(.8),
+                child: ClipRRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
+                    child: buildTopMenu(),
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      ],
-    ));
+          ],
+        ));
   }
 
   // DEsktop top menu
-  topMenu() {
+  buildTopMenu() {
     return ScreenTypeLayout(
       breakpoints: ScreenBreakpoints(tablet: 666, desktop: 1000, watch: 300),
-      mobile: MenuDesktop(selectedIndex: _selectedIndex),
-      tablet: MenuTablet(
-        selectedIndex: _selectedIndex,
-        onItemTapCallback: (index) {
-          print("Tapped!");
-          _itemScrollController.scrollTo(
-              index: index,
-              duration: Duration(milliseconds: 300),
-              curve: Curves.easeInOutCirc);
-          setState(() {
-            animateCurrentPage(index);
-          });
-        },
-      ),
-      desktop: MenuDesktop(selectedIndex: _selectedIndex),
+      mobile: SizedBox(),
+      tablet: SizedBox(),
+      desktop: MenuDesktop(),
     );
   }
 
   Widget sectionWidget(int i) {
     if (i == 0) {
-      return new HomeContent(onPressedCheckMe: () {
-        _itemScrollController.scrollTo(
-            index: i + 1,
-            duration: Duration(milliseconds: 300),
-            curve: Curves.easeInOutCirc);
-        setState(() => _selectedIndex = 1);
-      });
+      return new HomeContent();
     } else if (i == 1) {
-      return AboutMeContent();
+      return WorkContent();
     } else if (i == 2) {
       return ServicesContent();
     } else if (i == 3) {
@@ -175,22 +106,22 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   void animateCurrentPage(int i) {
     if (i == 0) {
-      homeController.forwardAnimations();
+      // animationManager.forwardAnimations();
       print("Animating home page!");
     } else if (i == 1) {
-      // homeController.reverseAnimations();
+      // animationManager.reverseAnimations();
     } else if (i == 2) {
-      // homeController.reverseAnimations();
+      // animationManager.reverseAnimations();
     } else if (i == 3) {
-      // homeController.reverseAnimations();
+      // animationManager.reverseAnimations();
     } else if (i == 4) {
-      // homeController.reverseAnimations();
+      // animationManager.reverseAnimations();
     } else if (i == 5) {
-      // homeController.reverseAnimations();
+      // animationManager.reverseAnimations();
     } else if (i == 6) {
-      // homeController.reverseAnimations();
+      // animationManager.reverseAnimations();
     } else {
-      // homeController.forwardAnimations();
+      // animationManager.forwardAnimations();
     }
   }
 }
