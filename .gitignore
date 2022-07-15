@@ -5,3 +5,7 @@
 /.packages
 # Project exclude paths
 /build/
+
+
+/android/*
+/ios/*
