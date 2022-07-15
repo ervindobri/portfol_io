@@ -21,11 +21,13 @@ dependencies:
   flutter_animator: ^3.1.0
   url_launcher: ^6.0.2
   auto_size_text: ^3.0.0-nullsafety.0
+  auto_animated: ^3.0.1
   animations: ^2.0.2
   simple_animations: ^4.0.2
   flutter_staggered_animations: ^1.0.0
   quiver: ^3.0.0
   mouse_parallax: ^1.1.0
+  animated_text_kit: ^4.2.1
   scrollable_positioned_list: ^0.3.1
   responsive_framework: ^0.1.0
   responsive_builder: ^0.4.1
@@ -52,6 +54,7 @@ flutter:
     - assets/pic.jpeg
     - assets/avatar.png
     - assets/
+    - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,13 +1,14 @@
 import 'dart:ui';
-
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:blur/blur.dart';
+import 'package:animated_text_kit/animated_text_kit.dart' as atkit;
+import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/globals.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
 import 'package:portfol_io/constants/theme_utils.dart';
-import 'package:portfol_io/custom_widgets/fade_in_slide.dart';
+import 'package:portfol_io/widgets/animated_text.dart';
+import 'package:portfol_io/widgets/fade_in_slide.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/manager/menu_manager.dart';
 
@@ -32,6 +33,7 @@ class _HomeDesktopState extends State<HomeDesktop> {
         child: Stack(
           alignment: Alignment.center,
           children: [
+            //BG Blobs
             Positioned(
               left: 0,
               top: 24,
@@ -103,62 +105,69 @@ class _HomeDesktopState extends State<HomeDesktop> {
                 ),
               ),
             ),
+            //Content
             Row(
               children: [
-                Container(
-                    width: width / 2,
-                    height: height,
-                    color: GlobalColors.lightGrey.withOpacity(.4),
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.all(48),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ...Globals.skills
-                            .map(
-                              (e) => Text(
-                                e.toUpperCase(),
-                                style: context.headline1!.copyWith(
-                                  // color: Colors.transparent,
-                                  fontSize: 100,
-                                  foreground: Paint()
-                                    ..style = PaintingStyle.stroke
-                                    ..strokeWidth = 2
-                                    ..color =
-                                        GlobalColors.green.withOpacity(.3),
+                FadingSlideWidget(
+                  offset: Offset(-1, 0),
+                  child: Container(
+                      width: width / 2,
+                      height: height,
+                      color: GlobalColors.lightGrey.withOpacity(.4),
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(48),
+                      child: Stack(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              AnimationLimiter(
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: Globals.skills.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    final skill = Globals.skills[index];
+                                    return AnimationConfiguration.staggeredList(
+                                      position: index,
+                                      delay: Duration(milliseconds: 200),
+                                      duration: Duration(milliseconds: 300),
+                                      child: SlideAnimation(
+                                        horizontalOffset: -width / 2,
+                                        child: FadeInAnimation(
+                                          child: Text(
+                                            skill.toUpperCase(),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.fade,
+                                            style: context.headline1!.copyWith(
+                                              // color: Colors.transparent,
+                                              fontSize:
+                                                  (width / 15).clamp(50, 75),
+
+                                              foreground: Paint()
+                                                ..style = PaintingStyle.stroke
+                                                ..strokeWidth = 2
+                                                ..color = GlobalColors.green
+                                                    .withOpacity(.3),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
-                            )
-                            .toList(),
-                        SizedBox(
-                          height: 48,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              "Tech Stack",
-                              style: context.bodyText1?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                foreground: Paint()
-                                  ..shader = LinearGradient(
-                                    colors: <Color>[
-                                      GlobalColors.primaryColor,
-                                      GlobalColors.lightGrey
-                                      //add more color here.
-                                    ],
-                                  ).createShader(
-                                    Rect.fromLTWH(0.0, 0.0, 200.0, 100.0),
-                                  ),
-                              ),
-                            ),
-                            Icon(FontAwesomeIcons.angleDoubleRight,
-                                color: GlobalColors.lightGrey)
-                          ],
-                        )
-                      ],
-                    )),
+                            ],
+                          ),
+                          Positioned(
+                              bottom: 24,
+                              child: FadingSlideWidget(
+                                  offset: Offset(-1, 0),
+                                  child: TechStackWidget()))
+                        ],
+                      )),
+                ),
                 Container(
                   width: width / 2,
                   height: height,
@@ -227,18 +236,161 @@ class _HomeDesktopState extends State<HomeDesktop> {
             Positioned(
                 bottom: 48,
                 left: width / 2 + 42,
-                child: TextButton(
-                  style: ButtonStyle(),
-                  onPressed: () => uiMenuManager.updateMenuCommand.execute(1),
-                  child: Container(
-                      color: GlobalColors.lightGrey.withOpacity(.12),
-                      child: Padding(
-                        padding: const EdgeInsets.all(24.0),
-                        child: Icon(FontAwesomeIcons.chevronDown,
-                            color: Colors.white),
-                      )),
+                child: FadingSlideWidget(
+                  offset: Offset(0, 2),
+                  child: TextButton(
+                    style: ButtonStyle(),
+                    onPressed: () => uiMenuManager.updateMenuCommand.execute(1),
+                    child: Container(
+                        color: GlobalColors.lightGrey.withOpacity(.12),
+                        child: Padding(
+                          padding: const EdgeInsets.all(24.0),
+                          child: Icon(FontAwesomeIcons.chevronDown,
+                              color: Colors.white),
+                        )),
+                  ),
                 )),
           ],
         ));
+  }
+}
+
+class TechStackWidget extends StatefulWidget {
+  const TechStackWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<TechStackWidget> createState() => _TechStackWidgetState();
+}
+
+class _TechStackWidgetState extends State<TechStackWidget> {
+  bool showStackList = false;
+
+  var techList = Globals.techStack;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onExit: (d) {
+        setState(() {
+          showStackList = false;
+        });
+      },
+      child: Wrap(
+        runAlignment: WrapAlignment.center,
+        alignment: WrapAlignment.center,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          MouseRegion(
+            onHover: (hovering) {
+              setState(() {
+                showStackList = true;
+              });
+            },
+            child: SizedBox(
+              height: 24,
+              child: atkit.AnimatedTextKit(
+                repeatForever: true,
+                animatedTexts: [
+                  atkit.ColorizeAnimatedText(
+                    "Tech Stack",
+                    colors: [
+                      GlobalColors.primaryColor,
+                      GlobalColors.lightGrey,
+                      GlobalColors.primaryColor
+                    ],
+                    textStyle: context.bodyText1!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(width: 16),
+          MouseRegion(
+            child: Container(
+              child: Row(
+                children: [
+                  AnimatedOpacity(
+                    duration: kThemeAnimationDuration,
+                    opacity: showStackList ? 0.0 : 1.0,
+                    child: SizedBox(
+                      child: Icon(FontAwesomeIcons.angleDoubleRight,
+                          size: 16, color: GlobalColors.lightGrey),
+                    ),
+                  ),
+                  AnimatedOpacity(
+                    duration: kThemeAnimationDuration,
+                    opacity: showStackList ? 1.0 : 0.0,
+                    child: SizedBox(
+                      width: 344,
+                      height: 48,
+                      child: LiveList(
+                        shrinkWrap: true,
+                        visibleFraction: 0.5,
+                        reAnimateOnVisibility: true,
+                        itemCount: Globals.techStack.length,
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.only(right: 16),
+                        itemBuilder:
+                            (BuildContext context, int index, animation) {
+                          final tech = techList[index];
+                          return FadeTransition(
+                            opacity: Tween<double>(
+                              begin: 0,
+                              end: 1,
+                            ).animate(animation),
+                            child: SlideTransition(
+                              position: Tween<Offset>(
+                                begin: const Offset(-.4, 0),
+                                end: Offset(0, 0),
+                              ).animate(animation),
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 16.0),
+                                child: IconButton(
+                                  iconSize: 48,
+                                  tooltip: tech.name,
+                                  padding: EdgeInsets.zero,
+                                  onPressed: () {
+                                    print(tech.link);
+                                  },
+                                  icon: Container(
+                                    width: 48,
+                                    height: 48,
+                                    decoration: BoxDecoration(
+                                      color: GlobalColors.primaryColor
+                                          .withOpacity(.4),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    padding: const EdgeInsets.all(12),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                              "assets/images/${tech.asset}.png"),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

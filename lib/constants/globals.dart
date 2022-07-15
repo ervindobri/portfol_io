@@ -1,4 +1,5 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:portfol_io/models/tech_item.dart';
 
 class Globals {
   static const List<String> menu = ["Home", "Work", "Contact Me"];
@@ -24,7 +25,16 @@ class Globals {
     "flutter",
     "python",
     "dotnet",
-    "ui designer",
+    "ui/ux designer",
     "developer"
+  ];
+
+  static const techStack = <TechItem>[
+    TechItem(
+        name: "Flutter", asset: "flutter", link: "https://dev.flutter.com/"),
+    TechItem(name: "Python", asset: "python", link: "https://python.com/"),
+    TechItem(name: "C#", asset: "csharp", link: "https://dev.flutter.com/"),
+    TechItem(name: "Figma", asset: "figma", link: "https://dev.flutter.com/"),
+    TechItem(name: "Azure DevOps", asset: "devops", link: "https://azure.com/"),
   ];
 }
