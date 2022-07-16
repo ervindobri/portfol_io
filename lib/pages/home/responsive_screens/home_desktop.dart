@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/globals.dart';
+import 'package:portfol_io/constants/styles.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
 import 'package:portfol_io/constants/theme_utils.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
@@ -242,7 +243,7 @@ class _HomeDesktopState extends State<HomeDesktop> {
                 child: FadingSlideWidget(
                   offset: Offset(0, 2),
                   child: TextButton(
-                    style: ButtonStyle(),
+                    style: GlobalStyles.iconButtonStyle(),
                     onPressed: () => uiMenuManager.updateMenuCommand.execute(1),
                     child: Container(
                         color: GlobalColors.lightGrey.withOpacity(.12),

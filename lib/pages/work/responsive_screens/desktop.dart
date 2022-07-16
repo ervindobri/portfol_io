@@ -2,12 +2,16 @@ import 'dart:ui';
 import 'package:animated_text_kit/animated_text_kit.dart' as atkit;
 import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_command/flutter_command.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/globals.dart';
+import 'package:portfol_io/constants/styles.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
 import 'package:portfol_io/constants/theme_utils.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
+import 'package:portfol_io/pages/work/carousel_controller.dart';
+import 'package:portfol_io/pages/work/showcase_item_widget.dart';
 import 'package:portfol_io/widgets/fade_in_slide.dart';
 import 'package:portfol_io/injection_manager.dart';
 
@@ -98,49 +102,18 @@ class _WorkDesktopState extends State<WorkDesktop> {
                         style: context.headline6!.copyWith(color: Colors.white),
                       ),
                     ),
+                    SizedBox(height: 16),
                     Container(
                       width: width,
-                      height: height * .8 - 96,
+                      height: height * .8 - 96 - 32 - 32,
                       color: GlobalColors.lightGrey.withOpacity(.4),
-                      child: PageView.builder(
-                          controller: uiShowcaseManager.viewController,
-                          scrollDirection: Axis.horizontal,
-                          itemCount:
-                              uiShowcaseManager.itemsCommand.value.length,
-                          itemBuilder: (context, index) {
-                            final item =
-                                uiShowcaseManager.itemsCommand.value[index];
-                            return Row(
-                              children: [
-                                Container(
-                                    width: width / 2,
-                                    height: height / 2,
-                                    color: Colors.amberAccent),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      item.projectName,
-                                      style: context.headline5!
-                                          .copyWith(color: Colors.white),
-                                    ),
-                                    Text(
-                                      item.duration,
-                                      style: context.headline6!
-                                          .copyWith(color: Colors.white),
-                                    ),
-                                    SizedBox(height: 24),
-                                    Text(
-                                      item.description,
-                                      style: context.bodyText1!
-                                          .copyWith(color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            );
-                          }),
-                    )
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: AnimatedShowcaseItemWidget(),
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    CarouselController(),
                   ],
                 ),
               ),
@@ -151,7 +124,7 @@ class _WorkDesktopState extends State<WorkDesktop> {
                 child: FadingSlideWidget(
                   offset: Offset(0, 2),
                   child: TextButton(
-                    style: ButtonStyle(),
+                    style: GlobalStyles.iconButtonStyle(),
                     onPressed: () => uiMenuManager.updateMenuCommand.execute(0),
                     child: Container(
                         color: GlobalColors.lightGrey.withOpacity(.12),
