@@ -2,21 +2,16 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:portfol_io/constants/globals.dart';
-import 'package:portfol_io/constants/theme_ext.dart';
 import 'package:portfol_io/constants/theme_utils.dart';
 import 'package:portfol_io/injection_manager.dart';
-import 'package:portfol_io/manager/menu_manager.dart';
+import 'package:portfol_io/managers/menu_manager.dart';
+import 'package:portfol_io/pages/contact/contact_content.dart';
+import 'package:portfol_io/pages/home/home_content.dart';
+import 'package:portfol_io/pages/work/work_content.dart';
+import 'package:portfol_io/widgets/menu/menu_desktop.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'home_section/work_content.dart';
-import 'home_section/home/home_content.dart';
-import 'package:portfol_io/pages/home_section/services_content.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-import 'footer.dart';
-import 'home_section/menu/menu_desktop.dart';
-import 'home_section/menu/menu_tablet.dart';
-
-// ignore: must_be_immutable
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -83,22 +78,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     } else if (i == 1) {
       return WorkContent();
     } else if (i == 2) {
-      return ServicesContent();
-    } else if (i == 3) {
-      return ServicesContent();
-    } else if (i == 4) {
-      return ServicesContent();
-    } else if (i == 5) {
-      return SizedBox(
-        height: 40.0,
-      );
-    } else if (i == 6) {
-      // return ArrowOnTop(
-      // onPressed: () => _scroll(0),
-      // );
-      return Container();
-    } else if (i == 7) {
-      return Footer();
+      return ContactContent();
     } else {
       return Container();
     }

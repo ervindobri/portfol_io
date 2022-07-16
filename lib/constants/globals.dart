@@ -37,4 +37,6 @@ class Globals {
     TechItem(name: "Figma", asset: "figma", link: "https://dev.flutter.com/"),
     TechItem(name: "Azure DevOps", asset: "devops", link: "https://azure.com/"),
   ];
+
+  static String showcase = "Showcase";
 }

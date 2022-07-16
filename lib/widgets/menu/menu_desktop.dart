@@ -4,7 +4,7 @@ import 'package:portfol_io/constants/globals.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
 import 'package:portfol_io/constants/theme_utils.dart';
 import 'package:portfol_io/injection_manager.dart';
-import 'package:portfol_io/manager/menu_manager.dart';
+import 'package:portfol_io/managers/menu_manager.dart';
 
 class MenuDesktop extends StatelessWidget {
   MenuDesktop({Key? key}) : super(key: key);

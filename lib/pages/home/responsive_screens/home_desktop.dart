@@ -7,10 +7,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/globals.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
 import 'package:portfol_io/constants/theme_utils.dart';
-import 'package:portfol_io/widgets/animated_text.dart';
+import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/widgets/fade_in_slide.dart';
 import 'package:portfol_io/injection_manager.dart';
-import 'package:portfol_io/manager/menu_manager.dart';
 
 class HomeDesktop extends StatefulWidget {
   HomeDesktop({Key? key}) : super(key: key);
@@ -177,11 +176,15 @@ class _HomeDesktopState extends State<HomeDesktop> {
                       children: [
                         FadingSlideWidget(
                           offset: Offset(0, 0.5),
-                          child: Text(
-                            Globals.title,
-                            textAlign: TextAlign.right,
-                            style: context.headline1!
-                                .copyWith(color: Colors.white),
+                          child: SizedBox(
+                            width: width / 3,
+                            child: Text(
+                              Globals.title,
+                              maxLines: 2,
+                              textAlign: TextAlign.right,
+                              style: context.headline1!
+                                  .copyWith(color: Colors.white),
+                            ),
                           ),
                         ),
                         FadingSlideWidget(

@@ -1,8 +1,7 @@
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:portfol_io/pages/home_section/home/responsive_screens/home_desktop.dart';
-import 'package:portfol_io/pages/home_section/home/responsive_screens/home_tablet.dart';
+import 'package:portfol_io/pages/home/responsive_screens/home.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class HomeContent extends StatefulWidget {
