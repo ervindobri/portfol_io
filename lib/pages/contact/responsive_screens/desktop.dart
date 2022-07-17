@@ -26,235 +26,241 @@ class _ContactDesktopState extends State<ContactDesktop> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final imageSize = 348.0;
-    return Container(
-        height: height,
-        width: width,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            //BG Blobs
-            Positioned(
-              left: 0,
-              top: 24,
-              child: Container(
-                height: imageSize / 2,
-                width: imageSize / 2,
-                decoration: BoxDecoration(
-                  // color: ThemeUtils.green.withOpacity(.4),
-                  image: DecorationImage(
+    return ClipRRect(
+      child: Container(
+          height: height,
+          width: width,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              //BG Blobs
+              Positioned(
+                left: 0,
+                top: 24,
+                child: Container(
+                  height: imageSize / 2,
+                  width: imageSize / 2,
+                  decoration: BoxDecoration(
+                    // color: ThemeUtils.green.withOpacity(.4),
+                    image: DecorationImage(
+                        image: AssetImage(
+                          "assets/blob2.png",
+                        ),
+                        opacity: .4),
+                    color: Colors.white,
+                  ),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
+                    child: Container(
+                      decoration:
+                          BoxDecoration(color: Colors.white.withOpacity(0.0)),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 48,
+                left: width / 3,
+                child: Container(
+                  height: imageSize / 2,
+                  width: imageSize / 2,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
                       image: AssetImage(
-                        "assets/blob2.png",
+                        "assets/blob3.png",
                       ),
-                      opacity: .4),
-                  color: Colors.white,
-                ),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
-                  child: Container(
-                    decoration:
-                        BoxDecoration(color: Colors.white.withOpacity(0.0)),
+                    ),
                   ),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 48,
-              left: width / 3,
-              child: Container(
-                height: imageSize / 2,
-                width: imageSize / 2,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(
-                      "assets/blob3.png",
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
+                    child: Container(
+                      decoration:
+                          BoxDecoration(color: Colors.white.withOpacity(0.0)),
                     ),
                   ),
                 ),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
-                  child: Container(
-                    decoration:
-                        BoxDecoration(color: Colors.white.withOpacity(0.0)),
-                  ),
-                ),
               ),
-            ),
-            Positioned(
-              right: 48,
-              top: 48,
-              child: Container(
-                height: imageSize,
-                width: imageSize,
-                decoration: BoxDecoration(
-                  // color: ThemeUtils.green.withOpacity(.4),
-                  image: DecorationImage(
-                    image: AssetImage(
-                      "assets/blob1.png",
+              Positioned(
+                right: 48,
+                top: 48,
+                child: Container(
+                  height: imageSize,
+                  width: imageSize,
+                  decoration: BoxDecoration(
+                    // color: ThemeUtils.green.withOpacity(.4),
+                    image: DecorationImage(
+                      image: AssetImage(
+                        "assets/blob1.png",
+                      ),
+                      opacity: .4,
                     ),
-                    opacity: .4,
+                    // color: Colors.red,
                   ),
-                  // color: Colors.red,
-                ),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 96, sigmaY: 96),
-                  child: Container(
-                    decoration:
-                        BoxDecoration(color: Colors.white.withOpacity(0.0)),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 96, sigmaY: 96),
+                    child: Container(
+                      decoration:
+                          BoxDecoration(color: Colors.white.withOpacity(0.0)),
+                    ),
                   ),
                 ),
               ),
-            ),
-            //Content
-            Row(
-              children: [
-                FadingSlideWidget(
-                  offset: Offset(-1, 0),
-                  child: Container(
-                      width: width / 2,
-                      height: height,
-                      color: GlobalColors.lightGrey.withOpacity(.4),
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.all(48),
-                      child: Stack(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              AnimationLimiter(
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: Globals.skills.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    final skill = Globals.skills[index];
-                                    return AnimationConfiguration.staggeredList(
-                                      position: index,
-                                      delay: Duration(milliseconds: 200),
-                                      duration: Duration(milliseconds: 300),
-                                      child: SlideAnimation(
-                                        horizontalOffset: -width / 2,
-                                        child: FadeInAnimation(
-                                          child: Text(
-                                            skill.toUpperCase(),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.fade,
-                                            style: context.headline1!.copyWith(
-                                              // color: Colors.transparent,
-                                              fontSize:
-                                                  (width / 15).clamp(50, 75),
+              //Content
+              Row(
+                children: [
+                  FadingSlideWidget(
+                    offset: Offset(-1, 0),
+                    child: Container(
+                        width: width / 2,
+                        height: height,
+                        color: GlobalColors.lightGrey.withOpacity(.4),
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.all(48),
+                        child: Stack(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                AnimationLimiter(
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: Globals.skills.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      final skill = Globals.skills[index];
+                                      return AnimationConfiguration
+                                          .staggeredList(
+                                        position: index,
+                                        delay: Duration(milliseconds: 200),
+                                        duration: Duration(milliseconds: 300),
+                                        child: SlideAnimation(
+                                          horizontalOffset: -width / 2,
+                                          child: FadeInAnimation(
+                                            child: Text(
+                                              skill.toUpperCase(),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.fade,
+                                              style:
+                                                  context.headline1!.copyWith(
+                                                // color: Colors.transparent,
+                                                fontSize:
+                                                    (width / 15).clamp(50, 75),
 
-                                              foreground: Paint()
-                                                ..style = PaintingStyle.stroke
-                                                ..strokeWidth = 2
-                                                ..color = GlobalColors.green
-                                                    .withOpacity(.3),
+                                                foreground: Paint()
+                                                  ..style = PaintingStyle.stroke
+                                                  ..strokeWidth = 2
+                                                  ..color = GlobalColors.green
+                                                      .withOpacity(.3),
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  },
+                                      );
+                                    },
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Positioned(
-                              bottom: 24,
-                              child: FadingSlideWidget(
-                                  offset: Offset(-1, 0),
-                                  child: TechStackWidget()))
-                        ],
-                      )),
-                ),
-                Container(
-                  width: width / 2,
-                  height: height,
-                  padding: const EdgeInsets.fromLTRB(48, 128 + 60, 48, 48),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        FadingSlideWidget(
-                          offset: Offset(0, 0.5),
-                          child: SizedBox(
-                            width: width / 3,
-                            child: Text(
-                              Globals.title,
-                              maxLines: 2,
-                              textAlign: TextAlign.right,
-                              style: context.headline1!
-                                  .copyWith(color: Colors.white),
+                              ],
                             ),
-                          ),
-                        ),
-                        FadingSlideWidget(
-                          offset: Offset(0, 0.5),
-                          child: Text(
-                            Globals.subtitle,
-                            textAlign: TextAlign.right,
-                            style: context.headline6!
-                                .copyWith(color: GlobalColors.lightGrey),
-                          ),
-                        ),
-                        SizedBox(height: 96),
-                        FadingSlideWidget(
-                          offset: Offset(0, 0.5),
-                          child: TextButton(
-                              onPressed: () {},
-                              child: Container(
-                                  color: Colors.white,
-                                  padding:
-                                      const EdgeInsets.fromLTRB(24, 12, 24, 12),
-                                  child: Text(
-                                    Globals.letsWorkTogether,
-                                    style: context.headline6!.copyWith(
-                                        color: GlobalColors.primaryColor),
-                                  ))),
-                        ),
-                      ]),
-                ),
-              ],
-            ),
-            Positioned(
-              top: 128,
-              child: Container(
-                width: 256,
-                height: 256,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    ClipRRect(
-                      child: ImageFiltered(
-                          imageFilter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-                          child: Image.asset("assets/avatar.png",
-                              width: imageSize, height: imageSize)),
-                    ),
-                    Positioned(
-                        child: Image.asset("assets/avatar.png",
-                            width: imageSize, height: imageSize)),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-                bottom: 48,
-                left: width / 2 + 42,
-                child: FadingSlideWidget(
-                  offset: Offset(0, 2),
-                  child: TextButton(
-                    style: ButtonStyle(),
-                    onPressed: () => uiMenuManager.updateMenuCommand.execute(1),
-                    child: Container(
-                        color: GlobalColors.lightGrey.withOpacity(.12),
-                        child: Padding(
-                          padding: const EdgeInsets.all(24.0),
-                          child: Icon(FontAwesomeIcons.chevronDown,
-                              color: Colors.white),
+                            Positioned(
+                                bottom: 24,
+                                child: FadingSlideWidget(
+                                    offset: Offset(-1, 0),
+                                    child: TechStackWidget()))
+                          ],
                         )),
                   ),
-                )),
-          ],
-        ));
+                  Container(
+                    width: width / 2,
+                    height: height,
+                    padding: const EdgeInsets.fromLTRB(48, 128 + 60, 48, 48),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          FadingSlideWidget(
+                            offset: Offset(0, 0.5),
+                            child: SizedBox(
+                              width: width / 3,
+                              child: Text(
+                                Globals.title,
+                                maxLines: 2,
+                                textAlign: TextAlign.right,
+                                style: context.headline1!
+                                    .copyWith(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          FadingSlideWidget(
+                            offset: Offset(0, 0.5),
+                            child: Text(
+                              Globals.subtitle,
+                              textAlign: TextAlign.right,
+                              style: context.headline6!
+                                  .copyWith(color: GlobalColors.lightGrey),
+                            ),
+                          ),
+                          SizedBox(height: 96),
+                          FadingSlideWidget(
+                            offset: Offset(0, 0.5),
+                            child: TextButton(
+                                onPressed: () {},
+                                child: Container(
+                                    color: Colors.white,
+                                    padding: const EdgeInsets.fromLTRB(
+                                        24, 12, 24, 12),
+                                    child: Text(
+                                      Globals.letsWorkTogether,
+                                      style: context.headline6!.copyWith(
+                                          color: GlobalColors.primaryColor),
+                                    ))),
+                          ),
+                        ]),
+                  ),
+                ],
+              ),
+              Positioned(
+                top: 128,
+                child: Container(
+                  width: 256,
+                  height: 256,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      ClipRRect(
+                        child: ImageFiltered(
+                            imageFilter:
+                                ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                            child: Image.asset("assets/avatar.png",
+                                width: imageSize, height: imageSize)),
+                      ),
+                      Positioned(
+                          child: Image.asset("assets/avatar.png",
+                              width: imageSize, height: imageSize)),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                  bottom: 48,
+                  left: width / 2 + 42,
+                  child: FadingSlideWidget(
+                    offset: Offset(0, 2),
+                    child: TextButton(
+                      style: ButtonStyle(),
+                      onPressed: () =>
+                          uiMenuManager.updateMenuCommand.execute(1),
+                      child: Container(
+                          color: GlobalColors.lightGrey.withOpacity(.12),
+                          child: Padding(
+                            padding: const EdgeInsets.all(24.0),
+                            child: Icon(FontAwesomeIcons.chevronDown,
+                                color: Colors.white),
+                          )),
+                    ),
+                  )),
+            ],
+          )),
+    );
   }
 }
 

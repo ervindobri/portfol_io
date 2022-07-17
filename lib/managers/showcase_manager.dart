@@ -1,3 +1,5 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_command/flutter_command.dart';
 
 class ShowcaseItem {
@@ -28,13 +30,22 @@ List<ShowcaseItem> items = [
   ShowcaseItem(
       projectName: "Cheesify",
       duration: "Two weeks",
+      url: "https://github.com/ervindobri/cheesify",
+      imagesPath: 'cheesify',
+      imageAssets: ['main', '2'],
       description:
-          """This app concept was based on a cheese database application. You can browse various cheese types and find out interesting facts about them. UI Design in Figma, app using flutter!"""),
+          """This app concept was based on a cheese database application. You can browse various cheese types and find out interesting facts about them. UI Design in Adobe XD, app using flutter!"""),
   ShowcaseItem(
       projectName: "Adidas Originals Design",
       duration: "2 hours",
+      url:
+          "https://www.figma.com/file/zBqcTDzvy53cy9msnFSVNd/Adidas?node-id=0%3A1",
+      imagesPath: 'adidas',
+      imageAssets: [
+        'main'
+      ],
       description:
-          """This app concept was based on a cheese database application. You can browse various cheese types and find out interesting facts about them. UI Design in Figma, app using flutter!"""),
+          """Buy adidas originals collections & single piece clothing. You can browse various cheese types and find out interesting facts about them. UI Design in Figma, app using flutter!"""),
 ];
 
 class UiShowcaseManager {
@@ -48,17 +59,22 @@ class UiShowcaseManager {
   int initialPage = 0;
   int currentIndex = 0;
 
+
+  ValueNotifier<int> currentImageIndex = ValueNotifier(0);
+  ValueNotifier<bool> showImageOverlay = ValueNotifier(false);
+
   int get currentPage => currentIndex + 1;
 
+  late Command<int, int?> setImageCommand;
   UiShowcaseManager() {
     nextItemCommand = Command.createSync<ShowcaseItem?, void>(nextItem, null);
     previousItemCommand =
         Command.createSync<ShowcaseItem?, void>(previousItem, null);
 
-    // currentItemCommand
-    //     .debounce(const Duration(milliseconds: 300))
-    //     .listen((item, _) {
-    // });
+    currentItemCommand
+        .debounce(const Duration(milliseconds: 300))
+        .listen((item, _) {
+    });
 
     previousItemCommand
         .debounce(const Duration(milliseconds: 100))
@@ -71,6 +87,11 @@ class UiShowcaseManager {
         .listen((item, _) {
       currentItemCommand.execute(currentIndex);
     });
+
+    setImageCommand = Command.createAsync((x) async {
+      currentImageIndex.value = x;
+      return null;
+    }, 0);
   }
 
   void nextItem(item) async {

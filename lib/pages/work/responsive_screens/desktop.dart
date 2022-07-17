@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:animated_text_kit/animated_text_kit.dart' as atkit;
 import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_command/flutter_command.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/globals.dart';
@@ -31,112 +32,114 @@ class _WorkDesktopState extends State<WorkDesktop> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final imageSize = 348.0;
-    return Container(
-        height: height,
-        width: width,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            //BG Blobs
-            Positioned(
-              left: 0,
-              top: 24,
-              child: Container(
-                height: imageSize / 2,
-                width: imageSize / 2,
-                decoration: BoxDecoration(
-                  // color: ThemeUtils.green.withOpacity(.4),
-                  image: DecorationImage(
-                      image: AssetImage(
-                        "assets/blob2.png",
-                      ),
-                      opacity: .4),
-                  color: Colors.white,
-                ),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
-                  child: Container(
-                    decoration:
-                        BoxDecoration(color: Colors.white.withOpacity(0.0)),
+    return ClipRRect(
+      child: Container(
+          height: height,
+          width: width,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              //BG Blobs
+              Positioned(
+                left: 0,
+                top: 24,
+                child: Container(
+                  height: imageSize / 2,
+                  width: imageSize / 2,
+                  decoration: BoxDecoration(
+                    // color: ThemeUtils.green.withOpacity(.4),
+                    image: DecorationImage(
+                        image: AssetImage(
+                          "assets/blob2.png",
+                        ),
+                        opacity: .4),
+                    color: Colors.white,
                   ),
-                ),
-              ),
-            ),
-            Positioned(
-              right: 48,
-              top: 48,
-              child: Container(
-                height: imageSize,
-                width: imageSize,
-                decoration: BoxDecoration(
-                  // color: ThemeUtils.green.withOpacity(.4),
-                  image: DecorationImage(
-                    image: AssetImage(
-                      "assets/blob1.png",
-                    ),
-                    opacity: .4,
-                  ),
-                  // color: Colors.red,
-                ),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 96, sigmaY: 96),
-                  child: Container(
-                    decoration:
-                        BoxDecoration(color: Colors.white.withOpacity(0.0)),
-                  ),
-                ),
-              ),
-            ),
-            //Content
-            SizedBox(
-              width: width,
-              height: height,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(48, 48 + 60, 48, 48),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      child: Text(
-                        Globals.showcase,
-                        style: context.headline6!.copyWith(color: Colors.white),
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    Container(
-                      width: width,
-                      height: height * .8 - 96 - 32 - 32,
-                      color: GlobalColors.lightGrey.withOpacity(.4),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: AnimatedShowcaseItemWidget(),
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    CarouselController(),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-                bottom: 48,
-                right: 48,
-                child: FadingSlideWidget(
-                  offset: Offset(0, 2),
-                  child: TextButton(
-                    style: GlobalStyles.iconButtonStyle(),
-                    onPressed: () => uiMenuManager.updateMenuCommand.execute(0),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
                     child: Container(
-                        color: GlobalColors.lightGrey.withOpacity(.12),
-                        child: Padding(
-                          padding: const EdgeInsets.all(24.0),
-                          child: Icon(FontAwesomeIcons.chevronUp,
-                              color: Colors.white),
-                        )),
+                      decoration:
+                          BoxDecoration(color: Colors.white.withOpacity(0.0)),
+                    ),
                   ),
-                )),
-          ],
-        ));
+                ),
+              ),
+              Positioned(
+                right: 48,
+                top: 48,
+                child: Container(
+                  height: imageSize,
+                  width: imageSize,
+                  decoration: BoxDecoration(
+                    // color: ThemeUtils.green.withOpacity(.4),
+                    image: DecorationImage(
+                      image: AssetImage(
+                        "assets/blob1.png",
+                      ),
+                      opacity: .4,
+                    ),
+                    // color: Colors.red,
+                  ),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 96, sigmaY: 96),
+                    child: Container(
+                      decoration:
+                          BoxDecoration(color: Colors.white.withOpacity(0.0)),
+                    ),
+                  ),
+                ),
+              ),
+              //Content
+              SizedBox(
+                width: width,
+                height: height,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(48, 48 + 60, 48, 48),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        child: Text(
+                          Globals.showcase,
+                          style: context.headline6!.copyWith(color: Colors.white),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      Container(
+                        width: width,
+                        height: height * .8 - 96 - 32 - 32,
+                        color: GlobalColors.lightGrey.withOpacity(.4),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: AnimatedShowcaseItemWidget(),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      CarouselController(),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                  bottom: 48,
+                  right: 48,
+                  child: FadingSlideWidget(
+                    offset: Offset(0, 2),
+                    child: TextButton(
+                      style: GlobalStyles.iconButtonStyle(),
+                      onPressed: () => uiMenuManager.updateMenuCommand.execute(0),
+                      child: Container(
+                          color: GlobalColors.lightGrey.withOpacity(.12),
+                          child: Padding(
+                            padding: const EdgeInsets.all(24.0),
+                            child: Icon(FontAwesomeIcons.chevronUp,
+                                color: Colors.white),
+                          )),
+                    ),
+                  )),
+            ],
+          )),
+    );
   }
 }
 

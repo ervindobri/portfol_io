@@ -12,7 +12,7 @@ class UiMenuManager {
     updateMenuCommand = Command.createSync<int, int>((counter) => counter, 0);
 
     updateMenuCommand
-        .debounce(const Duration(milliseconds: 100))
+        .debounce(const Duration(milliseconds: 50))
         .listen((index, _) {
       itemScrollController.scrollTo(
           index: index,

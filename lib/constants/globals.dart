@@ -39,6 +39,6 @@ class Globals {
   ];
 
   static String showcase = "Showcase";
-
   static String checkItOut = "Check it out";
+  static String clickToExpand = "Click to expand";
 }

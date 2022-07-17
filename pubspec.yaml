@@ -33,6 +33,7 @@ dependencies:
   responsive_builder: ^0.4.1
   flutter_command: ^2.0.1
   blur: ^3.1.0
+  carousel_slider: ^4.1.1
 
 dev_dependencies:
   flutter_test:
@@ -55,7 +56,11 @@ flutter:
     - assets/avatar.png
     - assets/
     - assets/images/
-  #   - images/a_dot_ham.jpeg
+    - assets/images/work/
+    - assets/images/work/cheesify/
+    - assets/images/work/adidas/
+    - assets/images/work/barbr/
+    - assets/images/work/others/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

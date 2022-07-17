@@ -1,9 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_command/flutter_command.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
+import 'package:portfol_io/pages/work/fullscreen_image_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AnimatedShowcaseItemWidget extends StatelessWidget {
   final UiShowcaseManager uiShowcaseManager = sl<UiShowcaseManager>();
@@ -34,9 +38,8 @@ class AnimatedShowcaseItemWidget extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              //TODO: item images carousel here
                               Expanded(
-                                child: Container(color: Colors.amberAccent),
+                                child: ImageCarousel(item: item),
                               ),
                               Expanded(
                                 child: Column(
@@ -68,8 +71,8 @@ class AnimatedShowcaseItemWidget extends StatelessWidget {
                                     ),
                                     Spacer(),
                                     TextButton(
-                                        onPressed: () {
-                                          //TODO: launch item.url
+                                        onPressed: () async {
+                                          await launchUrl(Uri.parse(item.url));
                                         },
                                         child: Container(
                                             color: Colors.white,
@@ -91,6 +94,137 @@ class AnimatedShowcaseItemWidget extends StatelessWidget {
                       );
                     });
               });
+        });
+  }
+}
+
+class ImageCarousel extends StatelessWidget {
+  ImageCarousel({
+    Key? key,
+    required this.item,
+  }) : super(key: key);
+
+  final UiShowcaseManager uiShowcaseManager = sl<UiShowcaseManager>();
+  final ShowcaseItem item;
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    return ValueListenableBuilder<int>(
+        valueListenable: uiShowcaseManager.currentImageIndex,
+        builder: (_, value, __) {
+          return Column(
+            children: [
+              Expanded(
+                child: MouseRegion(
+                  onEnter: (event) {
+                    uiShowcaseManager.showImageOverlay.value = true;
+                  },
+                  onExit: (event) {
+                    uiShowcaseManager.showImageOverlay.value = false;
+                  },
+                  child: TweenAnimationBuilder(
+                    tween: Tween<double>(begin: 0.0, end: 1.0),
+                    key: Key(item.imageAssets[value]),
+                    duration: const Duration(milliseconds: 300),
+                    builder: (_, double value2, anim) {
+                      final image = item.imageAssets[value];
+                      return Opacity(
+                        opacity: value2,
+                        child: SizedBox(
+                          width: width,
+                          height: height,
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              SizedBox(
+                                width: width,
+                                height: height,
+                                child: Image(
+                                  fit: BoxFit.fill,
+                                  image: AssetImage(
+                                      "assets/images/work/${item.imagesPath}/$image.png"),
+                                ),
+                              ),
+                              ValueListenableBuilder<bool>(
+                                valueListenable:
+                                    uiShowcaseManager.showImageOverlay,
+                                builder: (context, showImageOverlay, _) {
+                                  return AnimatedOpacity(
+                                    duration: kThemeAnimationDuration,
+                                    opacity: showImageOverlay ? 1.0 : 0.0,
+                                    child: InkWell(
+                                      onTap: () {
+                                        showDialog(
+                                          context: context,
+                                          barrierColor: GlobalColors
+                                              .primaryColor
+                                              .withOpacity(.8),
+                                          builder: (context) {
+                                            return FullscreenImageDialog(
+                                                item: item, image: image);
+                                          },
+                                        );
+                                      },
+                                      child: Container(
+                                        color: GlobalColors.primaryColor
+                                            .withOpacity(.8),
+                                        child: Center(
+                                          child: Wrap(
+                                            spacing: 16,
+                                            children: [
+                                              FaIcon(FontAwesomeIcons.expand,
+                                                  color: Colors.white),
+                                              Text(
+                                                Globals.clickToExpand,
+                                                style: context.headline6
+                                                    ?.copyWith(
+                                                        fontWeight:
+                                                            FontWeight.w100),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: item.imageAssets.map((entry) {
+                  final index = item.imageAssets.indexOf(entry);
+                  return InkWell(
+                    onTap: () {
+                      uiShowcaseManager.setImageCommand.execute(index);
+                    },
+                    child: Container(
+                      width: 12.0,
+                      height: 12.0,
+                      margin:
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color:
+                              (Theme.of(context).brightness == Brightness.dark
+                                      ? Colors.white
+                                      : GlobalColors.primaryColor)
+                                  .withOpacity(value == index ? 0.9 : 0.4)),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
+          );
         });
   }
 }

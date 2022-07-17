@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_command/flutter_command.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/styles.dart';
@@ -6,13 +7,19 @@ import 'package:portfol_io/constants/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
 
-class CarouselController extends StatelessWidget {
+class CarouselController extends StatefulWidget {
   CarouselController({Key? key}) : super(key: key);
 
+  @override
+  State<CarouselController> createState() => _CarouselControllerState();
+}
+
+class _CarouselControllerState extends State<CarouselController> {
   final UiShowcaseManager uiShowcaseManager = sl<UiShowcaseManager>();
 
   @override
   Widget build(BuildContext context) {
+    //TODO: left, right arrow actions -> prev/next item
     return ValueListenableBuilder<CommandResult<int?, ShowcaseItem?>>(
         valueListenable: uiShowcaseManager.currentItemCommand.results,
         builder: (context, value, __) {
