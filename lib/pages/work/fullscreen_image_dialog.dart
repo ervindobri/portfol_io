@@ -21,10 +21,13 @@ class FullscreenImageDialog extends StatelessWidget {
           SizedBox(
             child: AspectRatio(
               aspectRatio: 1600 / 1200,
-              child: Image(
-                fit: BoxFit.fill,
-                image: AssetImage(
-                    "assets/images/work/${item.imagesPath}/$image.png"),
+              child: Hero(
+                tag: image,
+                child: Image(
+                  fit: BoxFit.fill,
+                  image: AssetImage(
+                      "assets/images/work/${item.imagesPath}/$image.png"),
+                ),
               ),
             ),
           ),
@@ -32,6 +35,7 @@ class FullscreenImageDialog extends StatelessWidget {
             top: 24,
             right: 24,
             child: IconButton(
+              iconSize: 48,
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
               onPressed: () => Navigator.pop(context),
@@ -39,10 +43,9 @@ class FullscreenImageDialog extends StatelessWidget {
                 height: 64,
                 width: 64,
                 color: GlobalColors.primaryColor,
-                padding: const EdgeInsets.all(12),
                 child: Center(
                   child:
-                      Icon(CupertinoIcons.xmark, size: 16, color: Colors.white),
+                      Icon(CupertinoIcons.xmark, size: 24, color: Colors.white),
                 ),
               ),
             ),

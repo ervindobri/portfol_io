@@ -6,5 +6,9 @@ class GlobalStyles {
       ButtonStyle(enableFeedback: false);
 
   static iconButtonStyle() => ButtonStyle(
-      overlayColor: MaterialStateProperty.all(GlobalColors.lightGrey));
+      overlayColor: MaterialStateProperty.all(GlobalColors.lightGrey),
+      padding: MaterialStateProperty.all(EdgeInsets.zero),
+      // side: MaterialStateProperty.all(BorderSide()),
+      shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(borderRadius: BorderRadius.zero)));
 }

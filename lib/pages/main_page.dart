@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/constants/globals.dart';
 import 'package:portfol_io/constants/theme_utils.dart';
 import 'package:portfol_io/injection_manager.dart';
@@ -8,6 +10,7 @@ import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/pages/contact/contact_content.dart';
 import 'package:portfol_io/pages/home/home_content.dart';
 import 'package:portfol_io/pages/work/work_content.dart';
+import 'package:portfol_io/widgets/fade_in_slide.dart';
 import 'package:portfol_io/widgets/menu/menu_desktop.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -57,6 +60,35 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   ),
                 ),
               ),
+            ),
+            Positioned(
+              bottom: 48,
+              right: 48,
+              child: ValueListenableBuilder(
+                  valueListenable: uiMenuManager.menuIndex,
+                  builder: (context, int value, __) {
+                    return AnimatedSwitcher(
+                      duration: kThemeAnimationDuration,
+                      child: value < 1
+                          ? SizedBox()
+                          : FadingSlideWidget(
+                              offset: Offset(0, 2),
+                              child: TextButton(
+                                style: GlobalStyles.iconButtonStyle(),
+                                onPressed: () =>
+                                    uiMenuManager.updateMenuCommand.execute(0),
+                                child: Container(
+                                    color:
+                                        GlobalColors.lightGrey.withOpacity(.12),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(24.0),
+                                      child: Icon(FontAwesomeIcons.chevronUp,
+                                          color: Colors.white),
+                                    )),
+                              ),
+                            ),
+                    );
+                  }),
             ),
           ],
         ));

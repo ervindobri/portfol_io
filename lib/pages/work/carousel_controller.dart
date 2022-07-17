@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_command/flutter_command.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/styles.dart';
@@ -48,21 +47,26 @@ class _CarouselControllerState extends State<CarouselController> {
               SizedBox(width: 16),
               Text(
                 "$currentIndex/$totalItems",
-                style: context.bodyText1?.copyWith(color: Colors.white),
+                style: context.bodyText1?.copyWith(
+                    color: Colors.white, fontWeight: FontWeight.w100),
               ),
               SizedBox(width: 16),
               TextButton(
                 style: GlobalStyles.whiteTextButtonStyle(),
                 onPressed: () => uiShowcaseManager.nextItemCommand.execute(),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "Next",
-                      style: context.bodyText1?.copyWith(color: Colors.white),
+                    SizedBox(
+                      height: 16,
+                      child: Text(
+                        "Next",
+                        style: context.bodyText1?.copyWith(color: Colors.white),
+                      ),
                     ),
                     SizedBox(width: 8),
                     FaIcon(FontAwesomeIcons.chevronRight,
-                        size: 16, color: Colors.white),
+                        size: 12, color: Colors.white),
                   ],
                 ),
               ),

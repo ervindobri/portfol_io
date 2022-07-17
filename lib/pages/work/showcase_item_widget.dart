@@ -55,7 +55,8 @@ class AnimatedShowcaseItemWidget extends StatelessWidget {
                                       item.duration,
                                       textAlign: TextAlign.right,
                                       style: context.headline6!.copyWith(
-                                          fontWeight: FontWeight.w300,
+                                          fontWeight: FontWeight.w100,
+                                          fontSize: 24,
                                           color: Colors.white),
                                     ),
                                     SizedBox(height: 24),
@@ -141,10 +142,13 @@ class ImageCarousel extends StatelessWidget {
                               SizedBox(
                                 width: width,
                                 height: height,
-                                child: Image(
-                                  fit: BoxFit.fill,
-                                  image: AssetImage(
-                                      "assets/images/work/${item.imagesPath}/$image.png"),
+                                child: Hero(
+                                  tag: image,
+                                  child: Image(
+                                    fit: BoxFit.fill,
+                                    image: AssetImage(
+                                        "assets/images/work/${item.imagesPath}/$image.png"),
+                                  ),
                                 ),
                               ),
                               ValueListenableBuilder<bool>(

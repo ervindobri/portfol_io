@@ -59,7 +59,6 @@ class UiShowcaseManager {
   int initialPage = 0;
   int currentIndex = 0;
 
-
   ValueNotifier<int> currentImageIndex = ValueNotifier(0);
   ValueNotifier<bool> showImageOverlay = ValueNotifier(false);
 
@@ -73,18 +72,19 @@ class UiShowcaseManager {
 
     currentItemCommand
         .debounce(const Duration(milliseconds: 300))
-        .listen((item, _) {
-    });
+        .listen((item, _) {});
 
     previousItemCommand
         .debounce(const Duration(milliseconds: 100))
         .listen((item, _) {
+      currentImageIndex.value = 0;
       currentItemCommand.execute(currentIndex);
     });
 
     nextItemCommand
         .debounce(const Duration(milliseconds: 100))
         .listen((item, _) {
+      currentImageIndex.value = 0;
       currentItemCommand.execute(currentIndex);
     });
 

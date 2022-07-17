@@ -2,8 +2,6 @@ import 'dart:ui';
 import 'package:animated_text_kit/animated_text_kit.dart' as atkit;
 import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_command/flutter_command.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/globals.dart';
 import 'package:portfol_io/constants/styles.dart';
@@ -120,23 +118,6 @@ class _WorkDesktopState extends State<WorkDesktop> {
                   ),
                 ),
               ),
-              Positioned(
-                  bottom: 48,
-                  right: 48,
-                  child: FadingSlideWidget(
-                    offset: Offset(0, 2),
-                    child: TextButton(
-                      style: GlobalStyles.iconButtonStyle(),
-                      onPressed: () => uiMenuManager.updateMenuCommand.execute(0),
-                      child: Container(
-                          color: GlobalColors.lightGrey.withOpacity(.12),
-                          child: Padding(
-                            padding: const EdgeInsets.all(24.0),
-                            child: Icon(FontAwesomeIcons.chevronUp,
-                                color: Colors.white),
-                          )),
-                    ),
-                  )),
             ],
           )),
     );

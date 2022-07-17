@@ -8,12 +8,14 @@ class UiMenuManager {
   ItemScrollController itemScrollController = ItemScrollController();
   ItemPositionsListener itemPositionListener = ItemPositionsListener.create();
 
+  ValueNotifier<int> menuIndex = ValueNotifier(0);
   UiMenuManager() {
     updateMenuCommand = Command.createSync<int, int>((counter) => counter, 0);
 
     updateMenuCommand
         .debounce(const Duration(milliseconds: 50))
         .listen((index, _) {
+      menuIndex.value = index;
       itemScrollController.scrollTo(
           index: index,
           duration: Duration(milliseconds: 300),
