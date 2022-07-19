@@ -54,8 +54,8 @@ class MenuDesktop extends StatelessWidget {
                                   ? GlobalColors.primaryColor
                                   : Colors.white,
                               fontWeight: _selectedIndex == index
-                                  ? FontWeight.w900
-                                  : FontWeight.w100),
+                                  ? FontWeight.bold
+                                  : FontWeight.normal),
                         ),
                       ),
                     );

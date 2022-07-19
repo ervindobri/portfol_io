@@ -32,7 +32,7 @@ List<ShowcaseItem> items = [
       duration: "Two weeks",
       url: "https://github.com/ervindobri/cheesify",
       imagesPath: 'cheesify',
-      imageAssets: ['main', '2'],
+      imageAssets: ['main', '1', '2', '3'],
       description:
           """This app concept was based on a cheese database application. You can browse various cheese types and find out interesting facts about them. UI Design in Adobe XD, app using flutter!"""),
   ShowcaseItem(
