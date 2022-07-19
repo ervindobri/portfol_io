@@ -3,12 +3,16 @@ import 'package:flutter/cupertino.dart';
 class FadingSlideWidget extends StatefulWidget {
   // final Animation<double> animation;
   final Offset offset;
+  final bool noFade;
   final Widget child;
+  final int durationMilliseconds;
 
   const FadingSlideWidget(
       {Key? key,
       // required this.animation,
       required this.child,
+      this.noFade = false,
+      this.durationMilliseconds = 600,
       this.offset = Offset.zero})
       : super(key: key);
 
@@ -18,19 +22,28 @@ class FadingSlideWidget extends StatefulWidget {
 
 class _FadingSlideWidgetState extends State<FadingSlideWidget>
     with TickerProviderStateMixin {
-  late final AnimationController animation = AnimationController(
-    duration: const Duration(milliseconds: 600),
-    vsync: this,
-  );
+  late final AnimationController animation;
 
   @override
   void initState() {
+    animation = AnimationController(
+      duration: Duration(milliseconds: widget.durationMilliseconds),
+      vsync: this,
+    );
     animation.forward();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.noFade) {
+      return SlideTransition(
+          position: Tween<Offset>(
+            begin: widget.offset,
+            end: Offset.zero,
+          ).animate(animation),
+          child: widget.child);
+    }
     return FadeTransition(
         opacity: Tween<double>(
           begin: 0,

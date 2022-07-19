@@ -33,22 +33,30 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-        backgroundColor: GlobalColors.primaryColor,
-        body: Stack(
-          children: [
-            Container(
-              child: ScrollablePositionedList.builder(
-                itemScrollController: uiMenuManager.itemScrollController,
-                itemPositionsListener: uiMenuManager.itemPositionListener,
-                physics: PageScrollPhysics(),
-                itemCount: Globals.menu.length,
-                itemBuilder: (context, index) {
-                  return sectionWidget(index);
-                },
-              ),
+      backgroundColor: GlobalColors.primaryColor,
+      body: Stack(
+        children: [
+          Container(
+            //TODO: issue with ScrollablePositionedList & Keylistener
+            child: ScrollablePositionedList.builder(
+              shrinkWrap: true,
+              itemScrollController: uiMenuManager.itemScrollController,
+              itemPositionsListener: uiMenuManager.itemPositionListener,
+              semanticChildCount: 3,
+              initialScrollIndex: 0,
+              physics: AlwaysScrollableScrollPhysics(),
+              itemCount: Globals.menu.length,
+              itemBuilder: (context, index) {
+                return sectionWidget(index);
+              },
             ),
-            Positioned(
-              top: 0,
+          ),
+          Positioned(
+            top: 0,
+            // duration: Duration(milliseconds: 300),
+            child: FadingSlideWidget(
+              noFade: true,
+              offset: Offset(0, -2),
               child: Container(
                 height: 60,
                 width: width,
@@ -61,37 +69,40 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 ),
               ),
             ),
-            Positioned(
-              bottom: 48,
-              right: 48,
-              child: ValueListenableBuilder(
-                  valueListenable: uiMenuManager.menuIndex,
-                  builder: (context, int value, __) {
-                    return AnimatedSwitcher(
-                      duration: kThemeAnimationDuration,
-                      child: value < 1
-                          ? SizedBox()
-                          : FadingSlideWidget(
-                              offset: Offset(0, 2),
-                              child: TextButton(
-                                style: GlobalStyles.iconButtonStyle(),
-                                onPressed: () =>
-                                    uiMenuManager.updateMenuCommand.execute(0),
-                                child: Container(
-                                    color:
-                                        GlobalColors.lightGrey.withOpacity(.12),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(24.0),
-                                      child: Icon(FontAwesomeIcons.chevronUp,
-                                          color: Colors.white),
-                                    )),
-                              ),
+          ),
+          Positioned(
+            bottom: 48,
+            right: 48,
+            child: ValueListenableBuilder(
+                valueListenable: uiMenuManager.menuIndex,
+                builder: (context, int value, __) {
+                  return AnimatedSwitcher(
+                    duration: kThemeAnimationDuration,
+                    child: value < 1
+                        ? SizedBox()
+                        : FadingSlideWidget(
+                            offset: Offset(0, 2),
+                            durationMilliseconds: 300,
+                            child: TextButton(
+                              style: GlobalStyles.iconButtonStyle(),
+                              onPressed: () =>
+                                  uiMenuManager.updateMenuCommand.execute(0),
+                              child: Container(
+                                  color:
+                                      GlobalColors.lightGrey.withOpacity(.12),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(24.0),
+                                    child: Icon(FontAwesomeIcons.chevronUp,
+                                        color: Colors.white),
+                                  )),
                             ),
-                    );
-                  }),
-            ),
-          ],
-        ));
+                          ),
+                  );
+                }),
+          ),
+        ],
+      ),
+    );
   }
 
   // DEsktop top menu

@@ -4,12 +4,14 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class UiMenuManager {
   late Command<int, int> updateMenuCommand;
-
-  ItemScrollController itemScrollController = ItemScrollController();
-  ItemPositionsListener itemPositionListener = ItemPositionsListener.create();
+  late ItemScrollController itemScrollController;
+  late ItemPositionsListener itemPositionListener;
 
   ValueNotifier<int> menuIndex = ValueNotifier(0);
+
   UiMenuManager() {
+    itemScrollController = ItemScrollController();
+    itemPositionListener = ItemPositionsListener.create();
     updateMenuCommand = Command.createSync<int, int>((counter) => counter, 0);
 
     updateMenuCommand

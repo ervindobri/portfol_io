@@ -46,6 +46,14 @@ List<ShowcaseItem> items = [
       ],
       description:
           """Buy adidas originals collections & single piece clothing. You can browse various cheese types and find out interesting facts about them. UI Design in Figma, app using flutter!"""),
+  ShowcaseItem(
+      projectName: "Various UI/UX Designs",
+      duration: "-",
+      url: "https://www.behance.net/w1nt_r/",
+      imagesPath: 'others',
+      imageAssets: ['sepsi', 'barber', 'payment'],
+      description:
+          """These images show various design projects I've completed over the last few months."""),
 ];
 
 class UiShowcaseManager {
@@ -55,6 +63,9 @@ class UiShowcaseManager {
 
   late Command<ShowcaseItem?, void> nextItemCommand;
   late Command<ShowcaseItem?, void> previousItemCommand;
+
+  late Command<void, void> nextImageItemCommand;
+  late Command<void, void> previousImageItemCommand;
 
   int initialPage = 0;
   int currentIndex = 0;
@@ -69,6 +80,23 @@ class UiShowcaseManager {
     nextItemCommand = Command.createSync<ShowcaseItem?, void>(nextItem, null);
     previousItemCommand =
         Command.createSync<ShowcaseItem?, void>(previousItem, null);
+
+    nextImageItemCommand = Command.createSyncNoParamNoResult(() {
+      final maxLength = currentItemCommand.value.imageAssets.length;
+      if (maxLength > currentImageIndex.value + 1) {
+        currentImageIndex.value++;
+      } else {
+        currentImageIndex.value = 0;
+      }
+    });
+    previousImageItemCommand = Command.createSyncNoParamNoResult(() {
+      final maxLength = currentItemCommand.value.imageAssets.length;
+      if (0 < currentImageIndex.value - 1) {
+        currentImageIndex.value--;
+      } else {
+        currentImageIndex.value = maxLength - 1;
+      }
+    });
 
     currentItemCommand
         .debounce(const Duration(milliseconds: 300))
@@ -86,6 +114,28 @@ class UiShowcaseManager {
         .listen((item, _) {
       currentImageIndex.value = 0;
       currentItemCommand.execute(currentIndex);
+    });
+
+    nextImageItemCommand
+        .debounce(const Duration(milliseconds: 20))
+        .listen((_, __) {
+      final maxLength = currentItemCommand.value.imageAssets.length - 1;
+      if (maxLength > currentImageIndex.value + 1) {
+        currentImageIndex.value++;
+      } else {
+        currentImageIndex.value = 0;
+      }
+    });
+
+    previousImageItemCommand
+        .debounce(const Duration(milliseconds: 20))
+        .listen((_, __) {
+      final maxLength = currentItemCommand.value.imageAssets.length - 1;
+      if (0 < currentImageIndex.value - 1) {
+        currentImageIndex.value--;
+      } else {
+        currentImageIndex.value = maxLength - 1;
+      }
     });
 
     setImageCommand = Command.createAsync((x) async {

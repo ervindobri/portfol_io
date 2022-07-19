@@ -31,7 +31,7 @@ class _WorkDesktopState extends State<WorkDesktop> {
     final width = MediaQuery.of(context).size.width;
     final imageSize = 348.0;
     return ClipRRect(
-      child: Container(
+      child: SizedBox(
           height: height,
           width: width,
           child: Stack(

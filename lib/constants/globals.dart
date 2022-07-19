@@ -1,4 +1,6 @@
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:portfol_io/models/social_media_button.dart';
 import 'package:portfol_io/models/tech_item.dart';
 
 class Globals {
@@ -13,11 +15,28 @@ class Globals {
   static const String facebookPage =
       "https://www.facebook.com/izeneeszerusztokhej/";
 
-  static Map<String, dynamic> socialMediaBubbles = {
-    "Facebook": [FontAwesomeIcons.facebook, facebookPage],
-    "Twitter": [FontAwesomeIcons.twitter, facebookPage],
-    "Instagram": [FontAwesomeIcons.instagram, facebookPage],
-  };
+  static List<SocialMediaItem> socialMediaBubbles = [
+    SocialMediaItem(
+        label: "LinkedIn",
+        icon: FontAwesomeIcons.linkedin,
+        url: "https://www.facebook.com/"),
+    SocialMediaItem(
+        label: "Facebook",
+        icon: FontAwesomeIcons.facebook,
+        url: "https://www.facebook.com/"),
+    SocialMediaItem(
+        label: "Instagram",
+        icon: FontAwesomeIcons.instagram,
+        url: "https://www.instagram.com/w1nt_r"),
+    SocialMediaItem(
+        label: "Dribbble",
+        icon: FontAwesomeIcons.dribbble,
+        url: "https://www.dribbble.com/w1nt_r"),
+    SocialMediaItem(
+        label: "Behance",
+        icon: FontAwesomeIcons.behance,
+        url: "https://www.behance.net/w1nt_r"),
+  ];
 
   static String letsWorkTogether = "Let's work together.";
 
@@ -41,4 +60,9 @@ class Globals {
   static String showcase = "Showcase";
   static String checkItOut = "Check it out";
   static String clickToExpand = "Click to expand";
+
+  static String wantToWorkWithMe = "Want to work with me?";
+  static String easyDoesIt = "It’s as easy as pressing this big white button";
+
+  static String bigWhiteButton = "Big white button";
 }
