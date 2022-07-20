@@ -6,8 +6,8 @@ import 'package:portfol_io/constants/theme_utils.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 
-class MenuDesktop extends StatelessWidget {
-  MenuDesktop({Key? key}) : super(key: key);
+class MenuMobile extends StatelessWidget {
+  MenuMobile({Key? key}) : super(key: key);
 
   final uiMenuManager = sl<UiMenuManager>();
 
@@ -15,28 +15,20 @@ class MenuDesktop extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: Row(
-        children: [
-          Container(
-            width: 60,
-            height: 32,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/logo1.png"),
-              ),
-            ),
-          ),
-          Spacer(),
-          Container(
-            width: 280,
-            child: ValueListenableBuilder<CommandResult<int?, int>>(
-              valueListenable: uiMenuManager.updateMenuCommand.results,
+    return Container(
+      height: 42,
+      width: width,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: Row(
+          children: [
+            ValueListenableBuilder<int>(
+              valueListenable: uiMenuManager.menuIndex,
               builder: (_, value, __) {
-                final _selectedIndex = value.data ?? 0;
+                final _selectedIndex = value;
                 return ListView.separated(
                   itemCount: Globals.menu.length,
+                  shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (_, index) {
                     return InkWell(
@@ -49,13 +41,15 @@ class MenuDesktop extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         child: Text(
                           Globals.menu[index],
-                          style: context.bodyText1?.copyWith(
-                              color: _selectedIndex == index
-                                  ? GlobalColors.primaryColor
-                                  : Colors.white,
-                              fontWeight: _selectedIndex == index
-                                  ? FontWeight.bold
-                                  : FontWeight.normal),
+                          style: _selectedIndex == index
+                              ? context.bodyText1?.copyWith(
+                                  fontSize: 16,
+                                  color: GlobalColors.primaryColor,
+                                  fontWeight: FontWeight.w700)
+                              : context.bodyText2?.copyWith(
+                                  fontSize: 16,
+                                  color: GlobalColors.white,
+                                  fontWeight: FontWeight.w300),
                         ),
                       ),
                     );
@@ -66,8 +60,8 @@ class MenuDesktop extends StatelessWidget {
                 );
               },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

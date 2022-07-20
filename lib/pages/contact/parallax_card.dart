@@ -4,10 +4,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mouse_parallax/mouse_parallax.dart';
 import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
+import 'package:portfol_io/injection_manager.dart';
+import 'package:portfol_io/managers/download_manager.dart';
 
 class ParallaxCard extends StatelessWidget {
-  const ParallaxCard({Key? key}) : super(key: key);
+  ParallaxCard({Key? key}) : super(key: key);
 
+  final downloadManager = sl<DownloadManager>();
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -63,7 +66,10 @@ class ParallaxCard extends StatelessWidget {
                             ),
                             SizedBox(height: 24),
                             TextButton.icon(
-                              onPressed: () {},
+                              onPressed: () async {
+                                downloadManager.downloadFile
+                                    .execute("assets/files/CV.pdf");
+                              },
                               style: GlobalStyles.whiteTextButtonStyle(
                                 backgroundColor: Colors.white,
                                 padding:

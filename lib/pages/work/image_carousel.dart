@@ -128,44 +128,44 @@ class ImageCarousel extends StatelessWidget {
                 }).toList(),
               ),
             ),
-            Positioned(
-              right: 12,
-              bottom: 12,
-              child: Row(
-                children: [
-                  IconButton(
-                    splashColor: Colors.white,
-                    iconSize: 24,
-                    onPressed: () {
-                      //prev. image
-                      uiShowcaseManager.previousImageItemCommand.execute();
-                    },
-                    icon: Container(
-                      color: Colors.white,
-                      child: Icon(
-                        CupertinoIcons.chevron_left,
-                        color: GlobalColors.primaryColor,
+            if (item.imageAssets.length > 1)
+              Positioned(
+                top: 12,
+                child: Row(
+                  children: [
+                    IconButton(
+                      splashColor: Colors.white,
+                      iconSize: 24,
+                      onPressed: () {
+                        //prev. image
+                        uiShowcaseManager.previousImageItemCommand.execute();
+                      },
+                      icon: Container(
+                        color: Colors.white,
+                        child: Icon(
+                          CupertinoIcons.chevron_left,
+                          color: GlobalColors.primaryColor,
+                        ),
                       ),
                     ),
-                  ),
-                  IconButton(
-                    splashColor: Colors.white,
-                    iconSize: 24,
-                    onPressed: () {
-                      //next. image
-                      uiShowcaseManager.nextImageItemCommand.execute();
-                    },
-                    icon: Container(
-                      color: Colors.white,
-                      child: Icon(
-                        CupertinoIcons.chevron_right,
-                        color: GlobalColors.primaryColor,
+                    IconButton(
+                      splashColor: Colors.white,
+                      iconSize: 24,
+                      onPressed: () {
+                        //next. image
+                        uiShowcaseManager.nextImageItemCommand.execute();
+                      },
+                      icon: Container(
+                        color: Colors.white,
+                        child: Icon(
+                          CupertinoIcons.chevron_right,
+                          color: GlobalColors.primaryColor,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            )
+                  ],
+                ),
+              )
           ],
         );
       },

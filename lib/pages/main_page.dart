@@ -3,16 +3,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/constants.dart';
-import 'package:portfol_io/constants/globals.dart';
-import 'package:portfol_io/constants/theme_utils.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/pages/contact/contact_content.dart';
 import 'package:portfol_io/pages/home/home_content.dart';
+import 'package:portfol_io/pages/menu/menu.dart';
 import 'package:portfol_io/pages/work/work_content.dart';
 import 'package:portfol_io/widgets/fade_in_slide.dart';
-import 'package:portfol_io/widgets/menu/menu_desktop.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class HomePage extends StatefulWidget {
@@ -57,15 +54,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             child: FadingSlideWidget(
               noFade: true,
               offset: Offset(0, -2),
-              child: Container(
-                height: 60,
-                width: width,
-                color: GlobalColors.primaryColor.withOpacity(.8),
-                child: ClipRRect(
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
-                    child: buildTopMenu(),
-                  ),
+              child: ClipRRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
+                  child: StickyMenu(),
                 ),
               ),
             ),
@@ -102,16 +94,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ),
         ],
       ),
-    );
-  }
-
-  // DEsktop top menu
-  buildTopMenu() {
-    return ScreenTypeLayout(
-      breakpoints: ScreenBreakpoints(tablet: 666, desktop: 1000, watch: 300),
-      mobile: SizedBox(),
-      tablet: SizedBox(),
-      desktop: MenuDesktop(),
     );
   }
 

@@ -25,13 +25,12 @@ class _CarouselControllerState extends State<CarouselController> {
         valueListenable: uiShowcaseManager.currentItemCommand.results,
         builder: (context, value, __) {
           final currentIndex = uiShowcaseManager.currentPage;
-          final totalItems = uiShowcaseManager.itemsCommand.value.length;
+          final totalItems = showcaseItems.length;
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextButton(
                 style: GlobalStyles.whiteTextButtonStyle(),
-                
                 onPressed: () {
                   uiShowcaseManager.previousItemCommand.execute();
                 },

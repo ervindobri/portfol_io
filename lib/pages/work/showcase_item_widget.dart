@@ -8,7 +8,7 @@ import 'package:portfol_io/pages/work/image_carousel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AnimatedShowcaseItemWidget extends StatelessWidget {
-  final UiShowcaseManager uiShowcaseManager = sl<UiShowcaseManager>();
+  final uiShowcaseManager = sl<UiShowcaseManager>();
 
   AnimatedShowcaseItemWidget({Key? key}) : super(key: key);
 

@@ -9,8 +9,8 @@ class WorkContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenTypeLayout(
         breakpoints: ScreenBreakpoints(tablet: 666, desktop: 1000, watch: 300),
-        mobile: WorkDesktop(),
-        tablet: WorkTablet(),
+        mobile: WorkMobile(),
+        tablet: WorkDesktop(),
         desktop: WorkDesktop());
   }
 }

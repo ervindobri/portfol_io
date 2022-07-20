@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_command/flutter_command.dart';
 
@@ -11,14 +10,14 @@ class ShowcaseItem {
   final String imagesPath;
   final List<String> imageAssets;
 
-  ShowcaseItem(
-      {this.projectName = "Project Name",
-      this.duration = "3 months",
-      this.description =
-          "Lorem ipsum dolor sit amet, consectetur adipiscing...",
-      this.url = "https://github.com/ervindobri/",
-      this.imagesPath = "images",
-      this.imageAssets = const []});
+  ShowcaseItem({
+    this.projectName = "Project Name",
+    this.duration = "3 months",
+    this.description = "Lorem ipsum dolor sit amet, consectetur adipiscing...",
+    this.url = "https://github.com/ervindobri/",
+    this.imagesPath = "others", //must be under images/work directory
+    this.imageAssets = const ['placeholder'],
+  });
 
   @override
   String toString() {
@@ -26,7 +25,8 @@ class ShowcaseItem {
   }
 }
 
-List<ShowcaseItem> items = [
+//TODO: add items: showtime, penzmuzeum, ERP, HIMO
+List<ShowcaseItem> showcaseItems = [
   ShowcaseItem(
       projectName: "Cheesify",
       duration: "Two weeks",
@@ -54,12 +54,30 @@ List<ShowcaseItem> items = [
       imageAssets: ['sepsi', 'barber', 'payment'],
       description:
           """These images show various design projects I've completed over the last few months."""),
+  ShowcaseItem(
+    projectName: "Project#4",
+  ),
+  ShowcaseItem(
+    projectName: "Project#5",
+  ),
+  ShowcaseItem(
+    projectName: "Project#6",
+  ),
+  ShowcaseItem(
+    projectName: "Project#7",
+  ),
+  ShowcaseItem(
+    projectName: "Project#8",
+  ),
 ];
 
+enum View { single, grid, detail }
+
 class UiShowcaseManager {
-  final itemsCommand = Command.createSync((x) => items, items);
-  final currentItemCommand =
-      Command.createSync<int, ShowcaseItem>((x) => items[x], items.first);
+  late Command<void, List<ShowcaseItem>> itemsCommand;
+
+  final currentItemCommand = Command.createSync<int, ShowcaseItem>(
+      (x) => showcaseItems[x], showcaseItems.first);
 
   late Command<ShowcaseItem?, void> nextItemCommand;
   late Command<ShowcaseItem?, void> previousItemCommand;
@@ -71,15 +89,24 @@ class UiShowcaseManager {
   int currentIndex = 0;
 
   ValueNotifier<int> currentImageIndex = ValueNotifier(0);
+  ValueNotifier<int> maxItemNumber = ValueNotifier(6);
   ValueNotifier<bool> showImageOverlay = ValueNotifier(false);
+  ValueNotifier<View> showcaseView = ValueNotifier(View.single);
 
   int get currentPage => currentIndex + 1;
 
   late Command<int, int?> setImageCommand;
   UiShowcaseManager() {
+    itemsCommand =
+        Command.createSyncNoParam<List<ShowcaseItem>>(selectShowcaseItems, []);
     nextItemCommand = Command.createSync<ShowcaseItem?, void>(nextItem, null);
     previousItemCommand =
         Command.createSync<ShowcaseItem?, void>(previousItem, null);
+
+    showcaseView.addListener(() {
+      print("execute");
+      itemsCommand.execute();
+    });
 
     nextImageItemCommand = Command.createSyncNoParamNoResult(() {
       final maxLength = currentItemCommand.value.imageAssets.length;
@@ -144,8 +171,13 @@ class UiShowcaseManager {
     }, 0);
   }
 
+  List<ShowcaseItem> selectShowcaseItems() {
+    print("selecting items..");
+    return showcaseItems.take(maxItemNumber.value).toList();
+  }
+
   void nextItem(item) async {
-    if (currentIndex < items.length - 1) {
+    if (currentIndex < showcaseItems.length - 1) {
       currentIndex++;
     } else {
       currentIndex = 0;
@@ -156,7 +188,12 @@ class UiShowcaseManager {
     if (currentIndex > 0) {
       currentIndex--;
     } else {
-      currentIndex = items.length - 1;
+      currentIndex = showcaseItems.length - 1;
     }
+  }
+
+  void showMoreItems() {
+    maxItemNumber.value = maxItemNumber.value + 3;
+    itemsCommand.execute();
   }
 }

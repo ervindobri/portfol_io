@@ -127,6 +127,7 @@ class _HomeDesktopState extends State<HomeDesktop> {
                                   child: ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: Globals.skills.length,
+                                    physics: NeverScrollableScrollPhysics(),
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       final skill = Globals.skills[index];

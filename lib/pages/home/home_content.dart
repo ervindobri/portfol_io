@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:portfol_io/pages/home/responsive_screens/home.dart';
@@ -17,7 +16,7 @@ class _HomeContentState extends State<HomeContent>
   Widget build(BuildContext context) {
     return ScreenTypeLayout(
         breakpoints: ScreenBreakpoints(tablet: 666, desktop: 1000, watch: 300),
-        mobile: HomeDesktop(),
+        mobile: HomeMobile(),
         tablet: HomeTablet(),
         desktop: HomeDesktop());
   }
