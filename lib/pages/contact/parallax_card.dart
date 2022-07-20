@@ -20,6 +20,9 @@ class ParallaxCard extends StatelessWidget {
       child: ParallaxStack(
         layers: [
           ParallaxLayer(
+            yRotation: .15,
+            xRotation: .15,
+            // zRotation: .05,
             child: Container(
               height: containerHeight,
               width: width / 4,

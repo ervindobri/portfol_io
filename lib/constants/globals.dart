@@ -19,11 +19,11 @@ class Globals {
     SocialMediaItem(
         label: "LinkedIn",
         icon: FontAwesomeIcons.linkedin,
-        url: "https://www.facebook.com/"),
+        url: "https://www.linkedin.com/in/ervin-dobri-2b8494217/"),
     SocialMediaItem(
         label: "Facebook",
         icon: FontAwesomeIcons.facebook,
-        url: "https://www.facebook.com/"),
+        url: "https://www.facebook.com/ervindobri/"),
     SocialMediaItem(
         label: "Instagram",
         icon: FontAwesomeIcons.instagram,
