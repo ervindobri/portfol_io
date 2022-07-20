@@ -16,7 +16,7 @@ class ParallaxCard extends StatelessWidget {
     final containerHeight = height * .6;
     return Container(
       height: containerHeight,
-      width: width / 4,
+      width: width / 4 + 96,
       child: ParallaxStack(
         layers: [
           ParallaxLayer(
@@ -25,7 +25,6 @@ class ParallaxCard extends StatelessWidget {
             // zRotation: .05,
             child: Container(
               height: containerHeight,
-              width: width / 4,
               padding: const EdgeInsets.symmetric(horizontal: 48),
               decoration: BoxDecoration(
                 color: GlobalColors.primaryColor,
@@ -59,9 +58,26 @@ class ParallaxCard extends StatelessWidget {
                                   ?.copyWith(fontWeight: FontWeight.w900),
                             ),
                             Text(
-                              "Junior Flutter Developer / Aspiring UI/UX Designer",
+                              "Junior Software Developer / Aspiring UI/UX Designer",
+                              maxLines: 2,
                             ),
                             SizedBox(height: 24),
+                            TextButton.icon(
+                              onPressed: () {},
+                              style: GlobalStyles.whiteTextButtonStyle(
+                                backgroundColor: Colors.white,
+                                padding:
+                                    const EdgeInsets.fromLTRB(12, 8, 12, 8),
+                              ),
+                              icon: Icon(
+                                CupertinoIcons.cloud_download,
+                                color: GlobalColors.primaryColor,
+                              ),
+                              label: Text('Download Resume',
+                                  style: context.bodyText1?.copyWith(
+                                    color: GlobalColors.primaryColor,
+                                  )),
+                            ),
                             Text(
                               "ervindobri@gmail.com",
                             ),

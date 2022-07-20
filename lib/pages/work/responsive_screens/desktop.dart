@@ -99,16 +99,17 @@ class _WorkDesktopState extends State<WorkDesktop> {
                       SizedBox(
                         child: Text(
                           Globals.showcase,
-                          style: context.headline6!.copyWith(color: Colors.white),
+                          style:
+                              context.headline6!.copyWith(color: Colors.white),
                         ),
                       ),
                       SizedBox(height: 16),
                       Container(
                         width: width,
                         height: height * .8 - 96 - 32 - 32,
-                        color: GlobalColors.lightGrey.withOpacity(.4),
+                        // color: GlobalColors.lightGrey.withOpacity(.4),
                         child: Padding(
-                          padding: const EdgeInsets.all(16.0),
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
                           child: AnimatedShowcaseItemWidget(),
                         ),
                       ),

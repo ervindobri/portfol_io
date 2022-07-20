@@ -91,7 +91,7 @@ class UiShowcaseManager {
     });
     previousImageItemCommand = Command.createSyncNoParamNoResult(() {
       final maxLength = currentItemCommand.value.imageAssets.length;
-      if (0 < currentImageIndex.value - 1) {
+      if (currentImageIndex.value - 1 > -1) {
         currentImageIndex.value--;
       } else {
         currentImageIndex.value = maxLength - 1;
