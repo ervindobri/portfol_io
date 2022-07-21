@@ -149,3 +149,128 @@ class ParallaxCard extends StatelessWidget {
     );
   }
 }
+
+class MobileParallaxCard extends StatelessWidget {
+  MobileParallaxCard({Key? key}) : super(key: key);
+
+  final downloadManager = sl<DownloadManager>();
+  @override
+  Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final imageSize = width / 3;
+    final containerHeight = height * .55;
+    return Container(
+      height: containerHeight,
+      margin: const EdgeInsets.symmetric(horizontal: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      decoration: BoxDecoration(
+        color: GlobalColors.primaryColor,
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 24,
+            offset: Offset(0, 1),
+            color: Colors.black.withOpacity(.2),
+          ),
+        ],
+      ),
+      child: Stack(
+        alignment: Alignment.center,
+        clipBehavior: Clip.none,
+        children: [
+          Column(
+            children: [
+              SizedBox(height: imageSize / 2),
+              Wrap(
+                direction: Axis.vertical,
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 8,
+                children: [
+                  Text(
+                    "Ervin Dobri (23)",
+                    style: context.bodyText1
+                        ?.copyWith(fontWeight: FontWeight.w700),
+                  ),
+                  Text("Junior Software Developer / Aspiring UI/UX Designer",
+                      maxLines: 2,
+                      style: context.bodyText1?.copyWith(
+                        fontSize: 12,
+                      )),
+                  SizedBox(height: 12),
+                  TextButton.icon(
+                    onPressed: () async {
+                      downloadManager.downloadFile
+                          .execute("assets/files/CV.pdf");
+                    },
+                    style: GlobalStyles.whiteTextButtonStyle(
+                      backgroundColor: Colors.white,
+                      padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+                    ),
+                    icon: Icon(
+                      CupertinoIcons.cloud_download,
+                      color: GlobalColors.primaryColor,
+                    ),
+                    label: Text('Download Resume',
+                        style: context.bodyText1?.copyWith(
+                          color: GlobalColors.primaryColor,
+                        )),
+                  ),
+                  Text(
+                    "ervindobri@gmail.com",
+                  ),
+                  Text(
+                    "+40 754 365 846",
+                  ),
+                ],
+              ),
+              SizedBox(height: 24),
+              Wrap(direction: Axis.vertical, spacing: 12, children: [
+                buildInfoRow(
+                  context,
+                  "Sapientia EMTE, Targu Mures",
+                  FontAwesomeIcons.university,
+                ),
+                buildInfoRow(
+                  context,
+                  "Targu Mures, Romania",
+                  CupertinoIcons.location,
+                ),
+              ]),
+            ],
+          ),
+          Positioned(
+            top: -128,
+            child: Container(
+              width: 256,
+              height: 256,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Positioned(
+                      child: Image.asset("assets/avatar.png",
+                          width: imageSize, height: imageSize)),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  buildInfoRow(BuildContext context, String label, IconData data) {
+    return Wrap(
+      spacing: 16,
+      children: [
+        FaIcon(data, color: Colors.white, size: 16),
+        Text(
+          label,
+          style: context.bodyText1?.copyWith(
+            fontSize: 14,
+          ),
+        ),
+      ],
+    );
+  }
+}

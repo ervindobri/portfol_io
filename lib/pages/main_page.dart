@@ -29,31 +29,41 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+    final double mobilePadding = 24;
     return Scaffold(
       backgroundColor: GlobalColors.primaryColor,
-      body: Stack(
-        children: [
-          Container(
-            //TODO: issue with ScrollablePositionedList & Keylistener
-            child: ScrollablePositionedList.builder(
-              shrinkWrap: true,
-              itemScrollController: uiMenuManager.itemScrollController,
-              itemPositionsListener: uiMenuManager.itemPositionListener,
-              semanticChildCount: 3,
-              initialScrollIndex: 0,
-              physics: AlwaysScrollableScrollPhysics(),
-              itemCount: Globals.menu.length,
-              itemBuilder: (context, index) {
-                return sectionWidget(index);
-              },
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Container(
+              //TODO: issue with ScrollablePositionedList & Keylistener
+              child: ScrollablePositionedList.builder(
+                shrinkWrap: true,
+                itemScrollController: uiMenuManager.itemScrollController,
+                itemPositionsListener: uiMenuManager.itemPositionListener,
+                semanticChildCount: 3,
+                initialScrollIndex: 0,
+                physics: AlwaysScrollableScrollPhysics(),
+                itemCount: Globals.menu.length,
+                itemBuilder: (context, index) {
+                  return sectionWidget(index);
+                },
+              ),
             ),
-          ),
-          Positioned(
-            top: 0,
-            // duration: Duration(milliseconds: 300),
-            child: FadingSlideWidget(
-              noFade: true,
-              offset: Offset(0, -2),
+            // SingleChildScrollView(
+            //   child: Column(
+            //     children: [
+            //       sectionWidget(0),
+            //       Container(color: Colors.black, height: height),
+            //       Container(color: Colors.white, height: height),
+            //       // sectionWidget(1),
+            //       // sectionWidget(2),
+            //     ],
+            //   ),
+            // ),
+            Positioned(
+              top: 0,
+              // duration: Duration(milliseconds: 300),
               child: ClipRRect(
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
@@ -61,38 +71,40 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: 48,
-            right: 48,
-            child: ValueListenableBuilder(
-                valueListenable: uiMenuManager.menuIndex,
-                builder: (context, int value, __) {
-                  return AnimatedSwitcher(
-                    duration: kThemeAnimationDuration,
-                    child: value < 1
-                        ? SizedBox()
-                        : FadingSlideWidget(
-                            offset: Offset(0, 2),
-                            durationMilliseconds: 300,
-                            child: TextButton(
-                              style: GlobalStyles.iconButtonStyle(),
-                              onPressed: () =>
-                                  uiMenuManager.updateMenuCommand.execute(0),
-                              child: Container(
-                                  color:
-                                      GlobalColors.lightGrey.withOpacity(.12),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(24.0),
-                                    child: Icon(FontAwesomeIcons.chevronUp,
-                                        color: Colors.white),
-                                  )),
+            Positioned(
+              bottom: mobilePadding,
+              right: mobilePadding,
+              child: ValueListenableBuilder(
+                  valueListenable: uiMenuManager.menuIndex,
+                  builder: (context, int value, __) {
+                    return AnimatedSwitcher(
+                      duration: kThemeAnimationDuration,
+                      child: value < 1
+                          ? SizedBox()
+                          : FadingSlideWidget(
+                              offset: Offset(0, 2),
+                              durationMilliseconds: 300,
+                              child: TextButton(
+                                style: GlobalStyles.iconButtonStyle(),
+                                onPressed: () =>
+                                    uiMenuManager.updateMenuCommand.execute(0),
+                                child: Container(
+                                    color: GlobalColors.primaryColor
+                                        .withOpacity(.4),
+                                    child: Padding(
+                                      padding: width < 500
+                                          ? const EdgeInsets.all(12.0)
+                                          : const EdgeInsets.all(24.0),
+                                      child: Icon(FontAwesomeIcons.chevronUp,
+                                          color: Colors.white),
+                                    )),
+                              ),
                             ),
-                          ),
-                  );
-                }),
-          ),
-        ],
+                    );
+                  }),
+            ),
+          ],
+        ),
       ),
     );
   }

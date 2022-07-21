@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portfol_io/constants/theme_ext.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/pages/contact/contact_me_card.dart';
@@ -24,14 +25,19 @@ class _ContactDesktopState extends State<ContactDesktop> {
         width: width,
         color: Color(0xff292929),
         alignment: Alignment.center,
-        child: Wrap(
-          spacing: width / 10,
-          direction: Axis.horizontal,
-          alignment: WrapAlignment.center,
-          runAlignment: WrapAlignment.center,
+        child: Stack(
+          alignment: Alignment.center,
           children: [
-            ParallaxCard(),
-            ContactMeCard(),
+            Wrap(
+              spacing: width / 10,
+              direction: Axis.horizontal,
+              alignment: WrapAlignment.center,
+              runAlignment: WrapAlignment.center,
+              children: [
+                ParallaxCard(),
+                ContactMeCard(),
+              ],
+            ),
           ],
         ),
       ),

@@ -1,42 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:portfol_io/constants/theme_ext.dart';
+import 'package:portfol_io/managers/menu_manager.dart';
+import 'package:portfol_io/injection_manager.dart';
+import 'package:portfol_io/pages/contact/contact_me_card.dart';
+import 'package:portfol_io/pages/contact/parallax_card.dart';
 
 class ContactMobile extends StatefulWidget {
-  ContactMobile({
-    Key? key,
-  }) : super(key: key);
+  ContactMobile({Key? key}) : super(key: key);
 
   @override
-  _ContactTabletState createState() => _ContactTabletState();
+  State<ContactMobile> createState() => _ContactDesktopState();
 }
 
-class _ContactTabletState extends State<ContactMobile> {
+class _ContactDesktopState extends State<ContactMobile> {
+  final uiMenuManager = sl<UiMenuManager>();
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    return Container(
-        // height: height,
+    return ClipRRect(
+      child: Container(
+        height: height + 32 + 32,
         width: width,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Text("MOBILE"),
-              Container(
-                padding: const EdgeInsets.only(top: 100.0),
-                child: Container(
-                  width: width / 2,
-                  height: height / 2,
-                  color: Colors.black26,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [],
-                  ),
-                ),
-              ),
-              // ParallaxMenu()
-            ],
-          ),
-        ));
+        color: Color(0xff292929),
+        child: Wrap(
+          spacing: 12,
+          direction: Axis.vertical,
+          alignment: WrapAlignment.center,
+          runAlignment: WrapAlignment.center,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            SizedBox(height: 36),
+            MobileParallaxCard(),
+            MobileContactMeCard(),
+          ],
+        ),
+      ),
+    );
   }
 }

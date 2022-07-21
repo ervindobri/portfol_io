@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_command/flutter_command.dart';
 import 'package:portfol_io/constants/constants.dart';
@@ -83,6 +84,113 @@ class AnimatedShowcaseItemWidget extends StatelessWidget {
                                         style: context.headline6!.copyWith(
                                             color: GlobalColors.primaryColor),
                                       ))),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class MobileAnimatedShowcaseItemWidget extends StatelessWidget {
+  final uiShowcaseManager = sl<UiShowcaseManager>();
+
+  MobileAnimatedShowcaseItemWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    return CarouselSlider.builder(
+      itemCount: showcaseItems.length,
+      options: CarouselOptions(
+        viewportFraction: 1.0,
+        enlargeCenterPage: true,
+        aspectRatio: 9 / 16,
+      ),
+      itemBuilder: (context, index, __) {
+        final item = showcaseItems[index];
+        return TweenAnimationBuilder(
+          key: Key(item.projectName),
+          tween: Tween<double>(begin: 0.0, end: 1.0),
+          duration: const Duration(milliseconds: 300),
+          builder: (context, double value, _) {
+            return TweenAnimationBuilder(
+              key: Key(item.projectName),
+              tween: Tween<double>(begin: 25.0, end: 0.0),
+              duration: const Duration(milliseconds: 300),
+              builder: (context, double value2, _) {
+                return Transform.translate(
+                  offset: Offset(0, value2),
+                  child: Opacity(
+                    opacity: value,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        MobileImageCarousel(item: item),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Column(
+                                children: [
+                                  Text(
+                                    item.projectName,
+                                    textAlign: TextAlign.right,
+                                    style: context.headline5!.copyWith(
+                                      color: Colors.white,
+                                      fontSize: 32,
+                                    ),
+                                  ),
+                                  Text(
+                                    item.duration,
+                                    textAlign: TextAlign.right,
+                                    style: context.headline6!.copyWith(
+                                        fontWeight: FontWeight.w100,
+                                        fontSize: 20,
+                                        color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 12),
+                              SizedBox(
+                                width: width,
+                                child: Text(
+                                  item.description,
+                                  maxLines: 5,
+                                  textAlign: TextAlign.right,
+                                  style: context.bodyText1!
+                                      .copyWith(color: Colors.white),
+                                ),
+                              ),
+                              Spacer(),
+                              TextButton(
+                                onPressed: () async {
+                                  await launchUrl(Uri.parse(item.url));
+                                },
+                                child: Container(
+                                  width: width,
+                                  color: Colors.white,
+                                  padding:
+                                      const EdgeInsets.fromLTRB(24, 12, 24, 12),
+                                  child: Center(
+                                    child: Text(
+                                      Globals.checkItOut,
+                                      style: context.bodyText1!.copyWith(
+                                          color: GlobalColors.primaryColor,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
