@@ -70,7 +70,7 @@ class ImageCarousel extends StatelessWidget {
                                         .withOpacity(.8),
                                     builder: (context) {
                                       return FullscreenImageDialog(
-                                          item: item, image: image);
+                                          item: item);
                                     },
                                   );
                                 },

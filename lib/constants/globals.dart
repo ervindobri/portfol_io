@@ -66,4 +66,6 @@ class Globals {
   static String easyDoesIt = "It’s as easy as pressing this big white button";
 
   static String bigWhiteButton = "Big white button";
+
+  static String details = "Details";
 }
