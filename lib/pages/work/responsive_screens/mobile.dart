@@ -38,6 +38,9 @@ class _WorkMobileState extends State<WorkMobile> {
                     CommandResult<void, List<ShowcaseItem>>>(
                 valueListenable: uiShowcaseManager.itemsCommand.results,
                 builder: (context, items, _) {
+                  if (items.hasError) {
+                    return SizedBox();
+                  }
                   final rows = items.data!.length / 2 - 1;
                   return SizedBox(
                       height: value == View.grid ? height + rows * 420 : height,

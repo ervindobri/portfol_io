@@ -14,10 +14,13 @@ class ShowcaseGridView extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final crossAxisCount = 3;
     final cardWidth = width / crossAxisCount;
-    return ValueListenableBuilder<CommandResult<void, List<ShowcaseItem>>>(
+    return ValueListenableBuilder<CommandResult<void, List<ShowcaseItem>?>>(
         valueListenable: uiShowcaseManager.itemsCommand.results,
         builder: (context, value, _) {
-          final items = value.data as List<ShowcaseItem>;
+          final items = value.data as List<ShowcaseItem>?;
+          if (items == null) {
+            return SizedBox();
+          }
           print(items);
           return Column(
             children: [
@@ -53,7 +56,7 @@ class ShowcaseGridView extends StatelessWidget {
                 ),
               ),
               Visibility(
-                visible: items.length <= showcaseItems.length,
+                visible: items.length <= uiShowcaseManager.showcaseItems.length,
                 child: Center(
                   child: TextButton(
                     onPressed: () => uiShowcaseManager.showMoreItems(),

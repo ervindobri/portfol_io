@@ -25,7 +25,8 @@ class _ContactDesktopState extends State<ContactMobile> {
         width: width,
         color: Color(0xff292929),
         child: Wrap(
-          spacing: 12,
+          spacing: 24,
+          runSpacing: 24,
           direction: Axis.vertical,
           alignment: WrapAlignment.center,
           runAlignment: WrapAlignment.center,

@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:portfol_io/constants/theme.dart';
 import 'package:portfol_io/injection_manager.dart';
+import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/pages/main_page.dart';
 
-void main() {
+Future<void> main() async {
   Paint.enableDithering = true;
-  init();
+  // Right before you would be doing any loading
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await init();
+  sl<UiShowcaseManager>().itemsCommand.execute();
+  
   runApp(MyApp());
 }
 
@@ -19,16 +25,6 @@ class MyApp extends StatelessWidget {
       title: 'PortfolIO',
       theme: PortfolioTheme.theme,
       home: HomePage(),
-      // home: ResponsiveWrapper.builder(,
-      //     maxWidth: width,
-      //     minWidth: 480,
-      //     defaultScale: true,
-      //     breakpoints: [
-      //       ResponsiveBreakpoint.resize(480, name: MOBILE),
-      //       ResponsiveBreakpoint.autoScale(800, name: TABLET),
-      //       ResponsiveBreakpoint.resize(1200, name: DESKTOP),
-      //     ],
-      //     background: Container(color: Color(0xFFF5F5F5))),
       debugShowCheckedModeBanner: false,
       initialRoute: "/",
     );

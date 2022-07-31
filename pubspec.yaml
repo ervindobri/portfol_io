@@ -35,6 +35,8 @@ dependencies:
   blur: ^3.1.0
   carousel_slider: ^4.1.1
   url_launcher_web: ^2.0.12
+  flutter_form_builder: ^7.1.1 # anchorPoint error
+  mailto: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -62,6 +64,7 @@ flutter:
     - assets/images/work/cheesify/
     - assets/images/work/adidas/
     - assets/images/work/barbr/
+    - assets/images/work/ballerz/
     - assets/images/work/others/
 
   # An image asset can refer to one or more resolution-specific "variants", see

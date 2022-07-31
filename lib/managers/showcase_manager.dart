@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_command/flutter_command.dart';
 
 class ShowcaseItem {
@@ -23,61 +26,84 @@ class ShowcaseItem {
   String toString() {
     return 'ShowcaseItem(projectName: $projectName, duration: $duration)';
   }
+
+  factory ShowcaseItem.fromMap(Map<String, dynamic> e) {
+    return ShowcaseItem(
+      projectName: e['projectName'] ?? "",
+      duration: e['duration'] ?? "",
+      imagesPath: e['imagesPath'] ?? "",
+      imageAssets: e['imageAssets'].cast<String>(),
+      url: e['url'] ?? "https://github.com/ervindobri/",
+      description: e['description'] ?? "",
+    );
+  }
 }
 
 //TODO: add items: showtime, penzmuzeum, ERP, HIMO
-List<ShowcaseItem> showcaseItems = [
-  ShowcaseItem(
-      projectName: "Cheesify",
-      duration: "Two weeks",
-      url: "https://github.com/ervindobri/cheesify",
-      imagesPath: 'cheesify',
-      imageAssets: ['main', '1', '2', '3'],
-      description:
-          """This app concept was based on a cheese database application. You can browse various cheese types and find out interesting facts about them. UI Design in Adobe XD, app using flutter!"""),
-  ShowcaseItem(
-      projectName: "Adidas Originals Design",
-      duration: "2 hours",
-      url:
-          "https://www.figma.com/file/zBqcTDzvy53cy9msnFSVNd/Adidas?node-id=0%3A1",
-      imagesPath: 'adidas',
-      imageAssets: [
-        'main'
-      ],
-      description:
-          """Buy adidas originals collections & single piece clothing. You can browse various cheese types and find out interesting facts about them. UI Design in Figma, app using flutter!"""),
-  ShowcaseItem(
-      projectName: "Various UI/UX Designs",
-      duration: "-",
-      url: "https://www.behance.net/w1nt_r/",
-      imagesPath: 'others',
-      imageAssets: ['sepsi', 'barber', 'payment'],
-      description:
-          """These images show various design projects I've completed over the last few months."""),
-  ShowcaseItem(
-    projectName: "Project#4",
-  ),
-  ShowcaseItem(
-    projectName: "Project#5",
-  ),
-  ShowcaseItem(
-    projectName: "Project#6",
-  ),
-  ShowcaseItem(
-    projectName: "Project#7",
-  ),
-  ShowcaseItem(
-    projectName: "Project#8",
-  ),
-];
+// List<ShowcaseItem> showcaseItems = [
+//   ShowcaseItem(
+//       projectName: "Cheesify",
+//       duration: "Two weeks",
+//       url: "https://github.com/ervindobri/cheesify",
+//       imagesPath: 'cheesify',
+//       imageAssets: ['main', '1', '2', '3'],
+//       description:
+//           """This app concept was based on a cheese database application. You can browse various cheese types and find out interesting facts about them. UI Design in Adobe XD, app using flutter!"""),
+//   ShowcaseItem(
+//       projectName: "Adidas Originals Design",
+//       duration: "2 hours",
+//       url:
+//           "https://www.figma.com/file/zBqcTDzvy53cy9msnFSVNd/Adidas?node-id=0%3A1",
+//       imagesPath: 'adidas',
+//       imageAssets: [
+//         'main'
+//       ],
+//       description:
+//           """Buy adidas originals collections & single piece clothing. You can browse various cheese types and find out interesting facts about them. UI Design in Figma, app using flutter!"""),
+//   ShowcaseItem(
+//       projectName: "Barbr",
+//       duration: "Few days",
+//       imagesPath: 'barbr',
+//       imageAssets: ['main', 'light', 'dark'],
+//       description:
+//           "This project was based on a wild idea: finding barbers with the help of a simple app. You can search & find lots of barbers which show up on the map as markers. You can make appointments and set recurring dates when you are free to have a haircut. Furthermore, the barbers have ratings so you know you'll always be in professional hands!"),
+//   ShowcaseItem(
+//     projectName: "bAllerz",
+//     duration: "Few days",
+//     imagesPath: 'ballerz',
+//     imageAssets: ['main', '1', '2'],
+//     description:
+//         "When I was living in Budapest I had trouble finding people to play football with. Of course, there are social media groups where you can do so, but an actual phone app would make everything a lot smoother! Feature include creating a friendly match in a specific location, with a specific team size, so you'll only have people who are really interested. On the other hand, you can browse of many different events, or games which show up on the map!",
+//   ),
+//   ShowcaseItem(
+//       projectName: "Various UI/UX Designs",
+//       duration: "-",
+//       url: "https://www.behance.net/w1nt_r/",
+//       imagesPath: 'others',
+//       imageAssets: ['sepsi', 'barber', 'payment'],
+//       description:
+//           """These images show various design projects I've completed over the last few months."""),
+//   ShowcaseItem(
+//     projectName: "Project#5",
+//   ),
+//   ShowcaseItem(
+//     projectName: "Project#6",
+//   ),
+//   ShowcaseItem(
+//     projectName: "Project#7",
+//   ),
+//   ShowcaseItem(
+//     projectName: "Project#8",
+//   ),
+// ];
 
 enum View { single, grid, detail }
 
 class UiShowcaseManager {
   late Command<void, List<ShowcaseItem>> itemsCommand;
+  late Command<int, ShowcaseItem?> currentItemCommand;
 
-  final currentItemCommand = Command.createSync<int, ShowcaseItem>(
-      (x) => showcaseItems[x], showcaseItems.first);
+  List<ShowcaseItem> showcaseItems = <ShowcaseItem>[];
 
   late Command<ShowcaseItem?, void> nextItemCommand;
   late Command<ShowcaseItem?, void> previousItemCommand;
@@ -98,18 +124,19 @@ class UiShowcaseManager {
   late Command<int, int?> setImageCommand;
   UiShowcaseManager() {
     itemsCommand =
-        Command.createSyncNoParam<List<ShowcaseItem>>(selectShowcaseItems, []);
+        Command.createAsync<void, List<ShowcaseItem>>(selectShowcaseItems, []);
+    currentItemCommand = Command.createSync(getCurrentItem, null);
+
     nextItemCommand = Command.createSync<ShowcaseItem?, void>(nextItem, null);
     previousItemCommand =
         Command.createSync<ShowcaseItem?, void>(previousItem, null);
 
     showcaseView.addListener(() {
-      print("execute");
       itemsCommand.execute();
     });
 
     nextImageItemCommand = Command.createSyncNoParamNoResult(() {
-      final maxLength = currentItemCommand.value.imageAssets.length;
+      final maxLength = currentItemCommand.value!.imageAssets.length;
       if (maxLength > currentImageIndex.value + 1) {
         currentImageIndex.value++;
       } else {
@@ -117,7 +144,7 @@ class UiShowcaseManager {
       }
     });
     previousImageItemCommand = Command.createSyncNoParamNoResult(() {
-      final maxLength = currentItemCommand.value.imageAssets.length;
+      final maxLength = currentItemCommand.value!.imageAssets.length;
       if (currentImageIndex.value - 1 > -1) {
         currentImageIndex.value--;
       } else {
@@ -125,6 +152,9 @@ class UiShowcaseManager {
       }
     });
 
+    itemsCommand.debounce(const Duration(milliseconds: 300)).listen((item, _) {
+      currentItemCommand.execute(0);
+    });
     currentItemCommand
         .debounce(const Duration(milliseconds: 300))
         .listen((item, _) {});
@@ -146,7 +176,7 @@ class UiShowcaseManager {
     nextImageItemCommand
         .debounce(const Duration(milliseconds: 20))
         .listen((_, __) {
-      final maxLength = currentItemCommand.value.imageAssets.length - 1;
+      final maxLength = currentItemCommand.value!.imageAssets.length - 1;
       if (maxLength > currentImageIndex.value + 1) {
         currentImageIndex.value++;
       } else {
@@ -157,7 +187,7 @@ class UiShowcaseManager {
     previousImageItemCommand
         .debounce(const Duration(milliseconds: 20))
         .listen((_, __) {
-      final maxLength = currentItemCommand.value.imageAssets.length - 1;
+      final maxLength = currentItemCommand.value!.imageAssets.length - 1;
       if (0 < currentImageIndex.value - 1) {
         currentImageIndex.value--;
       } else {
@@ -171,9 +201,17 @@ class UiShowcaseManager {
     }, 0);
   }
 
-  List<ShowcaseItem> selectShowcaseItems() {
-    print("selecting items..");
-    return showcaseItems.take(maxItemNumber.value).toList();
+  Future<List<ShowcaseItem>> selectShowcaseItems(void s) async {
+    try {
+      final source = await rootBundle.loadString('assets/files/items.json');
+      final container = json.decode(source) as Iterable;
+
+      showcaseItems = container.map((e) => ShowcaseItem.fromMap(e)).toList();
+      return showcaseItems.take(maxItemNumber.value).toList();
+    } catch (e) {
+      print(e);
+      return [];
+    }
   }
 
   void nextItem(item) async {
@@ -195,5 +233,12 @@ class UiShowcaseManager {
   void showMoreItems() {
     maxItemNumber.value = maxItemNumber.value + 3;
     itemsCommand.execute();
+  }
+
+  ShowcaseItem getCurrentItem(int x) {
+    if (x < showcaseItems.length) {
+      return showcaseItems[x];
+    }
+    return ShowcaseItem();
   }
 }

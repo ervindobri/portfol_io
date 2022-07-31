@@ -17,9 +17,12 @@ class AnimatedShowcaseItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     //TODO: fix issue with key listener
-    return ValueListenableBuilder<CommandResult<int?, ShowcaseItem>>(
+    return ValueListenableBuilder<CommandResult<int?, ShowcaseItem?>>(
       valueListenable: uiShowcaseManager.currentItemCommand.results,
       builder: (context, value, __) {
+        if (value.data == null) {
+          return SizedBox();
+        }
         final item = value.data!;
         return TweenAnimationBuilder(
           key: Key(item.projectName),
@@ -64,7 +67,7 @@ class AnimatedShowcaseItemWidget extends StatelessWidget {
                                 width: width / 3,
                                 child: Text(
                                   item.description,
-                                  maxLines: 5,
+                                  maxLines: 10,
                                   textAlign: TextAlign.right,
                                   style: context.bodyText1!
                                       .copyWith(color: Colors.white),
@@ -109,14 +112,14 @@ class MobileAnimatedShowcaseItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return CarouselSlider.builder(
-      itemCount: showcaseItems.length,
+      itemCount: uiShowcaseManager.showcaseItems.length,
       options: CarouselOptions(
         viewportFraction: 1.0,
         enlargeCenterPage: true,
         aspectRatio: 9 / 16,
       ),
       itemBuilder: (context, index, __) {
-        final item = showcaseItems[index];
+        final item = uiShowcaseManager.showcaseItems[index];
         return TweenAnimationBuilder(
           key: Key(item.projectName),
           tween: Tween<double>(begin: 0.0, end: 1.0),

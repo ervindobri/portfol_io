@@ -9,6 +9,7 @@ import 'package:portfol_io/constants/styles.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
 import 'package:portfol_io/constants/theme_utils.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
+import 'package:portfol_io/pages/contact/contact_me_dialog.dart';
 import 'package:portfol_io/widgets/fade_in_slide.dart';
 import 'package:portfol_io/injection_manager.dart';
 
@@ -205,7 +206,15 @@ class _HomeDesktopState extends State<HomeDesktop> {
                           FadingSlideWidget(
                             offset: Offset(0, 0.5),
                             child: TextButton(
-                                onPressed: () {},
+                                onPressed: () => showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return Dialog(
+                                          elevation: 24,
+                                          child: ContactMeDialog(),
+                                        );
+                                      },
+                                    ),
                                 child: Container(
                                     color: Colors.white,
                                     padding: const EdgeInsets.fromLTRB(

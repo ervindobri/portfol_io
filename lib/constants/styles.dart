@@ -20,4 +20,16 @@ class GlobalStyles {
       // side: MaterialStateProperty.all(BorderSide()),
       shape: MaterialStateProperty.all(
           RoundedRectangleBorder(borderRadius: BorderRadius.zero)));
+
+  static InputDecoration inputDecoration() => InputDecoration(
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.zero,
+        ),
+        filled: true,
+        fillColor: Colors.black.withOpacity(.66),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.zero,
+          borderSide: BorderSide(color: Colors.white),
+        ),
+      );
 }

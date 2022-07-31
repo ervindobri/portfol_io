@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/models/social_media_button.dart';
 import 'package:portfol_io/models/tech_item.dart';
@@ -6,6 +5,8 @@ import 'package:portfol_io/models/tech_item.dart';
 class Globals {
   static const List<String> menu = ["Home", "Work", "Contact Me"];
 
+  static const String myEmail = "ervindobri@gmail.com";
+  static const String myPhone = "+40 754 365 846";
   static const String contactMe = "Contact Me";
   static const String checkMeOut = "Check Me out";
 

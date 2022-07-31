@@ -25,7 +25,7 @@ class _CarouselControllerState extends State<CarouselController> {
         valueListenable: uiShowcaseManager.currentItemCommand.results,
         builder: (context, value, __) {
           final currentIndex = uiShowcaseManager.currentPage;
-          final totalItems = showcaseItems.length;
+          final totalItems = uiShowcaseManager.showcaseItems.length;
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
