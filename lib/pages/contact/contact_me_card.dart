@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
+import 'package:portfol_io/pages/contact/contact_me_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactMeCard extends StatelessWidget {
@@ -44,9 +45,7 @@ class ContactMeCard extends StatelessWidget {
               ),
               SizedBox(height: 56),
               TextButton(
-                onPressed: () {
-                  //TODO: open contact dialog animated
-                },
+                onPressed: () => showContactDialog(context),
                 child: Container(
                   color: Colors.white,
                   padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
@@ -104,6 +103,18 @@ class ContactMeCard extends StatelessWidget {
       ),
     );
   }
+
+  void showContactDialog(context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          elevation: 24,
+          child: ContactMeDialog(),
+        );
+      },
+    );
+  }
 }
 
 class MobileContactMeCard extends StatelessWidget {
@@ -123,16 +134,17 @@ class MobileContactMeCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              SizedBox(height: 32),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     Globals.wantToWorkWithMe,
                     maxLines: 2,
-                    style: context.headline6!.copyWith(
+                    style: context.headline6?.copyWith(
                       color: Colors.white,
                       fontSize: 24,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w300,
                     ),
                   ),
                   Text(
@@ -147,16 +159,18 @@ class MobileContactMeCard extends StatelessWidget {
               ),
               SizedBox(height: 12),
               TextButton(
-                onPressed: () {
-                  //TODO: open contact dialog animated
-                },
+                onPressed: () => showContactDialog(context),
+                style: GlobalStyles.whiteTextButtonStyle(),
                 child: Container(
+                  width: width,
                   color: Colors.white,
                   padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-                  child: Text(
-                    Globals.bigWhiteButton,
-                    style: context.bodyText1!.copyWith(
-                      color: GlobalColors.primaryColor,
+                  child: Center(
+                    child: Text(
+                      Globals.bigWhiteButton,
+                      style: context.bodyText1!.copyWith(
+                        color: GlobalColors.primaryColor,
+                      ),
                     ),
                   ),
                 ),
@@ -195,6 +209,18 @@ class MobileContactMeCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void showContactDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          elevation: 24,
+          child: ContactMeDialog(),
+        );
+      },
     );
   }
 }
