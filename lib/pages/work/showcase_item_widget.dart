@@ -74,6 +74,14 @@ class AnimatedShowcaseItemWidget extends StatelessWidget {
                                 ),
                               ),
                               Spacer(),
+                              //tags
+                              Wrap(
+                                  spacing: 8,
+                                  children: item.tags
+                                      .map((e) => Text("#${e.toLowerCase()}"))
+                                      .toList()),
+                              SizedBox(height: 16),
+                              //action
                               TextButton(
                                   onPressed: () async {
                                     await launchUrl(Uri.parse(item.url));

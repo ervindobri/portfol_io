@@ -5,29 +5,33 @@
     "url": "https://github.com/ervindobri/cheesify",
     "imagesPath": "cheesify",
     "imageAssets": ["main", "1", "2", "3"],
-    "description": "This app concept was based on a cheese database application. You can browse various cheese types and find out interesting facts about them. UI Design in Adobe XD, app using flutter!"
+    "description": "This app concept was based on a cheese database application. You can browse various cheese types and find out interesting facts about them. UI Design in Adobe XD, app using flutter!",
+    "tags": ["flutter", "figma"]
   },
   {
-    "projectName": "Adidas Originals Design",
-    "duration": "2 hours",
-    "url": "https://www.figma.com/file/zBqcTDzvy53cy9msnFSVNd/Adidas?node-id=0%3A1",
-    "imagesPath": "adidas",
-    "imageAssets": ["main"],
-    "description": "Buy adidas originals collections & single piece clothing. You can browse various cheese types and find out interesting facts about them. UI Design in Figma, app using flutter!"
+    "projectName": "Myo Exercises",
+    "duration": "6 months",
+    "url": "https://github.com/ervindobri/MyoExercises",
+    "imagesPath": "myo",
+    "imageAssets": ["main", "1", "2"],
+    "description": "Combining gesture controlled armband Myo by Thalmic Labs and foot exercises for children. With the use of serious games, flat foot can be treated using this system. As my thesis project, I had developed a Python Gesture Recognition software with PyQt UI components (Image #1) and two Unity Engine games(Images #2 and #3). The system is able to record & detect 4 different foot gestures which are used in physiotherapy. The project was inspired from HIMO (himo.appforte.ro).",
+    "tags": ["python", "unity", "firebase"]
   },
   {
     "projectName": "Barbr",
     "duration": "Few days",
     "imagesPath": "barbr",
     "imageAssets": ["main", "light", "dark"],
-    "description": "This project was based on a wild idea: finding barbers with the help of a simple app.\nYou can search & find lots of barbers which show up on the map as markers.\nYou can make appointments and set recurring dates when you are free to have a haircut.\nFurthermore, the barbers have ratings so you know you'll always be in professional hands!"
+    "description": "This project was based on a wild idea: finding barbers with the help of a simple app.\nYou can search & find lots of barbers which show up on the map as markers.\nYou can make appointments and set recurring dates when you are free to have a haircut.\nFurthermore, the barbers have ratings so you know you'll always be in professional hands!",
+    "tags": ["figma", "flutter"]
   },
   {
     "projectName": "bAllerz",
     "duration": "Few days",
     "imagesPath": "ballerz",
     "imageAssets": ["main", "1", "2"],
-    "description": "When I was living in Budapest I had trouble finding people to play football with. \n Of course, there are social media groups where you can do so, but an actual phone app would make everything a lot smoother! \nFeatures include creating a friendly match in a specific location, with a specific team size, so you'll only have people who are really interested. On the other hand, you can browse of many different events, or games which show up on the map!"
+    "description": "When I was living in Budapest I had trouble finding people to play football with. \n Of course, there are social media groups where you can do so, but an actual phone app would make everything a lot smoother! \nFeatures include creating a friendly match in a specific location, with a specific team size, so you'll only have people who are really interested. On the other hand, you can browse of many different events, or games which show up on the map!",
+    "tags": []
   },
 
   {
@@ -35,7 +39,8 @@
     "duration": "-",
     "url": "https://www.behance.net/w1nt_r/",
     "imagesPath": "others",
-    "imageAssets": ["sepsi", "barber", "payment"],
-    "description": "These images show various design projects I've completed over the last few months."
+    "imageAssets": ["adidas", "sepsi", "barber", "payment"],
+    "description": "These images show various design projects I've completed over the last few months.",
+    "tags": []
   }
 ]

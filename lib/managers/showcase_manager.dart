@@ -12,15 +12,17 @@ class ShowcaseItem {
 
   final String imagesPath;
   final List<String> imageAssets;
+  final List<String> tags;
 
-  ShowcaseItem({
-    this.projectName = "Project Name",
-    this.duration = "3 months",
-    this.description = "Lorem ipsum dolor sit amet, consectetur adipiscing...",
-    this.url = "https://github.com/ervindobri/",
-    this.imagesPath = "others", //must be under images/work directory
-    this.imageAssets = const ['placeholder'],
-  });
+  ShowcaseItem(
+      {this.projectName = "Project Name",
+      this.duration = "3 months",
+      this.description =
+          "Lorem ipsum dolor sit amet, consectetur adipiscing...",
+      this.url = "https://github.com/ervindobri/",
+      this.imagesPath = "others", //must be under images/work directory
+      this.imageAssets = const ['placeholder'],
+      this.tags = const []});
 
   @override
   String toString() {
@@ -29,13 +31,13 @@ class ShowcaseItem {
 
   factory ShowcaseItem.fromMap(Map<String, dynamic> e) {
     return ShowcaseItem(
-      projectName: e['projectName'] ?? "",
-      duration: e['duration'] ?? "",
-      imagesPath: e['imagesPath'] ?? "",
-      imageAssets: e['imageAssets'].cast<String>(),
-      url: e['url'] ?? "https://github.com/ervindobri/",
-      description: e['description'] ?? "",
-    );
+        projectName: e['projectName'] ?? "",
+        duration: e['duration'] ?? "",
+        imagesPath: e['imagesPath'] ?? "",
+        imageAssets: e['imageAssets'].cast<String>(),
+        url: e['url'] ?? "https://github.com/ervindobri/",
+        description: e['description'] ?? "",
+        tags: e['tags'] != null ? e['tags'].cast<String>() : []);
   }
 }
 

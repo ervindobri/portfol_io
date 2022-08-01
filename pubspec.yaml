@@ -62,7 +62,10 @@ flutter:
     - assets/images/
     - assets/images/work/
     - assets/images/work/cheesify/
-    - assets/images/work/adidas/
+    - assets/images/work/myo/
+    - assets/images/work/showtime/
+    - assets/images/work/penzmuzeum/
+    - assets/images/work/erp/
     - assets/images/work/barbr/
     - assets/images/work/ballerz/
     - assets/images/work/others/
