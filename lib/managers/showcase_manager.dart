@@ -41,7 +41,7 @@ class ShowcaseItem {
   }
 }
 
-//TODO: add items: showtime, penzmuzeum, ERP, HIMO
+//TODO: add items: showtime, penzmuzeum, ERP
 // List<ShowcaseItem> showcaseItems = [
 //   ShowcaseItem(
 //       projectName: "Cheesify",

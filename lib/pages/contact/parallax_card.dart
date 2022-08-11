@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,7 +17,7 @@ class ParallaxCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final imageSize = 348.0;
+    final imageSize = 256.0;
     final containerHeight = height * .6;
     return Container(
       height: containerHeight,
@@ -63,6 +65,12 @@ class ParallaxCard extends StatelessWidget {
                             Text(
                               "Junior Software Developer / Aspiring UI/UX Designer",
                               maxLines: 2,
+                            ),
+                            SizedBox(height: 24),
+                            Text(
+                              Globals.inspiration,
+                              style: context.bodyText1
+                                  ?.copyWith(color: Colors.white),
                             ),
                             SizedBox(height: 24),
                             TextButton.icon(
@@ -117,8 +125,11 @@ class ParallaxCard extends StatelessWidget {
                         alignment: Alignment.center,
                         children: [
                           Positioned(
-                              child: Image.asset("assets/avatar.png",
-                                  width: imageSize, height: imageSize)),
+                              child: Image.memory(
+                                base64Decode(Globals.avatarImageBase64),
+                              ),
+                              width: imageSize,
+                              height: imageSize),
                         ],
                       ),
                     ),
@@ -248,8 +259,9 @@ class MobileParallaxCard extends StatelessWidget {
                 alignment: Alignment.center,
                 children: [
                   Positioned(
-                      child: Image.asset("assets/avatar.png",
-                          width: imageSize, height: imageSize)),
+                    child: Image.memory(base64Decode(Globals.avatarImageBase64),
+                        width: imageSize, height: imageSize),
+                  ),
                 ],
               ),
             ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_command/flutter_command.dart';
 import 'package:portfol_io/constants/globals.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
 import 'package:portfol_io/constants/theme_utils.dart';
@@ -14,7 +13,7 @@ class MenuDesktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
+    // final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return FadingSlideWidget(
       noFade: true,
@@ -29,19 +28,22 @@ class MenuDesktop extends StatelessWidget {
               Container(
                 width: 60,
                 height: 32,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/logo1.png"),
+                child: Center(
+                  child: Text(
+                    "ED",
+                    style: context.bodyText1?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
               Spacer(),
               Container(
                 width: 280,
-                child: ValueListenableBuilder<CommandResult<int?, int>>(
-                  valueListenable: uiMenuManager.updateMenuCommand.results,
+                child: ValueListenableBuilder<int>(
+                  valueListenable: uiMenuManager.menuIndex,
                   builder: (_, value, __) {
-                    final _selectedIndex = value.data ?? 0;
+                    final _selectedIndex = value;
                     return ListView.separated(
                       itemCount: Globals.menu.length,
                       scrollDirection: Axis.horizontal,

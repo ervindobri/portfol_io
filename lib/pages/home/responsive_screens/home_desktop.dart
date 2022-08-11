@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'package:animated_text_kit/animated_text_kit.dart' as atkit;
 import 'package:auto_animated/auto_animated.dart';
@@ -36,6 +37,7 @@ class _HomeDesktopState extends State<HomeDesktop> {
             alignment: Alignment.center,
             children: [
               //BG Blobs
+              //TODO: blobs from memory
               Positioned(
                 left: 0,
                 top: 24,
@@ -113,65 +115,102 @@ class _HomeDesktopState extends State<HomeDesktop> {
                   FadingSlideWidget(
                     offset: Offset(-1, 0),
                     child: Container(
-                        width: width / 2,
-                        height: height,
-                        color: GlobalColors.lightGrey.withOpacity(.4),
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.all(48),
-                        child: Stack(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                AnimationLimiter(
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: Globals.skills.length,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      final skill = Globals.skills[index];
-                                      return AnimationConfiguration
-                                          .staggeredList(
-                                        position: index,
-                                        delay: Duration(milliseconds: 200),
-                                        duration: Duration(milliseconds: 300),
-                                        child: SlideAnimation(
-                                          horizontalOffset: -width / 2,
-                                          child: FadeInAnimation(
-                                            child: Text(
-                                              skill.toUpperCase(),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.fade,
-                                              style:
-                                                  context.headline1!.copyWith(
-                                                // color: Colors.transparent,
-                                                fontSize:
-                                                    (width / 15).clamp(50, 75),
-
-                                                foreground: Paint()
-                                                  ..style = PaintingStyle.stroke
-                                                  ..strokeWidth = 2
-                                                  ..color = GlobalColors.green
-                                                      .withOpacity(.3),
-                                              ),
+                      width: width / 2,
+                      height: height,
+                      color: GlobalColors.lightGrey.withOpacity(.4),
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(48),
+                      child: Stack(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              AnimationLimiter(
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: Globals.skills.take(5).length,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    final skill = Globals.skills[index];
+                                    var list = [...Globals.skills];
+                                    list.remove(skill);
+                                    list.shuffle();
+                                    final speed =
+                                        const Duration(milliseconds: 200);
+                                    return AnimationConfiguration.staggeredList(
+                                      position: index,
+                                      delay: Duration(milliseconds: 200),
+                                      duration: Duration(milliseconds: 300),
+                                      child: SlideAnimation(
+                                        horizontalOffset: -width / 2,
+                                        child: FadeInAnimation(
+                                          child: DefaultTextStyle(
+                                            style: context.headline1!.copyWith(
+                                              fontSize:
+                                                  (width / 15).clamp(50, 75),
+                                              foreground: Paint()
+                                                ..style = PaintingStyle.stroke
+                                                ..strokeWidth = 2
+                                                ..color = GlobalColors.green
+                                                    .withOpacity(.7),
+                                            ),
+                                            child: atkit.AnimatedTextKit(
+                                              repeatForever: true,
+                                              pause: Duration(seconds: 3),
+                                              animatedTexts: [
+                                                atkit.TyperAnimatedText(
+                                                  skill.toUpperCase(),
+                                                  speed: speed,
+                                                ),
+                                                ...list
+                                                    .map(
+                                                      (e) => atkit
+                                                          .TyperAnimatedText(
+                                                        e.toUpperCase(),
+                                                        speed: speed,
+                                                      ),
+                                                    )
+                                                    .toList(),
+                                              ],
                                             ),
                                           ),
+                                          // child: Text(
+                                          //   skill.toUpperCase(),
+                                          //   maxLines: 1,
+                                          //   overflow: TextOverflow.fade,
+                                          //   style:
+                                          //       context.headline1!.copyWith(
+                                          //     // color: Colors.transparent,
+                                          //     fontSize:
+                                          //         (width / 15).clamp(50, 75),
+
+                                          //     foreground: Paint()
+                                          //       ..style = PaintingStyle.stroke
+                                          //       ..strokeWidth = 2
+                                          //       ..color = GlobalColors.green
+                                          //           .withOpacity(.3),
+                                          //   ),
+                                          // ),
                                         ),
-                                      );
-                                    },
-                                  ),
+                                      ),
+                                    );
+                                  },
                                 ),
-                              ],
+                              ),
+                            ],
+                          ),
+                          Positioned(
+                            bottom: 24,
+                            child: FadingSlideWidget(
+                              offset: Offset(-1, 0),
+                              child: TechStackWidget(),
                             ),
-                            Positioned(
-                                bottom: 24,
-                                child: FadingSlideWidget(
-                                    offset: Offset(-1, 0),
-                                    child: TechStackWidget()))
-                          ],
-                        )),
+                          )
+                        ],
+                      ),
+                    ),
                   ),
                   Container(
                     width: width / 2,
@@ -195,12 +234,27 @@ class _HomeDesktopState extends State<HomeDesktop> {
                           ),
                           FadingSlideWidget(
                             offset: Offset(0, 0.5),
-                            child: Text(
-                              Globals.subtitle,
-                              textAlign: TextAlign.right,
-                              style: context.headline6!
-                                  .copyWith(color: GlobalColors.lightGrey),
+                            child: SizedBox(
+                              height: 32,
+                              child: DefaultTextStyle(
+                                style: context.headline6!
+                                    .copyWith(color: GlobalColors.lightGrey),
+                                child: atkit.AnimatedTextKit(
+                                  repeatForever: true,
+                                  pause: Duration.zero,
+                                  animatedTexts: [
+                                    atkit.FadeAnimatedText(Globals.subtitle,
+                                        duration: const Duration(seconds: 15)),
+                                    atkit.FadeAnimatedText(Globals.inspiration,
+                                        duration: const Duration(seconds: 15)),
+                                  ],
+                                ),
+                              ),
                             ),
+                            // child: Text(
+                            //   Globals.subtitle,
+                            //   textAlign: TextAlign.right,
+                            // ),
                           ),
                           SizedBox(height: 96),
                           FadingSlideWidget(
@@ -239,14 +293,18 @@ class _HomeDesktopState extends State<HomeDesktop> {
                     children: [
                       ClipRRect(
                         child: ImageFiltered(
-                            imageFilter:
-                                ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-                            child: Image.asset("assets/avatar.png",
-                                width: imageSize, height: imageSize)),
+                          imageFilter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                          child: Image.memory(
+                              base64Decode(Globals.avatarImageBase64),
+                              width: imageSize,
+                              height: imageSize),
+                        ),
                       ),
                       Positioned(
-                          child: Image.asset("assets/avatar.png",
-                              width: imageSize, height: imageSize)),
+                          child: Image.memory(
+                              base64Decode(Globals.avatarImageBase64),
+                              width: imageSize,
+                              height: imageSize)),
                     ],
                   ),
                 ),
@@ -375,7 +433,7 @@ class _TechStackWidgetState extends State<TechStackWidget> {
                                   tooltip: tech.name,
                                   padding: EdgeInsets.zero,
                                   onPressed: () {
-                                    print(tech.link);
+                                    // print(tech.link);
                                   },
                                   icon: Container(
                                     width: 48,

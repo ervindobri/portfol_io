@@ -1,11 +1,11 @@
 {
-    "name": "portfol_io",
-    "short_name": "portfol_io",
+    "name": "Ervin Dobri",
+    "short_name": "Ervin Dobri",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "The portfolio of a developer.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

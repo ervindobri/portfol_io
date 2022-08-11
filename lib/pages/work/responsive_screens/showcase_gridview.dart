@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_command/flutter_command.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -14,9 +15,9 @@ class ShowcaseGridView extends StatelessWidget {
   final uiShowcaseManager = sl<UiShowcaseManager>();
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    // final width = MediaQuery.of(context).size.width;
     final crossAxisCount = 3;
-    final cardWidth = width / crossAxisCount;
+    // final cardWidth = width / crossAxisCount;
     return ValueListenableBuilder<CommandResult<void, List<ShowcaseItem>?>>(
         valueListenable: uiShowcaseManager.itemsCommand.results,
         builder: (context, value, _) {
@@ -24,7 +25,6 @@ class ShowcaseGridView extends StatelessWidget {
           if (items == null) {
             return SizedBox();
           }
-          print(items);
           return Column(
             children: [
               Expanded(
@@ -50,7 +50,7 @@ class ShowcaseGridView extends StatelessWidget {
                         child: SlideAnimation(
                           verticalOffset: -50,
                           child: FadeInAnimation(
-                            child: ShowcaseCard(item: item),
+                            child: ShowcaseCard(item: item, index: index),
                           ),
                         ),
                       );
@@ -77,7 +77,9 @@ class ShowcaseGridView extends StatelessWidget {
 class ShowcaseCard extends StatefulWidget {
   final ShowcaseItem item;
   // final double width;
-  ShowcaseCard({Key? key, required this.item}) : super(key: key);
+  final int index;
+  ShowcaseCard({Key? key, required this.item, this.index = 0})
+      : super(key: key);
 
   @override
   State<ShowcaseCard> createState() => _ShowcaseCardState();
@@ -89,7 +91,7 @@ class _ShowcaseCardState extends State<ShowcaseCard> {
   @override
   Widget build(BuildContext context) {
     final image = widget.item.imageAssets.first;
-    final width = MediaQuery.of(context).size.width;
+    // final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return MouseRegion(
       onEnter: (event) {
@@ -116,7 +118,38 @@ class _ShowcaseCardState extends State<ShowcaseCard> {
                 opacity: showImageOverlay ? 1.0 : 0.0,
                 child: InkWell(
                   onTap: () {
-                    //TODO: open details
+                    sl<UiShowcaseManager>()
+                        .currentItemCommand
+                        .execute(widget.index);
+                    showDialog(
+                      context: context,
+                      barrierColor: Colors.black.withOpacity(.9),
+                      builder: (_) => Dialog(
+                        backgroundColor: Colors.transparent,
+                        elevation: 0,
+                        child: SizedBox(
+                          height: height,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              SizedBox(
+                                  height: height * .75,
+                                  child: AnimatedShowcaseItemWidget()),
+                              Positioned(
+                                top: 0,
+                                child: IconButton(
+                                  iconSize: 42,
+                                  onPressed: () => Navigator.pop(context),
+                                  icon: Center(
+                                    child: Icon(CupertinoIcons.xmark, size: 42),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
                   },
                   child: Container(
                     color: GlobalColors.primaryColor.withOpacity(.8),
@@ -127,33 +160,29 @@ class _ShowcaseCardState extends State<ShowcaseCard> {
                         alignment: WrapAlignment.center,
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
-                          TextButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                barrierColor: Colors.black.withOpacity(.7),
-                                builder: (_) => Dialog(
-                                  backgroundColor: Colors.transparent,
-                                  elevation: 0,
-                                  child: SizedBox(
-                                    height: height * .65,
-                                    child: AnimatedShowcaseItemWidget(),
-                                  ),
+                          Row(
+                            children: [
+                              Text(
+                                widget.item.projectName,
+                                style: context.bodyText1?.copyWith(
+                                  fontWeight: FontWeight.w100,
+                                  fontSize: 24,
                                 ),
-                              );
-                            },
-                            child: Row(
-                              children: [
-                                Text(
-                                  widget.item.projectName,
-                                  style: context.bodyText1?.copyWith(
-                                    fontWeight: FontWeight.w100,
-                                    fontSize: 24,
+                              ),
+                              // Icon(CupertinoIcons),
+                            ],
+                          ),
+                          Wrap(
+                            spacing: 8,
+                            children: widget.item.tags
+                                .map(
+                                  (e) => Text(
+                                    "#${e.toLowerCase()}",
+                                    style: context.bodyText2
+                                        ?.copyWith(fontWeight: FontWeight.w100),
                                   ),
-                                ),
-                                // Icon(CupertinoIcons),
-                              ],
-                            ),
+                                )
+                                .toList(),
                           ),
                           TextButton(
                               onPressed: () => launchUrlString(widget.item.url),

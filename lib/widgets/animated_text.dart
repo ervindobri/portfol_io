@@ -199,7 +199,7 @@ class _AnimatedTextState extends State<AnimatedText>
     preProcesedFadeOut = Map<String, List<String>>();
     separatedStrings = <List<String>>[];
     animateDataMap = Map<String, Map<String, _Position>>();
-    print(words.toString());
+    // print(words.toString());
     length = words.length;
     words.forEach((element) {
       Map<String, int> map = <String, int>{};

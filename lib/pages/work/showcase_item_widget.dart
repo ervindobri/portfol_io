@@ -34,73 +34,105 @@ class AnimatedShowcaseItemWidget extends StatelessWidget {
               tween: Tween<double>(begin: 25.0, end: 0.0),
               duration: const Duration(milliseconds: 300),
               builder: (context, double value2, _) {
-                return Transform.translate(
-                  offset: Offset(0, value2),
-                  child: Opacity(
-                    opacity: value,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Transform.translate(
+                        offset: Offset(0, value2),
+                        child: Opacity(
+                          opacity: value,
                           child: ImageCarousel(item: item),
                         ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                      ),
+                    ),
+                    SizedBox(width: 24),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Transform.translate(
+                            offset: Offset(0, value2),
+                            child: Opacity(
+                              opacity: value,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    item.projectName,
+                                    textAlign: TextAlign.left,
+                                    style: context.headline4!
+                                        .copyWith(color: Colors.white),
+                                  ),
+                                  Text(
+                                    item.duration,
+                                    textAlign: TextAlign.left,
+                                    style: context.headline6!.copyWith(
+                                        fontWeight: FontWeight.w100,
+                                        fontSize: 24,
+                                        color: Colors.white),
+                                  ),
+                                  SizedBox(height: 24),
+                                  SizedBox(
+                                    width: width / 3,
+                                    child: Text(
+                                      item.description,
+                                      maxLines: 10,
+                                      textAlign: TextAlign.left,
+                                      style: context.bodyText1!
+                                          .copyWith(color: Colors.white),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Spacer(),
+                          //tags
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(
-                                item.projectName,
-                                textAlign: TextAlign.right,
-                                style: context.headline4!
-                                    .copyWith(color: Colors.white),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Wrap(
+                                    spacing: 8,
+                                    children: item.tags
+                                        .map(
+                                          (e) => Text(
+                                            "#${e.toLowerCase()}",
+                                            style: context.bodyText2?.copyWith(
+                                                fontWeight: FontWeight.w100),
+                                          ),
+                                        )
+                                        .toList(),
+                                  ),
+                                  SizedBox(height: 16),
+                                  //action
+                                  TextButton(
+                                      onPressed: () async {
+                                        await launchUrl(Uri.parse(item.url));
+                                      },
+                                      style:
+                                          GlobalStyles.whiteTextButtonStyle(),
+                                      child: Container(
+                                          color: Colors.white,
+                                          padding: const EdgeInsets.fromLTRB(
+                                              24, 12, 24, 12),
+                                          child: Text(
+                                            Globals.checkItOut,
+                                            style: context.headline6!.copyWith(
+                                                color:
+                                                    GlobalColors.primaryColor),
+                                          ))),
+                                ],
                               ),
-                              Text(
-                                item.duration,
-                                textAlign: TextAlign.right,
-                                style: context.headline6!.copyWith(
-                                    fontWeight: FontWeight.w100,
-                                    fontSize: 24,
-                                    color: Colors.white),
-                              ),
-                              SizedBox(height: 24),
-                              SizedBox(
-                                width: width / 3,
-                                child: Text(
-                                  item.description,
-                                  maxLines: 10,
-                                  textAlign: TextAlign.right,
-                                  style: context.bodyText1!
-                                      .copyWith(color: Colors.white),
-                                ),
-                              ),
-                              Spacer(),
-                              //tags
-                              Wrap(
-                                  spacing: 8,
-                                  children: item.tags
-                                      .map((e) => Text("#${e.toLowerCase()}"))
-                                      .toList()),
-                              SizedBox(height: 16),
-                              //action
-                              TextButton(
-                                  onPressed: () async {
-                                    await launchUrl(Uri.parse(item.url));
-                                  },
-                                  child: Container(
-                                      color: Colors.white,
-                                      padding: const EdgeInsets.fromLTRB(
-                                          24, 12, 24, 12),
-                                      child: Text(
-                                        Globals.checkItOut,
-                                        style: context.headline6!.copyWith(
-                                            color: GlobalColors.primaryColor),
-                                      ))),
                             ],
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
+                  ],
                 );
               },
             );

@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
+    // final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final double mobilePadding = 24;
     return Scaffold(
@@ -118,27 +118,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       return ContactContent();
     } else {
       return Container();
-    }
-  }
-
-  void animateCurrentPage(int i) {
-    if (i == 0) {
-      // animationManager.forwardAnimations();
-      print("Animating home page!");
-    } else if (i == 1) {
-      // animationManager.reverseAnimations();
-    } else if (i == 2) {
-      // animationManager.reverseAnimations();
-    } else if (i == 3) {
-      // animationManager.reverseAnimations();
-    } else if (i == 4) {
-      // animationManager.reverseAnimations();
-    } else if (i == 5) {
-      // animationManager.reverseAnimations();
-    } else if (i == 6) {
-      // animationManager.reverseAnimations();
-    } else {
-      // animationManager.forwardAnimations();
     }
   }
 }

@@ -35,10 +35,8 @@ class _WorkDesktopState extends State<WorkDesktop> {
             valueListenable: uiShowcaseManager.itemsCommand.results,
             builder: (context, items, _) {
               if (items.hasError || items.data == null) {
-                print(items.error);
                 return SizedBox(height: height);
               }
-              print("data ${items.data}");
               final rows = items.data!.length / 3 - 1;
               return SizedBox(
                 height: value == View.grid ? height + rows * 420 : height,

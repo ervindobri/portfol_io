@@ -1,6 +1,6 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'package:animated_text_kit/animated_text_kit.dart' as atkit;
-import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -187,7 +187,7 @@ class _HomeMobileState extends State<HomeMobile> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    Image.asset("assets/avatar.png",
+                    Image.memory(base64Decode(Globals.avatarImageBase64),
                         width: imageSize, height: imageSize),
                   ],
                 ),

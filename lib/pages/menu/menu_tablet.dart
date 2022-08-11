@@ -18,7 +18,7 @@ class MenuTablet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
+    // final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -92,7 +92,7 @@ class MenuTablet extends StatelessWidget {
           shape: MaterialStateProperty.all(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))),
       onPressed: () {
-        print("button");
+        // print("button");
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),

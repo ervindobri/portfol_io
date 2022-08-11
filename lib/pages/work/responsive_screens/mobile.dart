@@ -3,15 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_command/flutter_command.dart';
 import 'package:portfol_io/constants/constants.dart';
-import 'package:portfol_io/constants/globals.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
-import 'package:portfol_io/pages/work/carousel_controller.dart';
-import 'package:portfol_io/pages/work/responsive_screens/desktop.dart';
 import 'package:portfol_io/pages/work/responsive_screens/showcase_gridview.dart';
 import 'package:portfol_io/pages/work/responsive_screens/showcase_item_view.dart';
-import 'package:portfol_io/pages/work/showcase_item_widget.dart';
 import 'package:portfol_io/injection_manager.dart';
 
 class WorkMobile extends StatefulWidget {

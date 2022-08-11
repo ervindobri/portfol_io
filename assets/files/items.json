@@ -15,7 +15,7 @@
     "imagesPath": "myo",
     "imageAssets": ["main", "1", "2"],
     "description": "Combining gesture controlled armband Myo by Thalmic Labs and foot exercises for children. With the use of serious games, flat foot can be treated using this system. As my thesis project, I had developed a Python Gesture Recognition software with PyQt UI components (Image #1) and two Unity Engine games(Images #2 and #3). The system is able to record & detect 4 different foot gestures which are used in physiotherapy. The project was inspired from HIMO (himo.appforte.ro).",
-    "tags": ["python", "unity", "firebase"]
+    "tags": ["python", "unity", "firebase", "neural network", "myo armband"]
   },
   {
     "projectName": "Barbr",
@@ -31,7 +31,7 @@
     "imagesPath": "ballerz",
     "imageAssets": ["main", "1", "2"],
     "description": "When I was living in Budapest I had trouble finding people to play football with. \n Of course, there are social media groups where you can do so, but an actual phone app would make everything a lot smoother! \nFeatures include creating a friendly match in a specific location, with a specific team size, so you'll only have people who are really interested. On the other hand, you can browse of many different events, or games which show up on the map!",
-    "tags": []
+    "tags": ["sports", "figma", "ui/ux design"]
   },
 
   {
@@ -41,6 +41,6 @@
     "imagesPath": "others",
     "imageAssets": ["adidas", "sepsi", "barber", "payment"],
     "description": "These images show various design projects I've completed over the last few months.",
-    "tags": []
+    "tags": ["figma", "adobe xd", "ui design"]
   }
 ]

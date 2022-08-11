@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'dart:ui' as ui;
 
 class CurvePainter extends CustomPainter {
   final Color? color;
