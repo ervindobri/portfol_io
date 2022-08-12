@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     final double mobilePadding = 16;
     return Scaffold(
       backgroundColor: GlobalColors.primaryColor,
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: Stack(
           children: [
@@ -85,9 +86,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               offset: Offset(0, 2),
                               durationMilliseconds: 300,
                               child: TextButton(
-                                
                                 style: GlobalStyles.iconButtonStyle(),
-                                
                                 onPressed: () =>
                                     uiMenuManager.updateMenuCommand.execute(0),
                                 child: Container(

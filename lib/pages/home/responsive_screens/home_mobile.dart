@@ -75,47 +75,55 @@ class _HomeMobileState extends State<HomeMobile> {
                     padding: EdgeInsets.fromLTRB(mobilePadding, topPadding,
                         mobilePadding, mobilePadding),
                     child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          SizedBox(
-                            width: width * .6,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        SizedBox(
+                          width: width * .6,
+                          child: Text(
+                            Globals.title,
+                            maxLines: 2,
+                            textAlign: TextAlign.right,
+                            style: context.headline6?.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                        Text(
+                          Globals.subtitle,
+                          textAlign: TextAlign.right,
+                          style: context.bodyText2
+                              ?.copyWith(color: GlobalColors.lightGrey),
+                        ),
+                        SizedBox(height: height / 2 / 10),
+                        TextButton(
+                          onPressed: () => showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Dismissible(
+                                key: Key('key'),
+                                direction: DismissDirection.vertical,
+                                onDismissed: (dir) => Navigator.pop(context),
+                                child: Dialog(
+                                  elevation: 0,
+                                  insetPadding: EdgeInsets.all(16),
+                                  child: ContactMeDialog.mobile(),
+                                ),
+                              );
+                            },
+                          ),
+                          child: Container(
+                            color: Colors.white,
+                            padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
                             child: Text(
-                              Globals.title,
-                              maxLines: 2,
-                              textAlign: TextAlign.right,
-                              style: context.headline6?.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700),
+                              Globals.letsWorkTogether,
+                              style: context.bodyText1?.copyWith(
+                                  color: GlobalColors.primaryColor,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
-                          Text(
-                            Globals.subtitle,
-                            textAlign: TextAlign.right,
-                            style: context.bodyText2
-                                ?.copyWith(color: GlobalColors.lightGrey),
-                          ),
-                          SizedBox(height: height / 2 / 10),
-                          TextButton(
-                              onPressed: () => showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return Dialog(
-                                        elevation: 24,
-                                        child: ContactMeDialog(),
-                                      );
-                                    },
-                                  ),
-                              child: Container(
-                                  color: Colors.white,
-                                  padding:
-                                      const EdgeInsets.fromLTRB(24, 12, 24, 12),
-                                  child: Text(
-                                    Globals.letsWorkTogether,
-                                    style: context.bodyText1?.copyWith(
-                                        color: GlobalColors.primaryColor,
-                                        fontWeight: FontWeight.bold),
-                                  ))),
-                        ]),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 FadingSlideWidget(

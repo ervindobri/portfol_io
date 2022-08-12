@@ -217,69 +217,73 @@ class _HomeDesktopState extends State<HomeDesktop> {
                     height: height,
                     padding: const EdgeInsets.fromLTRB(48, 128 + 60, 48, 48),
                     child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          FadingSlideWidget(
-                            offset: Offset(0, 0.5),
-                            child: SizedBox(
-                              width: width / 3,
-                              child: Text(
-                                Globals.title,
-                                maxLines: 2,
-                                textAlign: TextAlign.right,
-                                style: context.headline1!
-                                    .copyWith(color: Colors.white),
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        FadingSlideWidget(
+                          offset: Offset(0, 0.5),
+                          child: SizedBox(
+                            width: width / 3,
+                            child: Text(
+                              Globals.title,
+                              maxLines: 2,
+                              textAlign: TextAlign.right,
+                              style: context.headline1!
+                                  .copyWith(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        FadingSlideWidget(
+                          offset: Offset(0, 0.5),
+                          child: SizedBox(
+                            height: 32,
+                            child: DefaultTextStyle(
+                              style: context.headline6!
+                                  .copyWith(color: GlobalColors.lightGrey),
+                              child: atkit.AnimatedTextKit(
+                                repeatForever: true,
+                                pause: Duration.zero,
+                                animatedTexts: [
+                                  atkit.FadeAnimatedText(Globals.subtitle,
+                                      duration: const Duration(seconds: 15)),
+                                  atkit.FadeAnimatedText(Globals.inspiration,
+                                      duration: const Duration(seconds: 15)),
+                                ],
                               ),
                             ),
                           ),
-                          FadingSlideWidget(
-                            offset: Offset(0, 0.5),
-                            child: SizedBox(
-                              height: 32,
-                              child: DefaultTextStyle(
-                                style: context.headline6!
-                                    .copyWith(color: GlobalColors.lightGrey),
-                                child: atkit.AnimatedTextKit(
-                                  repeatForever: true,
-                                  pause: Duration.zero,
-                                  animatedTexts: [
-                                    atkit.FadeAnimatedText(Globals.subtitle,
-                                        duration: const Duration(seconds: 15)),
-                                    atkit.FadeAnimatedText(Globals.inspiration,
-                                        duration: const Duration(seconds: 15)),
-                                  ],
+                          // child: Text(
+                          //   Globals.subtitle,
+                          //   textAlign: TextAlign.right,
+                          // ),
+                        ),
+                        SizedBox(height: 96),
+                        FadingSlideWidget(
+                          offset: Offset(0, 0.5),
+                          child: TextButton(
+                            onPressed: () => showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Dialog(
+                                  elevation: 24,
+                                  child: ContactMeDialog.desktop(),
+                                );
+                              },
+                            ),
+                            child: Container(
+                              color: Colors.white,
+                              padding:
+                                  const EdgeInsets.fromLTRB(24, 12, 24, 12),
+                              child: Text(
+                                Globals.letsWorkTogether,
+                                style: context.headline6!.copyWith(
+                                  color: GlobalColors.primaryColor,
                                 ),
                               ),
                             ),
-                            // child: Text(
-                            //   Globals.subtitle,
-                            //   textAlign: TextAlign.right,
-                            // ),
                           ),
-                          SizedBox(height: 96),
-                          FadingSlideWidget(
-                            offset: Offset(0, 0.5),
-                            child: TextButton(
-                                onPressed: () => showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return Dialog(
-                                          elevation: 24,
-                                          child: ContactMeDialog(),
-                                        );
-                                      },
-                                    ),
-                                child: Container(
-                                    color: Colors.white,
-                                    padding: const EdgeInsets.fromLTRB(
-                                        24, 12, 24, 12),
-                                    child: Text(
-                                      Globals.letsWorkTogether,
-                                      style: context.headline6!.copyWith(
-                                          color: GlobalColors.primaryColor),
-                                    ))),
-                          ),
-                        ]),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

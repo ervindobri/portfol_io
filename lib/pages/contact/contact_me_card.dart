@@ -110,7 +110,8 @@ class ContactMeCard extends StatelessWidget {
       builder: (context) {
         return Dialog(
           elevation: 24,
-          child: ContactMeDialog(),
+          insetPadding: EdgeInsets.zero,
+          child: ContactMeDialog.desktop(),
         );
       },
     );
@@ -216,9 +217,15 @@ class MobileContactMeCard extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) {
-        return Dialog(
-          elevation: 24,
-          child: ContactMeDialog(),
+        return Dismissible(
+          key: Key('key'),
+          direction: DismissDirection.vertical,
+          onDismissed: (dir) => Navigator.pop(context),
+          child: Dialog(
+            elevation: 0,
+            insetPadding: EdgeInsets.all(16),
+            child: ContactMeDialog.mobile(),
+          ),
         );
       },
     );

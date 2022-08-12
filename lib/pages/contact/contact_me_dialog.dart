@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:mailto/mailto.dart';
@@ -5,98 +6,150 @@ import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class ContactMeDialog extends StatefulWidget {
-  const ContactMeDialog({
-    Key? key,
-  }) : super(key: key);
+enum PlatformType { desktop, tablet, mobile }
 
+class ContactMeDialog extends StatefulWidget {
+  const ContactMeDialog._({Key? key, required this.platformType})
+      : super(key: key);
+
+  factory ContactMeDialog.mobile({platformType = PlatformType.mobile}) =>
+      ContactMeDialog._(platformType: platformType);
+
+  factory ContactMeDialog.desktop({platformType = PlatformType.desktop}) =>
+      ContactMeDialog._(platformType: platformType);
+
+  final PlatformType platformType;
   @override
   State<ContactMeDialog> createState() => _ContactMeDialogState();
 }
 
 class _ContactMeDialogState extends State<ContactMeDialog> {
   final _formKey = GlobalKey<FormBuilderState>();
+  late final FocusNode emailFocusNode;
+  @override
+  void initState() {
+    emailFocusNode = FocusNode();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final isDesktop = width > 1000;
-    final dialogWidth = width > 1000 ? width * .5 : width * .9;
-    final dialogHeight = height > 1000 ? height * .65 : height * .8;
-    final double padding = isDesktop ? 48 : 24;
+    final isDesktop = widget.platformType == PlatformType.desktop;
+    final dialogWidth = isDesktop ? width * .5 : width;
+    final dialogHeight = isDesktop ? height * .65 : height;
+    final double padding = isDesktop ? 48 : 16;
+    WidgetsBinding.instance?.addPostFrameCallback((ads) {
+      emailFocusNode.requestFocus();
+    });
     return Container(
       width: dialogWidth,
       height: dialogHeight,
       color: GlobalColors.primaryColor,
       padding: EdgeInsets.all(padding),
-      child: FormBuilder(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            //email
-            _buildFormRow(
-              "Email",
-              field: FormBuilderTextField(
-                name: 'email',
-                autofocus: true,
-                decoration: GlobalStyles.inputDecoration(),
-                keyboardType: TextInputType.emailAddress,
-              ),
-            ),
-            //title
-            _buildFormRow(
-              "Subject",
-              field: FormBuilderTextField(
-                name: 'subject',
-                autofocus: true,
-                decoration: GlobalStyles.inputDecoration(),
-              ),
-            ),
-            //message
-            _buildFormRow(
-              "Message",
-              field: FormBuilderTextField(
-                name: 'body',
-                autofocus: true,
-                decoration: GlobalStyles.inputDecoration(),
-                keyboardType: TextInputType.multiline,
-                maxLines: 10,
-              ),
-            ),
-            Spacer(),
-            //button
-            TextButton(
-              onPressed: () {
-                sendEmail(context);
-                Navigator.pop(context);
-              },
-              style: GlobalStyles.whiteTextButtonStyle(),
-              child: Container(
-                color: GlobalColors.green,
-                padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
-                child: Text("Send",
+      child: DefaultTextStyle(
+        style: context.bodyText1 ?? TextStyle(),
+        child: SingleChildScrollView(
+          child: FormBuilder(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Positioned(
+                  top: 16,
+                  right: 16,
+                  child: IconButton(
+                    iconSize: 48,
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    onPressed: () => Navigator.pop(context),
+                    icon: Container(
+                      height: 64,
+                      width: 64,
+                      color: GlobalColors.primaryColor,
+                      child: Center(
+                        child: Icon(CupertinoIcons.xmark,
+                            size: 24, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+                //email
+                _buildFormRow(
+                  "Email",
+                  field: FormBuilderTextField(
+                    name: 'email',
+                    autofocus: true,
+                    focusNode: emailFocusNode,
                     style: context.bodyText1?.copyWith(
-                      color: Colors.white,
-                    )),
-              ),
-            )
-          ],
+                      fontWeight: FontWeight.w100,
+                    ),
+                    decoration: GlobalStyles.inputDecoration(),
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                ),
+                //title
+                _buildFormRow(
+                  "Subject",
+                  field: FormBuilderTextField(
+                    name: 'subject',
+                    autofocus: true,
+                    style: context.bodyText1?.copyWith(
+                      fontWeight: FontWeight.w100,
+                    ),
+                    decoration: GlobalStyles.inputDecoration(),
+                  ),
+                ),
+                //message
+                _buildFormRow(
+                  "Message",
+                  field: FormBuilderTextField(
+                    name: 'body',
+                    autofocus: true,
+                    style: context.bodyText1?.copyWith(
+                      fontWeight: FontWeight.w100,
+                    ),
+                    decoration: GlobalStyles.inputDecoration(),
+                    keyboardType: TextInputType.multiline,
+                    maxLines:
+                        widget.platformType == PlatformType.mobile ? 3 : 10,
+                  ),
+                ),
+                SizedBox(),
+                //button
+                TextButton(
+                  onPressed: () {
+                    sendEmail(context);
+                    Navigator.pop(context);
+                  },
+                  style: GlobalStyles.whiteTextButtonStyle(),
+                  child: Container(
+                    color: GlobalColors.white,
+                    padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
+                    child: Text("Send",
+                        style: context.bodyText1?.copyWith(
+                          color: GlobalColors.primaryColor,
+                        )),
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildFormRow(String s, {required Widget field}) {
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
+  Widget _buildFormRow(String label, {required Widget field}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          s,
+          label,
           style: TextStyle(color: Colors.white),
         ),
+        SizedBox(height: 8),
         field,
         SizedBox(height: 16),
       ],
