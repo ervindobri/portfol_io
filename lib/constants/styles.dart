@@ -15,11 +15,13 @@ class GlobalStyles {
       );
 
   static iconButtonStyle() => ButtonStyle(
-      overlayColor: MaterialStateProperty.all(GlobalColors.lightGrey),
-      padding: MaterialStateProperty.all(EdgeInsets.zero),
-      // side: MaterialStateProperty.all(BorderSide()),
-      shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(borderRadius: BorderRadius.zero)));
+        overlayColor: MaterialStateProperty.all(GlobalColors.lightGrey),
+        padding: MaterialStateProperty.all(EdgeInsets.zero),
+        // side: MaterialStateProperty.all(BorderSide()),
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+        ),
+      );
 
   static InputDecoration inputDecoration() => InputDecoration(
         enabledBorder: OutlineInputBorder(

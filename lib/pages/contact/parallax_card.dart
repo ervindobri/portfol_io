@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mouse_parallax/mouse_parallax.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
@@ -173,8 +175,8 @@ class MobileParallaxCard extends StatelessWidget {
     final containerHeight = height * .55;
     return Container(
       height: containerHeight,
-      margin: const EdgeInsets.symmetric(horizontal: 24),
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
         color: GlobalColors.primaryColor,
         boxShadow: [
@@ -215,7 +217,6 @@ class MobileParallaxCard extends StatelessWidget {
                           .execute("assets/files/CV.pdf");
                     },
                     style: GlobalStyles.whiteTextButtonStyle(
-                      backgroundColor: Colors.white,
                       padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
                     ),
                     icon: Icon(
@@ -225,10 +226,19 @@ class MobileParallaxCard extends StatelessWidget {
                     label: Text('Download Resume',
                         style: context.bodyText1?.copyWith(
                           color: GlobalColors.primaryColor,
+                          fontWeight: FontWeight.w500,
                         )),
                   ),
-                  Text(
-                    "ervindobri@gmail.com",
+                  InkWell(
+                    onTap: () async {
+                      await Clipboard.setData(
+                          ClipboardData(text: "ervindobri@gmail.com"));
+
+                      toast('Copied to clipboard!');
+                    },
+                    child: Text(
+                      "ervindobri@gmail.com",
+                    ),
                   ),
                   Text(
                     "+40 754 365 846",

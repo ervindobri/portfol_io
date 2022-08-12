@@ -124,10 +124,9 @@ class MobileContactMeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final containerHeight = height * .3;
-    return SizedBox(
-      height: containerHeight,
-      width: width * .8,
+    return Container(
+      width: width,
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -170,6 +169,7 @@ class MobileContactMeCard extends StatelessWidget {
                       Globals.bigWhiteButton,
                       style: context.bodyText1!.copyWith(
                         color: GlobalColors.primaryColor,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
@@ -195,11 +195,11 @@ class MobileContactMeCard extends StatelessWidget {
                         }
                       },
                       child: Container(
-                        width: 32,
-                        height: 32,
+                        width: 48,
+                        height: 48,
                         color: GlobalColors.primaryColor,
                         child: Center(
-                          child: FaIcon(e.icon, size: 16),
+                          child: FaIcon(e.icon, size: 24),
                         ),
                       ),
                     ),

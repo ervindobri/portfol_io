@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:portfol_io/constants/theme.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
@@ -11,7 +12,7 @@ Future<void> main() async {
 
   await init();
   sl<UiShowcaseManager>().itemsCommand.execute();
-  
+
   runApp(MyApp());
 }
 
@@ -21,12 +22,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Ervin Dobri',
-      theme: PortfolioTheme.theme,
-      home: HomePage(),
-      debugShowCheckedModeBanner: false,
-      initialRoute: "/",
+    return OverlaySupport.global(
+      child: MaterialApp(
+        title: 'Ervin Dobri',
+        theme: PortfolioTheme.theme,
+        home: HomePage(),
+        debugShowCheckedModeBanner: false,
+        initialRoute: "/",
+      ),
     );
   }
 }

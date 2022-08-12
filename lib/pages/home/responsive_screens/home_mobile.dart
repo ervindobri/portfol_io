@@ -30,7 +30,7 @@ class _HomeMobileState extends State<HomeMobile> {
     final width = MediaQuery.of(context).size.width;
     final imageSize = width * .45;
     final topPadding = 48 + height / 20;
-    final double mobilePadding = width / 20.clamp(12, 24);
+    final double mobilePadding = 16;
     final mobileAnimationDurationMs = 300;
     return Container(
         height: height,
@@ -124,7 +124,7 @@ class _HomeMobileState extends State<HomeMobile> {
                   child: Container(
                       width: width,
                       height: height / 2,
-                      color: GlobalColors.lightGrey,
+                      color: GlobalColors.darkGrey,
                       alignment: Alignment.center,
                       padding: EdgeInsets.all(mobilePadding),
                       child: Column(
@@ -141,9 +141,13 @@ class _HomeMobileState extends State<HomeMobile> {
                             child: ListView.builder(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
-                              itemCount: Globals.skills.length,
+                              itemCount: Globals.skills.take(5).length,
                               itemBuilder: (BuildContext context, int index) {
                                 final skill = Globals.skills[index];
+                                var list = [...Globals.skills];
+                                list.remove(skill);
+                                list.shuffle();
+                                final speed = const Duration(milliseconds: 200);
                                 return AnimationConfiguration.staggeredList(
                                   position: index,
                                   delay: Duration(
@@ -153,18 +157,33 @@ class _HomeMobileState extends State<HomeMobile> {
                                   child: SlideAnimation(
                                     horizontalOffset: -width / 2,
                                     child: FadeInAnimation(
-                                      child: Text(
-                                        skill.toUpperCase(),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.fade,
-                                        style: context.headline1?.copyWith(
-                                          // color: Colors.transparent,
-                                          fontSize: (height / 20).clamp(20, 48),
-
+                                      child: DefaultTextStyle(
+                                        style: context.headline1!.copyWith(
+                                          fontSize: (width / 17).clamp(24, 48),
                                           foreground: Paint()
                                             ..style = PaintingStyle.stroke
-                                            ..strokeWidth = 1
-                                            ..color = GlobalColors.white,
+                                            ..strokeWidth = 2
+                                            ..color = GlobalColors.green
+                                                .withOpacity(.9),
+                                        ),
+                                        child: atkit.AnimatedTextKit(
+                                          repeatForever: true,
+                                          pause: Duration(seconds: 3),
+                                          animatedTexts: [
+                                            atkit.TyperAnimatedText(
+                                              skill.toUpperCase(),
+                                              speed: speed,
+                                            ),
+                                            ...list
+                                                .map(
+                                                  (e) =>
+                                                      atkit.TyperAnimatedText(
+                                                    e.toUpperCase(),
+                                                    speed: speed,
+                                                  ),
+                                                )
+                                                .toList(),
+                                          ],
                                         ),
                                       ),
                                     ),
@@ -242,10 +261,10 @@ class _TechStackWidgetState extends State<MobileTechStackWidget> {
         });
       },
       child: Container(
-        width: width * .9,
+        width: width,
         child: Column(
           children: [
-            if (height > 700)
+            if (height > 700) ...[
               SizedBox(
                 height: 24,
                 child: atkit.AnimatedTextKit(
@@ -270,7 +289,8 @@ class _TechStackWidgetState extends State<MobileTechStackWidget> {
                   ],
                 ),
               ),
-            SizedBox(width: 24),
+              SizedBox(width: 24),
+            ],
             SizedBox(
               height: 48,
               child: ListView.builder(
@@ -290,7 +310,7 @@ class _TechStackWidgetState extends State<MobileTechStackWidget> {
                         width: iconSize,
                         height: iconSize,
                         decoration: BoxDecoration(
-                          color: GlobalColors.primaryColor.withOpacity(.4),
+                          color: GlobalColors.lightGrey.withOpacity(.6),
                           shape: BoxShape.circle,
                         ),
                         padding: const EdgeInsets.all(12),

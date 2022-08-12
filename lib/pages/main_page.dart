@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     // final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final double mobilePadding = 24;
+    final double mobilePadding = 16;
     return Scaffold(
       backgroundColor: GlobalColors.primaryColor,
       body: SafeArea(
@@ -85,7 +85,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               offset: Offset(0, 2),
                               durationMilliseconds: 300,
                               child: TextButton(
+                                
                                 style: GlobalStyles.iconButtonStyle(),
+                                
                                 onPressed: () =>
                                     uiMenuManager.updateMenuCommand.execute(0),
                                 child: Container(

@@ -68,8 +68,7 @@ class ImageCarousel extends StatelessWidget {
                                     barrierColor: GlobalColors.primaryColor
                                         .withOpacity(.8),
                                     builder: (context) {
-                                      return FullscreenImageDialog(
-                                          item: item);
+                                      return FullscreenImageDialog(item: item);
                                     },
                                   );
                                 },
@@ -215,14 +214,27 @@ class MobileImageCarousel extends StatelessWidget {
                       final image = item.imageAssets[index];
                       return Opacity(
                         opacity: value2,
-                        child: Container(
-                          width: width,
-                          height: height,
-                          child: Image(
-                            // color: Colors.black,
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                                "assets/images/work/${item.imagesPath}/$image.png"),
+                        child: InkWell(
+                          onTap: () {
+                            //TODO: open interactive image viewer for current image
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return MobileFullscreenImageDialog(item: item, image: image);
+                                });
+                          },
+                          child: Container(
+                            width: width,
+                            height: height,
+                            child: Hero(
+                              tag: image,
+                              child: Image(
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                  "assets/images/work/${item.imagesPath}/$image.png",
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       );
@@ -231,7 +243,7 @@ class MobileImageCarousel extends StatelessWidget {
                 },
               ),
               Positioned(
-                bottom: 12,
+                bottom: 4,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: item.imageAssets.map((entry) {
@@ -241,8 +253,8 @@ class MobileImageCarousel extends StatelessWidget {
                         uiShowcaseManager.setImageCommand.execute(index);
                       },
                       child: Container(
-                        width: 12.0,
-                        height: 12.0,
+                        width: 6.0,
+                        height: 6.0,
                         margin: EdgeInsets.symmetric(
                             vertical: 8.0, horizontal: 4.0),
                         decoration: BoxDecoration(
@@ -264,3 +276,5 @@ class MobileImageCarousel extends StatelessWidget {
     );
   }
 }
+
+

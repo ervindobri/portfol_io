@@ -20,19 +20,14 @@ class _ContactDesktopState extends State<ContactMobile> {
     final width = MediaQuery.of(context).size.width;
     return ClipRRect(
       child: Container(
-        height: height + 32 + 32,
+        height: height + height / 3,
         width: width,
         color: Color(0xff292929),
-        child: Wrap(
-          spacing: 24,
-          runSpacing: 24,
-          direction: Axis.vertical,
-          alignment: WrapAlignment.center,
-          runAlignment: WrapAlignment.center,
-          crossAxisAlignment: WrapCrossAlignment.center,
+        child: Column(
           children: [
-            SizedBox(height: 36),
+            SizedBox(height: 48 + 48 + 24),
             MobileParallaxCard(),
+            SizedBox(height: 24),
             MobileContactMeCard(),
           ],
         ),

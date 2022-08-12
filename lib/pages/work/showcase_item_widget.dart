@@ -150,7 +150,6 @@ class MobileAnimatedShowcaseItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
     return CarouselSlider.builder(
       itemCount: uiShowcaseManager.showcaseItems.length,
       options: CarouselOptions(
@@ -160,88 +159,123 @@ class MobileAnimatedShowcaseItemWidget extends StatelessWidget {
       ),
       itemBuilder: (context, index, __) {
         final item = uiShowcaseManager.showcaseItems[index];
+        return MobileAnimatedShowcaseItemView(item: item);
+      },
+    );
+  }
+}
+
+class MobileAnimatedShowcaseItemView extends StatelessWidget {
+  final ShowcaseItem item;
+  const MobileAnimatedShowcaseItemView({Key? key, required this.item}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    return TweenAnimationBuilder(
+      key: Key(item.projectName),
+      tween: Tween<double>(begin: 0.0, end: 1.0),
+      duration: const Duration(milliseconds: 300),
+      builder: (context, double value, _) {
         return TweenAnimationBuilder(
           key: Key(item.projectName),
-          tween: Tween<double>(begin: 0.0, end: 1.0),
+          tween: Tween<double>(begin: 25.0, end: 0.0),
           duration: const Duration(milliseconds: 300),
-          builder: (context, double value, _) {
-            return TweenAnimationBuilder(
-              key: Key(item.projectName),
-              tween: Tween<double>(begin: 25.0, end: 0.0),
-              duration: const Duration(milliseconds: 300),
-              builder: (context, double value2, _) {
-                return Transform.translate(
-                  offset: Offset(0, value2),
-                  child: Opacity(
-                    opacity: value,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        MobileImageCarousel(item: item),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Column(
-                                children: [
-                                  Text(
-                                    item.projectName,
-                                    textAlign: TextAlign.right,
-                                    style: context.headline5!.copyWith(
-                                      color: Colors.white,
-                                      fontSize: 32,
-                                    ),
+          builder: (context, double value2, _) {
+            return Transform.translate(
+              offset: Offset(0, value2),
+              child: Opacity(
+                opacity: value,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      MobileImageCarousel(item: item),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item.projectName,
+                                  textAlign: TextAlign.left,
+                                  style: context.headline5!.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w500,
                                   ),
-                                  Text(
-                                    item.duration,
-                                    textAlign: TextAlign.right,
-                                    style: context.headline6!.copyWith(
+                                ),
+                                Text(
+                                  item.duration,
+                                  textAlign: TextAlign.left,
+                                  style: context.headline6!.copyWith(
+                                    fontWeight: FontWeight.w100,
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 12),
+                            SizedBox(
+                              width: width,
+                              child: Text(
+                                item.description,
+                                maxLines: 5,
+                                textAlign: TextAlign.left,
+                                style: context.bodyText1!
+                                    .copyWith(color: Colors.white),
+                              ),
+                            ),
+                            Spacer(),
+                            Wrap(
+                              spacing: 8,
+                              children: item.tags
+                                  .map(
+                                    (e) => Text(
+                                      "#${e.toLowerCase()}",
+                                      style: context.bodyText2?.copyWith(
                                         fontWeight: FontWeight.w100,
-                                        fontSize: 20,
-                                        color: Colors.white),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 12),
-                              SizedBox(
-                                width: width,
-                                child: Text(
-                                  item.description,
-                                  maxLines: 5,
-                                  textAlign: TextAlign.right,
-                                  style: context.bodyText1!
-                                      .copyWith(color: Colors.white),
-                                ),
-                              ),
-                              Spacer(),
-                              TextButton(
-                                onPressed: () async {
-                                  await launchUrl(Uri.parse(item.url));
-                                },
-                                child: Container(
-                                  width: width,
-                                  color: Colors.white,
-                                  padding:
-                                      const EdgeInsets.fromLTRB(24, 12, 24, 12),
-                                  child: Center(
-                                    child: Text(
-                                      Globals.checkItOut,
-                                      style: context.bodyText1!.copyWith(
-                                          color: GlobalColors.primaryColor,
-                                          fontWeight: FontWeight.w700),
+                                        fontSize: 12,
+                                      ),
                                     ),
+                                  )
+                                  .toList(),
+                            ),
+                            SizedBox(height: 4),
+                            TextButton(
+                              onPressed: () async {
+                                await launchUrl(Uri.parse(item.url));
+                              },
+                              style: GlobalStyles.whiteTextButtonStyle(),
+                              child: Container(
+                                width: width,
+                                color: Colors.white,
+                                padding:
+                                    const EdgeInsets.fromLTRB(24, 12, 24, 12),
+                                child: Center(
+                                  child: Text(
+                                    Globals.checkItOut,
+                                    style: context.bodyText1!.copyWith(
+                                        color: GlobalColors.primaryColor,
+                                        fontSize: 24,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.w700),
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                );
-              },
+                ),
+              ),
             );
           },
         );

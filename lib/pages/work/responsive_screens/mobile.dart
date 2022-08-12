@@ -25,7 +25,7 @@ class _WorkMobileState extends State<WorkMobile> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final imageSize = width / 3;
+    final imageSize = width;
     return ClipRRect(
       child: ValueListenableBuilder<View>(
           valueListenable: uiShowcaseManager.showcaseView,
@@ -76,17 +76,19 @@ class _WorkMobileState extends State<WorkMobile> {
                             width: width,
                             // height: height,
                             child: Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                  24, 24 + 42, 24, 24),
+                              padding:
+                                  const EdgeInsets.fromLTRB(0, 24 + 32, 0, 24),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      SizedBox(
-                                        child: Text(
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
                                           Globals.showcase,
                                           style: context.bodyText1!.copyWith(
                                             color: Colors.white,
@@ -94,56 +96,59 @@ class _WorkMobileState extends State<WorkMobile> {
                                             fontWeight: FontWeight.w300,
                                           ),
                                         ),
-                                      ),
-                                      ValueListenableBuilder<View>(
-                                          valueListenable:
-                                              uiShowcaseManager.showcaseView,
-                                          builder: (context, view, _) {
-                                            return Wrap(
-                                              children: [
-                                                IconButton(
-                                                    icon: Container(
-                                                      color: view == View.grid
-                                                          ? Colors.white
-                                                          : null,
-                                                      child: Icon(
-                                                        CupertinoIcons
-                                                            .square_grid_2x2,
+                                        ValueListenableBuilder<View>(
+                                            valueListenable:
+                                                uiShowcaseManager.showcaseView,
+                                            builder: (context, view, _) {
+                                              return Wrap(
+                                                children: [
+                                                  IconButton(
+                                                      icon: Container(
                                                         color: view == View.grid
-                                                            ? GlobalColors
-                                                                .primaryColor
-                                                            : Colors.white,
+                                                            ? Colors.white
+                                                            : null,
+                                                        child: Icon(
+                                                          CupertinoIcons
+                                                              .square_grid_2x2,
+                                                          color: view ==
+                                                                  View.grid
+                                                              ? GlobalColors
+                                                                  .primaryColor
+                                                              : Colors.white,
+                                                        ),
                                                       ),
-                                                    ),
-                                                    onPressed: () {
-                                                      uiShowcaseManager
-                                                          .showcaseView
-                                                          .value = View.grid;
-                                                    }),
-                                                IconButton(
-                                                    icon: Container(
-                                                      color: view == View.single
-                                                          ? Colors.white
-                                                          : null,
-                                                      child: Icon(
-                                                        CupertinoIcons
-                                                            .list_bullet_below_rectangle,
-                                                        color: view ==
-                                                                View.single
-                                                            ? GlobalColors
-                                                                .primaryColor
-                                                            : Colors.white,
+                                                      onPressed: () {
+                                                        uiShowcaseManager
+                                                            .showcaseView
+                                                            .value = View.grid;
+                                                      }),
+                                                  IconButton(
+                                                      icon: Container(
+                                                        color:
+                                                            view == View.single
+                                                                ? Colors.white
+                                                                : null,
+                                                        child: Icon(
+                                                          CupertinoIcons
+                                                              .list_bullet_below_rectangle,
+                                                          color: view ==
+                                                                  View.single
+                                                              ? GlobalColors
+                                                                  .primaryColor
+                                                              : Colors.white,
+                                                        ),
                                                       ),
-                                                    ),
-                                                    onPressed: () {
-                                                      uiShowcaseManager
-                                                          .showcaseView
-                                                          .value = View.single;
-                                                    }),
-                                              ],
-                                            );
-                                          }),
-                                    ],
+                                                      onPressed: () {
+                                                        uiShowcaseManager
+                                                                .showcaseView
+                                                                .value =
+                                                            View.single;
+                                                      }),
+                                                ],
+                                              );
+                                            }),
+                                      ],
+                                    ),
                                   ),
                                   SizedBox(height: 16),
                                   ValueListenableBuilder<View>(
@@ -153,7 +158,7 @@ class _WorkMobileState extends State<WorkMobile> {
                                         switch (view) {
                                           case View.grid:
                                             return Expanded(
-                                              child: ShowcaseGridView(),
+                                              child: MobileShowcaseGridView(),
                                             );
                                           case View.detail:
                                             return SizedBox();
