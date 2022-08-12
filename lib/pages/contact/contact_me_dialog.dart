@@ -56,22 +56,18 @@ class _ContactMeDialogState extends State<ContactMeDialog> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Positioned(
-                  top: 16,
-                  right: 16,
-                  child: IconButton(
-                    iconSize: 48,
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onPressed: () => Navigator.pop(context),
-                    icon: Container(
-                      height: 64,
-                      width: 64,
-                      color: GlobalColors.primaryColor,
-                      child: Center(
-                        child: Icon(CupertinoIcons.xmark,
-                            size: 24, color: Colors.white),
-                      ),
+                IconButton(
+                  iconSize: 48,
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  onPressed: () => Navigator.pop(context),
+                  icon: Container(
+                    height: 64,
+                    width: 64,
+                    color: GlobalColors.primaryColor,
+                    child: Center(
+                      child: Icon(CupertinoIcons.xmark,
+                          size: 24, color: Colors.white),
                     ),
                   ),
                 ),
