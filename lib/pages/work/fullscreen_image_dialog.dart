@@ -26,10 +26,12 @@ class FullscreenImageDialog extends StatelessWidget {
                 builder: (context, value, _) {
                   return AspectRatio(
                     aspectRatio: 1600 / 1200,
-                    child: Image(
-                      fit: BoxFit.fill,
-                      image: AssetImage(
-                          "assets/images/work/${item.imagesPath}/${item.imageAssets[value]}.png"),
+                    child: InteractiveViewer(
+                      child: Image(
+                        fit: BoxFit.fill,
+                        image: AssetImage(
+                            "assets/images/work/${item.imagesPath}/${item.imageAssets[value]}.png"),
+                      ),
                     ),
                   );
                 }),
