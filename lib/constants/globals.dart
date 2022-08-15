@@ -14,7 +14,7 @@ class Globals {
   static String subtitle = "Since '98";
 
   static const String facebookPage =
-      "https://www.facebook.com/izeneeszerusztokhej/";
+      "https://www.facebook.com/ervindobri/";
 
   static List<SocialMediaItem> socialMediaBubbles = [
     SocialMediaItem(
@@ -58,11 +58,11 @@ class Globals {
 
   static const techStack = <TechItem>[
     TechItem(
-        name: "Flutter", asset: "flutter", link: "https://dev.flutter.com/"),
-    TechItem(name: "Python", asset: "python", link: "https://python.com/"),
-    TechItem(name: "C#", asset: "csharp", link: "https://dev.flutter.com/"),
-    TechItem(name: "Figma", asset: "figma", link: "https://dev.flutter.com/"),
-    TechItem(name: "Azure DevOps", asset: "devops", link: "https://azure.com/"),
+        name: "Flutter", asset: "flutter", link: "https://www.flutter.dev/"),
+    TechItem(name: "Python", asset: "python", link: "https://www.python.org/"),
+    TechItem(name: "C#", asset: "csharp", link: "https://docs.microsoft.com/en-us/dotnet/csharp/"),
+    TechItem(name: "Figma", asset: "figma", link: "https://wwww.figma.com/"),
+    TechItem(name: "Azure DevOps", asset: "devops", link: "https://azure.microsoft.com/en-us/services/devops/"),
   ];
 
   static String showcase = "Showcase";

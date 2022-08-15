@@ -14,10 +14,19 @@ class _HomeContentState extends State<HomeContent>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    return ScreenTypeLayout(
-        breakpoints: ScreenBreakpoints(tablet: 666, desktop: 1000, watch: 300),
-        mobile: HomeMobile(),
-        tablet: HomeTablet(),
-        desktop: HomeDesktop());
+    return ResponsiveBuilder(
+      builder: (context, sizingInformation) {
+        if (sizingInformation.deviceScreenType == DeviceScreenType.desktop) {
+          return HomeDesktop();
+        }
+        if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
+          return HomeMobile.landscape();
+        }
+        return OrientationLayoutBuilder(
+          portrait: (context) => HomeMobile.portrait(),
+          landscape: (context) => HomeMobile.landscape(),
+        );
+      },
+    );
   }
 }

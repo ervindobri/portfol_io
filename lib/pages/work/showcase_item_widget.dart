@@ -156,6 +156,9 @@ class MobileAnimatedShowcaseItemWidget extends StatelessWidget {
         viewportFraction: 1.0,
         enlargeCenterPage: true,
         aspectRatio: 9 / 16,
+        onPageChanged: (index, reason) {
+          uiShowcaseManager.currentItemCommand.execute(index);
+        },
       ),
       itemBuilder: (context, index, __) {
         final item = uiShowcaseManager.showcaseItems[index];
@@ -167,7 +170,8 @@ class MobileAnimatedShowcaseItemWidget extends StatelessWidget {
 
 class MobileAnimatedShowcaseItemView extends StatelessWidget {
   final ShowcaseItem item;
-  const MobileAnimatedShowcaseItemView({Key? key, required this.item}) : super(key: key);
+  const MobileAnimatedShowcaseItemView({Key? key, required this.item})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:portfol_io/constants/theme_utils.dart';
+import 'package:portfol_io/constants/colors.dart';
 
 class GlobalStyles {
   static ButtonStyle whiteTextButtonStyle(

@@ -4,13 +4,21 @@ import 'package:portfol_io/pages/work/responsive_screens/work.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class WorkContent extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    return ScreenTypeLayout(
-        breakpoints: ScreenBreakpoints(tablet: 666, desktop: 1000, watch: 300),
-        mobile: WorkMobile(),
-        tablet: WorkDesktop(),
-        desktop: WorkDesktop());
+    return ResponsiveBuilder(
+      builder: (context, sizingInformation) {
+        if (sizingInformation.deviceScreenType == DeviceScreenType.desktop) {
+          return WorkDesktop();
+        }
+        if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
+          return WorkDesktop();
+        }
+        return OrientationLayoutBuilder(
+          portrait: (context) => WorkMobile.portrait(),
+          landscape: (context) => WorkMobile.landscape(),
+        );
+      },
+    );
   }
 }

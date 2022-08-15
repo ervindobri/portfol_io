@@ -10,12 +10,18 @@ class ContactContent extends StatelessWidget {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
-        ScreenTypeLayout(
-            breakpoints:
-                ScreenBreakpoints(tablet: 666, desktop: 1000, watch: 300),
-            mobile: ContactMobile(),
-            tablet: ContactTablet(),
-            desktop: ContactDesktop()),
+        ResponsiveBuilder(
+          builder: (context, sizingInformation) {
+            if (sizingInformation.deviceScreenType ==
+                DeviceScreenType.desktop) {
+              return ContactDesktop();
+            }
+            if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
+              return ContactDesktop();
+            }
+            return ContactMobile();
+          },
+        ),
         Positioned(
           bottom: 12,
           child: Row(

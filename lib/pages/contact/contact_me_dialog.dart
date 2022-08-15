@@ -38,7 +38,7 @@ class _ContactMeDialogState extends State<ContactMeDialog> {
     final height = MediaQuery.of(context).size.height;
     final isDesktop = widget.platformType == PlatformType.desktop;
     final dialogWidth = isDesktop ? width * .5 : width;
-    final dialogHeight = isDesktop ? height * .65 : height;
+    final dialogHeight = isDesktop ? height * .75 : height;
     final double padding = isDesktop ? 48 : 16;
     WidgetsBinding.instance?.addPostFrameCallback((ads) {
       emailFocusNode.requestFocus();
@@ -81,6 +81,7 @@ class _ContactMeDialogState extends State<ContactMeDialog> {
                     style: context.bodyText1?.copyWith(
                       fontWeight: FontWeight.w100,
                     ),
+                    textInputAction: TextInputAction.next,
                     decoration: GlobalStyles.inputDecoration(),
                     keyboardType: TextInputType.emailAddress,
                   ),
@@ -94,6 +95,7 @@ class _ContactMeDialogState extends State<ContactMeDialog> {
                     style: context.bodyText1?.copyWith(
                       fontWeight: FontWeight.w100,
                     ),
+                    textInputAction: TextInputAction.next,
                     decoration: GlobalStyles.inputDecoration(),
                   ),
                 ),
@@ -106,6 +108,11 @@ class _ContactMeDialogState extends State<ContactMeDialog> {
                     style: context.bodyText1?.copyWith(
                       fontWeight: FontWeight.w100,
                     ),
+                    textInputAction: TextInputAction.done,
+                    onSubmitted: (val) {
+                      sendEmail(context);
+                      Navigator.pop(context);
+                    },
                     decoration: GlobalStyles.inputDecoration(),
                     keyboardType: TextInputType.multiline,
                     maxLines:

@@ -162,9 +162,9 @@ class MobileContactMeCard extends StatelessWidget {
                 onPressed: () => showContactDialog(context),
                 style: GlobalStyles.whiteTextButtonStyle(),
                 child: Container(
-                  width: width,
+                  width: width / 2,
                   color: Colors.white,
-                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
                   child: Center(
                     child: Text(
                       Globals.bigWhiteButton,
@@ -178,7 +178,7 @@ class MobileContactMeCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 12),
+          SizedBox(height: 24),
           Wrap(
             spacing: 16,
             children: Globals.socialMediaBubbles

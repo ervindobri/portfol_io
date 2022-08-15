@@ -4,6 +4,7 @@ import 'package:portfol_io/constants/theme.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/pages/main_page.dart';
+import 'package:flutter/gestures.dart';
 
 Future<void> main() async {
   Paint.enableDithering = true;
@@ -16,6 +17,15 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
+class MyCustomScrollBehavior extends MaterialScrollBehavior {
+  // Override behavior methods and getters like dragDevices
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      };
+}
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   // var homeController = Get.put(HomeController())!;
@@ -26,6 +36,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Ervin Dobri',
         theme: PortfolioTheme.theme,
+        scrollBehavior: MyCustomScrollBehavior(),
         home: HomePage(),
         debugShowCheckedModeBanner: false,
         initialRoute: "/",

@@ -1,3 +1,3 @@
 export 'globals.dart';
 export 'styles.dart';
-export 'theme_utils.dart';
+export 'colors.dart';

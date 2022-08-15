@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfol_io/constants/globals.dart';
-import 'package:portfol_io/constants/theme_utils.dart';
+import 'package:portfol_io/constants/colors.dart';
 
 typedef ScrollCallback = void Function(int);
 

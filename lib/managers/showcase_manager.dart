@@ -138,19 +138,19 @@ class UiShowcaseManager {
     });
 
     nextImageItemCommand = Command.createSyncNoParamNoResult(() {
-      final maxLength = currentItemCommand.value!.imageAssets.length;
-      if (maxLength > currentImageIndex.value + 1) {
+      final maxIndex = currentItemCommand.value!.imageAssets.length - 1;
+      if (maxIndex >= currentImageIndex.value + 1) {
         currentImageIndex.value++;
       } else {
         currentImageIndex.value = 0;
       }
     });
     previousImageItemCommand = Command.createSyncNoParamNoResult(() {
-      final maxLength = currentItemCommand.value!.imageAssets.length;
-      if (currentImageIndex.value - 1 > -1) {
+      final maxIndex = currentItemCommand.value!.imageAssets.length - 1;
+      if (currentImageIndex.value > 0) {
         currentImageIndex.value--;
       } else {
-        currentImageIndex.value = maxLength - 1;
+        currentImageIndex.value = maxIndex;
       }
     });
 
@@ -209,7 +209,9 @@ class UiShowcaseManager {
       final container = json.decode(source) as Iterable;
 
       showcaseItems = container.map((e) => ShowcaseItem.fromMap(e)).toList();
-      return showcaseItems.take(maxItemNumber.value).toList();
+      return showcaseItems
+          // .take(maxItemNumber.value)
+          .toList();
     } catch (e) {
       print(e);
       return [];

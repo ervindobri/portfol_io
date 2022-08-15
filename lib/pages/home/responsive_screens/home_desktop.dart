@@ -8,7 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/globals.dart';
 import 'package:portfol_io/constants/styles.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
-import 'package:portfol_io/constants/theme_utils.dart';
+import 'package:portfol_io/constants/colors.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/pages/contact/contact_me_dialog.dart';
 import 'package:portfol_io/widgets/fade_in_slide.dart';
@@ -31,308 +31,308 @@ class _HomeDesktopState extends State<HomeDesktop> {
     final imageSize = 348.0;
     return ClipRRect(
       child: Container(
-          height: height,
-          width: width,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              //BG Blobs
-              //TODO: blobs from memory
-              Positioned(
-                left: 0,
-                top: 24,
-                child: Container(
-                  height: imageSize / 2,
-                  width: imageSize / 2,
-                  decoration: BoxDecoration(
-                    // color: ThemeUtils.green.withOpacity(.4),
-                    image: DecorationImage(
-                        image: AssetImage(
-                          "assets/blob2.png",
-                        ),
-                        opacity: .4),
-                    color: Colors.white,
-                  ),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
-                    child: Container(
-                      decoration:
-                          BoxDecoration(color: Colors.white.withOpacity(0.0)),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                bottom: 48,
-                left: width / 3,
-                child: Container(
-                  height: imageSize / 2,
-                  width: imageSize / 2,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
+        height: height,
+        width: width,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            //BG Blobs
+            //TODO: blobs from memory
+            Positioned(
+              left: 0,
+              top: 24,
+              child: Container(
+                height: imageSize / 2,
+                width: imageSize / 2,
+                decoration: BoxDecoration(
+                  // color: ThemeUtils.green.withOpacity(.4),
+                  image: DecorationImage(
                       image: AssetImage(
-                        "assets/blob3.png",
+                        "assets/blob2.png",
                       ),
-                    ),
-                  ),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
-                    child: Container(
-                      decoration:
-                          BoxDecoration(color: Colors.white.withOpacity(0.0)),
-                    ),
+                      opacity: .4),
+                  color: Colors.white,
+                ),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
+                  child: Container(
+                    decoration:
+                        BoxDecoration(color: Colors.white.withOpacity(0.0)),
                   ),
                 ),
               ),
-              Positioned(
-                right: 48,
-                top: 48,
-                child: Container(
-                  height: imageSize,
-                  width: imageSize,
-                  decoration: BoxDecoration(
-                    // color: ThemeUtils.green.withOpacity(.4),
-                    image: DecorationImage(
-                      image: AssetImage(
-                        "assets/blob1.png",
-                      ),
-                      opacity: .4,
-                    ),
-                    // color: Colors.red,
-                  ),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 96, sigmaY: 96),
-                    child: Container(
-                      decoration:
-                          BoxDecoration(color: Colors.white.withOpacity(0.0)),
+            ),
+            Positioned(
+              bottom: 48,
+              left: width / 3,
+              child: Container(
+                height: imageSize / 2,
+                width: imageSize / 2,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(
+                      "assets/blob3.png",
                     ),
                   ),
                 ),
-              ),
-              //Content
-              Row(
-                children: [
-                  FadingSlideWidget(
-                    offset: Offset(-1, 0),
-                    child: Container(
-                      width: width / 2,
-                      height: height,
-                      color: GlobalColors.lightGrey.withOpacity(.4),
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.all(48),
-                      child: Stack(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              AnimationLimiter(
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: Globals.skills.take(5).length,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    final skill = Globals.skills[index];
-                                    var list = [...Globals.skills];
-                                    list.remove(skill);
-                                    list.shuffle();
-                                    final speed =
-                                        const Duration(milliseconds: 200);
-                                    return AnimationConfiguration.staggeredList(
-                                      position: index,
-                                      delay: Duration(milliseconds: 200),
-                                      duration: Duration(milliseconds: 300),
-                                      child: SlideAnimation(
-                                        horizontalOffset: -width / 2,
-                                        child: FadeInAnimation(
-                                          child: DefaultTextStyle(
-                                            style: context.headline1!.copyWith(
-                                              fontSize:
-                                                  (width / 15).clamp(50, 75),
-                                              foreground: Paint()
-                                                ..style = PaintingStyle.stroke
-                                                ..strokeWidth = 2
-                                                ..color = GlobalColors.green
-                                                    .withOpacity(.7),
-                                            ),
-                                            child: atkit.AnimatedTextKit(
-                                              repeatForever: true,
-                                              pause: Duration(seconds: 3),
-                                              animatedTexts: [
-                                                atkit.TyperAnimatedText(
-                                                  skill.toUpperCase(),
-                                                  speed: speed,
-                                                ),
-                                                ...list
-                                                    .map(
-                                                      (e) => atkit
-                                                          .TyperAnimatedText(
-                                                        e.toUpperCase(),
-                                                        speed: speed,
-                                                      ),
-                                                    )
-                                                    .toList(),
-                                              ],
-                                            ),
-                                          ),
-                                          // child: Text(
-                                          //   skill.toUpperCase(),
-                                          //   maxLines: 1,
-                                          //   overflow: TextOverflow.fade,
-                                          //   style:
-                                          //       context.headline1!.copyWith(
-                                          //     // color: Colors.transparent,
-                                          //     fontSize:
-                                          //         (width / 15).clamp(50, 75),
-
-                                          //     foreground: Paint()
-                                          //       ..style = PaintingStyle.stroke
-                                          //       ..strokeWidth = 2
-                                          //       ..color = GlobalColors.green
-                                          //           .withOpacity(.3),
-                                          //   ),
-                                          // ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                          Positioned(
-                            bottom: 24,
-                            child: FadingSlideWidget(
-                              offset: Offset(-1, 0),
-                              child: TechStackWidget(),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
+                  child: Container(
+                    decoration:
+                        BoxDecoration(color: Colors.white.withOpacity(0.0)),
                   ),
-                  Container(
+                ),
+              ),
+            ),
+            Positioned(
+              right: 48,
+              top: 48,
+              child: Container(
+                height: imageSize,
+                width: imageSize,
+                decoration: BoxDecoration(
+                  // color: ThemeUtils.green.withOpacity(.4),
+                  image: DecorationImage(
+                    image: AssetImage(
+                      "assets/blob1.png",
+                    ),
+                    opacity: .4,
+                  ),
+                  // color: Colors.red,
+                ),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 96, sigmaY: 96),
+                  child: Container(
+                    decoration:
+                        BoxDecoration(color: Colors.white.withOpacity(0.0)),
+                  ),
+                ),
+              ),
+            ),
+            //Content
+            Row(
+              children: [
+                FadingSlideWidget(
+                  offset: Offset(-1, 0),
+                  child: Container(
                     width: width / 2,
                     height: height,
-                    padding: const EdgeInsets.fromLTRB(48, 128 + 60, 48, 48),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                    color: GlobalColors.lightGrey.withOpacity(.4),
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.all(48),
+                    child: Stack(
                       children: [
-                        FadingSlideWidget(
-                          offset: Offset(0, 0.5),
-                          child: SizedBox(
-                            width: width / 3,
-                            child: Text(
-                              Globals.title,
-                              maxLines: 2,
-                              textAlign: TextAlign.right,
-                              style: context.headline1!
-                                  .copyWith(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        FadingSlideWidget(
-                          offset: Offset(0, 0.5),
-                          child: SizedBox(
-                            height: 32,
-                            child: DefaultTextStyle(
-                              style: context.headline6!
-                                  .copyWith(color: GlobalColors.lightGrey),
-                              child: atkit.AnimatedTextKit(
-                                repeatForever: true,
-                                pause: Duration.zero,
-                                animatedTexts: [
-                                  atkit.FadeAnimatedText(Globals.subtitle,
-                                      duration: const Duration(seconds: 15)),
-                                  atkit.FadeAnimatedText(Globals.inspiration,
-                                      duration: const Duration(seconds: 15)),
-                                ],
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            AnimationLimiter(
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: Globals.skills.take(5).length,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (BuildContext context, int index) {
+                                  final skill = Globals.skills[index];
+                                  var list = [...Globals.skills];
+                                  list.remove(skill);
+                                  list.shuffle();
+                                  final speed =
+                                      const Duration(milliseconds: 200);
+                                  return AnimationConfiguration.staggeredList(
+                                    position: index,
+                                    delay: Duration(milliseconds: 200),
+                                    duration: Duration(milliseconds: 300),
+                                    child: SlideAnimation(
+                                      horizontalOffset: -width / 2,
+                                      child: FadeInAnimation(
+                                        child: DefaultTextStyle(
+                                          style: context.headline1!.copyWith(
+                                            fontSize:
+                                                (width / 15).clamp(50, 75),
+                                            foreground: Paint()
+                                              ..style = PaintingStyle.stroke
+                                              ..strokeWidth = 2
+                                              ..color = GlobalColors.green
+                                                  .withOpacity(.7),
+                                          ),
+                                          child: atkit.AnimatedTextKit(
+                                            repeatForever: true,
+                                            pause: Duration(seconds: 3),
+                                            animatedTexts: [
+                                              atkit.TyperAnimatedText(
+                                                skill.toUpperCase(),
+                                                speed: speed,
+                                              ),
+                                              ...list
+                                                  .map(
+                                                    (e) =>
+                                                        atkit.TyperAnimatedText(
+                                                      e.toUpperCase(),
+                                                      speed: speed,
+                                                    ),
+                                                  )
+                                                  .toList(),
+                                            ],
+                                          ),
+                                        ),
+                                        // child: Text(
+                                        //   skill.toUpperCase(),
+                                        //   maxLines: 1,
+                                        //   overflow: TextOverflow.fade,
+                                        //   style:
+                                        //       context.headline1!.copyWith(
+                                        //     // color: Colors.transparent,
+                                        //     fontSize:
+                                        //         (width / 15).clamp(50, 75),
+
+                                        //     foreground: Paint()
+                                        //       ..style = PaintingStyle.stroke
+                                        //       ..strokeWidth = 2
+                                        //       ..color = GlobalColors.green
+                                        //           .withOpacity(.3),
+                                        //   ),
+                                        // ),
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
                             ),
-                          ),
-                          // child: Text(
-                          //   Globals.subtitle,
-                          //   textAlign: TextAlign.right,
-                          // ),
+                          ],
                         ),
-                        SizedBox(height: 96),
-                        FadingSlideWidget(
-                          offset: Offset(0, 0.5),
-                          child: TextButton(
-                            onPressed: () => showDialog(
-                              context: context,
-                              builder: (context) {
-                                return Dialog(
-                                  elevation: 24,
-                                  child: ContactMeDialog.desktop(),
-                                );
-                              },
-                            ),
-                            child: Container(
-                              color: Colors.white,
-                              padding:
-                                  const EdgeInsets.fromLTRB(24, 12, 24, 12),
-                              child: Text(
-                                Globals.letsWorkTogether,
-                                style: context.headline6!.copyWith(
-                                  color: GlobalColors.primaryColor,
-                                ),
-                              ),
-                            ),
+                        Positioned(
+                          bottom: 24,
+                          child: FadingSlideWidget(
+                            offset: Offset(-1, 0),
+                            child: TechStackWidget(),
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
-                ],
-              ),
-              Positioned(
-                top: 128,
-                child: Container(
-                  width: 256,
-                  height: 256,
-                  child: Stack(
-                    alignment: Alignment.center,
+                ),
+                Container(
+                  width: width / 2,
+                  height: height,
+                  padding: const EdgeInsets.fromLTRB(48, 128 + 60, 48, 48),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      ClipRRect(
-                        child: ImageFiltered(
-                          imageFilter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-                          child: Image.memory(
-                              base64Decode(Globals.avatarImageBase64),
-                              width: imageSize,
-                              height: imageSize),
+                      FadingSlideWidget(
+                        offset: Offset(0, 0.5),
+                        child: SizedBox(
+                          width: width / 3,
+                          child: Text(
+                            Globals.title,
+                            maxLines: 2,
+                            textAlign: TextAlign.right,
+                            style: context.headline1!
+                                .copyWith(color: Colors.white),
+                          ),
                         ),
                       ),
-                      Positioned(
-                          child: Image.memory(
-                              base64Decode(Globals.avatarImageBase64),
-                              width: imageSize,
-                              height: imageSize)),
+                      FadingSlideWidget(
+                        offset: Offset(0, 0.5),
+                        child: SizedBox(
+                          height: 32,
+                          child: DefaultTextStyle(
+                            style: context.headline6!
+                                .copyWith(color: GlobalColors.lightGrey),
+                            child: atkit.AnimatedTextKit(
+                              repeatForever: true,
+                              pause: Duration.zero,
+                              animatedTexts: [
+                                atkit.FadeAnimatedText(Globals.subtitle,
+                                    duration: const Duration(seconds: 15)),
+                                atkit.FadeAnimatedText(Globals.inspiration,
+                                    duration: const Duration(seconds: 15)),
+                              ],
+                            ),
+                          ),
+                        ),
+                        // child: Text(
+                        //   Globals.subtitle,
+                        //   textAlign: TextAlign.right,
+                        // ),
+                      ),
+                      SizedBox(height: 96),
+                      FadingSlideWidget(
+                        offset: Offset(0, 0.5),
+                        child: TextButton(
+                          onPressed: () => showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                elevation: 24,
+                                child: ContactMeDialog.desktop(),
+                              );
+                            },
+                          ),
+                          child: Container(
+                            color: Colors.white,
+                            padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
+                            child: Text(
+                              Globals.letsWorkTogether,
+                              style: context.headline6!.copyWith(
+                                color: GlobalColors.primaryColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
-              ),
-              Positioned(
-                  bottom: 48,
-                  left: width / 2 + 42,
-                  child: FadingSlideWidget(
-                    offset: Offset(0, 2),
-                    child: TextButton(
-                      style: GlobalStyles.iconButtonStyle(),
-                      onPressed: () =>
-                          uiMenuManager.updateMenuCommand.execute(1),
-                      child: Container(
-                          color: GlobalColors.lightGrey.withOpacity(.12),
-                          child: Padding(
-                            padding: const EdgeInsets.all(24.0),
-                            child: Icon(FontAwesomeIcons.chevronDown,
-                                color: Colors.white),
-                          )),
+              ],
+            ),
+            Positioned(
+              top: 128,
+              child: Container(
+                width: 256,
+                height: 256,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    ClipRRect(
+                      child: ImageFiltered(
+                        imageFilter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                        child: Image.memory(
+                            base64Decode(Globals.avatarImageBase64),
+                            width: imageSize,
+                            height: imageSize),
+                      ),
                     ),
-                  )),
-            ],
-          )),
+                    Positioned(
+                        child: Image.memory(
+                            base64Decode(Globals.avatarImageBase64),
+                            width: imageSize,
+                            height: imageSize)),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 48,
+              left: width / 2 + 42,
+              child: FadingSlideWidget(
+                offset: Offset(0, 2),
+                child: TextButton(
+                  style: GlobalStyles.iconButtonStyle(),
+                  onPressed: () => uiMenuManager.updateMenuCommand.execute(1),
+                  child: Container(
+                    color: GlobalColors.lightGrey.withOpacity(.12),
+                    child: Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Icon(FontAwesomeIcons.chevronDown,
+                          color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

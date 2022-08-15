@@ -30,7 +30,7 @@ dependencies:
   animated_text_kit: ^4.2.1
   scrollable_positioned_list: ^0.3.1
   responsive_framework: ^0.1.0
-  responsive_builder: ^0.4.1
+  responsive_builder: ^0.4.2
   flutter_command: ^2.0.1
   blur: ^3.1.0
   carousel_slider: ^4.1.1

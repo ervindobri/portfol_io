@@ -13,7 +13,7 @@ class ShowcaseGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final width = MediaQuery.of(context).size.width;
-    final crossAxisCount = 3;
+    final crossAxisCount = 2;
     // final cardWidth = width / crossAxisCount;
     return ValueListenableBuilder<CommandResult<void, List<ShowcaseItem>?>>(
         valueListenable: uiShowcaseManager.itemsCommand.results,
@@ -28,11 +28,12 @@ class ShowcaseGridView extends StatelessWidget {
                 child: AnimationLimiter(
                   child: GridView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: PageScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: crossAxisCount,
                       mainAxisSpacing: 24,
-                      childAspectRatio: 1600 / 1200,
+                      childAspectRatio: 1200 / 1600,
                       crossAxisSpacing: 24,
                       // mainAxisExtent: cardWidth,
                     ),
@@ -78,27 +79,28 @@ class MobileShowcaseGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final width = MediaQuery.of(context).size.width;
-    return ValueListenableBuilder<CommandResult<void, List<ShowcaseItem>?>>(
-        valueListenable: uiShowcaseManager.itemsCommand.results,
-        builder: (context, value, _) {
-          final items = value.data;
-          if (items == null) {
-            return SizedBox();
-          }
-          print("Items: $items");
-          return Column(
-            children: [
-              Expanded(
+    final height = MediaQuery.of(context).size.height;
+    return Expanded(
+      child: ValueListenableBuilder<CommandResult<void, List<ShowcaseItem>?>>(
+          valueListenable: uiShowcaseManager.itemsCommand.results,
+          builder: (context, value, _) {
+            final items = value.data;
+            if (items == null) {
+              return SizedBox();
+            }
+            print("Items: $items");
+            return SizedBox(
+              // height: height * .75,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: AnimationLimiter(
                   child: ListView.separated(
                     shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
+                    // physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     itemCount: items.length,
                     separatorBuilder: (BuildContext context, int index) =>
-                        const SizedBox(
-                      height: 16,
-                    ),
+                        const SizedBox(height: 16),
                     itemBuilder: (BuildContext context, int index) {
                       final item = items[index];
                       return AnimationConfiguration.staggeredList(
@@ -116,18 +118,20 @@ class MobileShowcaseGridView extends StatelessWidget {
                   ),
                 ),
               ),
-              Visibility(
-                visible: items.length <= uiShowcaseManager.showcaseItems.length,
-                child: Center(
-                  child: TextButton(
-                    onPressed: () => uiShowcaseManager.showMoreItems(),
-                    child: Text("Show more".toUpperCase(),
-                        style: context.bodyText1),
-                  ),
-                ),
-              ),
-            ],
-          );
-        });
+            );
+          }),
+    );
   }
 }
+
+
+// Visibility(
+              //   visible: items.length <= uiShowcaseManager.showcaseItems.length,
+              //   child: Center(
+              //     child: TextButton(
+              //       onPressed: () => uiShowcaseManager.showMoreItems(),
+              //       child: Text("Show more".toUpperCase(),
+              //           style: context.bodyText1),
+              //     ),
+              //   ),
+              // ),

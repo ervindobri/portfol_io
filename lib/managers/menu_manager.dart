@@ -27,10 +27,9 @@ class UiMenuManager {
     itemPositionListener.itemPositions
         .debounce(const Duration(milliseconds: 50))
         .addListener(() {
-      final positions = itemPositionListener.itemPositions.value.length;
-      menuIndex.value = itemPositionListener.itemPositions.value
-          .toList()[positions ~/ 2]
-          .index;
+      // final positions = itemPositionListener.itemPositions.value.length;
+      menuIndex.value =
+          itemPositionListener.itemPositions.value.toList()[0].index;
       // updateMenuCommand
       //     .execute(itemPositionListener.itemPositions.value.first.index);
     });

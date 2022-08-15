@@ -1,21 +1,27 @@
 import 'dart:convert';
-import 'dart:ui';
 import 'package:animated_text_kit/animated_text_kit.dart' as atkit;
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/globals.dart';
 import 'package:portfol_io/constants/styles.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
-import 'package:portfol_io/constants/theme_utils.dart';
+import 'package:portfol_io/constants/colors.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/pages/contact/contact_me_dialog.dart';
 import 'package:portfol_io/widgets/fade_in_slide.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+enum Orientation { portrait, landscape }
+
 class HomeMobile extends StatefulWidget {
-  HomeMobile({Key? key}) : super(key: key);
+  final Orientation orientation;
+  HomeMobile._({Key? key, required this.orientation}) : super(key: key);
+
+  factory HomeMobile.portrait() =>
+      HomeMobile._(orientation: Orientation.portrait);
+  factory HomeMobile.landscape() =>
+      HomeMobile._(orientation: Orientation.landscape);
 
   @override
   State<HomeMobile> createState() => _HomeMobileState();
@@ -28,225 +34,212 @@ class _HomeMobileState extends State<HomeMobile> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final imageSize = width * .45;
+    final pageHeight =
+        widget.orientation == Orientation.landscape ? width : height;
+    final imageSize =
+        widget.orientation == Orientation.landscape ? height / 2 : width * .45;
     final topPadding = 48 + height / 20;
     final double mobilePadding = 16;
     final mobileAnimationDurationMs = 300;
+    final dynamicFontSize = widget.orientation == Orientation.landscape
+        ? height / 10
+        : (width / 17);
     return Container(
-        height: height,
-        width: width,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Positioned(
-              right: 48,
-              top: 48,
-              child: Container(
-                height: imageSize,
-                width: imageSize,
-                decoration: BoxDecoration(
-                  // color: ThemeUtils.green.withOpacity(.4),
-                  image: DecorationImage(
-                    image: AssetImage(
-                      "assets/blob1.png",
-                    ),
-                    opacity: .4,
+      height: pageHeight,
+      width: width,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Column(
+            children: [
+              FadingSlideWidget(
+                offset: Offset(0, .1),
+                durationMilliseconds: mobileAnimationDurationMs,
+                child: Container(
+                  width: width,
+                  height: pageHeight / 2,
+                  padding: EdgeInsets.fromLTRB(
+                    mobilePadding,
+                    topPadding,
+                    mobilePadding,
+                    mobilePadding,
                   ),
-                  // color: Colors.red,
-                ),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 96, sigmaY: 96),
-                  child: Container(
-                    decoration:
-                        BoxDecoration(color: Colors.white.withOpacity(0.0)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        width: width * .6,
+                        child: Text(
+                          Globals.title,
+                          maxLines: 2,
+                          textAlign: TextAlign.right,
+                          style: context.headline6?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        Globals.subtitle,
+                        textAlign: TextAlign.right,
+                        style: context.bodyText2?.copyWith(
+                          color: GlobalColors.lightGrey,
+                        ),
+                      ),
+                      SizedBox(height: 48),
+                      TextButton(
+                        onPressed: () => showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Dismissible(
+                              key: Key('key'),
+                              direction: DismissDirection.vertical,
+                              onDismissed: (dir) => Navigator.pop(context),
+                              child: Dialog(
+                                elevation: 0,
+                                insetPadding: EdgeInsets.all(16),
+                                child: ContactMeDialog.mobile(),
+                              ),
+                            );
+                          },
+                        ),
+                        style: GlobalStyles.whiteTextButtonStyle(),
+                        child: Container(
+                          color: Colors.white,
+                          padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
+                          child: Text(
+                            Globals.letsWorkTogether,
+                            style: context.bodyText1?.copyWith(
+                                color: GlobalColors.primaryColor,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ),
-            //Content
-            Column(
-              children: [
-                FadingSlideWidget(
-                  offset: Offset(0, .1),
-                  durationMilliseconds: mobileAnimationDurationMs,
-                  child: Container(
+              FadingSlideWidget(
+                offset: Offset(-1, 0),
+                durationMilliseconds: mobileAnimationDurationMs,
+                child: Container(
                     width: width,
-                    height: height / 2,
-                    padding: EdgeInsets.fromLTRB(mobilePadding, topPadding,
-                        mobilePadding, mobilePadding),
+                    height: pageHeight / 2,
+                    color: GlobalColors.darkGrey,
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(mobilePadding),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          width: width * .6,
-                          child: Text(
-                            Globals.title,
-                            maxLines: 2,
-                            textAlign: TextAlign.right,
-                            style: context.headline6?.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700),
-                          ),
+                        FadingSlideWidget(
+                          offset: Offset(-1, 0),
+                          durationMilliseconds: mobileAnimationDurationMs,
+                          child: widget.orientation == Orientation.landscape
+                              ? MobileTechStackWidget.landscape()
+                              : MobileTechStackWidget.portrait(),
                         ),
-                        Text(
-                          Globals.subtitle,
-                          textAlign: TextAlign.right,
-                          style: context.bodyText2
-                              ?.copyWith(color: GlobalColors.lightGrey),
-                        ),
-                        SizedBox(height: height / 2 / 10),
-                        TextButton(
-                          onPressed: () => showDialog(
-                            context: context,
-                            builder: (context) {
-                              return Dismissible(
-                                key: Key('key'),
-                                direction: DismissDirection.vertical,
-                                onDismissed: (dir) => Navigator.pop(context),
-                                child: Dialog(
-                                  elevation: 0,
-                                  insetPadding: EdgeInsets.all(16),
-                                  child: ContactMeDialog.mobile(),
-                                ),
-                              );
-                            },
-                          ),
-                          child: Container(
-                            color: Colors.white,
-                            padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
-                            child: Text(
-                              Globals.letsWorkTogether,
-                              style: context.bodyText1?.copyWith(
-                                  color: GlobalColors.primaryColor,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
+                        SizedBox(height: 24),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: Globals.skills.take(5).length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final skill = Globals.skills[index];
+                            var list = [...Globals.skills];
+                            list.remove(skill);
+                            list.shuffle();
+                            final speed = const Duration(milliseconds: 200);
+                            return DefaultTextStyle(
+                              style: context.headline1!.copyWith(
+                                fontSize: dynamicFontSize.clamp(24, 48),
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 2
+                                  ..color = GlobalColors.green.withOpacity(.9),
+                              ),
+                              child: atkit.AnimatedTextKit(
+                                repeatForever: true,
+                                pause: Duration(seconds: 3),
+                                animatedTexts: [
+                                  atkit.TyperAnimatedText(
+                                    skill.toUpperCase(),
+                                    speed: speed,
+                                  ),
+                                  ...list
+                                      .map(
+                                        (e) => atkit.TyperAnimatedText(
+                                          e.toUpperCase(),
+                                          speed: speed,
+                                        ),
+                                      )
+                                      .toList(),
+                                ],
+                              ),
+                            );
+                          },
                         ),
                       ],
+                    )),
+              ),
+            ],
+          ),
+          Positioned(
+            top: pageHeight / 4 - imageSize / 2,
+            left: widget.orientation == Orientation.landscape ? imageSize : 0,
+            child: Container(
+              width: imageSize,
+              height: imageSize,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Image.memory(base64Decode(Globals.avatarImageBase64),
+                      width: imageSize, height: imageSize),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: mobilePadding,
+            right: mobilePadding,
+            child: FadingSlideWidget(
+              offset: Offset(0, 2),
+              durationMilliseconds: mobileAnimationDurationMs,
+              child: IconButton(
+                onPressed: () => uiMenuManager.updateMenuCommand.execute(1),
+                iconSize: 42,
+                icon: Container(
+                  color: GlobalColors.primaryColor.withOpacity(.4),
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Icon(
+                      FontAwesomeIcons.chevronDown,
+                      size: 32,
+                      color: Colors.white,
                     ),
                   ),
                 ),
-                FadingSlideWidget(
-                  offset: Offset(-1, 0),
-                  durationMilliseconds: mobileAnimationDurationMs,
-                  child: Container(
-                      width: width,
-                      height: height / 2,
-                      color: GlobalColors.darkGrey,
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.all(mobilePadding),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          FadingSlideWidget(
-                            offset: Offset(-1, 0),
-                            durationMilliseconds: mobileAnimationDurationMs,
-                            child: MobileTechStackWidget(),
-                          ),
-                          SizedBox(height: 24),
-                          AnimationLimiter(
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: Globals.skills.take(5).length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final skill = Globals.skills[index];
-                                var list = [...Globals.skills];
-                                list.remove(skill);
-                                list.shuffle();
-                                final speed = const Duration(milliseconds: 200);
-                                return AnimationConfiguration.staggeredList(
-                                  position: index,
-                                  delay: Duration(
-                                      milliseconds:
-                                          mobileAnimationDurationMs + 200),
-                                  duration: Duration(milliseconds: 300),
-                                  child: SlideAnimation(
-                                    horizontalOffset: -width / 2,
-                                    child: FadeInAnimation(
-                                      child: DefaultTextStyle(
-                                        style: context.headline1!.copyWith(
-                                          fontSize: (width / 17).clamp(24, 48),
-                                          foreground: Paint()
-                                            ..style = PaintingStyle.stroke
-                                            ..strokeWidth = 2
-                                            ..color = GlobalColors.green
-                                                .withOpacity(.9),
-                                        ),
-                                        child: atkit.AnimatedTextKit(
-                                          repeatForever: true,
-                                          pause: Duration(seconds: 3),
-                                          animatedTexts: [
-                                            atkit.TyperAnimatedText(
-                                              skill.toUpperCase(),
-                                              speed: speed,
-                                            ),
-                                            ...list
-                                                .map(
-                                                  (e) =>
-                                                      atkit.TyperAnimatedText(
-                                                    e.toUpperCase(),
-                                                    speed: speed,
-                                                  ),
-                                                )
-                                                .toList(),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      )),
-                ),
-              ],
-            ),
-            Positioned(
-              top: height / 2 / 2 - imageSize / 2,
-              left: 0,
-              child: Container(
-                width: imageSize,
-                height: imageSize,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Image.memory(base64Decode(Globals.avatarImageBase64),
-                        width: imageSize, height: imageSize),
-                  ],
-                ),
               ),
             ),
-            Positioned(
-                bottom: mobilePadding,
-                right: mobilePadding,
-                child: FadingSlideWidget(
-                  offset: Offset(0, 2),
-                  durationMilliseconds: mobileAnimationDurationMs,
-                  child: TextButton(
-                    style: GlobalStyles.iconButtonStyle(),
-                    onPressed: () => uiMenuManager.updateMenuCommand.execute(1),
-                    child: Container(
-                        color: GlobalColors.primaryColor.withOpacity(.4),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Icon(FontAwesomeIcons.chevronDown,
-                              color: Colors.white),
-                        )),
-                  ),
-                )),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 }
 
 class MobileTechStackWidget extends StatefulWidget {
-  const MobileTechStackWidget({
+  final Orientation orientation;
+  const MobileTechStackWidget._({
     Key? key,
+    required this.orientation,
   }) : super(key: key);
+
+  factory MobileTechStackWidget.portrait() =>
+      MobileTechStackWidget._(orientation: Orientation.portrait);
+
+  factory MobileTechStackWidget.landscape() =>
+      MobileTechStackWidget._(orientation: Orientation.landscape);
 
   @override
   State<MobileTechStackWidget> createState() => _TechStackWidgetState();
@@ -254,13 +247,12 @@ class MobileTechStackWidget extends StatefulWidget {
 
 class _TechStackWidgetState extends State<MobileTechStackWidget> {
   bool showStackList = false;
-
   var techList = Globals.techStack;
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    // final height = MediaQuery.of(context).size.height;
     final iconSize = 42.0;
     return GestureDetector(
       onVerticalDragUpdate: (drag) {
@@ -270,75 +262,43 @@ class _TechStackWidgetState extends State<MobileTechStackWidget> {
       },
       child: Container(
         width: width,
-        child: Column(
-          children: [
-            if (height > 700) ...[
-              SizedBox(
-                height: 24,
-                child: atkit.AnimatedTextKit(
-                  repeatForever: true,
-                  animatedTexts: [
-                    atkit.ColorizeAnimatedText(
-                      "Tech Stack",
-                      colors: [
-                        GlobalColors.primaryColor,
-                        GlobalColors.lightGrey,
-                        GlobalColors.primaryColor
-                      ],
-                      textStyle: context.bodyText1?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ) ??
-                          TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
+        child: SizedBox(
+          height: 48,
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: Globals.techStack.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (BuildContext context, int index) {
+              final tech = techList[index];
+              return Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: IconButton(
+                  iconSize: iconSize,
+                  tooltip: tech.name,
+                  padding: EdgeInsets.zero,
+                  onPressed: () => launchUrl(Uri.parse(tech.link)),
+                  icon: Container(
+                    width: iconSize,
+                    height: iconSize,
+                    decoration: BoxDecoration(
+                      color: GlobalColors.lightGrey.withOpacity(.6),
+                      shape: BoxShape.circle,
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(width: 24),
-            ],
-            SizedBox(
-              height: 48,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: Globals.techStack.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  final tech = techList[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: IconButton(
-                      iconSize: iconSize,
-                      tooltip: tech.name,
-                      padding: EdgeInsets.zero,
-                      onPressed: () => launchUrl(Uri.parse(tech.link)),
-                      icon: Container(
-                        width: iconSize,
-                        height: iconSize,
-                        decoration: BoxDecoration(
-                          color: GlobalColors.lightGrey.withOpacity(.6),
-                          shape: BoxShape.circle,
-                        ),
-                        padding: const EdgeInsets.all(12),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image:
-                                  AssetImage("assets/images/${tech.asset}.png"),
-                            ),
-                          ),
+                    padding: const EdgeInsets.all(12),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/${tech.asset}.png"),
                         ),
                       ),
                     ),
-                  );
-                },
-              ),
-            ),
-          ],
+                  ),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

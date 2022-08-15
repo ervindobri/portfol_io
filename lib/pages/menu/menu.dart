@@ -8,11 +8,16 @@ class StickyMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenTypeLayout(
-      breakpoints: ScreenBreakpoints(tablet: 666, desktop: 1000, watch: 300),
-      mobile: MenuMobile(),
-      tablet: MenuDesktop(),
-      desktop: MenuDesktop(),
+    return ResponsiveBuilder(
+      builder: (context, sizingInformation) {
+        if (sizingInformation.deviceScreenType == DeviceScreenType.desktop) {
+          return MenuDesktop();
+        }
+        if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
+          return MenuDesktop();
+        }
+        return MenuMobile();
+      },
     );
   }
 }
