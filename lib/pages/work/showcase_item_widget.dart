@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_command/flutter_command.dart';
 import 'package:portfol_io/constants/constants.dart';
@@ -7,6 +8,7 @@ import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/pages/work/image_carousel.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class AnimatedShowcaseItemWidget extends StatelessWidget {
   final uiShowcaseManager = sl<UiShowcaseManager>();
@@ -89,26 +91,69 @@ class AnimatedShowcaseItemWidget extends StatelessWidget {
                           ),
                           Spacer(),
                           //tags
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Column(
+                              Wrap(
+                                spacing: 8,
+                                children: item.tags
+                                    .map(
+                                      (e) => Text(
+                                        "#${e.toLowerCase()}",
+                                        style: context.bodyText2?.copyWith(
+                                            fontWeight: FontWeight.w100),
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                              SizedBox(height: 16),
+                              //action
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Wrap(
-                                    spacing: 8,
-                                    children: item.tags
-                                        .map(
-                                          (e) => Text(
-                                            "#${e.toLowerCase()}",
-                                            style: context.bodyText2?.copyWith(
-                                                fontWeight: FontWeight.w100),
+                                  Row(
+                                    children: [
+                                      if (item.publishedGooglePlayUrl != null)
+                                        Tooltip(
+                                          message: 'Open android app link',
+                                          child: IconButton(
+                                            iconSize: 42,
+                                            padding: EdgeInsets.zero,
+                                            icon: Container(
+                                              color: Colors.white,
+                                              padding: const EdgeInsets.all(8),
+                                              child: Image.asset(
+                                                  "assets/icons/play-store.png"),
+                                            ),
+                                            onPressed: () {
+                                              launchUrlString(
+                                                  item.publishedGooglePlayUrl!);
+                                            },
                                           ),
-                                        )
-                                        .toList(),
+                                        ),
+                                      SizedBox(width: 16),
+                                      if (item.publishedAppStoreUrl != null)
+                                        Tooltip(
+                                          message: 'Open iOS app link',
+                                          child: IconButton(
+                                            iconSize: 42,
+                                            padding: EdgeInsets.zero,
+                                            icon: Container(
+                                              color: Colors.white,
+                                              padding: const EdgeInsets.all(8),
+                                              child: Image.asset(
+                                                  "assets/icons/app-store.png"),
+                                            ),
+                                            onPressed: () {
+                                              launchUrlString(
+                                                  item.publishedAppStoreUrl!);
+                                            },
+                                          ),
+                                        ),
+                                    ],
                                   ),
-                                  SizedBox(height: 16),
-                                  //action
                                   TextButton(
                                       onPressed: () async {
                                         await launchUrl(Uri.parse(item.url));

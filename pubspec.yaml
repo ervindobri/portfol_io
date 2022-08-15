@@ -61,6 +61,7 @@ flutter:
     - assets/avatar.png
     - assets/
     - assets/files/
+    - assets/icons/
     - assets/images/
     - assets/images/work/
     - assets/images/work/cheesify/

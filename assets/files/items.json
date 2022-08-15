@@ -1,5 +1,24 @@
 [
   {
+    "projectName": "Pénzmúzeum",
+    "duration": "v1 6 months - ongoing",
+    "url": "https://github.com/ervindobri/cheesify",
+    "publishedGooglePlayUrl": "https://play.google.com/store/apps/details?id=hu.mnb.penzmuzeum",
+    "publishedAppStoreUrl": "https://apps.apple.com/hu/app/p%C3%A9nzm%C3%BAzeum/id1622586522",
+    "imagesPath": "penzmuzeum",
+    "imageAssets": ["main", "1", "2"],
+    "description": "NFT coin marketplace, scanning new coins with QR and trading them in the marketplace. Features include: push notifications, coin catalog, private coin & nft collection, sending coins into raffle & win prizes. A lot of useful information about the museum is displayed in the app.",
+    "tags": [
+      "flutter",
+      "biometric authentication",
+      "notifications",
+      "marketplace",
+      "trading",
+      "qr scanning",
+      "finance"
+    ]
+  },
+  {
     "projectName": "Cheesify",
     "duration": "Two weeks",
     "url": "https://github.com/ervindobri/cheesify",
