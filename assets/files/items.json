@@ -2,7 +2,7 @@
   {
     "projectName": "Pénzmúzeum",
     "duration": "v1 6 months - ongoing",
-    "url": "https://github.com/ervindobri/cheesify",
+    "url": "https://github.com/ervindobri/",
     "publishedGooglePlayUrl": "https://play.google.com/store/apps/details?id=hu.mnb.penzmuzeum",
     "publishedAppStoreUrl": "https://apps.apple.com/hu/app/p%C3%A9nzm%C3%BAzeum/id1622586522",
     "imagesPath": "penzmuzeum",
@@ -58,7 +58,17 @@
     "duration": "-",
     "url": "https://www.behance.net/w1nt_r/",
     "imagesPath": "others",
-    "imageAssets": ["adidas", "sepsi", "barber", "payment"],
+    "imageAssets": [
+      "adidas",
+      "day73",
+      "day75",
+      "day96",
+      "day94",
+      "day98",
+      "sepsi",
+      "barber",
+      "payment"
+    ],
     "description": "These images show various design projects I've completed over the last few months.",
     "tags": ["figma", "adobe xd", "ui design"]
   }
