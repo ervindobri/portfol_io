@@ -22,19 +22,23 @@ class FullscreenImageDialog extends StatelessWidget {
         children: [
           SizedBox(
             child: ValueListenableBuilder<int>(
-                valueListenable: uiShowcaseManager.currentImageIndex,
-                builder: (context, value, _) {
-                  return AspectRatio(
-                    aspectRatio: 1600 / 1200,
-                    child: InteractiveViewer(
-                      child: Image(
-                        fit: BoxFit.fill,
-                        image: AssetImage(
-                            "assets/images/work/${item.imagesPath}/${item.imageAssets[value]}.png"),
+              valueListenable: uiShowcaseManager.currentImageIndex,
+              builder: (context, value, _) {
+                final path =
+                    "assets/images/work/${item.imagesPath}/${item.imageAssets[value]}.png";
+                return InteractiveViewer(
+                  alignPanAxis: true,
+                  child: Center(
+                    child: Image(
+                      fit: BoxFit.contain,
+                      image: AssetImage(
+                        path,
                       ),
                     ),
-                  );
-                }),
+                  ),
+                );
+              },
+            ),
           ),
           Positioned(
             top: 24,

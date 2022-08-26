@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_command/flutter_command.dart';
@@ -25,7 +24,6 @@ class _WorkDesktopState extends State<WorkDesktop> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final imageSize = 348.0;
     return ClipRRect(
       child: ValueListenableBuilder<View>(
         valueListenable: uiShowcaseManager.showcaseView,
@@ -39,145 +37,86 @@ class _WorkDesktopState extends State<WorkDesktop> {
               }
               final rows = items.data!.length / 3 - 1;
               return SizedBox(
-                height: value == View.grid ? height + rows * 420 : height,
+                // height: value == View.grid ? height + rows * 420 : height,
+                height: height,
                 width: width,
                 child: Stack(
-                  // alignment: Alignment.center,
                   children: [
-                    //BG Blobs
-                    Positioned(
-                      left: 0,
-                      top: 24,
-                      child: Container(
-                        height: imageSize / 2,
-                        width: imageSize / 2,
-                        decoration: BoxDecoration(
-                          // color: ThemeUtils.green.withOpacity(.4),
-                          image: DecorationImage(
-                              image: AssetImage(
-                                "assets/blob2.png",
-                              ),
-                              opacity: .4),
-                          color: Colors.white,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     SizedBox(
+                        //       child: Text(
+                        //         Globals.showcase,
+                        //         style: context.headline6!
+                        //             .copyWith(color: Colors.white),
+                        //       ),
+                        //     ),
+                        //     ValueListenableBuilder<View>(
+                        //       valueListenable: uiShowcaseManager.showcaseView,
+                        //       builder: (context, view, _) {
+                        //         return Wrap(
+                        //           children: [
+                        //             IconButton(
+                        //                 icon: Container(
+                        //                   color: view == View.grid
+                        //                       ? Colors.white
+                        //                       : null,
+                        //                   child: Icon(
+                        //                     CupertinoIcons.square_grid_2x2,
+                        //                     color: view == View.grid
+                        //                         ? GlobalColors.primaryColor
+                        //                         : Colors.white,
+                        //                   ),
+                        //                 ),
+                        //                 onPressed: () {
+                        //                   uiShowcaseManager.showcaseView.value =
+                        //                       View.grid;
+                        //                 }),
+                        //             IconButton(
+                        //               icon: Container(
+                        //                 color: view == View.single
+                        //                     ? Colors.white
+                        //                     : null,
+                        //                 child: Icon(
+                        //                   CupertinoIcons
+                        //                       .list_bullet_below_rectangle,
+                        //                   color: view == View.single
+                        //                       ? GlobalColors.primaryColor
+                        //                       : Colors.white,
+                        //                 ),
+                        //               ),
+                        //               onPressed: () {
+                        //                 uiShowcaseManager.showcaseView.value =
+                        //                     View.single;
+                        //               },
+                        //             ),
+                        //           ],
+                        //         );
+                        //       },
+                        //     ),
+                        //   ],
+                        // ),
+                        // SizedBox(height: 16),
+                        ValueListenableBuilder<View>(
+                          valueListenable: uiShowcaseManager.showcaseView,
+                          builder: (context, view, _) {
+                            switch (view) {
+                              case View.grid:
+                                return Expanded(
+                                  child: ShowcaseGridView(),
+                                );
+                              case View.detail:
+                                return SizedBox();
+                              default:
+                                return ShowcaseItemView();
+                            }
+                          },
                         ),
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.0)),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      right: 48,
-                      top: 48,
-                      child: Container(
-                        height: imageSize,
-                        width: imageSize,
-                        decoration: BoxDecoration(
-                          // color: ThemeUtils.green.withOpacity(.4),
-                          image: DecorationImage(
-                            image: AssetImage(
-                              "assets/blob1.png",
-                            ),
-                            opacity: .4,
-                          ),
-                          // color: Colors.red,
-                        ),
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 96, sigmaY: 96),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.0)),
-                          ),
-                        ),
-                      ),
-                    ),
-                    //Content
-                    SizedBox(
-                      width: width,
-                      // height: height,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(48, 48 + 60, 48, 48),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SizedBox(
-                                  child: Text(
-                                    Globals.showcase,
-                                    style: context.headline6!
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                ),
-                                ValueListenableBuilder<View>(
-                                  valueListenable:
-                                      uiShowcaseManager.showcaseView,
-                                  builder: (context, view, _) {
-                                    return Wrap(
-                                      children: [
-                                        IconButton(
-                                            icon: Container(
-                                              color: view == View.grid
-                                                  ? Colors.white
-                                                  : null,
-                                              child: Icon(
-                                                CupertinoIcons.square_grid_2x2,
-                                                color: view == View.grid
-                                                    ? GlobalColors.primaryColor
-                                                    : Colors.white,
-                                              ),
-                                            ),
-                                            onPressed: () {
-                                              uiShowcaseManager.showcaseView
-                                                  .value = View.grid;
-                                            }),
-                                        IconButton(
-                                          icon: Container(
-                                            color: view == View.single
-                                                ? Colors.white
-                                                : null,
-                                            child: Icon(
-                                              CupertinoIcons
-                                                  .list_bullet_below_rectangle,
-                                              color: view == View.single
-                                                  ? GlobalColors.primaryColor
-                                                  : Colors.white,
-                                            ),
-                                          ),
-                                          onPressed: () {
-                                            uiShowcaseManager.showcaseView
-                                                .value = View.single;
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 16),
-                            ValueListenableBuilder<View>(
-                              valueListenable: uiShowcaseManager.showcaseView,
-                              builder: (context, view, _) {
-                                switch (view) {
-                                  case View.grid:
-                                    return Expanded(
-                                      child: ShowcaseGridView(),
-                                    );
-                                  case View.detail:
-                                    return SizedBox();
-                                  default:
-                                    return ShowcaseItemView();
-                                }
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
+                      ],
                     ),
                   ],
                 ),

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/constants.dart';
@@ -29,7 +30,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    // final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
+    final imageSize = 348.0;
+
     return Scaffold(
       backgroundColor: GlobalColors.primaryColor,
       resizeToAvoidBottomInset: true,
@@ -38,18 +41,92 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           final isMobile =
               sizingInformation.deviceScreenType == DeviceScreenType.mobile;
           final double mobilePadding = isMobile ? 16 : 32;
-
           return Stack(
             children: [
+              //BG Blobs
+              if (!isMobile) ...[
+                //TODO: blobs from memory
+                Positioned(
+                  left: 0,
+                  top: 24,
+                  child: Container(
+                    height: imageSize / 2,
+                    width: imageSize / 2,
+                    decoration: BoxDecoration(
+                      // color: ThemeUtils.green.withOpacity(.4),
+                      image: DecorationImage(
+                          image: AssetImage(
+                            "assets/blob2.png",
+                          ),
+                          opacity: .4),
+                      color: Colors.white,
+                    ),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
+                      child: Container(
+                        decoration:
+                            BoxDecoration(color: Colors.white.withOpacity(0.0)),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 48,
+                  left: width / 3,
+                  child: Container(
+                    height: imageSize / 2,
+                    width: imageSize / 2,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                          "assets/blob3.png",
+                        ),
+                      ),
+                    ),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
+                      child: Container(
+                        decoration:
+                            BoxDecoration(color: Colors.white.withOpacity(0.0)),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: 48,
+                  top: 48,
+                  child: Container(
+                    height: imageSize,
+                    width: imageSize,
+                    decoration: BoxDecoration(
+                      // color: ThemeUtils.green.withOpacity(.4),
+                      image: DecorationImage(
+                        image: AssetImage(
+                          "assets/blob1.png",
+                        ),
+                        opacity: .4,
+                      ),
+                      // color: Colors.red,
+                    ),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 96, sigmaY: 96),
+                      child: Container(
+                        decoration:
+                            BoxDecoration(color: Colors.white.withOpacity(0.0)),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
               SizedBox(
                 height: height,
                 child: ScrollablePositionedList.builder(
                   shrinkWrap: true,
                   itemScrollController: uiMenuManager.itemScrollController,
                   itemPositionsListener: uiMenuManager.itemPositionListener,
-                  semanticChildCount: 3,
-                  initialScrollIndex: 0,
-                  physics: AlwaysScrollableScrollPhysics(),
+                  // semanticChildCount: 3,
+                  physics: PageScrollPhysics(),
+                  // physics: AlwaysScrollableScrollPhysics(),
                   itemCount: Globals.menu.length,
                   itemBuilder: (context, index) {
                     return sectionWidget(index);
@@ -91,7 +168,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   Widget sectionWidget(int i) {
     if (i == 0) {
-      return new HomeContent();
+      return HomeContent();
     } else if (i == 1) {
       return WorkContent();
     } else if (i == 2) {
@@ -122,8 +199,9 @@ class JumpToHomeButton extends StatelessWidget {
               duration: kThemeAnimationDuration,
               child: value < 1
                   ? SizedBox()
-                  : FadingSlideWidget(
-                      offset: Offset(0, 2),
+                  : DelayedDisplay(
+                      slidingBeginOffset: Offset(0, 2),
+                      fadingDuration: kThemeAnimationDuration,
                       child: TextButton(
                         style: GlobalStyles.iconButtonStyle(),
                         onPressed: () =>

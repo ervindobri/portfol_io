@@ -1,4 +1,6 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_command/flutter_command.dart';
@@ -26,141 +28,174 @@ class AnimatedShowcaseItemWidget extends StatelessWidget {
           return SizedBox();
         }
         final item = value.data!;
-        return TweenAnimationBuilder(
-          key: Key(item.projectName),
-          tween: Tween<double>(begin: 0.0, end: 1.0),
-          duration: const Duration(milliseconds: 300),
-          builder: (context, double value, _) {
-            return TweenAnimationBuilder(
-              key: Key(item.projectName),
-              tween: Tween<double>(begin: 25.0, end: 0.0),
-              duration: const Duration(milliseconds: 300),
-              builder: (context, double value2, _) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Transform.translate(
-                        offset: Offset(0, value2),
-                        child: Opacity(
-                          opacity: value,
-                          child: ImageCarousel(item: item),
-                        ),
+        return DelayedDisplay(
+          slidingBeginOffset: Offset(0, .5),
+          child: TweenAnimationBuilder(
+            key: Key(item.projectName),
+            tween: Tween<double>(begin: 0.0, end: 1.0),
+            duration: const Duration(milliseconds: 300),
+            builder: (context, double value, _) {
+              return TweenAnimationBuilder(
+                key: Key(item.projectName),
+                tween: Tween<double>(begin: 25.0, end: 0.0),
+                duration: const Duration(milliseconds: 300),
+                builder: (context, double value2, _) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: ImageCarousel(item: item),
                       ),
-                    ),
-                    SizedBox(width: 24),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Transform.translate(
-                            offset: Offset(0, value2),
-                            child: Opacity(
-                              opacity: value,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    item.projectName,
-                                    textAlign: TextAlign.left,
-                                    style: context.headline4!
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                  Text(
-                                    item.duration,
-                                    textAlign: TextAlign.left,
-                                    style: context.headline6!.copyWith(
-                                        fontWeight: FontWeight.w100,
-                                        fontSize: 24,
-                                        color: Colors.white),
-                                  ),
-                                  SizedBox(height: 24),
-                                  SizedBox(
-                                    width: width / 3,
-                                    child: Text(
-                                      item.description,
-                                      maxLines: 10,
-                                      textAlign: TextAlign.left,
-                                      style: context.bodyText1!
-                                          .copyWith(color: Colors.white),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Spacer(),
-                          //tags
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                              24, 48 + 80, 24, 48 + 80),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Wrap(
-                                spacing: 8,
-                                children: item.tags
-                                    .map(
-                                      (e) => Text(
-                                        "#${e.toLowerCase()}",
-                                        style: context.bodyText2?.copyWith(
-                                            fontWeight: FontWeight.w100),
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
-                              SizedBox(height: 16),
-                              //action
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Row(
+                              Transform.translate(
+                                offset: Offset(0, value2),
+                                child: Opacity(
+                                  opacity: value,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      if (item.publishedGooglePlayUrl != null)
-                                        Tooltip(
-                                          message: 'Open android app link',
-                                          child: IconButton(
-                                            iconSize: 42,
-                                            padding: EdgeInsets.zero,
-                                            icon: Container(
-                                              color: Colors.white,
-                                              padding: const EdgeInsets.all(8),
-                                              child: Image.asset(
-                                                  "assets/icons/play-store.png"),
-                                            ),
-                                            onPressed: () {
-                                              launchUrlString(
-                                                  item.publishedGooglePlayUrl!);
-                                            },
+                                      DelayedDisplay(
+                                        delay:
+                                            const Duration(milliseconds: 100),
+                                        fadingDuration: kThemeAnimationDuration,
+                                        child: Text(
+                                          item.projectName,
+                                          textAlign: TextAlign.left,
+                                          style: context.headline4!
+                                              .copyWith(color: Colors.white),
+                                        ),
+                                      ),
+                                      DelayedDisplay(
+                                        delay: const Duration(
+                                          milliseconds: 200,
+                                        ),
+                                        fadingDuration: kThemeAnimationDuration,
+                                        child: Text(
+                                          item.duration,
+                                          textAlign: TextAlign.left,
+                                          style: context.headline6!.copyWith(
+                                            fontWeight: FontWeight.w100,
+                                            fontSize: 20,
+                                            color: GlobalColors.lightGrey,
                                           ),
                                         ),
-                                      SizedBox(width: 16),
-                                      if (item.publishedAppStoreUrl != null)
-                                        Tooltip(
-                                          message: 'Open iOS app link',
-                                          child: IconButton(
-                                            iconSize: 42,
-                                            padding: EdgeInsets.zero,
-                                            icon: Container(
-                                              color: Colors.white,
-                                              padding: const EdgeInsets.all(8),
-                                              child: Image.asset(
-                                                  "assets/icons/app-store.png"),
-                                            ),
-                                            onPressed: () {
-                                              launchUrlString(
-                                                  item.publishedAppStoreUrl!);
-                                            },
+                                      ),
+                                      SizedBox(height: 24),
+                                      DelayedDisplay(
+                                        delay:
+                                            const Duration(milliseconds: 300),
+                                        fadingDuration: kThemeAnimationDuration,
+                                        child: Text(
+                                          item.description,
+                                          maxLines: 12,
+                                          textAlign: TextAlign.left,
+                                          style: context.bodyText1!.copyWith(
+                                            color: Colors.white,
                                           ),
                                         ),
+                                      ),
                                     ],
                                   ),
-                                  TextButton(
-                                      onPressed: () async {
-                                        await launchUrl(Uri.parse(item.url));
-                                      },
-                                      style:
-                                          GlobalStyles.whiteTextButtonStyle(),
-                                      child: Container(
+                                ),
+                              ),
+                              Spacer(),
+                              //tags
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  AnimatedTextKit(
+                                    // spacing: 8,
+                                    pause: const Duration(seconds: 2),
+                                    animatedTexts: item.tags
+                                        .map(
+                                          (e) => TyperAnimatedText(
+                                            "#${e.toLowerCase()}",
+                                            speed: const Duration(
+                                                milliseconds: 50),
+                                            textStyle: context.headline4
+                                                ?.copyWith(
+                                                    fontWeight:
+                                                        FontWeight.w100),
+                                          ),
+                                        )
+                                        .toList(),
+                                  ),
+                                  SizedBox(height: 16),
+                                  //action
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      DelayedDisplay(
+                                        delay:
+                                            const Duration(milliseconds: 100),
+                                        slidingBeginOffset: Offset(-1, 0),
+                                        child: Row(
+                                          children: [
+                                            if (item.publishedGooglePlayUrl !=
+                                                null)
+                                              Tooltip(
+                                                message:
+                                                    'Open android app link',
+                                                child: IconButton(
+                                                  iconSize: 42,
+                                                  padding: EdgeInsets.zero,
+                                                  icon: Container(
+                                                    color: Colors.white
+                                                        .withOpacity(.5),
+                                                    padding:
+                                                        const EdgeInsets.all(8),
+                                                    child: Image.asset(
+                                                        "assets/icons/play-store.png",
+                                                        color: Colors.white),
+                                                  ),
+                                                  onPressed: () {
+                                                    launchUrlString(item
+                                                        .publishedGooglePlayUrl!);
+                                                  },
+                                                ),
+                                              ),
+                                            SizedBox(width: 16),
+                                            if (item.publishedAppStoreUrl !=
+                                                null)
+                                              Tooltip(
+                                                message: 'Open iOS app link',
+                                                child: IconButton(
+                                                  iconSize: 42,
+                                                  padding: EdgeInsets.zero,
+                                                  icon: Container(
+                                                    color: Colors.white
+                                                        .withOpacity(.5),
+                                                    padding:
+                                                        const EdgeInsets.all(8),
+                                                    child: Image.asset(
+                                                        "assets/icons/app-store.png",
+                                                        color: Colors.white),
+                                                  ),
+                                                  onPressed: () {
+                                                    launchUrlString(item
+                                                        .publishedAppStoreUrl!);
+                                                  },
+                                                ),
+                                              ),
+                                          ],
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () async {
+                                          await launchUrl(Uri.parse(item.url));
+                                        },
+                                        style:
+                                            GlobalStyles.whiteTextButtonStyle(),
+                                        child: Container(
                                           color: Colors.white,
                                           padding: const EdgeInsets.fromLTRB(
                                               24, 12, 24, 12),
@@ -169,19 +204,23 @@ class AnimatedShowcaseItemWidget extends StatelessWidget {
                                             style: context.headline6!.copyWith(
                                                 color:
                                                     GlobalColors.primaryColor),
-                                          ))),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ],
-                );
-              },
-            );
-          },
+                    ],
+                  );
+                },
+              );
+            },
+          ),
         );
       },
     );

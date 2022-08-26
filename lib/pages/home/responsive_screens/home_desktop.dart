@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:animated_text_kit/animated_text_kit.dart' as atkit;
 import 'package:auto_animated/auto_animated.dart';
+import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -36,84 +37,12 @@ class _HomeDesktopState extends State<HomeDesktop> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            //BG Blobs
-            //TODO: blobs from memory
-            Positioned(
-              left: 0,
-              top: 24,
-              child: Container(
-                height: imageSize / 2,
-                width: imageSize / 2,
-                decoration: BoxDecoration(
-                  // color: ThemeUtils.green.withOpacity(.4),
-                  image: DecorationImage(
-                      image: AssetImage(
-                        "assets/blob2.png",
-                      ),
-                      opacity: .4),
-                  color: Colors.white,
-                ),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
-                  child: Container(
-                    decoration:
-                        BoxDecoration(color: Colors.white.withOpacity(0.0)),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 48,
-              left: width / 3,
-              child: Container(
-                height: imageSize / 2,
-                width: imageSize / 2,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(
-                      "assets/blob3.png",
-                    ),
-                  ),
-                ),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
-                  child: Container(
-                    decoration:
-                        BoxDecoration(color: Colors.white.withOpacity(0.0)),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              right: 48,
-              top: 48,
-              child: Container(
-                height: imageSize,
-                width: imageSize,
-                decoration: BoxDecoration(
-                  // color: ThemeUtils.green.withOpacity(.4),
-                  image: DecorationImage(
-                    image: AssetImage(
-                      "assets/blob1.png",
-                    ),
-                    opacity: .4,
-                  ),
-                  // color: Colors.red,
-                ),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 96, sigmaY: 96),
-                  child: Container(
-                    decoration:
-                        BoxDecoration(color: Colors.white.withOpacity(0.0)),
-                  ),
-                ),
-              ),
-            ),
             //Content
             Row(
               children: [
-                FadingSlideWidget(
-                  offset: Offset(-1, 0),
+                DelayedDisplay(
+                  slidingBeginOffset: Offset(-1, 0),
+                  delay: const Duration(seconds: 1),
                   child: Container(
                     width: width / 2,
                     height: height,
@@ -218,8 +147,9 @@ class _HomeDesktopState extends State<HomeDesktop> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      FadingSlideWidget(
-                        offset: Offset(0, 0.5),
+                      DelayedDisplay(
+                        delay: const Duration(seconds: 1),
+                        slidingBeginOffset: Offset(0, 0.5),
                         child: SizedBox(
                           width: width / 3,
                           child: Text(
@@ -231,8 +161,9 @@ class _HomeDesktopState extends State<HomeDesktop> {
                           ),
                         ),
                       ),
-                      FadingSlideWidget(
-                        offset: Offset(0, 0.5),
+                      DelayedDisplay(
+                        delay: const Duration(milliseconds: 1200),
+                        slidingBeginOffset: Offset(0, 0.5),
                         child: SizedBox(
                           height: 32,
                           child: DefaultTextStyle(
@@ -256,8 +187,9 @@ class _HomeDesktopState extends State<HomeDesktop> {
                         // ),
                       ),
                       SizedBox(height: 96),
-                      FadingSlideWidget(
-                        offset: Offset(0, 0.5),
+                      DelayedDisplay(
+                        delay: const Duration(milliseconds: 1500),
+                        slidingBeginOffset: Offset(0, 0.5),
                         child: TextButton(
                           onPressed: () => showDialog(
                             context: context,
@@ -290,32 +222,39 @@ class _HomeDesktopState extends State<HomeDesktop> {
               child: Container(
                 width: 256,
                 height: 256,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    ClipRRect(
-                      child: ImageFiltered(
-                        imageFilter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                child: DelayedDisplay(
+                  delay: const Duration(milliseconds: 1000),
+                  slidingBeginOffset: Offset(0, -2),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      ClipRRect(
+                        child: ImageFiltered(
+                          imageFilter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
+                          child: Image.memory(
+                              base64Decode(Globals.avatarImageBase64),
+                              width: imageSize,
+                              height: imageSize),
+                        ),
+                      ),
+                      Positioned(
                         child: Image.memory(
                             base64Decode(Globals.avatarImageBase64),
                             width: imageSize,
                             height: imageSize),
                       ),
-                    ),
-                    Positioned(
-                        child: Image.memory(
-                            base64Decode(Globals.avatarImageBase64),
-                            width: imageSize,
-                            height: imageSize)),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
             Positioned(
               bottom: 48,
               left: width / 2 + 42,
-              child: FadingSlideWidget(
-                offset: Offset(0, 2),
+              child: DelayedDisplay(
+                delay: const Duration(milliseconds: 1500),
+                slidingBeginOffset: Offset(0, 2),
+                slidingCurve: Curves.easeInOut,
                 child: TextButton(
                   style: GlobalStyles.iconButtonStyle(),
                   onPressed: () => uiMenuManager.updateMenuCommand.execute(1),

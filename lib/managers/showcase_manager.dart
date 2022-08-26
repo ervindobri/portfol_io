@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_command/flutter_command.dart';
 
@@ -129,10 +131,13 @@ class UiShowcaseManager {
   ValueNotifier<bool> showTutorialOverlay = ValueNotifier(true);
   ValueNotifier<View> showcaseView = ValueNotifier(View.single);
 
+  late PageController carouselController;
+
   int get currentPage => currentIndex + 1;
 
   late Command<int, int?> setImageCommand;
   UiShowcaseManager() {
+    carouselController = PageController();
     itemsCommand =
         Command.createAsync<void, List<ShowcaseItem>>(selectShowcaseItems, []);
     currentItemCommand = Command.createSync(getCurrentItem, null);

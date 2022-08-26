@@ -111,7 +111,7 @@ class ParallaxCard extends StatelessWidget {
                           ),
                           buildInfoRow(
                             context,
-                            "Targu Mures, Romania",
+                            Globals.myLocation,
                             CupertinoIcons.location,
                           ),
                         ]),
@@ -249,12 +249,12 @@ class MobileParallaxCard extends StatelessWidget {
               Wrap(direction: Axis.vertical, spacing: 12, children: [
                 buildInfoRow(
                   context,
-                  "Sapientia EMTE, Targu Mures",
+                  Globals.myUniversity,
                   FontAwesomeIcons.university,
                 ),
                 buildInfoRow(
                   context,
-                  "Targu Mures, Romania",
+                  Globals.myLocation,
                   CupertinoIcons.location,
                 ),
               ]),

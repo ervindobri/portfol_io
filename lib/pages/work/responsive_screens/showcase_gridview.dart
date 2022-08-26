@@ -88,7 +88,7 @@ class MobileShowcaseGridView extends StatelessWidget {
             if (items == null) {
               return SizedBox();
             }
-            print("Items: $items");
+            // print("Items: $items");
             return SizedBox(
               // height: height * .75,
               child: Padding(
