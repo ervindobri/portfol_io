@@ -112,6 +112,7 @@ class AnimatedShowcaseItemWidget extends StatelessWidget {
                                 children: [
                                   AnimatedTextKit(
                                     // spacing: 8,
+                                    repeatForever: true,
                                     pause: const Duration(seconds: 2),
                                     animatedTexts: item.tags
                                         .map(
