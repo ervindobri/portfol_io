@@ -5,6 +5,7 @@ import 'package:portfol_io/constants/colors.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/widgets/fade_in_slide.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class MenuDesktop extends StatelessWidget {
   MenuDesktop({Key? key}) : super(key: key);
@@ -25,14 +26,17 @@ class MenuDesktop extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Row(
             children: [
-              Container(
-                width: 60,
-                height: 32,
-                child: Center(
-                  child: Text(
-                    "ED",
-                    style: context.bodyText1?.copyWith(
-                      fontWeight: FontWeight.bold,
+              TextButton(
+                onPressed: () async => await launchUrlString(Globals.githubUrl),
+                child: Container(
+                  width: 60,
+                  height: 32,
+                  child: Center(
+                    child: Text(
+                      "ED",
+                      style: context.bodyText1?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),

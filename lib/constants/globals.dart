@@ -13,8 +13,8 @@ class Globals {
   static String title = "Refining The Future.";
   static String subtitle = "Since '98";
 
-  static const String facebookPage =
-      "https://www.facebook.com/ervindobri/";
+  static const String githubUrl = "https://github.com/ervindobri";
+  static const String facebookPage = "https://www.facebook.com/ervindobri/";
 
   static List<SocialMediaItem> socialMediaBubbles = [
     SocialMediaItem(
@@ -53,16 +53,21 @@ class Globals {
     "adobe xd",
     "mobile",
     "dart",
-    
   ];
 
   static const techStack = <TechItem>[
     TechItem(
         name: "Flutter", asset: "flutter", link: "https://www.flutter.dev/"),
     TechItem(name: "Python", asset: "python", link: "https://www.python.org/"),
-    TechItem(name: "C#", asset: "csharp", link: "https://docs.microsoft.com/en-us/dotnet/csharp/"),
+    TechItem(
+        name: "C#",
+        asset: "csharp",
+        link: "https://docs.microsoft.com/en-us/dotnet/csharp/"),
     TechItem(name: "Figma", asset: "figma", link: "https://wwww.figma.com/"),
-    TechItem(name: "Azure DevOps", asset: "devops", link: "https://azure.microsoft.com/en-us/services/devops/"),
+    TechItem(
+        name: "Azure DevOps",
+        asset: "devops",
+        link: "https://azure.microsoft.com/en-us/services/devops/"),
   ];
 
   static String showcase = "Showcase";
@@ -81,6 +86,7 @@ class Globals {
 
   static var inspiration = "Solving big problems is all about thinking small.";
 
-  static const String myLocation = "Targu Mures, Romania";
+  // static const String myLocation = "Targu Mures, Romania";
+  static const String myLocation = "Budapest, Hungary";
   static const String myUniversity = "Sapientia EMTE, Targu Mures";
 }
