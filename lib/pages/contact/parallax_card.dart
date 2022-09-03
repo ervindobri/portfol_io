@@ -94,10 +94,10 @@ class ParallaxCard extends StatelessWidget {
                                     color: GlobalColors.primaryColor,
                                   )),
                             ),
-                            Text(
+                            SelectableText(
                               "ervindobri@gmail.com",
                             ),
-                            Text(
+                            SelectableText(
                               "+40 754 365 846",
                             ),
                           ],
@@ -154,7 +154,7 @@ class ParallaxCard extends StatelessWidget {
           color: Colors.white,
           size: 16,
         ),
-        Text(
+        SelectableText(
           label,
           style: context.bodyText1?.copyWith(),
         ),

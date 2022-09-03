@@ -167,8 +167,8 @@ class _HomeDesktopState extends State<HomeDesktop> {
                         child: SizedBox(
                           height: 32,
                           child: DefaultTextStyle(
-                            style: context.headline6!
-                                .copyWith(color: GlobalColors.lightGrey),
+                            style: context.headline6!.copyWith(
+                                color: GlobalColors.lightGrey, fontSize: 28),
                             child: atkit.AnimatedTextKit(
                               repeatForever: true,
                               pause: Duration.zero,
