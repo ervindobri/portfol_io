@@ -49,23 +49,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 Positioned(
                   left: 0,
                   top: 24,
-                  child: Container(
-                    height: imageSize / 2,
-                    width: imageSize / 2,
-                    decoration: BoxDecoration(
-                      // color: ThemeUtils.green.withOpacity(.4),
-                      image: DecorationImage(
-                          image: AssetImage(
-                            "assets/blob2.png",
-                          ),
-                          opacity: .4),
-                      color: Colors.white,
-                    ),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
-                      child: Container(
-                        decoration:
-                            BoxDecoration(color: Colors.white.withOpacity(0.0)),
+                  child: ImageFiltered(
+                    imageFilter: ImageFilter.blur(sigmaX: 96, sigmaY: 96),
+                    child: Container(
+                      height: imageSize / 2,
+                      width: imageSize / 2,
+                      decoration: BoxDecoration(
+                        // color: ThemeUtils.green.withOpacity(.4),
+                        image: DecorationImage(
+                            image: AssetImage(
+                              "assets/blob2.png",
+                            ),
+                            opacity: .4),
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -73,21 +69,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 Positioned(
                   bottom: 48,
                   left: width / 3,
-                  child: Container(
-                    height: imageSize / 2,
-                    width: imageSize / 2,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                          "assets/blob3.png",
+                  child: ImageFiltered(
+                    imageFilter: ImageFilter.blur(sigmaX: 96, sigmaY: 96),
+                    child: Container(
+                      height: imageSize / 2,
+                      width: imageSize / 2,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                            "assets/blob3.png",
+                          ),
                         ),
-                      ),
-                    ),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
-                      child: Container(
-                        decoration:
-                            BoxDecoration(color: Colors.white.withOpacity(0.0)),
                       ),
                     ),
                   ),
@@ -95,24 +87,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 Positioned(
                   right: 48,
                   top: 48,
-                  child: Container(
-                    height: imageSize,
-                    width: imageSize,
-                    decoration: BoxDecoration(
-                      // color: ThemeUtils.green.withOpacity(.4),
-                      image: DecorationImage(
-                        image: AssetImage(
-                          "assets/blob1.png",
+                  child: ImageFiltered(
+                    imageFilter: ImageFilter.blur(sigmaX: 96, sigmaY: 96),
+                    child: Container(
+                      height: imageSize,
+                      width: imageSize,
+                      decoration: BoxDecoration(
+                        // color: ThemeUtils.green.withOpacity(.4),
+                        image: DecorationImage(
+                          image: AssetImage(
+                            "assets/blob1.png",
+                          ),
+                          opacity: .4,
                         ),
-                        opacity: .4,
-                      ),
-                      // color: Colors.red,
-                    ),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 96, sigmaY: 96),
-                      child: Container(
-                        decoration:
-                            BoxDecoration(color: Colors.white.withOpacity(0.0)),
+                        // color: Colors.red,
                       ),
                     ),
                   ),
@@ -146,13 +134,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               // ),
               Positioned(
                 top: 0,
-                // duration: Duration(milliseconds: 300),
-                child: ClipRRect(
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
-                    child: StickyMenu(),
-                  ),
-                ),
+                child: StickyMenu(),
               ),
               Positioned(
                 bottom: mobilePadding,

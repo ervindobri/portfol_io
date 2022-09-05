@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:portfol_io/constants/globals.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
@@ -19,69 +21,83 @@ class MenuDesktop extends StatelessWidget {
     return FadingSlideWidget(
       noFade: true,
       offset: Offset(0, -2),
-      child: Container(
-        height: 60,
-        width: width,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Row(
-            children: [
-              TextButton(
-                onPressed: () async => await launchUrlString(Globals.githubUrl),
-                child: Container(
-                  width: 60,
-                  height: 32,
-                  child: Center(
-                    child: Text(
-                      "ED",
-                      style: context.bodyText1?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Spacer(),
-              Container(
-                width: 280,
-                child: ValueListenableBuilder<int>(
-                  valueListenable: uiMenuManager.menuIndex,
-                  builder: (_, value, __) {
-                    final _selectedIndex = value;
-                    return ListView.separated(
-                      itemCount: Globals.menu.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (_, index) {
-                        return InkWell(
-                          onTap: () async {
-                            uiMenuManager.updateMenuCommand.execute(index);
-                          },
-                          child: Container(
-                            color:
-                                _selectedIndex == index ? Colors.white : null,
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: ClipRRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 48, sigmaY: 48),
+          child: Container(
+            height: 60,
+            width: width,
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Row(
+                    children: [
+                      TextButton(
+                        onPressed: () async =>
+                            await launchUrlString(Globals.githubUrl),
+                        child: Container(
+                          width: 60,
+                          height: 32,
+                          child: Center(
                             child: Text(
-                              Globals.menu[index],
+                              "ED",
                               style: context.bodyText1?.copyWith(
-                                  color: _selectedIndex == index
-                                      ? GlobalColors.primaryColor
-                                      : Colors.white,
-                                  fontWeight: _selectedIndex == index
-                                      ? FontWeight.bold
-                                      : FontWeight.normal),
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(width: 24);
-                      },
-                    );
-                  },
+                        ),
+                      ),
+                      Spacer(),
+                      Container(
+                        width: 280,
+                        child: ValueListenableBuilder<int>(
+                          valueListenable: uiMenuManager.menuIndex,
+                          builder: (_, value, __) {
+                            final _selectedIndex = value;
+                            return ListView.separated(
+                              itemCount: Globals.menu.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (_, index) {
+                                return InkWell(
+                                  onTap: () async {
+                                    uiMenuManager.updateMenuCommand
+                                        .execute(index);
+                                  },
+                                  child: Container(
+                                    color: _selectedIndex == index
+                                        ? Colors.white
+                                        : null,
+                                    alignment: Alignment.center,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12),
+                                    child: Text(
+                                      Globals.menu[index],
+                                      style: context.bodyText1?.copyWith(
+                                          color: _selectedIndex == index
+                                              ? GlobalColors.primaryColor
+                                              : Colors.white,
+                                          fontWeight: _selectedIndex == index
+                                              ? FontWeight.bold
+                                              : FontWeight.normal),
+                                    ),
+                                  ),
+                                );
+                              },
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return SizedBox(width: 24);
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

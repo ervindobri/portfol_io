@@ -292,16 +292,14 @@ class _TechStackWidgetState extends State<TechStackWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return MouseRegion(
       onExit: (d) {
         setState(() {
           showStackList = false;
         });
       },
-      child: Wrap(
-        runAlignment: WrapAlignment.center,
-        alignment: WrapAlignment.center,
-        crossAxisAlignment: WrapCrossAlignment.center,
+      child: Row(
         children: [
           MouseRegion(
             onHover: (hovering) {
@@ -311,103 +309,108 @@ class _TechStackWidgetState extends State<TechStackWidget> {
             },
             child: SizedBox(
               height: 24,
-              child: atkit.AnimatedTextKit(
-                repeatForever: true,
-                animatedTexts: [
-                  atkit.ColorizeAnimatedText(
-                    "Tech Stack",
-                    colors: [
-                      GlobalColors.primaryColor,
-                      GlobalColors.lightGrey,
-                      GlobalColors.primaryColor
-                    ],
-                    textStyle: context.bodyText1!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
+              child: Center(
+                child: atkit.AnimatedTextKit(
+                  repeatForever: true,
+                  animatedTexts: [
+                    atkit.ColorizeAnimatedText(
+                      "Tech Stack",
+                      textAlign: TextAlign.center,
+                      colors: [
+                        GlobalColors.primaryColor,
+                        GlobalColors.lightGrey,
+                        GlobalColors.primaryColor
+                      ],
+                      textStyle: context.bodyText1!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
           SizedBox(width: 16),
           MouseRegion(
-            child: Container(
-              child: Row(
-                children: [
-                  AnimatedOpacity(
-                    duration: kThemeAnimationDuration,
-                    opacity: showStackList ? 0.0 : 1.0,
-                    child: SizedBox(
-                      child: Icon(FontAwesomeIcons.angleDoubleRight,
-                          size: 16, color: GlobalColors.lightGrey),
+            child: Row(
+              children: [
+                AnimatedOpacity(
+                  duration: kThemeAnimationDuration,
+                  opacity: showStackList ? 0.0 : 1.0,
+                  child: SizedBox(
+                    height: 24,
+                    child: Icon(
+                      FontAwesomeIcons.angleDoubleRight,
+                      size: 16,
+                      color: GlobalColors.lightGrey,
                     ),
                   ),
-                  AnimatedOpacity(
-                    duration: kThemeAnimationDuration,
-                    opacity: showStackList ? 1.0 : 0.0,
-                    child: SizedBox(
-                      width: 344,
-                      height: 48,
-                      child: LiveList(
-                        shrinkWrap: true,
-                        visibleFraction: 0.5,
-                        reAnimateOnVisibility: true,
-                        itemCount: Globals.techStack.length,
-                        scrollDirection: Axis.horizontal,
-                        padding: const EdgeInsets.only(right: 16),
-                        itemBuilder:
-                            (BuildContext context, int index, animation) {
-                          final tech = techList[index];
-                          return FadeTransition(
-                            opacity: Tween<double>(
-                              begin: 0,
-                              end: 1,
+                ),
+                AnimatedOpacity(
+                  duration: kThemeAnimationDuration,
+                  opacity: showStackList ? 1.0 : 0.0,
+                  child: SizedBox(
+                    width: width / 4,
+                    height: 48,
+                    child: LiveList(
+                      shrinkWrap: true,
+                      visibleFraction: 0.5,
+                      reAnimateOnVisibility: true,
+                      itemCount: Globals.techStack.length,
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.only(right: 16),
+                      itemBuilder:
+                          (BuildContext context, int index, animation) {
+                        final tech = techList[index];
+                        return FadeTransition(
+                          opacity: Tween<double>(
+                            begin: 0,
+                            end: 1,
+                          ).animate(animation),
+                          child: SlideTransition(
+                            position: Tween<Offset>(
+                              begin: const Offset(-.4, 0),
+                              end: Offset(0, 0),
                             ).animate(animation),
-                            child: SlideTransition(
-                              position: Tween<Offset>(
-                                begin: const Offset(-.4, 0),
-                                end: Offset(0, 0),
-                              ).animate(animation),
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 16.0),
-                                child: IconButton(
-                                  iconSize: 48,
-                                  tooltip: tech.name,
-                                  padding: EdgeInsets.zero,
-                                  onPressed: () {
-                                    // print(tech.link);
-                                  },
-                                  icon: Container(
-                                    width: 48,
-                                    height: 48,
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: IconButton(
+                                iconSize: 48,
+                                tooltip: tech.name,
+                                padding: EdgeInsets.zero,
+                                onPressed: () {
+                                  // print(tech.link);
+                                },
+                                icon: Container(
+                                  width: 48,
+                                  height: 48,
+                                  decoration: BoxDecoration(
+                                    color: GlobalColors.primaryColor
+                                        .withOpacity(.4),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  padding: const EdgeInsets.all(12),
+                                  child: Container(
                                     decoration: BoxDecoration(
-                                      color: GlobalColors.primaryColor
-                                          .withOpacity(.4),
+                                      color: Colors.transparent,
                                       shape: BoxShape.circle,
-                                    ),
-                                    padding: const EdgeInsets.all(12),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.transparent,
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              "assets/images/${tech.asset}.png"),
-                                        ),
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                            "assets/images/${tech.asset}.png"),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],

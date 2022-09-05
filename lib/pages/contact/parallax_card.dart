@@ -60,12 +60,12 @@ class ParallaxCard extends StatelessWidget {
                           spacing: 8,
                           children: [
                             Text(
-                              "Ervin Dobri (23)",
+                              "Ervin Dobri (24)",
                               style: context.bodyText1
                                   ?.copyWith(fontWeight: FontWeight.w900),
                             ),
                             Text(
-                              "Junior Software Developer / Aspiring UI/UX Designer",
+                              "Flutter Developer / Aspiring UI/UX Designer",
                               maxLines: 2,
                             ),
                             SizedBox(height: 24),
@@ -205,11 +205,13 @@ class MobileParallaxCard extends StatelessWidget {
                     style: context.bodyText1
                         ?.copyWith(fontWeight: FontWeight.w700),
                   ),
-                  Text("Junior Software Developer / Aspiring UI/UX Designer",
-                      maxLines: 2,
-                      style: context.bodyText1?.copyWith(
-                        fontSize: 12,
-                      )),
+                  Text(
+                    "Flutter Developer / Aspiring UI/UX Designer",
+                    maxLines: 2,
+                    style: context.bodyText1?.copyWith(
+                      fontSize: 12,
+                    ),
+                  ),
                   SizedBox(height: 12),
                   TextButton.icon(
                     onPressed: () async {

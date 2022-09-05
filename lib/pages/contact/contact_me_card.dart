@@ -87,7 +87,7 @@ class ContactMeCard extends StatelessWidget {
                           child: Container(
                             width: 32,
                             height: 32,
-                            color: GlobalColors.primaryColor,
+                            color: GlobalColors.lightGrey.withOpacity(.4),
                             child: Center(
                               child: FaIcon(e.icon, size: 16),
                             ),
