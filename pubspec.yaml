@@ -38,6 +38,10 @@ dependencies:
   mailto: ^2.0.0
   overlay_support: ^2.0.1
   delayed_display: ^2.0.0
+  flutter_svg: ^2.0.5
+  motion: ^1.4.0
+  flutter_animated_dialog: ^2.0.1
+  flutter_riverpod: ^2.3.4
 
 dev_dependencies:
   flutter_test:
@@ -84,16 +88,19 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Helvetica
+    - family: Poppins
       fonts:
-        - asset: assets/fonts/Helvetica.ttf
+        - asset: assets/fonts/Poppins-Regular.ttf
           weight: 300
-        - asset: assets/fonts/Helvetica-Bold.ttf
+        - asset: assets/fonts/Poppins-Medium.ttf
+          weight: 400
+        - asset: assets/fonts/Poppins-Bold.ttf
           weight: 500
-        - asset: assets/fonts/Helvetica-BoldOblique.ttf
+        - asset: assets/fonts/Poppins-Black.ttf
           weight: 700
-        - asset: assets/fonts/helvetica-compressed.otf
-        - asset: assets/fonts/Helvetica-light.ttf
+        - asset: assets/fonts/Poppins-Light.ttf
+          weight: 200
+        - asset: assets/fonts/Poppins-ExtraLight.ttf
           weight: 100
 
   # For details regarding fonts from package dependencies,

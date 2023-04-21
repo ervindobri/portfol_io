@@ -1,420 +1,382 @@
-import 'dart:convert';
-import 'dart:ui';
-import 'package:animated_text_kit/animated_text_kit.dart' as atkit;
-import 'package:auto_animated/auto_animated.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:motion/motion.dart';
 import 'package:portfol_io/constants/globals.dart';
-import 'package:portfol_io/constants/styles.dart';
+import 'package:portfol_io/constants/icons.dart';
+import 'package:portfol_io/constants/images.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
-import 'package:portfol_io/constants/colors.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
-import 'package:portfol_io/pages/contact/contact_me_dialog.dart';
-import 'package:portfol_io/widgets/fade_in_slide.dart';
 import 'package:portfol_io/injection_manager.dart';
+import 'package:portfol_io/providers/providers.dart';
+import 'package:portfol_io/widgets/animated_highlight_widget.dart';
+import 'package:portfol_io/widgets/hover_button.dart';
+import 'package:portfol_io/extensions/list.dart';
 
-class HomeDesktop extends StatefulWidget {
+class HomeDesktop extends ConsumerStatefulWidget {
   HomeDesktop({Key? key}) : super(key: key);
 
   @override
-  State<HomeDesktop> createState() => _HomeDesktopState();
+  ConsumerState<HomeDesktop> createState() => _HomeDesktopState();
 }
 
-class _HomeDesktopState extends State<HomeDesktop> {
+class _HomeDesktopState extends ConsumerState<HomeDesktop> {
   final uiMenuManager = sl<UiMenuManager>();
 
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final imageSize = 348.0;
-    return ClipRRect(
-      child: Container(
-        height: height,
-        width: width,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            //Content
-            Row(
-              children: [
-                DelayedDisplay(
-                  slidingBeginOffset: Offset(-1, 0),
-                  delay: const Duration(seconds: 1),
-                  child: Container(
-                    width: width / 2,
-                    height: height,
-                    color: GlobalColors.lightGrey.withOpacity(.4),
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.all(48),
-                    child: Stack(
+    final theme = ref.watch(themeProvider);
+    final previousColor = ref.watch(previousThemeColorProvider);
+    final nextColor = ref.watch(themeColorProvider);
+    return TweenAnimationBuilder<Color?>(
+        // <-- Color might be null
+        tween: ColorTween(begin: previousColor, end: nextColor),
+        duration: Duration(milliseconds: 500),
+        builder: (_, Color? themeColor, __) {
+          // <-- Colo
+          return ClipRRect(
+            child: Container(
+              height: height,
+              width: width,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  //Content
+                  Container(
+                    height: height - kToolbarHeight * 3,
+                    child: Row(
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            AnimationLimiter(
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: Globals.skills.take(5).length,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemBuilder: (BuildContext context, int index) {
-                                  final skill = Globals.skills[index];
-                                  var list = [...Globals.skills];
-                                  list.remove(skill);
-                                  list.shuffle();
-                                  final speed =
-                                      const Duration(milliseconds: 200);
-                                  return AnimationConfiguration.staggeredList(
-                                    position: index,
-                                    delay: Duration(milliseconds: 200),
-                                    duration: Duration(milliseconds: 300),
-                                    child: SlideAnimation(
-                                      horizontalOffset: -width / 2,
-                                      child: FadeInAnimation(
-                                        child: DefaultTextStyle(
-                                          style: context.headline1!.copyWith(
-                                            fontSize:
-                                                (width / 15).clamp(50, 75),
-                                            foreground: Paint()
-                                              ..style = PaintingStyle.stroke
-                                              ..strokeWidth = 2
-                                              ..color = GlobalColors.green
-                                                  .withOpacity(.7),
-                                          ),
-                                          child: atkit.AnimatedTextKit(
-                                            repeatForever: true,
-                                            pause: Duration(seconds: 3),
-                                            animatedTexts: [
-                                              atkit.TyperAnimatedText(
-                                                skill.toUpperCase(),
-                                                speed: speed,
-                                              ),
-                                              ...list
-                                                  .map(
-                                                    (e) =>
-                                                        atkit.TyperAnimatedText(
-                                                      e.toUpperCase(),
-                                                      speed: speed,
-                                                    ),
-                                                  )
-                                                  .toList(),
-                                            ],
+                        //left
+                        Expanded(
+                          child: DelayedDisplay(
+                            slidingBeginOffset: Offset(-1, 0),
+                            delay: const Duration(seconds: 1),
+                            child: Motion(
+                              glare: GlareConfiguration(
+                                maxOpacity: 0,
+                                minOpacity: 0,
+                                color: Colors.transparent,
+                              ),
+                              shadow: ShadowConfiguration(
+                                opacity: 0,
+                                color: Colors.transparent,
+                              ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: theme.containerColor,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(128),
+                                    bottomLeft: Radius.circular(128),
+                                    topRight: Radius.circular(24),
+                                    bottomRight: Radius.circular(24),
+                                  ),
+                                ),
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.all(48),
+                                margin:
+                                    const EdgeInsets.only(top: kToolbarHeight),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SizedBox(),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 48),
+                                        Text(
+                                          "my name is",
+                                          style: theme.nameStyleSmall?.copyWith(
+                                            fontSize: 24,
                                           ),
                                         ),
-                                        // child: Text(
-                                        //   skill.toUpperCase(),
-                                        //   maxLines: 1,
-                                        //   overflow: TextOverflow.fade,
-                                        //   style:
-                                        //       context.headline1!.copyWith(
-                                        //     // color: Colors.transparent,
-                                        //     fontSize:
-                                        //         (width / 15).clamp(50, 75),
-
-                                        //     foreground: Paint()
-                                        //       ..style = PaintingStyle.stroke
-                                        //       ..strokeWidth = 2
-                                        //       ..color = GlobalColors.green
-                                        //           .withOpacity(.3),
-                                        //   ),
-                                        // ),
-                                      ),
+                                        Text(
+                                          "Ervin Dobri",
+                                          style: theme.nameStyleLarge,
+                                        ),
+                                        DefaultTextStyle(
+                                          style: theme.nameStyleLarge ??
+                                              TextStyle(),
+                                          child: Row(
+                                            children: [
+                                              Text("I"),
+                                              SizedBox(width: 24),
+                                              SizedBox(
+                                                width: "create".length * 60,
+                                                child: DefaultTextStyle(
+                                                  style: theme.nameStyleLarge!
+                                                      .copyWith(
+                                                    color: themeColor,
+                                                  ),
+                                                  child: AnimatedTextKit(
+                                                    repeatForever: true,
+                                                    pause: Duration(seconds: 2),
+                                                    animatedTexts: [
+                                                      ...[
+                                                        "design",
+                                                        "create",
+                                                        "code"
+                                                      ].map(
+                                                        (e) =>
+                                                            TyperAnimatedText(
+                                                          e,
+                                                          speed: Duration(
+                                                            milliseconds: 200,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                    onTap: () {
+                                                      print("Tap Event");
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(width: 24),
+                                              Text("value"),
+                                            ],
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        Positioned(
-                          bottom: 24,
-                          child: FadingSlideWidget(
-                            offset: Offset(-1, 0),
-                            child: TechStackWidget(),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  width: width / 2,
-                  height: height,
-                  padding: const EdgeInsets.fromLTRB(48, 128 + 60, 48, 48),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      DelayedDisplay(
-                        delay: const Duration(seconds: 1),
-                        slidingBeginOffset: Offset(0, 0.5),
-                        child: SizedBox(
-                          width: width / 3,
-                          child: Text(
-                            Globals.title,
-                            maxLines: 2,
-                            textAlign: TextAlign.right,
-                            style: context.headline1!
-                                .copyWith(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                      DelayedDisplay(
-                        delay: const Duration(milliseconds: 1200),
-                        slidingBeginOffset: Offset(0, 0.5),
-                        child: SizedBox(
-                          height: 32,
-                          child: DefaultTextStyle(
-                            style: context.headline6!.copyWith(
-                                color: GlobalColors.lightGrey, fontSize: 28),
-                            child: atkit.AnimatedTextKit(
-                              repeatForever: true,
-                              pause: Duration.zero,
-                              animatedTexts: [
-                                atkit.FadeAnimatedText(Globals.subtitle,
-                                    duration: const Duration(seconds: 15)),
-                                atkit.FadeAnimatedText(Globals.inspiration,
-                                    duration: const Duration(seconds: 15)),
-                              ],
-                            ),
-                          ),
-                        ),
-                        // child: Text(
-                        //   Globals.subtitle,
-                        //   textAlign: TextAlign.right,
-                        // ),
-                      ),
-                      SizedBox(height: 96),
-                      DelayedDisplay(
-                        delay: const Duration(milliseconds: 1500),
-                        slidingBeginOffset: Offset(0, 0.5),
-                        child: TextButton(
-                          onPressed: () => showDialog(
-                            context: context,
-                            builder: (context) {
-                              return Dialog(
-                                elevation: 24,
-                                child: ContactMeDialog.desktop(),
-                              );
-                            },
-                          ),
-                          child: Container(
-                            color: Colors.white,
-                            padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
-                            child: Text(
-                              Globals.letsWorkTogether,
-                              style: context.headline6!.copyWith(
-                                color: GlobalColors.primaryColor,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Positioned(
-              top: 128,
-              child: Container(
-                width: 256,
-                height: 256,
-                child: DelayedDisplay(
-                  delay: const Duration(milliseconds: 1000),
-                  slidingBeginOffset: Offset(0, -2),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      ClipRRect(
-                        child: ImageFiltered(
-                          imageFilter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
-                          child: Image.memory(
-                              base64Decode(Globals.avatarImageBase64),
-                              width: imageSize,
-                              height: imageSize),
-                        ),
-                      ),
-                      Positioned(
-                        child: Image.memory(
-                            base64Decode(Globals.avatarImageBase64),
-                            width: imageSize,
-                            height: imageSize),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 48,
-              left: width / 2 + 42,
-              child: DelayedDisplay(
-                delay: const Duration(milliseconds: 1500),
-                slidingBeginOffset: Offset(0, 2),
-                slidingCurve: Curves.easeInOut,
-                child: TextButton(
-                  style: GlobalStyles.iconButtonStyle(),
-                  onPressed: () => uiMenuManager.updateMenuCommand.execute(1),
-                  child: Container(
-                    color: GlobalColors.lightGrey.withOpacity(.12),
-                    child: Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: Icon(FontAwesomeIcons.chevronDown,
-                          color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class TechStackWidget extends StatefulWidget {
-  const TechStackWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<TechStackWidget> createState() => _TechStackWidgetState();
-}
-
-class _TechStackWidgetState extends State<TechStackWidget> {
-  bool showStackList = false;
-
-  var techList = Globals.techStack;
-
-  @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    return MouseRegion(
-      onExit: (d) {
-        setState(() {
-          showStackList = false;
-        });
-      },
-      child: Row(
-        children: [
-          MouseRegion(
-            onHover: (hovering) {
-              setState(() {
-                showStackList = true;
-              });
-            },
-            child: SizedBox(
-              height: 24,
-              child: Center(
-                child: atkit.AnimatedTextKit(
-                  repeatForever: true,
-                  animatedTexts: [
-                    atkit.ColorizeAnimatedText(
-                      "Tech Stack",
-                      textAlign: TextAlign.center,
-                      colors: [
-                        GlobalColors.primaryColor,
-                        GlobalColors.lightGrey,
-                        GlobalColors.primaryColor
-                      ],
-                      textStyle: context.bodyText1!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          SizedBox(width: 16),
-          MouseRegion(
-            child: Row(
-              children: [
-                AnimatedOpacity(
-                  duration: kThemeAnimationDuration,
-                  opacity: showStackList ? 0.0 : 1.0,
-                  child: SizedBox(
-                    height: 24,
-                    child: Icon(
-                      FontAwesomeIcons.angleDoubleRight,
-                      size: 16,
-                      color: GlobalColors.lightGrey,
-                    ),
-                  ),
-                ),
-                AnimatedOpacity(
-                  duration: kThemeAnimationDuration,
-                  opacity: showStackList ? 1.0 : 0.0,
-                  child: SizedBox(
-                    width: width / 4,
-                    height: 48,
-                    child: LiveList(
-                      shrinkWrap: true,
-                      visibleFraction: 0.5,
-                      reAnimateOnVisibility: true,
-                      itemCount: Globals.techStack.length,
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.only(right: 16),
-                      itemBuilder:
-                          (BuildContext context, int index, animation) {
-                        final tech = techList[index];
-                        return FadeTransition(
-                          opacity: Tween<double>(
-                            begin: 0,
-                            end: 1,
-                          ).animate(animation),
-                          child: SlideTransition(
-                            position: Tween<Offset>(
-                              begin: const Offset(-.4, 0),
-                              end: Offset(0, 0),
-                            ).animate(animation),
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: IconButton(
-                                iconSize: 48,
-                                tooltip: tech.name,
-                                padding: EdgeInsets.zero,
-                                onPressed: () {
-                                  // print(tech.link);
-                                },
-                                icon: Container(
-                                  width: 48,
-                                  height: 48,
-                                  decoration: BoxDecoration(
-                                    color: GlobalColors.primaryColor
-                                        .withOpacity(.4),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  padding: const EdgeInsets.all(12),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.transparent,
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                            "assets/images/${tech.asset}.png"),
-                                      ),
-                                    ),
-                                  ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        TextButton(
+                                          style: ButtonStyle(
+                                            shape: MaterialStatePropertyAll(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(48),
+                                              ),
+                                            ),
+                                            overlayColor:
+                                                MaterialStatePropertyAll(
+                                                    themeColor),
+                                            backgroundColor:
+                                                MaterialStateProperty
+                                                    .resolveWith((states) {
+                                              return theme.inverseTextColor;
+                                            }),
+                                          ),
+                                          onPressed: () {
+                                            //hire me
+                                            uiMenuManager.updateMenuCommand
+                                                .execute(2);
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 24, horizontal: 24),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  Globals.hireMe,
+                                                  style: theme
+                                                      .textTheme.titleMedium
+                                                      ?.copyWith(
+                                                          color:
+                                                              theme.textColor),
+                                                ),
+                                                SizedBox(width: 24),
+                                                SvgPicture.asset(
+                                                  AppIcons.coffee,
+                                                  height: 32,
+                                                  width: 32,
+                                                  colorFilter: ColorFilter.mode(
+                                                    theme.textColor,
+                                                    BlendMode.srcIn,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        DelayedDisplay(
+                                          delay: const Duration(
+                                              milliseconds: 1000),
+                                          slidingBeginOffset: Offset(0, 2),
+                                          slidingCurve: Curves.easeInOut,
+                                          fadingDuration:
+                                              Duration(milliseconds: 300),
+                                          child: MouseRegion(
+                                            child: HoverWidget(
+                                              builder: (hovering) => InkWell(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                onTap: () => uiMenuManager
+                                                    .updateMenuCommand
+                                                    .execute(1),
+                                                child: AnimatedContainer(
+                                                  decoration: BoxDecoration(
+                                                      color: themeColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              hovering
+                                                                  ? 12
+                                                                  : 8),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: themeColor!
+                                                              .withOpacity(
+                                                            hovering
+                                                                ? .24
+                                                                : .12,
+                                                          ),
+                                                          offset: Offset(0, 24),
+                                                          blurRadius: 24,
+                                                          spreadRadius: -2,
+                                                        ),
+                                                      ]),
+                                                  padding: const EdgeInsets.all(
+                                                      24.0),
+                                                  duration:
+                                                      kThemeAnimationDuration,
+                                                  child: Icon(
+                                                    FontAwesomeIcons
+                                                        .chevronDown,
+                                                    color: Colors.white,
+                                                    size: 24,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
                           ),
-                        );
-                      },
+                        ),
+                        SizedBox(width: 48),
+                        Expanded(
+                          child: DelayedDisplay(
+                            slidingBeginOffset: Offset(1, 0),
+                            delay: const Duration(seconds: 2),
+                            child: Container(
+                              margin:
+                                  const EdgeInsets.only(top: kToolbarHeight),
+                              child: Stack(
+                                children: [
+                                  Builder(builder: (context) {
+                                    final shapeCount = 4;
+                                    return Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        ...List.generate(
+                                          shapeCount,
+                                          (index) => Expanded(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              24),
+                                                      gradient: LinearGradient(
+                                                        colors: [
+                                                          theme.containerColor,
+                                                          theme
+                                                              .extBackgroundColor,
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    width: width,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                            .expandWithSeparator<Widget>(
+                                                (element) => element,
+                                                SizedBox(height: 48))
+                                            .toList(),
+                                      ],
+                                    );
+                                  }),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 48),
+                                    decoration: BoxDecoration(
+                                      color: themeColor,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(666),
+                                        bottomLeft: Radius.circular(24),
+                                        bottomRight: Radius.circular(128),
+                                      ),
+                                    ),
+                                    padding: EdgeInsets.all(48),
+                                    alignment: Alignment.centerRight,
+                                    child: DelayedDisplay(
+                                      delay: Duration(seconds: 2),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          ...List.generate(
+                                            Globals.highlightList.length,
+                                            (index) {
+                                              return AnimatedHighlightWidget(
+                                                  index: index);
+                                            },
+                                          ).expandWithSeparator(
+                                            (element) => element,
+                                            SizedBox(
+                                              height: 24,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: -24,
+                                    bottom: 0,
+                                    child: DelayedDisplay(
+                                      slidingBeginOffset: Offset(0, 2),
+                                      delay: const Duration(seconds: 2),
+                                      child: HoverWidget(
+                                        builder: (hovering) {
+                                          return AnimatedScale(
+                                            duration: kThemeAnimationDuration,
+                                            scale: hovering ? 1.025 : 1,
+                                            child: Image.asset(
+                                              AppImages.me,
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          );
+        });
   }
 }

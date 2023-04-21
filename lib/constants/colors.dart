@@ -22,4 +22,29 @@ class GlobalColors {
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
   );
+
+  static Color defaultThemeColor = Color(0xffF15E3D);
+
+  // Text colors
+  static const Color textColorDark = Color(0xff222222);
+  static const Color inverseTextColorDark = textColorLight;
+  static const Color textColorLight = Color(0xffffffff);
+  static const Color inverseTextColorLight = textColorDark;
+
+  static const Color containerColorDark = const Color(0xff2b2b2b);
+  static const Color containerColorLight = const Color(0xffFBFBFB);
+
+  // BG Colors
+  static const Color backgroundColorDark = const Color(0xff222222);
+  static const Color backgroundColorLight = const Color(0xffEDEDED);
+
+  static List<Color> themeColors = [
+    Color(0xffF15E3D),
+    Color(0xff3DF1D1),
+    Color(0xff3D9BF1),
+    Color(0xffB83DF1),
+    Color(0xffF1483D),
+  ];
+
+  static const Brightness defaultBrightness = Brightness.dark;
 }

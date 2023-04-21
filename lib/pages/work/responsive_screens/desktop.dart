@@ -35,7 +35,6 @@ class _WorkDesktopState extends State<WorkDesktop> {
               if (items.hasError || items.data == null) {
                 return SizedBox(height: height);
               }
-              final rows = items.data!.length / 3 - 1;
               return SizedBox(
                 // height: value == View.grid ? height + rows * 420 : height,
                 height: height,
@@ -45,62 +44,6 @@ class _WorkDesktopState extends State<WorkDesktop> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     SizedBox(
-                        //       child: Text(
-                        //         Globals.showcase,
-                        //         style: context.headline6!
-                        //             .copyWith(color: Colors.white),
-                        //       ),
-                        //     ),
-                        //     ValueListenableBuilder<View>(
-                        //       valueListenable: uiShowcaseManager.showcaseView,
-                        //       builder: (context, view, _) {
-                        //         return Wrap(
-                        //           children: [
-                        //             IconButton(
-                        //                 icon: Container(
-                        //                   color: view == View.grid
-                        //                       ? Colors.white
-                        //                       : null,
-                        //                   child: Icon(
-                        //                     CupertinoIcons.square_grid_2x2,
-                        //                     color: view == View.grid
-                        //                         ? GlobalColors.primaryColor
-                        //                         : Colors.white,
-                        //                   ),
-                        //                 ),
-                        //                 onPressed: () {
-                        //                   uiShowcaseManager.showcaseView.value =
-                        //                       View.grid;
-                        //                 }),
-                        //             IconButton(
-                        //               icon: Container(
-                        //                 color: view == View.single
-                        //                     ? Colors.white
-                        //                     : null,
-                        //                 child: Icon(
-                        //                   CupertinoIcons
-                        //                       .list_bullet_below_rectangle,
-                        //                   color: view == View.single
-                        //                       ? GlobalColors.primaryColor
-                        //                       : Colors.white,
-                        //                 ),
-                        //               ),
-                        //               onPressed: () {
-                        //                 uiShowcaseManager.showcaseView.value =
-                        //                     View.single;
-                        //               },
-                        //             ),
-                        //           ],
-                        //         );
-                        //       },
-                        //     ),
-                        //   ],
-                        // ),
-                        // SizedBox(height: 16),
                         ValueListenableBuilder<View>(
                           valueListenable: uiShowcaseManager.showcaseView,
                           builder: (context, view, _) {

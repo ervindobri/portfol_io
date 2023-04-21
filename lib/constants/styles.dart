@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:portfol_io/constants/colors.dart';
 
 class GlobalStyles {
+
+  static EdgeInsets get horizontalScreenPadding =>
+      const EdgeInsets.symmetric(horizontal: 128);
+
+  static BorderRadius get borderRadius => BorderRadius.circular(8);
   static ButtonStyle whiteTextButtonStyle(
           {Color backgroundColor = Colors.white,
           EdgeInsets padding = EdgeInsets.zero}) =>

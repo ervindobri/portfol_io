@@ -1,151 +1,82 @@
-import 'dart:ui';
-
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/constants.dart';
+import 'package:portfol_io/constants/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/pages/contact/contact_content.dart';
 import 'package:portfol_io/pages/home/home_content.dart';
 import 'package:portfol_io/pages/menu/menu.dart';
 import 'package:portfol_io/pages/work/work_content.dart';
+import 'package:portfol_io/providers/providers.dart';
 import 'package:portfol_io/widgets/fade_in_slide.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerStatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+class _HomePageState extends ConsumerState<HomePage>
+    with TickerProviderStateMixin {
   final uiMenuManager = sl<UiMenuManager>();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
-    final imageSize = 348.0;
-
-    return Scaffold(
-      backgroundColor: GlobalColors.primaryColor,
-      resizeToAvoidBottomInset: true,
-      body: SafeArea(
-        child: ResponsiveBuilder(builder: (context, sizingInformation) {
-          final isMobile =
-              sizingInformation.deviceScreenType == DeviceScreenType.mobile;
-          final double mobilePadding = isMobile ? 16 : 32;
-          return Stack(
-            children: [
-              //BG Blobs
-              if (!isMobile) ...[
-                //TODO: blobs from memory
-                Positioned(
-                  left: 0,
-                  top: 24,
-                  child: ImageFiltered(
-                    imageFilter: ImageFilter.blur(sigmaX: 96, sigmaY: 96),
-                    child: Container(
-                      height: imageSize / 2,
-                      width: imageSize / 2,
-                      decoration: BoxDecoration(
-                        // color: ThemeUtils.green.withOpacity(.4),
-                        image: DecorationImage(
-                            image: AssetImage(
-                              "assets/blob2.png",
-                            ),
-                            opacity: .4),
-                        color: Colors.white,
+    final previousColor =
+        ref.watch(previousBrightnessProvider).extBackgroundColor;
+    final nextColor = ref.watch(themeProvider).brightness.extBackgroundColor;
+    return TweenAnimationBuilder<Color?>(
+        tween: ColorTween(begin: previousColor, end: nextColor),
+        duration: Duration(milliseconds: 100),
+        builder: (_, Color? color, __) {
+          // <-- Colo
+          return Scaffold(
+            backgroundColor: color,
+            resizeToAvoidBottomInset: true,
+            body: SafeArea(
+              child: ResponsiveBuilder(builder: (context, sizingInformation) {
+                final isMobile = sizingInformation.deviceScreenType ==
+                    DeviceScreenType.mobile;
+                final double mobilePadding = isMobile ? 16 : 32;
+                return Stack(
+                  children: [
+                    SizedBox(
+                      height: height,
+                      child: ScrollablePositionedList.builder(
+                        shrinkWrap: true,
+                        itemScrollController:
+                            uiMenuManager.itemScrollController,
+                        itemPositionsListener:
+                            uiMenuManager.itemPositionListener,
+                        physics: AlwaysScrollableScrollPhysics(),
+                        itemCount: Globals.menu.length,
+                        itemBuilder: (context, index) {
+                          return sectionWidget(index);
+                        },
                       ),
                     ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 48,
-                  left: width / 3,
-                  child: ImageFiltered(
-                    imageFilter: ImageFilter.blur(sigmaX: 96, sigmaY: 96),
-                    child: Container(
-                      height: imageSize / 2,
-                      width: imageSize / 2,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(
-                            "assets/blob3.png",
-                          ),
-                        ),
-                      ),
+                    Positioned(
+                      top: 0,
+                      child: StickyMenu(),
                     ),
-                  ),
-                ),
-                Positioned(
-                  right: 48,
-                  top: 48,
-                  child: ImageFiltered(
-                    imageFilter: ImageFilter.blur(sigmaX: 96, sigmaY: 96),
-                    child: Container(
-                      height: imageSize,
-                      width: imageSize,
-                      decoration: BoxDecoration(
-                        // color: ThemeUtils.green.withOpacity(.4),
-                        image: DecorationImage(
-                          image: AssetImage(
-                            "assets/blob1.png",
-                          ),
-                          opacity: .4,
-                        ),
-                        // color: Colors.red,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-              SizedBox(
-                height: height,
-                child: ScrollablePositionedList.builder(
-                  shrinkWrap: true,
-                  itemScrollController: uiMenuManager.itemScrollController,
-                  itemPositionsListener: uiMenuManager.itemPositionListener,
-                  // semanticChildCount: 3,
-                  physics: PageScrollPhysics(),
-                  // physics: AlwaysScrollableScrollPhysics(),
-                  itemCount: Globals.menu.length,
-                  itemBuilder: (context, index) {
-                    return sectionWidget(index);
-                  },
-                ),
-              ),
-              // SingleChildScrollView(
-              //   child: Column(
-              //     children: [
-              //       sectionWidget(0),
-              //       Container(color: Colors.black, height: height),
-              //       Container(color: Colors.white, height: height),
-              //       // sectionWidget(1),
-              //       // sectionWidget(2),
-              //     ],
-              //   ),
-              // ),
-              Positioned(
-                top: 0,
-                child: StickyMenu(),
-              ),
-              Positioned(
-                bottom: mobilePadding,
-                right: mobilePadding,
-                child: JumpToHomeButton(),
-              ),
-            ],
+                    // Positioned(
+                    //   bottom: mobilePadding,
+                    //   right: mobilePadding,
+                    //   child: JumpToHomeButton(),
+                    // ),
+                  ],
+                );
+              }),
+            ),
           );
-        }),
-      ),
-    );
+        });
   }
 
   Widget sectionWidget(int i) {

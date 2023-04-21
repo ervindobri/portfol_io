@@ -184,21 +184,21 @@ class _HomeMobileState extends State<HomeMobile> {
               ),
             ],
           ),
-          Positioned(
-            top: pageHeight / 4 - imageSize / 2,
-            left: widget.orientation == Orientation.landscape ? imageSize : 0,
-            child: Container(
-              width: imageSize,
-              height: imageSize,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Image.memory(base64Decode(Globals.avatarImageBase64),
-                      width: imageSize, height: imageSize),
-                ],
-              ),
-            ),
-          ),
+          // Positioned(
+          //   top: pageHeight / 4 - imageSize / 2,
+          //   left: widget.orientation == Orientation.landscape ? imageSize : 0,
+          //   child: Container(
+          //     width: imageSize,
+          //     height: imageSize,
+          //     child: Stack(
+          //       alignment: Alignment.center,
+          //       children: [
+          //         Image.memory(base64Decode(Globals.avatarImageBase64),
+          //             width: imageSize, height: imageSize),
+          //       ],
+          //     ),
+          //   ),
+          // ),
           Positioned(
             bottom: mobilePadding,
             right: mobilePadding,

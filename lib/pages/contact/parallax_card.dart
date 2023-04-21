@@ -118,24 +118,24 @@ class ParallaxCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Positioned(
-                    top: -128,
-                    child: Container(
-                      width: 256,
-                      height: 256,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Positioned(
-                              child: Image.memory(
-                                base64Decode(Globals.avatarImageBase64),
-                              ),
-                              width: imageSize,
-                              height: imageSize),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // Positioned(
+                  //   top: -128,
+                  //   child: Container(
+                  //     width: 256,
+                  //     height: 256,
+                  //     child: Stack(
+                  //       alignment: Alignment.center,
+                  //       children: [
+                  //         Positioned(
+                  //             child: Image.memory(
+                  //               base64Decode(Globals.avatarImageBase64),
+                  //             ),
+                  //             width: imageSize,
+                  //             height: imageSize),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -270,10 +270,10 @@ class MobileParallaxCard extends StatelessWidget {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  Positioned(
-                    child: Image.memory(base64Decode(Globals.avatarImageBase64),
-                        width: imageSize, height: imageSize),
-                  ),
+                  // Positioned(
+                  //   child: Image.memory(base64Decode(Globals.avatarImageBase64),
+                  //       width: imageSize, height: imageSize),
+                  // ),
                 ],
               ),
             ),
