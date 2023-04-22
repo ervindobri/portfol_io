@@ -13,6 +13,7 @@ import 'package:portfol_io/providers/providers.dart';
 import 'package:portfol_io/widgets/hover_button.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+// TODO: menuIndex listener to update the provider
 class MenuDesktop extends ConsumerWidget {
   MenuDesktop({Key? key}) : super(key: key);
 
@@ -22,7 +23,7 @@ class MenuDesktop extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final double blurStrength = 0;
+    const double blurStrength = 48;
 
     final theme = ref.watch(themeProvider);
     final themeColor = ref.watch(themeColorProvider);

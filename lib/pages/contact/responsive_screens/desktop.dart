@@ -37,7 +37,7 @@ class _ContactDesktopState extends State<ContactDesktop> {
                   AnimatedSwitcher(
                     duration: kThemeAnimationDuration,
                     child: !value
-                        ? SizedBox()
+                        ? const SizedBox()
                         : DelayedDisplay(
                             delay: const Duration(milliseconds: 100),
                             fadingDuration: const Duration(milliseconds: 100),
@@ -47,10 +47,10 @@ class _ContactDesktopState extends State<ContactDesktop> {
                   AnimatedSwitcher(
                     duration: kThemeAnimationDuration,
                     child: !value
-                        ? SizedBox()
-                        : DelayedDisplay(
-                            delay: const Duration(milliseconds: 100),
-                            fadingDuration: const Duration(milliseconds: 100),
+                        ? const SizedBox()
+                        : const DelayedDisplay(
+                            delay: Duration(milliseconds: 100),
+                            fadingDuration: Duration(milliseconds: 100),
                             child: ContactMeCard(),
                           ),
                   ),

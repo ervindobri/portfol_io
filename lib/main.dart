@@ -19,7 +19,7 @@ Future<void> main() async {
   await init();
   sl<UiShowcaseManager>().itemsCommand.execute();
 
-  runApp(ProviderScope(
+  runApp(const ProviderScope(
     child: MyApp(),
   ));
 }
@@ -34,6 +34,8 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
 }
 
 class MyApp extends ConsumerWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return OverlaySupport.global(
@@ -41,7 +43,7 @@ class MyApp extends ConsumerWidget {
         title: 'Ervin Dobri',
         theme: ref.watch(themeProvider),
         scrollBehavior: MyCustomScrollBehavior(),
-        home: HomePage(),
+        home: const HomePage(),
         debugShowCheckedModeBanner: false,
         initialRoute: "/",
       ),

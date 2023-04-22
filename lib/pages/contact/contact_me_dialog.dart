@@ -40,7 +40,7 @@ class _ContactMeDialogState extends State<ContactMeDialog> {
     final dialogWidth = isDesktop ? width * .5 : width;
     final dialogHeight = isDesktop ? height * .75 : height;
     final double padding = isDesktop ? 48 : 16;
-    WidgetsBinding.instance?.addPostFrameCallback((ads) {
+    WidgetsBinding.instance.addPostFrameCallback((ads) {
       emailFocusNode.requestFocus();
     });
     return Container(
@@ -49,7 +49,7 @@ class _ContactMeDialogState extends State<ContactMeDialog> {
       color: GlobalColors.primaryColor,
       padding: EdgeInsets.all(padding),
       child: DefaultTextStyle(
-        style: context.bodyText1 ?? TextStyle(),
+        style: context.bodyText1 ?? const TextStyle(),
         child: SingleChildScrollView(
           child: FormBuilder(
             key: _formKey,
@@ -65,7 +65,7 @@ class _ContactMeDialogState extends State<ContactMeDialog> {
                     height: 64,
                     width: 64,
                     color: GlobalColors.primaryColor,
-                    child: Center(
+                    child: const Center(
                       child: Icon(CupertinoIcons.xmark,
                           size: 24, color: Colors.white),
                     ),
@@ -119,7 +119,7 @@ class _ContactMeDialogState extends State<ContactMeDialog> {
                         widget.platformType == PlatformType.mobile ? 3 : 10,
                   ),
                 ),
-                SizedBox(),
+                const SizedBox(),
                 //button
                 TextButton(
                   onPressed: () {
@@ -150,11 +150,11 @@ class _ContactMeDialogState extends State<ContactMeDialog> {
       children: [
         Text(
           label,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         field,
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
       ],
     );
   }

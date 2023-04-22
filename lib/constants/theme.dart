@@ -9,7 +9,7 @@ class PortfolioTheme {
         primaryColor: GlobalColors.defaultThemeColor,
         // Define the default font family.
         fontFamily: 'Poppins',
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           titleMedium: TextStyle(
               fontSize: 36.0,
               color: GlobalColors.textColorDark,
@@ -56,7 +56,7 @@ class PortfolioTheme {
         primaryColor: GlobalColors.defaultThemeColor,
         // Define the default font family.
         fontFamily: 'Poppins',
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           titleMedium: TextStyle(
               fontSize: 36.0,
               color: GlobalColors.textColorDark,

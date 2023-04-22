@@ -18,3 +18,5 @@ final previousThemeColorProvider = StateProvider<Color>(
 final previousBrightnessProvider = StateProvider<Brightness>(
   (ref) => GlobalColors.defaultBrightness,
 );
+
+final menuIndexProvider = StateProvider((ref) => 0);

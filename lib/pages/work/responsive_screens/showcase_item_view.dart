@@ -1,56 +1,89 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_command/flutter_command.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
-import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
-import 'package:portfol_io/pages/work/carousel_controller.dart';
 import 'package:portfol_io/pages/work/showcase_item_widget.dart';
+import 'package:portfol_io/providers/providers.dart';
 
-class ShowcaseItemView extends StatelessWidget {
-  ShowcaseItemView({
+extension<E> on Iterable<E> {
+  Iterable<T> expandWithSeparator<T>(
+    T Function(E element) toElement,
+    T separator,
+  ) sync* {
+    bool first = true;
+
+    for (final element in this) {
+      if (first) {
+        first = false;
+      } else {
+        yield separator;
+      }
+      yield toElement(element);
+    }
+  }
+}
+
+class ShowcaseItemView extends ConsumerWidget {
+  const ShowcaseItemView({
     Key? key,
   }) : super(key: key);
 
-  final uiMenuManager = sl<UiMenuManager>();
   @override
-  Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        SizedBox(
-          width: width,
-          height: height,
-          child: DelayedDisplay(
-            delay: const Duration(milliseconds: 200),
-            fadingDuration: const Duration(milliseconds: 300),
-            slidingBeginOffset: Offset(0, -0.2),
-            child: AnimatedShowcaseItemWidget(),
-          ),
-        ),
-        Positioned(
-          bottom: 0,
-          child: ValueListenableBuilder(
-              valueListenable: uiMenuManager.menuIndex,
-              builder: (context, value, child) {
-                return AnimatedSwitcher(
-                  duration: kThemeAnimationDuration,
-                  child: value != 1
-                      ? SizedBox()
-                      : DelayedDisplay(
-                          delay: const Duration(milliseconds: 200),
-                          fadingDuration: const Duration(milliseconds: 300),
-                          child: CarouselController(),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final uiShowcaseManager = sl<UiShowcaseManager>();
+    final themeColor = ref.watch(themeColorProvider);
+    return ValueListenableBuilder<CommandResult<int?, ShowcaseItem?>>(
+        valueListenable: uiShowcaseManager.currentItemCommand.results,
+        builder: (context, value, __) {
+          if (value.data == null) {
+            return const SizedBox();
+          }
+          final item = value.data!;
+
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 48.0),
+            child: Row(
+              // alignment: Alignment.center,
+              children: [
+                Expanded(
+                  flex: 4,
+                  child: AnimatedShowcaseItemWidget(item: item),
+                ),
+                const SizedBox(width: 48),
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    children: [
+                      // TODO: replace with 3 other top items
+                      ...List.generate(
+                        3,
+                        (index) => Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: themeColor,
+                                borderRadius: const BorderRadius.horizontal(
+                                  left: Radius.circular(48),
+                                )),
+                          ),
                         ),
-                );
-              }),
-        ),
-      ],
-    );
+                      ).expandWithSeparator(
+                        (e) => e,
+                        const SizedBox(
+                          height: 24,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 }
 
@@ -79,7 +112,7 @@ class MobileShowcaseItemView extends StatelessWidget {
                   return AnimatedSwitcher(
                     duration: kThemeAnimationDuration,
                     child: !value
-                        ? SizedBox()
+                        ? const SizedBox()
                         : Container(
                             width: width,
                             height: height,
@@ -90,7 +123,7 @@ class MobileShowcaseItemView extends StatelessWidget {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(
+                                const Icon(
                                   CupertinoIcons.arrow_left_right_circle,
                                   color: Colors.white,
                                   size: 42,

@@ -1,4 +1,5 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:portfol_io/constants/icons.dart';
 import 'package:portfol_io/models/social_media_button.dart';
 import 'package:portfol_io/models/tech_item.dart';
 
@@ -55,19 +56,19 @@ class Globals {
     "dart",
   ];
 
-  static const techStack = <TechItem>[
+  static final techStack = <TechItem>[
     TechItem(
-        name: "Flutter", asset: "flutter", link: "https://www.flutter.dev/"),
-    TechItem(name: "Python", asset: "python", link: "https://www.python.org/"),
-    TechItem(
-        name: "C#",
-        asset: "csharp",
-        link: "https://docs.microsoft.com/en-us/dotnet/csharp/"),
-    TechItem(name: "Figma", asset: "figma", link: "https://wwww.figma.com/"),
-    TechItem(
-        name: "Azure DevOps",
-        asset: "devops",
-        link: "https://azure.microsoft.com/en-us/services/devops/"),
+        name: "Flutter", asset: AppIcons.flutter, link: "https://www.flutter.dev/"),
+    TechItem(name: "Figma", asset: AppIcons.figma, link: "https://wwww.figma.com/"),
+    TechItem(name: "Python", asset: AppIcons.python, link: "https://www.python.org/"),
+    // TechItem(
+    //     name: "C#",
+    //     asset: "csharp",
+    //     link: "https://docs.microsoft.com/en-us/dotnet/csharp/"),
+    // TechItem(
+    //     name: "Azure DevOps",
+    //     asset: "devops",
+    //     link: "https://azure.microsoft.com/en-us/services/devops/"),
   ];
 
   static const String showcase = "Showcase";

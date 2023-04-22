@@ -16,35 +16,35 @@ extension ThemeExtension on BuildContext {
 }
 
 extension ThemeDataExt on ThemeData {
-  Color get containerColor => this.brightness == Brightness.dark
+  Color get containerColor => brightness == Brightness.dark
       ? GlobalColors.containerColorDark
       : GlobalColors.containerColorLight;
 
-  Color get inverseTextColor => this.brightness == Brightness.dark
+  Color get inverseTextColor => brightness == Brightness.dark
       ? GlobalColors.inverseTextColorDark
       : GlobalColors.inverseTextColorLight;
 
-    Color get textColor => this.brightness == Brightness.dark
+    Color get textColor => brightness == Brightness.dark
       ? GlobalColors.textColorDark
       : GlobalColors.textColorLight;
 
   TextStyle? get inverseBodyLarge =>
-      this.textTheme.bodyLarge?.copyWith(color: inverseTextColor);
+      textTheme.bodyLarge?.copyWith(color: inverseTextColor);
 
-  TextStyle? get nameStyleLarge => this.textTheme.displayLarge?.copyWith(
+  TextStyle? get nameStyleLarge => textTheme.displayLarge?.copyWith(
         color: inverseTextColor,
         fontSize: 96,
         height: 1.1,
         fontWeight: FontWeight.w700,
       );
-  TextStyle? get nameStyleSmall => this.textTheme.displayLarge?.copyWith(
+  TextStyle? get nameStyleSmall => textTheme.displayLarge?.copyWith(
         color: inverseTextColor,
         fontSize: 48,
         height: 1.05,
         fontWeight: FontWeight.w300,
       );
 
-  Color get extBackgroundColor => this.brightness == Brightness.dark
+  Color get extBackgroundColor => brightness == Brightness.dark
       ? GlobalColors.backgroundColorDark
       : GlobalColors.backgroundColorLight;
 }

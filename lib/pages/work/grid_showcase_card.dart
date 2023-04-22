@@ -65,9 +65,9 @@ class _ShowcaseCardState extends State<ShowcaseCard> {
                           child: Stack(
                             alignment: Alignment.center,
                             children: [
-                              SizedBox(
-                                  height: height * .75,
-                                  child: AnimatedShowcaseItemWidget()),
+                              // SizedBox(
+                              //     height: height * .75,
+                              //     child: AnimatedShowcaseItemWidget()),
                               Positioned(
                                 top: 0,
                                 child: IconButton(
