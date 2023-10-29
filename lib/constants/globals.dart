@@ -57,10 +57,10 @@ class Globals {
   ];
 
   static final techStack = <TechItem>[
-    TechItem(
+    const TechItem(
         name: "Flutter", asset: AppIcons.flutter, link: "https://www.flutter.dev/"),
-    TechItem(name: "Figma", asset: AppIcons.figma, link: "https://wwww.figma.com/"),
-    TechItem(name: "Python", asset: AppIcons.python, link: "https://www.python.org/"),
+    const TechItem(name: "Figma", asset: AppIcons.figma, link: "https://wwww.figma.com/"),
+    const TechItem(name: "Python", asset: AppIcons.python, link: "https://www.python.org/"),
     // TechItem(
     //     name: "C#",
     //     asset: "csharp",

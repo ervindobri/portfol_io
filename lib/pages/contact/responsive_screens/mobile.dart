@@ -5,7 +5,7 @@ import 'package:portfol_io/pages/contact/contact_me_card.dart';
 import 'package:portfol_io/pages/contact/parallax_card.dart';
 
 class ContactMobile extends StatefulWidget {
-  ContactMobile({Key? key}) : super(key: key);
+  const ContactMobile({Key? key}) : super(key: key);
 
   @override
   State<ContactMobile> createState() => _ContactDesktopState();
@@ -22,13 +22,13 @@ class _ContactDesktopState extends State<ContactMobile> {
       child: Container(
         height: height + height / 3,
         width: width,
-        color: Color(0xff292929),
+        color: const Color(0xff292929),
         child: Column(
           children: [
-            SizedBox(height: 48 + 48 + 24),
+            const SizedBox(height: 48 + 48 + 24),
             MobileParallaxCard(),
-            SizedBox(height: 24),
-            MobileContactMeCard(),
+            const SizedBox(height: 24),
+            const MobileContactMeCard(),
           ],
         ),
       ),

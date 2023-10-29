@@ -31,12 +31,12 @@ class MenuTablet extends StatelessWidget {
               child: Container(
                 width: width * .1,
                 height: 100,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     image:
                         DecorationImage(image: AssetImage("assets/logo1.png"))),
               ),
             ),
-            Container(
+            SizedBox(
               width: width * .8,
               // color: Colors.blueAccent,
               child: Wrap(
@@ -66,7 +66,7 @@ class MenuTablet extends StatelessWidget {
                   children: [
                     Text(
                       Globals.menu[index],
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: GlobalColors.primaryColor,
                         fontWeight: FontWeight.w100,
                         fontSize: 20,
@@ -94,8 +94,8 @@ class MenuTablet extends StatelessWidget {
       onPressed: () {
         // print("button");
       },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
+      child: const Padding(
+        padding: EdgeInsets.all(8.0),
         child: Text(
           Globals.contactMe,
           style: TextStyle(

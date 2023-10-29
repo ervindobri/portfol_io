@@ -11,7 +11,7 @@ class ShowcaseCard extends StatefulWidget {
   final ShowcaseItem item;
   // final double width;
   final int index;
-  ShowcaseCard({Key? key, required this.item, this.index = 0})
+  const ShowcaseCard({Key? key, required this.item, this.index = 0})
       : super(key: key);
 
   @override
@@ -73,7 +73,7 @@ class _ShowcaseCardState extends State<ShowcaseCard> {
                                 child: IconButton(
                                   iconSize: 42,
                                   onPressed: () => Navigator.pop(context),
-                                  icon: Center(
+                                  icon: const Center(
                                     child: Icon(CupertinoIcons.xmark, size: 42),
                                   ),
                                 ),
@@ -147,7 +147,7 @@ class MobileShowcaseCard extends StatefulWidget {
   final ShowcaseItem item;
   // final double width;
   final int index;
-  MobileShowcaseCard({Key? key, required this.item, this.index = 0})
+  const MobileShowcaseCard({Key? key, required this.item, this.index = 0})
       : super(key: key);
 
   @override
@@ -192,7 +192,7 @@ class _MobileShowcaseCardState extends State<MobileShowcaseCard> {
                 valueListenable: showImageOverlay,
                 builder: (context, showImageOverlay, _) {
                   if (!showImageOverlay) {
-                    return SizedBox();
+                    return const SizedBox();
                   }
                   return AnimatedOpacity(
                     duration: kThemeAnimationDuration,
@@ -236,7 +236,7 @@ class _MobileShowcaseCardState extends State<MobileShowcaseCard> {
                                               iconSize: 42,
                                               onPressed: () =>
                                                   Navigator.pop(context),
-                                              icon: Center(
+                                              icon: const Center(
                                                 child: Icon(
                                                   CupertinoIcons.xmark,
                                                   size: 42,
@@ -272,7 +272,7 @@ class _MobileShowcaseCardState extends State<MobileShowcaseCard> {
                                 )
                                 .toList(),
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           TextButton(
                             onPressed: () => launchUrlString(widget.item.url),
                             style: GlobalStyles.whiteTextButtonStyle(),

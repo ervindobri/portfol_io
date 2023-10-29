@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,9 +17,8 @@ class ParallaxCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final imageSize = 256.0;
     final containerHeight = height * .6;
-    return Container(
+    return SizedBox(
       height: containerHeight,
       width: width / 4 + 96,
       child: ParallaxStack(
@@ -38,7 +35,7 @@ class ParallaxCard extends StatelessWidget {
                 boxShadow: [
                   BoxShadow(
                     blurRadius: 24,
-                    offset: Offset(0, 1),
+                    offset: const Offset(0, 1),
                     color: Colors.black.withOpacity(.2),
                   ),
                 ],
@@ -51,7 +48,7 @@ class ParallaxCard extends StatelessWidget {
                     padding: const EdgeInsets.all(24.0),
                     child: Column(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 64 + 24,
                         ),
                         Wrap(
@@ -64,17 +61,17 @@ class ParallaxCard extends StatelessWidget {
                               style: context.bodyText1
                                   ?.copyWith(fontWeight: FontWeight.w900),
                             ),
-                            Text(
+                            const Text(
                               "Flutter Developer / Aspiring UI/UX Designer",
                               maxLines: 2,
                             ),
-                            SizedBox(height: 24),
+                            const SizedBox(height: 24),
                             Text(
                               Globals.inspiration,
                               style: context.bodyText1
                                   ?.copyWith(color: Colors.white),
                             ),
-                            SizedBox(height: 24),
+                            const SizedBox(height: 24),
                             TextButton.icon(
                               onPressed: () async {
                                 downloadManager.downloadFile
@@ -85,7 +82,7 @@ class ParallaxCard extends StatelessWidget {
                                 padding:
                                     const EdgeInsets.fromLTRB(12, 8, 12, 8),
                               ),
-                              icon: Icon(
+                              icon: const Icon(
                                 CupertinoIcons.cloud_download,
                                 color: GlobalColors.primaryColor,
                               ),
@@ -94,15 +91,15 @@ class ParallaxCard extends StatelessWidget {
                                     color: GlobalColors.primaryColor,
                                   )),
                             ),
-                            SelectableText(
+                            const SelectableText(
                               "ervindobri@gmail.com",
                             ),
-                            SelectableText(
+                            const SelectableText(
                               "+40 754 365 846",
                             ),
                           ],
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Wrap(direction: Axis.vertical, spacing: 12, children: [
                           buildInfoRow(
                             context,
@@ -182,7 +179,7 @@ class MobileParallaxCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             blurRadius: 24,
-            offset: Offset(0, 1),
+            offset: const Offset(0, 1),
             color: Colors.black.withOpacity(.2),
           ),
         ],
@@ -212,7 +209,7 @@ class MobileParallaxCard extends StatelessWidget {
                       fontSize: 12,
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   TextButton.icon(
                     onPressed: () async {
                       downloadManager.downloadFile
@@ -221,7 +218,7 @@ class MobileParallaxCard extends StatelessWidget {
                     style: GlobalStyles.whiteTextButtonStyle(
                       padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
                     ),
-                    icon: Icon(
+                    icon: const Icon(
                       CupertinoIcons.cloud_download,
                       color: GlobalColors.primaryColor,
                     ),
@@ -234,20 +231,20 @@ class MobileParallaxCard extends StatelessWidget {
                   InkWell(
                     onTap: () async {
                       await Clipboard.setData(
-                          ClipboardData(text: "ervindobri@gmail.com"));
+                          const ClipboardData(text: "ervindobri@gmail.com"));
 
                       toast('Copied to clipboard!');
                     },
-                    child: Text(
+                    child: const Text(
                       "ervindobri@gmail.com",
                     ),
                   ),
-                  Text(
+                  const Text(
                     "+40 754 365 846",
                   ),
                 ],
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               Wrap(direction: Axis.vertical, spacing: 12, children: [
                 buildInfoRow(
                   context,
@@ -262,9 +259,9 @@ class MobileParallaxCard extends StatelessWidget {
               ]),
             ],
           ),
-          Positioned(
+          const Positioned(
             top: -128,
-            child: Container(
+            child: SizedBox(
               width: 256,
               height: 256,
               child: Stack(

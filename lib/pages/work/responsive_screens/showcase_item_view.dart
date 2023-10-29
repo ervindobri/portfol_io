@@ -1,4 +1,3 @@
-import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_command/flutter_command.dart';
@@ -9,6 +8,7 @@ import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/pages/work/showcase_item_widget.dart';
 import 'package:portfol_io/providers/providers.dart';
+import 'package:portfol_io/widgets/hover_button.dart';
 
 extension<E> on Iterable<E> {
   Iterable<T> expandWithSeparator<T>(
@@ -37,6 +37,7 @@ class ShowcaseItemView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final uiShowcaseManager = sl<UiShowcaseManager>();
     final themeColor = ref.watch(themeColorProvider);
+    final width = MediaQuery.of(context).size.width;
     return ValueListenableBuilder<CommandResult<int?, ShowcaseItem?>>(
         valueListenable: uiShowcaseManager.currentItemCommand.results,
         builder: (context, value, __) {
@@ -52,33 +53,66 @@ class ShowcaseItemView extends ConsumerWidget {
               children: [
                 Expanded(
                   flex: 4,
-                  child: AnimatedShowcaseItemWidget(item: item),
+                  child: AnimatedSwitcher(
+                    key: ValueKey(item.hashCode),
+                    duration: kThemeAnimationDuration,
+                    child: AnimatedShowcaseItemWidget(item: item),
+                  ),
                 ),
                 const SizedBox(width: 48),
                 Expanded(
                   flex: 1,
-                  child: Column(
-                    children: [
-                      // TODO: replace with 3 other top items
-                      ...List.generate(
-                        3,
-                        (index) => Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: themeColor,
-                                borderRadius: const BorderRadius.horizontal(
-                                  left: Radius.circular(48),
-                                )),
+                  child: Builder(builder: (_) {
+                    final items = uiShowcaseManager.otherItems.take(3).toList();
+                    return Column(
+                      children: [
+                        ...List.generate(
+                          items.length,
+                          (index) => Expanded(
+                            child: AnimatedSwitcher(
+                              key: ValueKey(items[index].hashCode),
+                              duration: kThemeAnimationDuration,
+                              child: HoverWidget(
+                                builder: (hovering) {
+                                  return InkWell(
+                                    borderRadius: const BorderRadius.horizontal(
+                                      left: Radius.circular(48),
+                                    ),
+                                    onTap: () {
+                                      uiShowcaseManager.select(items[index]);
+                                    },
+                                    child: Container(
+                                      clipBehavior: Clip.antiAlias,
+                                      decoration: BoxDecoration(
+                                        color: themeColor,
+                                        borderRadius:
+                                            const BorderRadius.horizontal(
+                                          left: Radius.circular(48),
+                                        ),
+                                      ),
+                                      child: AnimatedScale(
+                                        scale: hovering ? 1.1 : 1.0,
+                                        duration: kThemeAnimationDuration,
+                                        child: Image.asset(
+                                          items[index].images.first,
+                                          fit: BoxFit.fitWidth,
+                                          width: width,
+                                          // cacheWidth: width ~/ 2,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                           ),
+                        ).expandWithSeparator(
+                          (e) => e,
+                          const SizedBox(height: 24),
                         ),
-                      ).expandWithSeparator(
-                        (e) => e,
-                        const SizedBox(
-                          height: 24,
-                        ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    );
+                  }),
                 ),
               ],
             ),

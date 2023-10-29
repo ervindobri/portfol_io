@@ -25,7 +25,7 @@ class MenuMobile extends StatelessWidget {
             ValueListenableBuilder<int>(
               valueListenable: uiMenuManager.menuIndex,
               builder: (_, value, __) {
-                final _selectedIndex = value;
+                final selectedIndex = value;
                 return ListView.separated(
                   itemCount: Globals.menu.length,
                   shrinkWrap: true,
@@ -36,12 +36,12 @@ class MenuMobile extends StatelessWidget {
                         uiMenuManager.updateMenuCommand.execute(index);
                       },
                       child: Container(
-                        color: _selectedIndex == index ? Colors.white : null,
+                        color: selectedIndex == index ? Colors.white : null,
                         alignment: Alignment.center,
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         child: Text(
                           Globals.menu[index],
-                          style: _selectedIndex == index
+                          style: selectedIndex == index
                               ? context.bodyText1?.copyWith(
                                   fontSize: 16,
                                   color: GlobalColors.primaryColor,
@@ -55,7 +55,7 @@ class MenuMobile extends StatelessWidget {
                     );
                   },
                   separatorBuilder: (BuildContext context, int index) {
-                    return SizedBox(width: 24);
+                    return const SizedBox(width: 24);
                   },
                 );
               },

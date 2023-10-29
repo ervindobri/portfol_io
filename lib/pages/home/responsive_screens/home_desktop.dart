@@ -62,6 +62,7 @@ class _HomeDesktopState extends ConsumerState<HomeDesktop> {
                             slidingBeginOffset: const Offset(-1, 0),
                             delay: const Duration(seconds: 1),
                             child: Motion(
+                              controller: MotionController(),
                               glare: const GlareConfiguration(
                                 maxOpacity: 0,
                                 minOpacity: 0,

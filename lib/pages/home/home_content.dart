@@ -7,17 +7,17 @@ class HomeContent extends StatefulWidget {
   const HomeContent({Key? key}) : super(key: key);
 
   @override
-  _HomeContentState createState() => _HomeContentState();
+  HomeContentState createState() => HomeContentState();
 }
 
-class _HomeContentState extends State<HomeContent>
+class HomeContentState extends State<HomeContent>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return ResponsiveBuilder(
       builder: (context, sizingInformation) {
         if (sizingInformation.deviceScreenType == DeviceScreenType.desktop) {
-          return HomeDesktop();
+          return const HomeDesktop();
         }
         if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
           return HomeMobile.landscape();

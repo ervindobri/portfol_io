@@ -27,7 +27,7 @@ class FullscreenImageDialog extends StatelessWidget {
                 final path =
                     "assets/images/work/${item.imagesPath}/${item.imageAssets[value]}.png";
                 return InteractiveViewer(
-                  alignPanAxis: true,
+                  panAxis: PanAxis.aligned,
                   child: Center(
                     child: Image(
                       fit: BoxFit.contain,
@@ -52,7 +52,7 @@ class FullscreenImageDialog extends StatelessWidget {
                 height: 64,
                 width: 64,
                 color: GlobalColors.primaryColor,
-                child: Center(
+                child: const Center(
                   child:
                       Icon(CupertinoIcons.xmark, size: 24, color: Colors.white),
                 ),
@@ -71,7 +71,7 @@ class FullscreenImageDialog extends StatelessWidget {
                 height: 64,
                 width: 64,
                 color: GlobalColors.primaryColor,
-                child: Center(
+                child: const Center(
                   child: Icon(CupertinoIcons.chevron_left,
                       size: 24, color: Colors.white),
                 ),
@@ -89,7 +89,7 @@ class FullscreenImageDialog extends StatelessWidget {
                 height: 64,
                 width: 64,
                 color: GlobalColors.primaryColor,
-                child: Center(
+                child: const Center(
                   child: Icon(CupertinoIcons.chevron_right,
                       size: 24, color: Colors.white),
                 ),
@@ -118,7 +118,7 @@ class MobileFullscreenImageDialog extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Dismissible(
-      key: Key('key'),
+      key: const Key('key'),
       direction: DismissDirection.vertical,
       onDismissed: (d) => Navigator.pop(context),
       child: Dialog(
@@ -172,7 +172,7 @@ class MobileFullscreenImageDialog extends StatelessWidget {
                     height: 64,
                     width: 64,
                     color: GlobalColors.primaryColor,
-                    child: Center(
+                    child: const Center(
                       child: Icon(CupertinoIcons.xmark,
                           size: 24, color: Colors.white),
                     ),
@@ -192,7 +192,7 @@ class MobileFullscreenImageDialog extends StatelessWidget {
                     height: 64,
                     width: 64,
                     color: GlobalColors.primaryColor,
-                    child: Center(
+                    child: const Center(
                       child: Icon(CupertinoIcons.chevron_left,
                           size: 24, color: Colors.white),
                     ),
@@ -212,7 +212,7 @@ class MobileFullscreenImageDialog extends StatelessWidget {
                     height: 64,
                     width: 64,
                     color: GlobalColors.primaryColor,
-                    child: Center(
+                    child: const Center(
                       child: Icon(CupertinoIcons.chevron_right,
                           size: 24, color: Colors.white),
                     ),

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_command/flutter_command.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,7 +25,7 @@ class _WorkDesktopState extends ConsumerState<WorkDesktop> {
     final width = MediaQuery.of(context).size.width;
     final theme = ref.watch(themeProvider);
     return ClipRRect(
-      child: ValueListenableBuilder<View>(
+      child: ValueListenableBuilder<LayoutView>(
         valueListenable: uiShowcaseManager.showcaseView,
         builder: (context, value, _) {
           return ValueListenableBuilder<

@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_improved_scrolling/flutter_improved_scrolling.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
@@ -8,6 +8,7 @@ import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/pages/work/fullscreen_image_dialog.dart';
 import 'package:portfol_io/providers/providers.dart';
+import 'package:portfol_io/widgets/bumble_scrollbar.dart';
 
 class ImageView extends ConsumerStatefulWidget {
   const ImageView({
@@ -24,17 +25,6 @@ class ImageView extends ConsumerStatefulWidget {
 class _ImageCarouselState extends ConsumerState<ImageView> {
   final UiShowcaseManager uiShowcaseManager = sl<UiShowcaseManager>();
   final ScrollController _controller = ScrollController();
-  double _scrollOffset = 0.0;
-
-  @override
-  void initState() {
-    _controller.addListener(() {
-      setState(() {
-        _scrollOffset = _controller.offset;
-      });
-    });
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -44,8 +34,6 @@ class _ImageCarouselState extends ConsumerState<ImageView> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
     final theme = ref.watch(themeProvider);
     return ClipRRect(
       borderRadius: const BorderRadius.horizontal(
@@ -53,45 +41,53 @@ class _ImageCarouselState extends ConsumerState<ImageView> {
       ),
       child: Stack(
         children: [
-          ScrollConfiguration(
-            behavior:
-                ScrollConfiguration.of(context).copyWith(scrollbars: false),
-            child: ListView.builder(
-              controller: _controller,
-              physics: const AlwaysScrollableScrollPhysics(),
-              itemCount: widget.item.imageAssets.length,
-              itemBuilder: (_, index) => Image.asset(
-                "assets/images/work/${widget.item.imagesPath}/${widget.item.imageAssets[index]}.png",
-              ),
-            ),
-          ),
-          Positioned(
-            right: 24,
-            top: 24,
-            child: Stack(
-              children: [
-                Container(
-                  width: 24,
-                  height: 24 * 10,
-                  decoration: BoxDecoration(
-                    color: theme.extBackgroundColor.withOpacity(.3),
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                ),
-                AnimatedPositioned(
-                  top: _scrollOffset,
-                  duration: const Duration(milliseconds: 10),
-                  child: Container(
-                    width: 24,
-                    height:
-                        (24 * 10) / (widget.item.imageAssets.length).toDouble(),
-                    decoration: BoxDecoration(
-                      color: theme.inverseTextColor,
-                      borderRadius: BorderRadius.circular(24),
+          MouseRegion(
+            onEnter: (val) {
+              // Disable main page scrolling
+              ref.read(scrollEnabledProvider.notifier).update((state) => false);
+            },
+            onExit: (val) {
+              // Enable main page scrolling
+              ref.read(scrollEnabledProvider.notifier).update((state) => true);
+            },
+            child: ScrollConfiguration(
+              behavior:
+                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
+              child: ImprovedScrolling(
+                scrollController: _controller,
+                enableCustomMouseWheelScrolling: true,
+                enableKeyboardScrolling: true,
+                keyboardScrollConfig: const KeyboardScrollConfig(),
+                child: SingleChildScrollView(
+                  controller: _controller,
+                  physics: const NeverScrollableScrollPhysics(),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        ...widget.item.imageAssets.map(
+                          (e) => Image.asset(
+                            "assets/images/work/${widget.item.imagesPath}/$e.png",
+                            // height: height,
+                            width: double.infinity,
+                            fit: BoxFit.fitWidth,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              ],
+              ),
+            ),
+          ),
+          // Scrollbar
+          Positioned(
+            right: 24,
+            top: 24,
+            child: BumbleScrollbar.web(
+              controller: _controller,
+              thumbColor: theme.inverseTextColor,
+              thumbHeight: 200 / widget.item.imageAssets.length,
             ),
           ),
         ],
@@ -155,7 +151,7 @@ class MobileImageCarousel extends StatelessWidget {
                               },
                             );
                           },
-                          child: Container(
+                          child: SizedBox(
                             width: width,
                             height: height,
                             child: Image(
@@ -184,7 +180,7 @@ class MobileImageCarousel extends StatelessWidget {
                       child: Container(
                         width: 6.0,
                         height: 6.0,
-                        margin: EdgeInsets.symmetric(
+                        margin: const EdgeInsets.symmetric(
                             vertical: 8.0, horizontal: 4.0),
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,

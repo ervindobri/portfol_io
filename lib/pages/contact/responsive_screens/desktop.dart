@@ -6,7 +6,7 @@ import 'package:portfol_io/pages/contact/contact_me_card.dart';
 import 'package:portfol_io/pages/contact/parallax_card.dart';
 
 class ContactDesktop extends StatefulWidget {
-  ContactDesktop({Key? key}) : super(key: key);
+  const ContactDesktop({Key? key}) : super(key: key);
 
   @override
   State<ContactDesktop> createState() => _ContactDesktopState();

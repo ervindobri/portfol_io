@@ -20,3 +20,5 @@ final previousBrightnessProvider = StateProvider<Brightness>(
 );
 
 final menuIndexProvider = StateProvider((ref) => 0);
+
+final scrollEnabledProvider = StateProvider<bool>((ref) => true);

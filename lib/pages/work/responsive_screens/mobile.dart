@@ -13,13 +13,13 @@ enum Orientation { portrait, landscape }
 
 class WorkMobile extends StatefulWidget {
   final Orientation orientation;
-  WorkMobile._({Key? key, required this.orientation}) : super(key: key);
+  const WorkMobile._({Key? key, required this.orientation}) : super(key: key);
 
   factory WorkMobile.portrait() =>
-      WorkMobile._(orientation: Orientation.portrait);
+      const WorkMobile._(orientation: Orientation.portrait);
 
   factory WorkMobile.landscape() =>
-      WorkMobile._(orientation: Orientation.landscape);
+      const WorkMobile._(orientation: Orientation.landscape);
 
   @override
   State<WorkMobile> createState() => _WorkMobileState();
@@ -33,11 +33,10 @@ class _WorkMobileState extends State<WorkMobile> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final imageSize = width;
     final isPortrait = widget.orientation == Orientation.portrait;
     final pageHeight = isPortrait ? height : width;
     return ClipRRect(
-      child: ValueListenableBuilder<View>(
+      child: ValueListenableBuilder<LayoutView>(
         valueListenable: uiShowcaseManager.showcaseView,
         builder: (context, value, _) {
           return ValueListenableBuilder<
@@ -45,7 +44,7 @@ class _WorkMobileState extends State<WorkMobile> {
             valueListenable: uiShowcaseManager.itemsCommand.results,
             builder: (context, items, _) {
               if (items.hasError) {
-                return SizedBox();
+                return const SizedBox();
               }
               // final rows = items.data!.length / 2 - 1;
               return SizedBox(
@@ -69,43 +68,43 @@ class _WorkMobileState extends State<WorkMobile> {
                                 fontWeight: FontWeight.w100,
                               ),
                             ),
-                            ValueListenableBuilder<View>(
+                            ValueListenableBuilder<LayoutView>(
                                 valueListenable: uiShowcaseManager.showcaseView,
                                 builder: (context, view, _) {
                                   return Wrap(
                                     children: [
                                       IconButton(
                                           icon: Container(
-                                            color: view == View.grid
+                                            color: view == LayoutView.grid
                                                 ? Colors.white
                                                 : null,
                                             child: Icon(
                                               CupertinoIcons.square_grid_2x2,
-                                              color: view == View.grid
+                                              color: view == LayoutView.grid
                                                   ? GlobalColors.primaryColor
                                                   : Colors.white,
                                             ),
                                           ),
                                           onPressed: () {
                                             uiShowcaseManager
-                                                .showcaseView.value = View.grid;
+                                                .showcaseView.value = LayoutView.grid;
                                           }),
                                       IconButton(
                                           icon: Container(
-                                            color: view == View.single
+                                            color: view == LayoutView.single
                                                 ? Colors.white
                                                 : null,
                                             child: Icon(
                                               CupertinoIcons
                                                   .list_bullet_below_rectangle,
-                                              color: view == View.single
+                                              color: view == LayoutView.single
                                                   ? GlobalColors.primaryColor
                                                   : Colors.white,
                                             ),
                                           ),
                                           onPressed: () {
                                             uiShowcaseManager.showcaseView
-                                                .value = View.single;
+                                                .value = LayoutView.single;
                                           }),
                                     ],
                                   );
@@ -113,15 +112,15 @@ class _WorkMobileState extends State<WorkMobile> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 16),
-                      ValueListenableBuilder<View>(
+                      const SizedBox(height: 16),
+                      ValueListenableBuilder<LayoutView>(
                           valueListenable: uiShowcaseManager.showcaseView,
                           builder: (context, view, _) {
                             switch (view) {
-                              case View.grid:
+                              case LayoutView.grid:
                                 return MobileShowcaseGridView();
-                              case View.detail:
-                                return SizedBox();
+                              case LayoutView.detail:
+                                return const SizedBox();
                               default:
                                 return MobileShowcaseItemView();
                             }

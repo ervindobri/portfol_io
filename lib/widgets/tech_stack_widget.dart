@@ -60,14 +60,14 @@ class _TechStackWidgetState extends State<TechStackWidget> {
               ),
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           MouseRegion(
             child: Row(
               children: [
                 AnimatedOpacity(
                   duration: kThemeAnimationDuration,
                   opacity: showStackList ? 0.0 : 1.0,
-                  child: SizedBox(
+                  child: const SizedBox(
                     height: 24,
                     child: Icon(
                       FontAwesomeIcons.angleDoubleRight,
@@ -100,7 +100,7 @@ class _TechStackWidgetState extends State<TechStackWidget> {
                           child: SlideTransition(
                             position: Tween<Offset>(
                               begin: const Offset(-.4, 0),
-                              end: Offset(0, 0),
+                              end: const Offset(0, 0),
                             ).animate(animation),
                             child: Padding(
                               padding: const EdgeInsets.only(right: 16.0),

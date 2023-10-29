@@ -13,14 +13,14 @@ class ShowcaseGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final width = MediaQuery.of(context).size.width;
-    final crossAxisCount = 2;
+    const crossAxisCount = 2;
     // final cardWidth = width / crossAxisCount;
     return ValueListenableBuilder<CommandResult<void, List<ShowcaseItem>?>>(
         valueListenable: uiShowcaseManager.itemsCommand.results,
         builder: (context, value, _) {
           final items = value.data;
           if (items == null) {
-            return SizedBox();
+            return const SizedBox();
           }
           return Column(
             children: [
@@ -28,9 +28,9 @@ class ShowcaseGridView extends StatelessWidget {
                 child: AnimationLimiter(
                   child: GridView.builder(
                     shrinkWrap: true,
-                    physics: PageScrollPhysics(),
+                    physics: const PageScrollPhysics(),
                     scrollDirection: Axis.horizontal,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: crossAxisCount,
                       mainAxisSpacing: 24,
                       childAspectRatio: 1200 / 1600,
@@ -43,8 +43,8 @@ class ShowcaseGridView extends StatelessWidget {
                       return AnimationConfiguration.staggeredGrid(
                         position: index,
                         columnCount: 3,
-                        delay: Duration(milliseconds: 200),
-                        duration: Duration(milliseconds: 300),
+                        delay: const Duration(milliseconds: 200),
+                        duration: const Duration(milliseconds: 300),
                         child: SlideAnimation(
                           verticalOffset: -50,
                           child: FadeInAnimation(
@@ -78,15 +78,13 @@ class MobileShowcaseGridView extends StatelessWidget {
   final uiShowcaseManager = sl<UiShowcaseManager>();
   @override
   Widget build(BuildContext context) {
-    // final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
     return Expanded(
       child: ValueListenableBuilder<CommandResult<void, List<ShowcaseItem>?>>(
           valueListenable: uiShowcaseManager.itemsCommand.results,
           builder: (context, value, _) {
             final items = value.data;
             if (items == null) {
-              return SizedBox();
+              return const SizedBox();
             }
             // print("Items: $items");
             return SizedBox(
@@ -105,8 +103,8 @@ class MobileShowcaseGridView extends StatelessWidget {
                       final item = items[index];
                       return AnimationConfiguration.staggeredList(
                         position: index,
-                        delay: Duration(milliseconds: 200),
-                        duration: Duration(milliseconds: 300),
+                        delay: const Duration(milliseconds: 200),
+                        duration: const Duration(milliseconds: 300),
                         child: SlideAnimation(
                           verticalOffset: -50,
                           child: FadeInAnimation(

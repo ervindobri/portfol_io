@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_command/flutter_command.dart';
 
@@ -17,6 +18,8 @@ class UiMenuManager {
   // To add a bit of delay in scrolling/animating
   Timer? _debounce;
   final _debounceDuration = const Duration(milliseconds: 50);
+
+  double get offset => scrollController.offset;
 
   UiMenuManager() {
     scrollController = ScrollController();
@@ -38,17 +41,14 @@ class UiMenuManager {
       if (_debounce?.isActive ?? false) _debounce?.cancel();
       _debounce = Timer(_debounceDuration, () async {
         // do something with query
-        final offset = scrollController.offset;
-        var greater = offsets.where((e) => e >= offset).toList()
-          ..sort(); //List of the greater values
-        final item = greater.first;
-        final index = offsets.indexOf(item);
+        final index = getCurrentIndex();
         menuIndex.value = index;
       });
     });
 
-    menuIndex.addListener(() {
-      if (menuIndex.value == offsets.indexOf(offsets.last)) {
+    scrollController.addListener(() {
+      final offset = scrollController.offset;
+      if (offset > offsets[1] + 323) {
         playContactAnimation.value = true;
       } else {
         playContactAnimation.value = false;
@@ -63,6 +63,20 @@ class UiMenuManager {
       // Store the scroll offsets
       offsets = List.generate(
           menuItemsCount, (index) => contentSize * index / menuItemsCount);
+
+      if (kDebugMode) {
+        print("Offsets: $offsets");
+      }
     }
+  }
+
+  int getCurrentIndex() {
+    final offset = scrollController.offset;
+    // print(offset);
+    var greater = offsets.where((e) => e >= offset - (646)).toList()
+      ..sort(); //List of the greater values
+    final item = greater.first;
+    final index = offsets.indexOf(item);
+    return index;
   }
 }

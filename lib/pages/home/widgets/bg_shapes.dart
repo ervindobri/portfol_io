@@ -15,7 +15,7 @@ class BGShapes extends ConsumerWidget {
     final width = MediaQuery.of(context).size.width;
     final theme = ref.watch(themeProvider);
     return Builder(builder: (context) {
-      final shapeCount = 4;
+      const shapeCount = 4;
       return Column(
         mainAxisAlignment:
             MainAxisAlignment.spaceBetween,
@@ -51,7 +51,7 @@ class BGShapes extends ConsumerWidget {
           )
               .expandWithSeparator<Widget>(
                   (element) => element,
-                  SizedBox(height: 48))
+                  const SizedBox(height: 48))
               .toList(),
         ],
       );

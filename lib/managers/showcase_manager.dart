@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,6 +28,9 @@ class ShowcaseItem {
     this.imageAssets = const ['placeholder'],
     this.tags = const [],
   });
+
+  List<String> get images => List.generate(imageAssets.length,
+      (index) => "assets/images/work/$imagesPath/${imageAssets[index]}.png");
 
   @override
   String toString() {
@@ -108,7 +110,7 @@ class ShowcaseItem {
 //   ),
 // ];
 
-enum View { single, grid, detail }
+enum LayoutView { single, grid, detail }
 
 class UiShowcaseManager {
   late Command<void, List<ShowcaseItem>> itemsCommand;
@@ -129,7 +131,7 @@ class UiShowcaseManager {
   ValueNotifier<int> maxItemNumber = ValueNotifier(6);
   ValueNotifier<bool> showImageOverlay = ValueNotifier(false);
   ValueNotifier<bool> showTutorialOverlay = ValueNotifier(true);
-  ValueNotifier<View> showcaseView = ValueNotifier(View.single);
+  ValueNotifier<LayoutView> showcaseView = ValueNotifier(LayoutView.single);
 
   late PageController carouselController;
 
@@ -218,6 +220,10 @@ class UiShowcaseManager {
     }, 0);
   }
 
+  List<ShowcaseItem> get otherItems => showcaseItems
+      .where((element) => element != currentItemCommand.value)
+      .toList();
+
   Future<List<ShowcaseItem>> selectShowcaseItems(void s) async {
     try {
       final source = await rootBundle.loadString('assets/files/items.json');
@@ -228,7 +234,9 @@ class UiShowcaseManager {
           // .take(maxItemNumber.value)
           .toList();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       return [];
     }
   }
@@ -259,5 +267,10 @@ class UiShowcaseManager {
       return showcaseItems[x];
     }
     return ShowcaseItem();
+  }
+
+  void select(ShowcaseItem item) {
+    final index = showcaseItems.indexOf(item);
+    currentItemCommand.execute(index);
   }
 }

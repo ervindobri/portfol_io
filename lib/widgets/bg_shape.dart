@@ -23,12 +23,12 @@ class BackgroundShape extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return CustomPaint(
-      child: Container(
+      painter: CurvePainter(
+          offset: offset, color: color, colors: colors, begin: begin, end: end),
+      child: SizedBox(
         height: height,
         width: width,
       ),
-      painter: CurvePainter(
-          offset: offset, color: color, colors: colors, begin: begin, end: end),
     );
   }
 }

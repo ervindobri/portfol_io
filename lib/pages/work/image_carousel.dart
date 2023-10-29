@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,7 +9,7 @@ import 'package:portfol_io/pages/work/fullscreen_image_dialog.dart';
 import 'package:portfol_io/pages/work/hover_image.dart';
 
 class ImageCarousel extends StatefulWidget {
-  ImageCarousel({
+  const ImageCarousel({
     Key? key,
     required this.item,
   }) : super(key: key);
@@ -88,7 +86,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
                             ..scale(value),
                           child: Opacity(
                             opacity: opacity,
-                            child: Container(
+                            child: SizedBox(
                               width: width / 2,
                               // height: height / 2,
                               // color: Colors.black,
@@ -118,7 +116,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
                           width: value == index ? 8 : 4.0,
                           height: 4.0,
                           duration: kThemeAnimationDuration,
-                          margin: EdgeInsets.symmetric(
+                          margin: const EdgeInsets.symmetric(
                               vertical: 8.0, horizontal: 4.0),
                           decoration: BoxDecoration(
                             // shape: BoxShape.circle,
@@ -151,7 +149,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
                           },
                           icon: Container(
                             color: Colors.white,
-                            child: Icon(
+                            child: const Icon(
                               CupertinoIcons.chevron_up,
                               color: GlobalColors.primaryColor,
                             ),
@@ -169,7 +167,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
                           },
                           icon: Container(
                             color: Colors.white,
-                            child: Icon(
+                            child: const Icon(
                               CupertinoIcons.chevron_down,
                               color: GlobalColors.primaryColor,
                             ),
@@ -240,7 +238,7 @@ class MobileImageCarousel extends StatelessWidget {
                               },
                             );
                           },
-                          child: Container(
+                          child: SizedBox(
                             width: width,
                             height: height,
                             child: Image(
@@ -269,7 +267,7 @@ class MobileImageCarousel extends StatelessWidget {
                       child: Container(
                         width: 6.0,
                         height: 6.0,
-                        margin: EdgeInsets.symmetric(
+                        margin: const EdgeInsets.symmetric(
                             vertical: 8.0, horizontal: 4.0),
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,

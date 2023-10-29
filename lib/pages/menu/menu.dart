@@ -11,10 +11,10 @@ class StickyMenu extends StatelessWidget {
     return ResponsiveBuilder(
       builder: (context, sizingInformation) {
         if (sizingInformation.deviceScreenType == DeviceScreenType.desktop) {
-          return MenuDesktop();
+          return const MenuDesktop();
         }
         if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
-          return MenuDesktop();
+          return const MenuDesktop();
         }
         return MenuMobile();
       },

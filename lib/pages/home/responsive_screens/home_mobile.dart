@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:animated_text_kit/animated_text_kit.dart' as atkit;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,12 +15,12 @@ enum Orientation { portrait, landscape }
 
 class HomeMobile extends StatefulWidget {
   final Orientation orientation;
-  HomeMobile._({Key? key, required this.orientation}) : super(key: key);
+  const HomeMobile._({Key? key, required this.orientation}) : super(key: key);
 
   factory HomeMobile.portrait() =>
-      HomeMobile._(orientation: Orientation.portrait);
+      const HomeMobile._(orientation: Orientation.portrait);
   factory HomeMobile.landscape() =>
-      HomeMobile._(orientation: Orientation.landscape);
+      const HomeMobile._(orientation: Orientation.landscape);
 
   @override
   State<HomeMobile> createState() => _HomeMobileState();
@@ -36,15 +35,13 @@ class _HomeMobileState extends State<HomeMobile> {
     final width = MediaQuery.of(context).size.width;
     final pageHeight =
         widget.orientation == Orientation.landscape ? width : height;
-    final imageSize =
-        widget.orientation == Orientation.landscape ? height / 2 : width * .45;
     final topPadding = 48 + height / 20;
-    final double mobilePadding = 16;
-    final mobileAnimationDurationMs = 300;
+    const double mobilePadding = 16;
+    const mobileAnimationDurationMs = 300;
     final dynamicFontSize = widget.orientation == Orientation.landscape
         ? height / 10
         : (width / 17);
-    return Container(
+    return SizedBox(
       height: pageHeight,
       width: width,
       child: Stack(
@@ -53,7 +50,7 @@ class _HomeMobileState extends State<HomeMobile> {
           Column(
             children: [
               FadingSlideWidget(
-                offset: Offset(0, .1),
+                offset: const Offset(0, .1),
                 durationMilliseconds: mobileAnimationDurationMs,
                 child: Container(
                   width: width,
@@ -86,18 +83,18 @@ class _HomeMobileState extends State<HomeMobile> {
                           color: GlobalColors.lightGrey,
                         ),
                       ),
-                      SizedBox(height: 48),
+                      const SizedBox(height: 48),
                       TextButton(
                         onPressed: () => showDialog(
                           context: context,
                           builder: (context) {
                             return Dismissible(
-                              key: Key('key'),
+                              key: const Key('key'),
                               direction: DismissDirection.vertical,
                               onDismissed: (dir) => Navigator.pop(context),
                               child: Dialog(
                                 elevation: 0,
-                                insetPadding: EdgeInsets.all(16),
+                                insetPadding: const EdgeInsets.all(16),
                                 child: ContactMeDialog.mobile(),
                               ),
                             );
@@ -120,36 +117,36 @@ class _HomeMobileState extends State<HomeMobile> {
                 ),
               ),
               FadingSlideWidget(
-                offset: Offset(-1, 0),
+                offset: const Offset(-1, 0),
                 durationMilliseconds: mobileAnimationDurationMs,
                 child: Container(
                     width: width,
                     height: pageHeight / 2,
                     color: GlobalColors.darkGrey,
                     alignment: Alignment.center,
-                    padding: EdgeInsets.all(mobilePadding),
+                    padding: const EdgeInsets.all(mobilePadding),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         FadingSlideWidget(
-                          offset: Offset(-1, 0),
+                          offset: const Offset(-1, 0),
                           durationMilliseconds: mobileAnimationDurationMs,
                           child: widget.orientation == Orientation.landscape
                               ? MobileTechStackWidget.landscape()
                               : MobileTechStackWidget.portrait(),
                         ),
-                        SizedBox(height: 24),
+                        const SizedBox(height: 24),
                         ListView.builder(
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: Globals.skills.take(5).length,
                           itemBuilder: (BuildContext context, int index) {
                             final skill = Globals.skills[index];
                             var list = [...Globals.skills];
                             list.remove(skill);
                             list.shuffle();
-                            final speed = const Duration(milliseconds: 200);
+                            const speed = Duration(milliseconds: 200);
                             return DefaultTextStyle(
                               style: context.headline1!.copyWith(
                                 fontSize: dynamicFontSize.clamp(24, 48),
@@ -160,7 +157,7 @@ class _HomeMobileState extends State<HomeMobile> {
                               ),
                               child: atkit.AnimatedTextKit(
                                 repeatForever: true,
-                                pause: Duration(seconds: 3),
+                                pause: const Duration(seconds: 3),
                                 animatedTexts: [
                                   atkit.TyperAnimatedText(
                                     skill.toUpperCase(),
@@ -203,7 +200,7 @@ class _HomeMobileState extends State<HomeMobile> {
             bottom: mobilePadding,
             right: mobilePadding,
             child: FadingSlideWidget(
-              offset: Offset(0, 2),
+              offset: const Offset(0, 2),
               durationMilliseconds: mobileAnimationDurationMs,
               child: IconButton(
                 onPressed: () => uiMenuManager.updateMenuCommand.execute(1),
@@ -211,7 +208,7 @@ class _HomeMobileState extends State<HomeMobile> {
                 icon: Container(
                   color: GlobalColors.primaryColor.withOpacity(.4),
                   padding: const EdgeInsets.all(8.0),
-                  child: Center(
+                  child: const Center(
                     child: Icon(
                       FontAwesomeIcons.chevronDown,
                       size: 32,
@@ -236,10 +233,10 @@ class MobileTechStackWidget extends StatefulWidget {
   }) : super(key: key);
 
   factory MobileTechStackWidget.portrait() =>
-      MobileTechStackWidget._(orientation: Orientation.portrait);
+      const MobileTechStackWidget._(orientation: Orientation.portrait);
 
   factory MobileTechStackWidget.landscape() =>
-      MobileTechStackWidget._(orientation: Orientation.landscape);
+      const MobileTechStackWidget._(orientation: Orientation.landscape);
 
   @override
   State<MobileTechStackWidget> createState() => _TechStackWidgetState();
@@ -253,14 +250,14 @@ class _TechStackWidgetState extends State<MobileTechStackWidget> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     // final height = MediaQuery.of(context).size.height;
-    final iconSize = 42.0;
+    const iconSize = 42.0;
     return GestureDetector(
       onVerticalDragUpdate: (drag) {
         setState(() {
           showStackList = !showStackList;
         });
       },
-      child: Container(
+      child: SizedBox(
         width: width,
         child: SizedBox(
           height: 48,

@@ -1,9 +1,9 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_improved_scrolling/flutter_improved_scrolling.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
@@ -15,7 +15,6 @@ import 'package:portfol_io/providers/providers.dart';
 import 'package:portfol_io/widgets/animated_icon_button.dart';
 import 'package:portfol_io/widgets/fade_in_slide.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -31,13 +30,18 @@ class HomePageState extends ConsumerState<HomePage>
   @override
   void initState() {
     // Initialize scrolling
+
     super.initState();
   }
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
+  void dispose() {
+    uiMenuManager.scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final previousColor =
         ref.watch(previousBrightnessProvider).extBackgroundColor;
@@ -63,31 +67,30 @@ class HomePageState extends ConsumerState<HomePage>
                   children: [
                     SizedBox(
                       height: height,
-                      child: WebSmoothScroll(
-                        controller: uiMenuManager.scrollController,
-                        child: SingleChildScrollView(
-                          physics: const NeverScrollableScrollPhysics(),
-                          controller: uiMenuManager.scrollController,
-                          child: _buildScrollableList(),
+                      child: ImprovedScrolling(
+                        scrollController: uiMenuManager.scrollController,
+                        enableMMBScrolling: true,
+                        enableCustomMouseWheelScrolling:
+                            ref.watch(scrollEnabledProvider),
+                        customMouseWheelScrollConfig:
+                            const CustomMouseWheelScrollConfig(
+                          scrollAmountMultiplier: 2.25,
+                          scrollDuration: Duration(milliseconds: 300),
+                          scrollCurve: Curves.linearToEaseOut,
+                          mouseWheelTurnsThrottleTimeMs: 20,
+                        ),
+                        child: ScrollConfiguration(
+                          behavior: ScrollConfiguration.of(context)
+                              .copyWith(scrollbars: false),
+                          child: SingleChildScrollView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            controller: uiMenuManager.scrollController,
+                            child: _buildScrollableList(),
+                          ),
                         ),
                       ),
-                      // child: ScrollablePositionedList.builder(
-                      //   shrinkWrap: true,
-                      //   itemScrollController:
-                      //       uiMenuManager.itemScrollController,
-                      //   itemPositionsListener:
-                      //       uiMenuManager.itemPositionListener,
-                      //   physics: const AlwaysScrollableScrollPhysics(),
-                      //   itemCount: Globals.menu.length,
-                      //   itemBuilder: (context, index) {
-                      //     return sectionWidget(index);
-                      //   },
-                      // ),
                     ),
-                    const Positioned(
-                      top: 0,
-                      child: StickyMenu(),
-                    ),
+                    const Positioned(top: 0, child: StickyMenu()),
                     Positioned(
                       bottom: mobilePadding,
                       right: mobilePadding,
@@ -101,24 +104,15 @@ class HomePageState extends ConsumerState<HomePage>
         });
   }
 
-  Widget sectionWidget(int i) {
-    if (i == 0) {
-      return const HomeContent();
-    } else if (i == 1) {
-      return WorkContent();
-    } else if (i == 2) {
-      return ContactContent();
-    } else {
-      return const SizedBox();
-    }
-  }
-
   _buildScrollableList() {
-    return Column(
+    return const Column(
       children: [
-        sectionWidget(0),
-        sectionWidget(1),
-        sectionWidget(2),
+        HomeContent(),
+        WorkContent(),
+        ContactContent()
+        // sectionWidget(0),
+        // sectionWidget(1),
+        // sectionWidget(2),
       ],
     );
   }

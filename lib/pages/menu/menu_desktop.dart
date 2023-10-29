@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,127 +14,138 @@ import 'package:portfol_io/widgets/hover_button.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 // TODO: menuIndex listener to update the provider
-class MenuDesktop extends ConsumerWidget {
-  MenuDesktop({Key? key}) : super(key: key);
+class MenuDesktop extends ConsumerStatefulWidget {
+  const MenuDesktop({Key? key}) : super(key: key);
 
+  @override
+  ConsumerState<MenuDesktop> createState() => _MenuDesktopState();
+}
+
+class _MenuDesktopState extends ConsumerState<MenuDesktop> {
   final uiMenuManager = sl<UiMenuManager>();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void initState() {
+    uiMenuManager.scrollController.addListener(() {
+      final index = uiMenuManager.getCurrentIndex();
+      if (index == ref.read(menuIndexProvider)) return;
+      if (kDebugMode) {
+        print("update menu to $index");
+      }
+      ref.read(menuIndexProvider.notifier).update((state) => index);
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     // final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    const double blurStrength = 48;
 
     final theme = ref.watch(themeProvider);
     final themeColor = ref.watch(themeColorProvider);
+    final selectedIndex = ref.watch(menuIndexProvider);
     return ClipRRect(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: blurStrength, sigmaY: blurStrength),
-        child: Container(
-          height: kToolbarHeight,
-          width: width,
-          padding: GlobalStyles.horizontalScreenPadding
-              .copyWith(top: 12, bottom: 12),
-          child: Row(
-            children: [
-              Expanded(
-                child: ValueListenableBuilder<int>(
-                  valueListenable: uiMenuManager.menuIndex,
-                  builder: (_, value, __) {
-                    final _selectedIndex = value;
-                    return ListView.separated(
-                      itemCount: Globals.menu.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (_, index) {
-                        final isSelected = _selectedIndex == index;
-                        return InkWell(
-                          overlayColor:
-                              MaterialStatePropertyAll(Colors.transparent),
-                          splashColor: Colors.transparent,
-                          onTap: () async {
-                            uiMenuManager.updateMenuCommand.execute(index);
-                          },
-                          child: Row(
-                            children: [
-                              AnimatedOpacity(
-                                  opacity: isSelected ? 1 : 0,
-                                  duration: kThemeAnimationDuration,
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 8,
-                                        height: 8,
-                                        decoration: BoxDecoration(
-                                          color: themeColor,
-                                          borderRadius:
-                                              GlobalStyles.borderRadius,
-                                        ),
-                                      ),
-                                      SizedBox(width: 4),
-                                    ],
-                                  )),
-                              Text(
-                                Globals.menu[index],
-                                style: context.bodyText1?.copyWith(
-                                  color: isSelected
-                                      ? themeColor
-                                      : theme.inverseTextColor,
-                                  fontWeight: isSelected
-                                      ? FontWeight.bold
-                                      : FontWeight.normal,
+      child: Container(
+        height: kToolbarHeight,
+        width: width,
+        padding:
+            GlobalStyles.horizontalScreenPadding.copyWith(top: 12, bottom: 12),
+        color: Colors.transparent,
+        child: Row(
+          children: [
+            Expanded(
+              child: ListView.separated(
+                itemCount: Globals.menu.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (_, index) {
+                  final isSelected = selectedIndex == index;
+                  return InkWell(
+                    overlayColor:
+                        const MaterialStatePropertyAll(Colors.transparent),
+                    splashColor: Colors.transparent,
+                    onTap: () async {
+                      uiMenuManager.updateMenuCommand.execute(index);
+                    },
+                    child: Row(
+                      children: [
+                        AnimatedOpacity(
+                            opacity: isSelected ? 1 : 0,
+                            duration: kThemeAnimationDuration,
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 8,
+                                  height: 8,
+                                  decoration: BoxDecoration(
+                                    color: themeColor,
+                                    borderRadius: GlobalStyles.borderRadius,
+                                  ),
                                 ),
-                              ),
-                            ],
+                                const SizedBox(width: 4),
+                              ],
+                            )),
+                        Text(
+                          Globals.menu[index],
+                          style: context.bodyText1?.copyWith(
+                            color: isSelected
+                                ? themeColor
+                                : theme.inverseTextColor,
+                            fontWeight: isSelected
+                                ? FontWeight.bold
+                                : FontWeight.normal,
                           ),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(width: 24);
-                      },
-                    );
-                  },
-                ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return const SizedBox(width: 48);
+                },
               ),
-              Spacer(),
-              Row(
-                children: [
-                  InkWell(
-                    onTap: () async => await showThemeDialog(context, ref),
-                    child: Container(
-                      color: themeColor,
-                      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                      child: Center(
-                        child: Text(
-                          Globals.themeLabel,
-                          style: theme.textTheme.labelSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+            ),
+            const Spacer(),
+            Row(
+              children: [
+                InkWell(
+                  onTap: () async => await showThemeDialog(context, ref),
+                  child: Container(
+                    color: themeColor,
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                    child: Center(
+                      child: Text(
+                        Globals.themeLabel,
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(width: 24),
-                  _buildBrightnessButton(ref, theme),
-                  SizedBox(width: 24),
-                  InkWell(
-                    onTap: () async => await launchUrlString(Globals.githubUrl),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: theme.inverseTextColor,
-                      ),
-                      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-                      child: Image.asset(
-                        AppIcons.github,
-                        color: theme.textColor,
-                        width: 24,
-                        height: 24,
-                      ),
+                ),
+                const SizedBox(width: 12),
+                _buildBrightnessButton(ref, theme),
+                const SizedBox(width: 12),
+                InkWell(
+                  onTap: () async => await launchUrlString(Globals.githubUrl),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: theme.inverseTextColor,
+                    ),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                    child: Image.asset(
+                      AppIcons.github,
+                      color: theme.textColor,
+                      width: 24,
+                      height: 24,
                     ),
                   ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -149,7 +160,7 @@ class MenuDesktop extends ConsumerWidget {
         decoration: BoxDecoration(
           color: theme.inverseTextColor,
         ),
-        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
         child: AnimatedSwitcher(
           duration: kThemeAnimationDuration,
           child: isDarkMode
@@ -177,7 +188,7 @@ class MenuDesktop extends ConsumerWidget {
         context: context,
         animationType: DialogTransitionType.slideFromTop,
         curve: Curves.fastOutSlowIn,
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         barrierColor: Colors.transparent,
         barrierDismissible: true,
         builder: (_) {
@@ -200,7 +211,7 @@ class MenuDesktop extends ConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(width: 24),
+                  const SizedBox(width: 24),
                   ...List.generate(
                     GlobalColors.themeColors.length,
                     (index) {
@@ -226,7 +237,7 @@ class MenuDesktop extends ConsumerWidget {
                                 strokeAlign: BorderSide.strokeAlignOutside,
                               ),
                             ),
-                            padding: EdgeInsets.all(24),
+                            padding: const EdgeInsets.all(24),
                             child: Stack(
                               alignment: Alignment.center,
                               children: [
@@ -234,7 +245,7 @@ class MenuDesktop extends ConsumerWidget {
                                   backgroundColor: color,
                                 ),
                                 if (isSelected)
-                                  FaIcon(
+                                  const FaIcon(
                                     FontAwesomeIcons.check,
                                     color: Colors.white,
                                   )
@@ -246,9 +257,9 @@ class MenuDesktop extends ConsumerWidget {
                     },
                   ).expandWithSeparator(
                     (element) => element,
-                    SizedBox(width: 24),
+                    const SizedBox(width: 24),
                   ),
-                  SizedBox(width: 24),
+                  const SizedBox(width: 24),
                 ],
               ),
             ),

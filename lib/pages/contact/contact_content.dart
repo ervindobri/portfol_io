@@ -5,6 +5,8 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactContent extends StatelessWidget {
+  const ContactContent({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -14,12 +16,12 @@ class ContactContent extends StatelessWidget {
           builder: (context, sizingInformation) {
             if (sizingInformation.deviceScreenType ==
                 DeviceScreenType.desktop) {
-              return ContactDesktop();
+              return const ContactDesktop();
             }
             if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
-              return ContactDesktop();
+              return const ContactDesktop();
             }
-            return ContactMobile();
+            return const ContactMobile();
           },
         ),
         Positioned(

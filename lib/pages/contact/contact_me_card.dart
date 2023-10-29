@@ -43,7 +43,7 @@ class ContactMeCard extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 56),
+              const SizedBox(height: 56),
               TextButton(
                 onPressed: () => showContactDialog(context),
                 child: Container(
@@ -58,7 +58,7 @@ class ContactMeCard extends StatelessWidget {
               ),
             ],
           ),
-          Spacer(),
+          const Spacer(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -67,7 +67,7 @@ class ContactMeCard extends StatelessWidget {
                 style: context.bodyText1
                     ?.copyWith(fontSize: 14, color: Colors.white),
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               Wrap(
                 spacing: 16,
                 children: Globals.socialMediaBubbles
@@ -75,7 +75,7 @@ class ContactMeCard extends StatelessWidget {
                       (e) => Tooltip(
                         message: e.label,
                         textStyle: context.bodyText1,
-                        decoration: BoxDecoration(color: Colors.transparent),
+                        decoration: const BoxDecoration(color: Colors.transparent),
                         child: InkWell(
                           onTap: () async {
                             try {
@@ -123,7 +123,6 @@ class MobileContactMeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Container(
       width: width,
@@ -134,7 +133,7 @@ class MobileContactMeCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 32),
+              const SizedBox(height: 32),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -157,7 +156,7 @@ class MobileContactMeCard extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               TextButton(
                 onPressed: () => showContactDialog(context),
                 style: GlobalStyles.whiteTextButtonStyle(),
@@ -178,7 +177,7 @@ class MobileContactMeCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           Wrap(
             spacing: 16,
             children: Globals.socialMediaBubbles
@@ -186,7 +185,7 @@ class MobileContactMeCard extends StatelessWidget {
                   (e) => Tooltip(
                     message: e.label,
                     textStyle: context.bodyText1,
-                    decoration: BoxDecoration(color: Colors.transparent),
+                    decoration: const BoxDecoration(color: Colors.transparent),
                     child: InkWell(
                       onTap: () async {
                         try {
@@ -218,12 +217,12 @@ class MobileContactMeCard extends StatelessWidget {
       context: context,
       builder: (context) {
         return Dismissible(
-          key: Key('key'),
+          key: const Key('key'),
           direction: DismissDirection.vertical,
           onDismissed: (dir) => Navigator.pop(context),
           child: Dialog(
             elevation: 0,
-            insetPadding: EdgeInsets.all(16),
+            insetPadding: const EdgeInsets.all(16),
             child: ContactMeDialog.mobile(),
           ),
         );
