@@ -22,7 +22,7 @@ class AnimatedIconButton extends ConsumerWidget {
     final themeColor = ref.watch(themeColorProvider);
     return MouseRegion(
       child: HoverWidget(
-        builder: (hovering) => InkWell(
+        builder: (context, hovering) => InkWell(
           borderRadius: BorderRadius.circular(12),
           onTap: onPressed,
           child: AnimatedContainer(

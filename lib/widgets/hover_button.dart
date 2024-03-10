@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HoverWidget extends StatefulWidget {
-  final Widget Function(bool) builder;
+  final Widget Function(BuildContext, bool) builder;
 
   const HoverWidget({super.key, required this.builder});
 
@@ -21,6 +21,6 @@ class _HoverButtonState extends State<HoverWidget> {
         onExit: (hovering) {
           setState(() => isHovered = false);
         },
-        child: widget.builder(isHovered));
+        child: widget.builder(context, isHovered));
   }
 }

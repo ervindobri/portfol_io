@@ -36,20 +36,18 @@ class _ImageCarouselState extends ConsumerState<ImageView> {
   Widget build(BuildContext context) {
     final theme = ref.watch(themeProvider);
     return ClipRRect(
-      borderRadius: const BorderRadius.horizontal(
-        right: Radius.circular(48),
-      ),
+      borderRadius: BorderRadius.circular(48),
       child: Stack(
         children: [
           MouseRegion(
-            onEnter: (val) {
-              // Disable main page scrolling
-              ref.read(scrollEnabledProvider.notifier).update((state) => false);
-            },
-            onExit: (val) {
-              // Enable main page scrolling
-              ref.read(scrollEnabledProvider.notifier).update((state) => true);
-            },
+            // onEnter: (val) {
+            //   // Disable main page scrolling
+            //   ref.read(scrollEnabledProvider.notifier).update((state) => false);
+            // },
+            // onExit: (val) {
+            //   // Enable main page scrolling
+            //   ref.read(scrollEnabledProvider.notifier).update((state) => true);
+            // },
             child: ScrollConfiguration(
               behavior:
                   ScrollConfiguration.of(context).copyWith(scrollbars: false),
@@ -66,11 +64,35 @@ class _ImageCarouselState extends ConsumerState<ImageView> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         ...widget.item.imageAssets.map(
-                          (e) => Image.asset(
-                            "assets/images/work/${widget.item.imagesPath}/$e.png",
-                            // height: height,
-                            width: double.infinity,
-                            fit: BoxFit.fitWidth,
+                          (e) => InkWell(
+                            highlightColor: Colors.transparent,
+                            splashColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            onTap: () {
+                              final imageIndex =
+                                  widget.item.imageAssets.indexOf(e);
+                              uiShowcaseManager.currentImageIndex.value =
+                                  imageIndex;
+                              showDialog(
+                                context: context,
+                                barrierColor:
+                                    GlobalColors.primaryColor.withOpacity(.8),
+                                builder: (context) {
+                                  return Dialog(
+                                      child: FullscreenImageDialog(
+                                          item: widget.item));
+                                },
+                              );
+                            },
+                            child: Hero(
+                              tag: e,
+                              child: Image.asset(
+                                "assets/images/work/${widget.item.imagesPath}/$e.png",
+                                // height: height,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                         ),
                       ],

@@ -121,7 +121,7 @@ class BumbleScrollbarState extends State<BumbleScrollbar> {
       alignment: widget.alignment,
       child: Padding(
         padding: widget.scrollbarMargin,
-        child: HoverWidget(builder: (hovering) {
+        child: HoverWidget(builder: (context, hovering) {
           return Stack(
             children: [
               Container(

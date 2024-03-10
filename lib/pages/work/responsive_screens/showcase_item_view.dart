@@ -36,8 +36,6 @@ class ShowcaseItemView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final uiShowcaseManager = sl<UiShowcaseManager>();
-    final themeColor = ref.watch(themeColorProvider);
-    final width = MediaQuery.of(context).size.width;
     return ValueListenableBuilder<CommandResult<int?, ShowcaseItem?>>(
         valueListenable: uiShowcaseManager.currentItemCommand.results,
         builder: (context, value, __) {
@@ -47,73 +45,70 @@ class ShowcaseItemView extends ConsumerWidget {
           final item = value.data!;
 
           return Padding(
-            padding: const EdgeInsets.only(bottom: 48.0),
+            padding: const EdgeInsets.only(bottom: 24.0),
             child: Row(
-              // alignment: Alignment.center,
               children: [
                 Expanded(
-                  flex: 4,
                   child: AnimatedSwitcher(
                     key: ValueKey(item.hashCode),
                     duration: kThemeAnimationDuration,
                     child: AnimatedShowcaseItemWidget(item: item),
                   ),
                 ),
-                const SizedBox(width: 48),
-                Expanded(
-                  flex: 1,
-                  child: Builder(builder: (_) {
-                    final items = uiShowcaseManager.otherItems.take(3).toList();
-                    return Column(
-                      children: [
-                        ...List.generate(
-                          items.length,
-                          (index) => Expanded(
-                            child: AnimatedSwitcher(
-                              key: ValueKey(items[index].hashCode),
-                              duration: kThemeAnimationDuration,
-                              child: HoverWidget(
-                                builder: (hovering) {
-                                  return InkWell(
-                                    borderRadius: const BorderRadius.horizontal(
-                                      left: Radius.circular(48),
-                                    ),
-                                    onTap: () {
-                                      uiShowcaseManager.select(items[index]);
-                                    },
-                                    child: Container(
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: BoxDecoration(
-                                        color: themeColor,
-                                        borderRadius:
-                                            const BorderRadius.horizontal(
-                                          left: Radius.circular(48),
-                                        ),
-                                      ),
-                                      child: AnimatedScale(
-                                        scale: hovering ? 1.1 : 1.0,
-                                        duration: kThemeAnimationDuration,
-                                        child: Image.asset(
-                                          items[index].images.first,
-                                          fit: BoxFit.fitWidth,
-                                          width: width,
-                                          // cacheWidth: width ~/ 2,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                        ).expandWithSeparator(
-                          (e) => e,
-                          const SizedBox(height: 24),
-                        ),
-                      ],
-                    );
-                  }),
-                ),
+                // Expanded(
+                //   flex: 1,
+                //   child: Builder(builder: (_) {
+                //     final items = uiShowcaseManager.otherItems.take(3).toList();
+                //     return Column(
+                //       children: [
+                //         ...List.generate(
+                //           items.length,
+                //           (index) => Expanded(
+                //             child: AnimatedSwitcher(
+                //               key: ValueKey(items[index].hashCode),
+                //               duration: kThemeAnimationDuration,
+                //               child: HoverWidget(
+                //                 builder: (context, hovering) {
+                //                   return InkWell(
+                //                     borderRadius: const BorderRadius.horizontal(
+                //                       left: Radius.circular(48),
+                //                     ),
+                //                     onTap: () {
+                //                       uiShowcaseManager.select(items[index]);
+                //                     },
+                //                     child: Container(
+                //                       clipBehavior: Clip.antiAlias,
+                //                       decoration: BoxDecoration(
+                //                         color: themeColor,
+                //                         borderRadius:
+                //                             const BorderRadius.horizontal(
+                //                           left: Radius.circular(48),
+                //                         ),
+                //                       ),
+                //                       child: AnimatedScale(
+                //                         scale: hovering ? 1.1 : 1.0,
+                //                         duration: kThemeAnimationDuration,
+                //                         child: Image.asset(
+                //                           items[index].images.first,
+                //                           fit: BoxFit.fitWidth,
+                //                           width: width,
+                //                           // cacheWidth: width ~/ 2,
+                //                         ),
+                //                       ),
+                //                     ),
+                //                   );
+                //                 },
+                //               ),
+                //             ),
+                //           ),
+                //         ).expandWithSeparator(
+                //           (e) => e,
+                //           const SizedBox(height: 24),
+                //         ),
+                //       ],
+                //     );
+                //   }),
+                // ),
               ],
             ),
           );
@@ -162,7 +157,7 @@ class MobileShowcaseItemView extends StatelessWidget {
                                   color: Colors.white,
                                   size: 42,
                                 ),
-                                Text(
+                                SelectableText(
                                   "Swipe left or right to change current item",
                                   textAlign: TextAlign.center,
                                   style: context.headline6?.copyWith(

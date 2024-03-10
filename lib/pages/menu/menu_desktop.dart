@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/constants/icons.dart';
+import 'package:portfol_io/extensions/build_context.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/extensions/list.dart';
 import 'package:portfol_io/injection_manager.dart';
@@ -38,111 +41,111 @@ class _MenuDesktopState extends ConsumerState<MenuDesktop> {
 
   @override
   Widget build(BuildContext context) {
-    // final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
+    final width = context.width;
 
     final theme = ref.watch(themeProvider);
     final themeColor = ref.watch(themeColorProvider);
     final selectedIndex = ref.watch(menuIndexProvider);
     return ClipRRect(
+      borderRadius: BorderRadius.circular(48),
       child: Container(
         height: kToolbarHeight,
         width: width,
-        padding:
-            GlobalStyles.horizontalScreenPadding.copyWith(top: 12, bottom: 12),
+        constraints: BoxConstraints.tight(
+          const Size(
+            Globals.maxBoxWidth,
+            kToolbarHeight,
+          ),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         color: Colors.transparent,
-        child: Row(
-          children: [
-            Expanded(
-              child: ListView.separated(
-                itemCount: Globals.menu.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (_, index) {
-                  final isSelected = selectedIndex == index;
-                  return InkWell(
-                    overlayColor:
-                        const MaterialStatePropertyAll(Colors.transparent),
-                    splashColor: Colors.transparent,
-                    onTap: () async {
-                      uiMenuManager.updateMenuCommand.execute(index);
-                    },
-                    child: Row(
-                      children: [
-                        AnimatedOpacity(
-                            opacity: isSelected ? 1 : 0,
-                            duration: kThemeAnimationDuration,
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 8,
-                                  height: 8,
-                                  decoration: BoxDecoration(
-                                    color: themeColor,
-                                    borderRadius: GlobalStyles.borderRadius,
-                                  ),
-                                ),
-                                const SizedBox(width: 4),
-                              ],
-                            )),
-                        Text(
-                          Globals.menu[index],
-                          style: context.bodyText1?.copyWith(
-                            color: isSelected
-                                ? themeColor
-                                : theme.inverseTextColor,
-                            fontWeight: isSelected
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                separatorBuilder: (_, __) => const SizedBox(width: 24),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 24.0, sigmaY: 24.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: ListView.separated(
+                  itemCount: Globals.menu.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (_, index) {
+                    final isSelected = selectedIndex == index;
+                    return InkWell(
+                      overlayColor:
+                          const MaterialStatePropertyAll(Colors.transparent),
+                      splashColor: Colors.transparent,
+                      onTap: () async {
+                        uiMenuManager.updateMenuCommand.execute(index);
+                      },
+                      child: Row(
+                        children: [
+                          HoverWidget(builder: (_, isHovered) {
+                            return Text(
+                              Globals.menu[index],
+                              style: context.bodyText1?.copyWith(
+                                color: isSelected
+                                    ? themeColor
+                                    : isHovered
+                                        ? themeColor.withOpacity(.7)
+                                        : theme.inverseTextColor,
+                                fontWeight: isSelected
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                              ),
+                            );
+                          }),
+                        ],
+                      ),
+                    );
+                  },
+                  separatorBuilder: (_, __) => const SizedBox(width: 24),
+                ),
               ),
-            ),
-            const Spacer(),
-            Row(
-              children: [
-                InkWell(
-                  onTap: () async => await showThemeDialog(context, ref),
-                  child: Container(
+              const Spacer(),
+              Row(
+                children: [
+                  Container(
                     color: themeColor,
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                    child: Center(
-                      child: Text(
-                        Globals.themeLabel,
-                        style: theme.textTheme.labelSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: InkWell(
+                        onTap: () async => await showThemeDialog(context, ref),
+                        hoverColor: themeColor,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 6, horizontal: 8),
+                          child: Text(
+                            Globals.themeLabel,
+                            style: theme.textTheme.labelSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 12),
-                _buildBrightnessButton(ref, theme),
-                const SizedBox(width: 12),
-                InkWell(
-                  onTap: () async => await launchUrlString(Globals.githubUrl),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: theme.inverseTextColor,
-                    ),
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-                    child: Image.asset(
-                      AppIcons.github,
-                      color: theme.textColor,
-                      width: 24,
-                      height: 24,
+                  const SizedBox(width: 12),
+                  _buildBrightnessButton(ref, theme),
+                  const SizedBox(width: 12),
+                  InkWell(
+                    onTap: () async => await launchUrlString(Globals.githubUrl),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: theme.inverseTextColor,
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 4),
+                      child: Image.asset(
+                        AppIcons.github,
+                        color: theme.textColor,
+                        width: 24,
+                        height: 24,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -160,19 +163,12 @@ class _MenuDesktopState extends ConsumerState<MenuDesktop> {
         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
         child: AnimatedSwitcher(
           duration: kThemeAnimationDuration,
-          child: isDarkMode
-              ? Image.asset(
-                  AppIcons.bulbLight,
-                  color: theme.textColor,
-                  width: 24,
-                  height: 24,
-                )
-              : Image.asset(
-                  AppIcons.bulbDark,
-                  color: theme.textColor,
-                  width: 24,
-                  height: 24,
-                ),
+          child: Image.asset(
+            isDarkMode ? AppIcons.bulbLight : AppIcons.bulbDark,
+            color: theme.textColor,
+            width: 24,
+            height: 24,
+          ),
         ),
       ),
     );
@@ -222,7 +218,7 @@ class _MenuDesktopState extends ConsumerState<MenuDesktop> {
                               .changeThemeColor(color);
                           // Navigator.pop(context);
                         },
-                        child: HoverWidget(builder: (hovering) {
+                        child: HoverWidget(builder: (context, hovering) {
                           return AnimatedContainer(
                             duration: kThemeAnimationDuration,
                             decoration: BoxDecoration(

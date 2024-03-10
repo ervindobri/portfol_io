@@ -21,10 +21,10 @@ class AnimatedHighlightWidget extends ConsumerWidget {
     return DelayedDisplay(
       delay: Duration(milliseconds: 2500 + 100 + index * 200),
       child: HoverWidget(
-        builder: (hovering) {
+        builder: (context, hovering) {
           final hoveredTransform = Matrix4.identity()
-            ..translate(-48, 0, 0)
-            ..scale(1.2);
+            ..translate(-64, -8, 0)
+            ..scale(1.35);
           final transform = hovering ? hoveredTransform : Matrix4.identity();
           return AnimatedContainer(
             duration: kThemeAnimationDuration,

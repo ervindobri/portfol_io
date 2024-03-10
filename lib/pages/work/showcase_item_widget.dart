@@ -1,9 +1,14 @@
+import 'dart:math';
+import 'dart:ui';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:motion/motion.dart';
 import 'package:portfol_io/constants/constants.dart';
+import 'package:portfol_io/extensions/build_context.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
@@ -19,76 +24,69 @@ class AnimatedShowcaseItemWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.watch(themeProvider);
     final themeColor = ref.watch(themeColorProvider);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Stack(
+      clipBehavior: Clip.none,
+      alignment: Alignment.bottomLeft,
       children: [
-        Expanded(
-          flex: 2,
-          child: ImageView(item: item),
-        ),
-        const SizedBox(width: 48),
-        Expanded(
-          flex: 1,
-          child: Motion(
-            controller: MotionController(),
-            glare: const GlareConfiguration(
-              maxOpacity: 0,
-              minOpacity: 0,
-              color: Colors.transparent,
-            ),
-            shadow: const ShadowConfiguration(
-              opacity: 0.12,
-              // color: Colors.transparent,
-            ),
+        ImageView(item: item),
+        Padding(
+          padding: const EdgeInsets.all(24),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(24),
             child: Container(
+              width: context.width,
               decoration: BoxDecoration(
-                color: theme.containerColor,
+                color: theme.containerColor.withOpacity(.4),
                 borderRadius: BorderRadius.circular(24),
               ),
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          DelayedDisplay(
-                            delay: const Duration(milliseconds: 100),
-                            fadingDuration: kThemeAnimationDuration,
-                            child: Text(
-                              item.projectName,
-                              textAlign: TextAlign.left,
-                              style: context.headline5?.copyWith(
-                                color: themeColor,
-                                fontWeight: FontWeight.w700,
-                              ),
+              padding: const EdgeInsets.all(16),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        DelayedDisplay(
+                          delay: const Duration(milliseconds: 100),
+                          fadingDuration: kThemeAnimationDuration,
+                          child: SelectableText(
+                            item.projectName,
+                            textAlign: TextAlign.left,
+                            style: context.headline5?.copyWith(
+                              color: themeColor,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
-                          DelayedDisplay(
-                            delay: const Duration(milliseconds: 200),
-                            fadingDuration: kThemeAnimationDuration,
-                            child: Text(
-                              item.duration,
-                              textAlign: TextAlign.left,
-                              style: context.bodyText1!.copyWith(
-                                fontWeight: FontWeight.w300,
-                                fontSize: 18,
-                                color: theme.inverseTextColor,
-                              ),
+                        ),
+                        DelayedDisplay(
+                          delay: const Duration(milliseconds: 200),
+                          fadingDuration: kThemeAnimationDuration,
+                          child: SelectableText(
+                            item.duration,
+                            textAlign: TextAlign.left,
+                            style: context.bodyText1!.copyWith(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 18,
+                              color: theme.inverseTextColor,
                             ),
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 32),
-                      DelayedDisplay(
-                        delay: const Duration(milliseconds: 300),
-                        fadingDuration: kThemeAnimationDuration,
-                        child: Text(
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 32),
+                    DelayedDisplay(
+                      delay: const Duration(milliseconds: 300),
+                      fadingDuration: kThemeAnimationDuration,
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: context.width * 4 / 12,
+                        ),
+                        child: SelectableText(
                           item.description,
-                          maxLines: 12,
+                          maxLines: 4,
                           textAlign: TextAlign.left,
                           style: context.bodyText2!.copyWith(
                             color: theme.inverseTextColor,
@@ -96,11 +94,11 @@ class AnimatedShowcaseItemWidget extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      // Spacer(),
-                      // TODO: add play/appstore icon if applicable
-                    ],
-                  ),
-                ],
+                    ),
+                    // Spacer(),
+                    // TODO: add play/appstore icon if applicable
+                  ],
+                ),
               ),
             ),
           ),

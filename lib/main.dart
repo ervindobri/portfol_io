@@ -46,7 +46,7 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return OverlaySupport.global(
       child: MaterialApp(
-        title: 'Ervin Dobri',
+        title: 'Portfolio',
         theme: ref.watch(themeProvider),
         scrollBehavior: MyCustomScrollBehavior(),
         home: const HomePage(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_command/flutter_command.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:portfol_io/constants/globals.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
@@ -47,14 +48,14 @@ class _WorkDesktopState extends ConsumerState<WorkDesktop> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "Featured projects",
+                          SelectableText(
+                            Globals.workTitle,
                             style: theme.inverseBodyLarge,
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 48),
+                    const SizedBox(height: 24),
                     const Expanded(
                       child: ShowcaseItemView(),
                     ),

@@ -4,6 +4,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_improved_scrolling/flutter_improved_scrolling.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:portfol_io/constants/constants.dart';
+import 'package:portfol_io/extensions/build_context.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
@@ -51,60 +53,75 @@ class HomePageState extends ConsumerState<HomePage>
       uiMenuManager.setOffsets();
     });
     return TweenAnimationBuilder<Color?>(
-        tween: ColorTween(begin: previousColor, end: nextColor),
-        duration: const Duration(milliseconds: 50),
-        builder: (_, Color? color, __) {
-          // <-- Colo
-          return Scaffold(
-            backgroundColor: color,
-            resizeToAvoidBottomInset: true,
-            body: SafeArea(
-              child: ResponsiveBuilder(builder: (context, sizingInformation) {
-                final isMobile = sizingInformation.deviceScreenType ==
-                    DeviceScreenType.mobile;
-                final double mobilePadding = isMobile ? 16 : 32;
-                return Stack(
+      tween: ColorTween(begin: previousColor, end: nextColor),
+      duration: const Duration(milliseconds: 50),
+      builder: (_, Color? color, __) {
+        // <-- Colo
+        return Scaffold(
+          backgroundColor: color,
+          resizeToAvoidBottomInset: true,
+          body: SafeArea(
+            child: ResponsiveBuilder(builder: (context, sizingInformation) {
+              final isMobile =
+                  sizingInformation.deviceScreenType == DeviceScreenType.mobile;
+              final double mobilePadding = isMobile ? 16 : 32;
+              return Center(
+                child: Stack(
+                  alignment: Alignment.topLeft,
                   children: [
-                    SizedBox(
-                      height: height,
-                      child: ImprovedScrolling(
-                        scrollController: uiMenuManager.scrollController,
-                        enableMMBScrolling: true,
-                        enableCustomMouseWheelScrolling:
-                            ref.watch(scrollEnabledProvider),
-                        customMouseWheelScrollConfig:
-                            const CustomMouseWheelScrollConfig(
-                          scrollAmountMultiplier: 2.25,
-                          scrollDuration: Duration(milliseconds: 300),
-                          scrollCurve: Curves.linearToEaseOut,
-                          mouseWheelTurnsThrottleTimeMs: 20,
+                    ConstrainedBox(
+                      constraints: BoxConstraints.tight(
+                        Size(
+                          Globals.maxBoxWidth,
+                          context.height,
                         ),
-                        child: ScrollConfiguration(
-                          behavior: ScrollConfiguration.of(context)
-                              .copyWith(scrollbars: false),
-                          child: SingleChildScrollView(
-                            physics: const NeverScrollableScrollPhysics(),
-                            controller: uiMenuManager.scrollController,
-                            child: _buildScrollableList(),
+                      ),
+                      child: SizedBox(
+                        height: height,
+                        child: ImprovedScrolling(
+                          scrollController: uiMenuManager.scrollController,
+                          enableMMBScrolling: true,
+                          enableCustomMouseWheelScrolling:
+                              ref.watch(scrollEnabledProvider),
+                          customMouseWheelScrollConfig:
+                              const CustomMouseWheelScrollConfig(
+                            scrollAmountMultiplier: 2.25,
+                            scrollDuration: Duration(milliseconds: 300),
+                            scrollCurve: Curves.linearToEaseOut,
+                            mouseWheelTurnsThrottleTimeMs: 20,
+                          ),
+                          child: ScrollConfiguration(
+                            behavior: ScrollConfiguration.of(context)
+                                .copyWith(scrollbars: false),
+                            child: SingleChildScrollView(
+                              physics: const NeverScrollableScrollPhysics(),
+                              controller: uiMenuManager.scrollController,
+                              child: _buildScrollableList(),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                    const Positioned(top: 0, child: StickyMenu()),
+                    const Positioned(
+                      top: 8,
+                      child: StickyMenu(),
+                    ),
                     Positioned(
                       bottom: mobilePadding,
                       right: mobilePadding,
                       child: JumpToHomeButton(),
                     ),
                   ],
-                );
-              }),
-            ),
-          );
-        });
+                ),
+              );
+            }),
+          ),
+        );
+      },
+    );
   }
 
-  _buildScrollableList() {
+  Widget _buildScrollableList() {
     return const Column(
       children: [
         HomeContent(),

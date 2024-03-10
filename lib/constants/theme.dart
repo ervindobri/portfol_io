@@ -9,6 +9,7 @@ class PortfolioTheme {
         primaryColor: GlobalColors.defaultThemeColor,
         // Define the default font family.
         fontFamily: 'Poppins',
+        useMaterial3: true,
         textTheme: const TextTheme(
           titleMedium: TextStyle(
               fontSize: 36.0,

@@ -51,4 +51,11 @@ class GlobalStyles {
           return theme.inverseTextColor;
         }),
       );
+
+  static BorderRadius get homeRadius => const BorderRadius.only(
+        topLeft: Radius.circular(128),
+        bottomLeft: Radius.circular(128),
+        topRight: Radius.circular(24),
+        bottomRight: Radius.circular(24),
+      );
 }

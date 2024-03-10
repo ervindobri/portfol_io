@@ -101,4 +101,8 @@ class Globals {
   ];
 
   static const double maxBoxWidth = 1282.0;
+
+  static const String titleText1 = "I am";
+  static const String titleText2 = "Ervin Dobri:";
+  static const String workTitle = "Featured projects";
 }
