@@ -46,6 +46,7 @@ dependencies:
   pro_animated_blur: ^0.0.2+1
   flutter_improved_scrolling: ^0.0.3
   clipboard: ^0.1.3
+  device_preview: ^1.1.0
 
 dev_dependencies:
   flutter_lints: ^3.0.1

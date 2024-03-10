@@ -1,3 +1,5 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:motion/motion.dart';
@@ -18,9 +20,14 @@ Future<void> main() async {
   await init();
   sl<UiShowcaseManager>().itemsCommand.execute();
 
-  runApp(const ProviderScope(
-    child: MyApp(),
-  ));
+  runApp(
+    ProviderScope(
+      child: DevicePreview(
+        enabled: !kReleaseMode,
+        builder: (_) => const MyApp(), // Wrap your app
+      ),
+    ),
+  );
 }
 
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
