@@ -10,7 +10,7 @@ class HoverImage extends StatefulWidget {
   final String image;
   final ShowcaseItem item;
 
-  const HoverImage({Key? key, required this.image, required this.item}) : super(key: key);
+  const HoverImage({super.key, required this.image, required this.item});
 
   @override
   HoverImageState createState() => HoverImageState();

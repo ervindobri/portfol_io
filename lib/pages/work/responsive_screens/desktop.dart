@@ -9,7 +9,7 @@ import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/providers/providers.dart';
 
 class WorkDesktop extends ConsumerStatefulWidget {
-  const WorkDesktop({Key? key}) : super(key: key);
+  const WorkDesktop({super.key});
 
   @override
   ConsumerState<WorkDesktop> createState() => _WorkDesktopState();
@@ -50,12 +50,6 @@ class _WorkDesktopState extends ConsumerState<WorkDesktop> {
                           Text(
                             "Featured projects",
                             style: theme.inverseBodyLarge,
-                          ),
-                          Text(
-                            "See All",
-                            style: theme.inverseBodyLarge?.copyWith(
-                              color: ref.watch(themeColorProvider),
-                            ),
                           ),
                         ],
                       ),

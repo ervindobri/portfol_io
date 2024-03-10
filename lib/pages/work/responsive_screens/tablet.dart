@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class WorkTablet extends StatefulWidget {
   const WorkTablet({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   WorkTabletState createState() => WorkTabletState();

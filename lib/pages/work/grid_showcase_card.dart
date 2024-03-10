@@ -11,8 +11,7 @@ class ShowcaseCard extends StatefulWidget {
   final ShowcaseItem item;
   // final double width;
   final int index;
-  const ShowcaseCard({Key? key, required this.item, this.index = 0})
-      : super(key: key);
+  const ShowcaseCard({super.key, required this.item, this.index = 0});
 
   @override
   State<ShowcaseCard> createState() => _ShowcaseCardState();
@@ -147,8 +146,7 @@ class MobileShowcaseCard extends StatefulWidget {
   final ShowcaseItem item;
   // final double width;
   final int index;
-  const MobileShowcaseCard({Key? key, required this.item, this.index = 0})
-      : super(key: key);
+  const MobileShowcaseCard({super.key, required this.item, this.index = 0});
 
   @override
   State<MobileShowcaseCard> createState() => _MobileShowcaseCardState();

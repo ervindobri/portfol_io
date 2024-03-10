@@ -58,7 +58,7 @@ class AnimatedText extends StatefulWidget {
   final int repeatCount;
 
   const AnimatedText(
-      {Key? key,
+      {super.key,
       required this.wordList,
       this.speed = const Duration(milliseconds: 1000),
       this.displayTime = const Duration(milliseconds: 1000),
@@ -73,8 +73,7 @@ class AnimatedText extends StatefulWidget {
         assert(repeatCount > 0,
             'AnimatedText: repeatCount should be greator than 0'),
         assert(textStyle != null,
-            "AnimatedText: textStyle color must not be null"),
-        super(key: key);
+            "AnimatedText: textStyle color must not be null");
   @override
   AnimatedTextState createState() => AnimatedTextState();
 }
@@ -442,7 +441,6 @@ class _FadeIn extends StatefulWidget {
   final Alignment? alignment;
   final Animation? fadeAnimation;
   const _FadeIn({
-    Key? key,
     required this.textStyle,
     this.animatedMap,
     this.alphabets,
@@ -450,7 +448,7 @@ class _FadeIn extends StatefulWidget {
     this.fadeController,
     this.fadeAnimation,
     @required this.alignment,
-  }) : super(key: key);
+  });
   @override
   _FadeInState createState() => _FadeInState();
 }
@@ -511,14 +509,13 @@ class _FadeOut extends StatefulWidget {
   final Animation? fadeAnimation;
   const _FadeOut({
     required this.textStyle,
-    Key? key,
     required this.animatedMap,
     this.alphabets,
     this.first = false,
     this.fadeController,
     this.fadeAnimation,
     @required this.alignment,
-  }) : super(key: key);
+  });
   @override
   _FadeOutState createState() => _FadeOutState();
 }
@@ -619,13 +616,12 @@ class _OpacityChild extends StatelessWidget {
   final Color color;
   const _OpacityChild(
       {
-        Key? key,
-      required this.opacity,
+        required this.opacity,
       required this.x,
       required this.y,
       required this.letter,
       required this.style,
-      required this.color}) : super(key: key);
+      required this.color});
 
   @override
   Widget build(BuildContext context) {

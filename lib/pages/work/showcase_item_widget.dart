@@ -13,8 +13,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class AnimatedShowcaseItemWidget extends ConsumerWidget {
   final ShowcaseItem item;
-  const AnimatedShowcaseItemWidget({Key? key, required this.item})
-      : super(key: key);
+  const AnimatedShowcaseItemWidget({super.key, required this.item});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -114,7 +113,7 @@ class AnimatedShowcaseItemWidget extends ConsumerWidget {
 class MobileAnimatedShowcaseItemWidget extends StatelessWidget {
   final uiShowcaseManager = sl<UiShowcaseManager>();
 
-  MobileAnimatedShowcaseItemWidget({Key? key}) : super(key: key);
+  MobileAnimatedShowcaseItemWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -138,8 +137,7 @@ class MobileAnimatedShowcaseItemWidget extends StatelessWidget {
 
 class MobileAnimatedShowcaseItemView extends StatelessWidget {
   final ShowcaseItem item;
-  const MobileAnimatedShowcaseItemView({Key? key, required this.item})
-      : super(key: key);
+  const MobileAnimatedShowcaseItemView({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {

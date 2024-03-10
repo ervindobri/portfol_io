@@ -2,15 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:portfol_io/constants/colors.dart';
 
 extension ThemeExtension on BuildContext {
+  ThemeData get theme => Theme.of(this);
   Color? get backgroundColor => Theme.of(this).colorScheme.background;
-  TextStyle? get bodyText1 => Theme.of(this).textTheme.bodyLarge;
-  TextStyle? get bodyText2 => Theme.of(this).textTheme.bodyMedium;
-  TextStyle? get headline1 => Theme.of(this).textTheme.displayLarge;
-  TextStyle? get headline2 => Theme.of(this).textTheme.displayMedium;
-  TextStyle? get headline3 => Theme.of(this).textTheme.displaySmall;
-  TextStyle? get headline4 => Theme.of(this).textTheme.headlineMedium;
-  TextStyle? get headline5 => Theme.of(this).textTheme.headlineSmall;
-  TextStyle? get headline6 => Theme.of(this).textTheme.titleLarge;
+  TextStyle? get bodyText1 => Theme.of(this)
+      .textTheme
+      .bodyLarge
+      ?.copyWith(color: Theme.of(this).inverseTextColor);
+  TextStyle? get bodyText2 => Theme.of(this)
+      .textTheme
+      .bodyMedium
+      ?.copyWith(color: Theme.of(this).inverseTextColor);
+  TextStyle? get headline1 => Theme.of(this)
+      .textTheme
+      .displayLarge
+      ?.copyWith(color: Theme.of(this).inverseTextColor);
+  TextStyle? get headline2 => Theme.of(this)
+      .textTheme
+      .displayMedium
+      ?.copyWith(color: Theme.of(this).inverseTextColor);
+  TextStyle? get headline3 => Theme.of(this)
+      .textTheme
+      .displaySmall
+      ?.copyWith(color: Theme.of(this).inverseTextColor);
+  TextStyle? get headline4 => Theme.of(this)
+      .textTheme
+      .headlineMedium
+      ?.copyWith(color: Theme.of(this).inverseTextColor);
+  TextStyle? get headline5 => Theme.of(this)
+      .textTheme
+      .headlineSmall
+      ?.copyWith(color: Theme.of(this).inverseTextColor);
+  TextStyle? get headline6 => Theme.of(this)
+      .textTheme
+      .titleLarge
+      ?.copyWith(color: Theme.of(this).inverseTextColor);
 
   TextStyle? get titleLarge => Theme.of(this).textTheme.titleLarge;
 }
@@ -24,7 +49,7 @@ extension ThemeDataExt on ThemeData {
       ? GlobalColors.inverseTextColorDark
       : GlobalColors.inverseTextColorLight;
 
-    Color get textColor => brightness == Brightness.dark
+  Color get textColor => brightness == Brightness.dark
       ? GlobalColors.textColorDark
       : GlobalColors.textColorLight;
 
@@ -50,7 +75,7 @@ extension ThemeDataExt on ThemeData {
 }
 
 extension BrightnessExtension on Brightness {
-    Color get extBackgroundColor => this == Brightness.dark
+  Color get extBackgroundColor => this == Brightness.dark
       ? GlobalColors.backgroundColorDark
       : GlobalColors.backgroundColorLight;
 }

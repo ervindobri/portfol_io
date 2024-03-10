@@ -7,7 +7,7 @@ import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
 
 class CarouselController extends StatefulWidget {
-  const CarouselController({Key? key}) : super(key: key);
+  const CarouselController({super.key});
 
   @override
   State<CarouselController> createState() => _CarouselControllerState();

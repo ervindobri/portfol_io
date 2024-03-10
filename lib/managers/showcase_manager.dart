@@ -140,13 +140,15 @@ class UiShowcaseManager {
   late Command<int, int?> setImageCommand;
   UiShowcaseManager() {
     carouselController = PageController();
-    itemsCommand =
-        Command.createAsync<void, List<ShowcaseItem>>(selectShowcaseItems, []);
-    currentItemCommand = Command.createSync(getCurrentItem, null);
+    itemsCommand = Command.createAsync<void, List<ShowcaseItem>>(
+        selectShowcaseItems,
+        initialValue: []);
+    currentItemCommand = Command.createSync(getCurrentItem, initialValue: null);
 
-    nextItemCommand = Command.createSync<ShowcaseItem?, void>(nextItem, null);
-    previousItemCommand =
-        Command.createSync<ShowcaseItem?, void>(previousItem, null);
+    nextItemCommand =
+        Command.createSync<ShowcaseItem?, void>(nextItem, initialValue: null);
+    previousItemCommand = Command.createSync<ShowcaseItem?, void>(previousItem,
+        initialValue: null);
 
     showcaseView.addListener(() {
       itemsCommand.execute();
@@ -217,7 +219,7 @@ class UiShowcaseManager {
     setImageCommand = Command.createAsync((x) async {
       currentImageIndex.value = x;
       return null;
-    }, 0);
+    }, initialValue: 0);
   }
 
   List<ShowcaseItem> get otherItems => showcaseItems

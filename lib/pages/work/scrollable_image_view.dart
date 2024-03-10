@@ -12,9 +12,9 @@ import 'package:portfol_io/widgets/bumble_scrollbar.dart';
 
 class ImageView extends ConsumerStatefulWidget {
   const ImageView({
-    Key? key,
+    super.key,
     required this.item,
-  }) : super(key: key);
+  });
 
   final ShowcaseItem item;
 
@@ -98,9 +98,9 @@ class _ImageCarouselState extends ConsumerState<ImageView> {
 
 class MobileImageCarousel extends StatelessWidget {
   MobileImageCarousel({
-    Key? key,
+    super.key,
     required this.item,
-  }) : super(key: key);
+  });
 
   final UiShowcaseManager uiShowcaseManager = sl<UiShowcaseManager>();
   final ShowcaseItem item;

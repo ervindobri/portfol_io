@@ -5,8 +5,8 @@ import 'package:portfol_io/constants/globals.dart';
 import 'package:portfol_io/constants/styles.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
 import 'package:portfol_io/constants/colors.dart';
+import 'package:portfol_io/helpers/email_helper.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
-import 'package:portfol_io/pages/contact/contact_me_dialog.dart';
 import 'package:portfol_io/widgets/fade_in_slide.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -15,7 +15,7 @@ enum Orientation { portrait, landscape }
 
 class HomeMobile extends StatefulWidget {
   final Orientation orientation;
-  const HomeMobile._({Key? key, required this.orientation}) : super(key: key);
+  const HomeMobile._({required this.orientation});
 
   factory HomeMobile.portrait() =>
       const HomeMobile._(orientation: Orientation.portrait);
@@ -85,21 +85,9 @@ class _HomeMobileState extends State<HomeMobile> {
                       ),
                       const SizedBox(height: 48),
                       TextButton(
-                        onPressed: () => showDialog(
-                          context: context,
-                          builder: (context) {
-                            return Dismissible(
-                              key: const Key('key'),
-                              direction: DismissDirection.vertical,
-                              onDismissed: (dir) => Navigator.pop(context),
-                              child: Dialog(
-                                elevation: 0,
-                                insetPadding: const EdgeInsets.all(16),
-                                child: ContactMeDialog.mobile(),
-                              ),
-                            );
-                          },
-                        ),
+                        onPressed: () async {
+                           await EmailHelper.contactMe();        
+                        },
                         style: GlobalStyles.whiteTextButtonStyle(),
                         child: Container(
                           color: Colors.white,
@@ -170,7 +158,7 @@ class _HomeMobileState extends State<HomeMobile> {
                                           speed: speed,
                                         ),
                                       )
-                                      .toList(),
+                                      ,
                                 ],
                               ),
                             );
@@ -228,9 +216,8 @@ class _HomeMobileState extends State<HomeMobile> {
 class MobileTechStackWidget extends StatefulWidget {
   final Orientation orientation;
   const MobileTechStackWidget._({
-    Key? key,
     required this.orientation,
-  }) : super(key: key);
+  });
 
   factory MobileTechStackWidget.portrait() =>
       const MobileTechStackWidget._(orientation: Orientation.portrait);

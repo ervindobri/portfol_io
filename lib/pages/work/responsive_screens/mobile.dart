@@ -13,7 +13,7 @@ enum Orientation { portrait, landscape }
 
 class WorkMobile extends StatefulWidget {
   final Orientation orientation;
-  const WorkMobile._({Key? key, required this.orientation}) : super(key: key);
+  const WorkMobile._({required this.orientation});
 
   factory WorkMobile.portrait() =>
       const WorkMobile._(orientation: Orientation.portrait);
@@ -86,8 +86,8 @@ class _WorkMobileState extends State<WorkMobile> {
                                             ),
                                           ),
                                           onPressed: () {
-                                            uiShowcaseManager
-                                                .showcaseView.value = LayoutView.grid;
+                                            uiShowcaseManager.showcaseView
+                                                .value = LayoutView.grid;
                                           }),
                                       IconButton(
                                           icon: Container(

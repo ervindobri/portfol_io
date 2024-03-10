@@ -11,13 +11,12 @@ class BackgroundShape extends StatelessWidget {
   final Alignment? end;
 
   const BackgroundShape(
-      {Key? key,
+      {super.key,
       this.color,
       this.offset = Offset.zero,
       this.colors,
       this.begin,
-      this.end})
-      : super(key: key);
+      this.end});
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;

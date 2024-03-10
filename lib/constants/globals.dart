@@ -10,10 +10,8 @@ class Globals {
   static const String myPhone = "+40 754 365 846";
   static const String contactMe = "Contact Me";
   static const String checkMeOut = "Check Me out";
-
-  static String title = "Refining The Future.";
-  static String subtitle = "Since '98";
-
+  static const String title = "Refining The Future.";
+  static const String subtitle = "Since '98";
   static const String githubUrl = "https://github.com/ervindobri";
   static const String facebookPage = "https://www.facebook.com/ervindobri/";
 
@@ -58,9 +56,15 @@ class Globals {
 
   static final techStack = <TechItem>[
     const TechItem(
-        name: "Flutter", asset: AppIcons.flutter, link: "https://www.flutter.dev/"),
-    const TechItem(name: "Figma", asset: AppIcons.figma, link: "https://wwww.figma.com/"),
-    const TechItem(name: "Python", asset: AppIcons.python, link: "https://www.python.org/"),
+        name: "Flutter",
+        asset: AppIcons.flutter,
+        link: "https://www.flutter.dev/"),
+    const TechItem(
+        name: "Figma", asset: AppIcons.figma, link: "https://wwww.figma.com/"),
+    const TechItem(
+        name: "Python",
+        asset: AppIcons.python,
+        link: "https://www.python.org/"),
     // TechItem(
     //     name: "C#",
     //     asset: "csharp",
@@ -74,26 +78,20 @@ class Globals {
   static const String showcase = "Showcase";
   static const String checkItOut = "Check it out";
   static const String clickToExpand = "Click to expand";
-
   static const String wantToWorkWithMe = "Want to work with me?";
   static const String easyDoesIt =
       "It’s as easy as pressing this big white button";
 
   static const String bigWhiteButton = "Big white button";
-
   static const String details = "Details";
-
   static const String inspiration =
       "Solving big problems is all about thinking small.";
 
   // static const String myLocation = "Targu Mures, Romania";
   static const String myLocation = "Budapest, Hungary";
   static const String myUniversity = "Sapientia EMTE, Targu Mures";
-
   static const String themeLabel = "THEME";
-
-  static String hireMe = "Hire me";
-
+  static const String hireMe = "Hire me";
   static const List<String> highlightList = [
     "10+ projects",
     "user-centric design",

@@ -6,7 +6,7 @@ import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 
 class MenuMobile extends StatelessWidget {
-  MenuMobile({Key? key}) : super(key: key);
+  MenuMobile({super.key});
 
   final uiMenuManager = sl<UiMenuManager>();
 

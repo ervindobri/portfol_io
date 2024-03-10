@@ -7,7 +7,7 @@ import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/pages/work/grid_showcase_card.dart';
 
 class ShowcaseGridView extends StatelessWidget {
-  ShowcaseGridView({Key? key}) : super(key: key);
+  ShowcaseGridView({super.key});
 
   final uiShowcaseManager = sl<UiShowcaseManager>();
   @override
@@ -73,7 +73,7 @@ class ShowcaseGridView extends StatelessWidget {
 }
 
 class MobileShowcaseGridView extends StatelessWidget {
-  MobileShowcaseGridView({Key? key}) : super(key: key);
+  MobileShowcaseGridView({super.key});
 
   final uiShowcaseManager = sl<UiShowcaseManager>();
   @override

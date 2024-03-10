@@ -10,14 +10,15 @@ import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/download_manager.dart';
 
 class ParallaxCard extends StatelessWidget {
-  ParallaxCard({Key? key}) : super(key: key);
+  const ParallaxCard({super.key});
 
-  final downloadManager = sl<DownloadManager>();
+  
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final containerHeight = height * .6;
+  final downloadManager = sl<DownloadManager>();
     return SizedBox(
       height: containerHeight,
       width: width / 4 + 96,
@@ -104,7 +105,7 @@ class ParallaxCard extends StatelessWidget {
                           buildInfoRow(
                             context,
                             "Sapientia EMTE, Targu Mures",
-                            FontAwesomeIcons.university,
+                            FontAwesomeIcons.buildingColumns,
                           ),
                           buildInfoRow(
                             context,
@@ -161,7 +162,7 @@ class ParallaxCard extends StatelessWidget {
 }
 
 class MobileParallaxCard extends StatelessWidget {
-  MobileParallaxCard({Key? key}) : super(key: key);
+  MobileParallaxCard({super.key});
 
   final downloadManager = sl<DownloadManager>();
   @override
@@ -249,7 +250,7 @@ class MobileParallaxCard extends StatelessWidget {
                 buildInfoRow(
                   context,
                   Globals.myUniversity,
-                  FontAwesomeIcons.university,
+                  FontAwesomeIcons.buildingColumns,
                 ),
                 buildInfoRow(
                   context,

@@ -7,10 +7,10 @@ import 'package:portfol_io/widgets/hover_button.dart';
 
 class AnimatedIconButton extends ConsumerWidget {
   AnimatedIconButton({
-    Key? key,
+    super.key,
     required this.icon,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final Widget icon;
   final VoidCallback onPressed;

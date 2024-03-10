@@ -10,6 +10,7 @@ import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/constants/icons.dart';
 import 'package:portfol_io/constants/images.dart';
 import 'package:portfol_io/constants/theme_ext.dart';
+import 'package:portfol_io/helpers/email_helper.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/models/tech_item.dart';
@@ -22,7 +23,7 @@ import 'package:portfol_io/extensions/list.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomeDesktop extends ConsumerStatefulWidget {
-  const HomeDesktop({Key? key}) : super(key: key);
+  const HomeDesktop({super.key});
 
   @override
   ConsumerState<HomeDesktop> createState() => _HomeDesktopState();
@@ -178,14 +179,8 @@ class _HomeDesktopState extends ConsumerState<HomeDesktop> {
                                           style:
                                               GlobalStyles.primaryButtonStyle(
                                                   theme, themeColor),
-                                          onPressed: () {
-                                            //hire me
-                                            uiMenuManager.updateMenuCommand
-                                                .execute(2);
-                                            ref
-                                                .read(
-                                                    menuIndexProvider.notifier)
-                                                .state = 2;
+                                          onPressed: () async {
+                                            await EmailHelper.contactMe();
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(
@@ -325,9 +320,9 @@ class _HomeDesktopState extends ConsumerState<HomeDesktop> {
 
 class TechItemWidget extends ConsumerWidget {
   const TechItemWidget({
-    Key? key,
+    super.key,
     required this.item,
-  }) : super(key: key);
+  });
 
   final TechItem item;
 

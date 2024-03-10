@@ -5,7 +5,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactContent extends StatelessWidget {
-  const ContactContent({Key? key}) : super(key: key);
+  const ContactContent({super.key});
 
   @override
   Widget build(BuildContext context) {

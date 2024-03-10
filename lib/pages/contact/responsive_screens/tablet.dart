@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class ContactTablet extends StatefulWidget {
   const ContactTablet({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   ContactTabletState createState() => ContactTabletState();

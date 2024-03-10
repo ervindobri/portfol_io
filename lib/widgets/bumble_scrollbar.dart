@@ -19,7 +19,7 @@ enum StrokeConnerType { rounded, sharp }
 
 class BumbleScrollbar extends StatefulWidget {
   const BumbleScrollbar({
-    Key? key,
+    super.key,
     this.strokeWidth = 6,
     this.strokeHeight = 100,
     this.thumbHeight = 33,
@@ -31,10 +31,10 @@ class BumbleScrollbar extends StatefulWidget {
     this.showScrollbar = true,
     this.scrollbarMargin = const EdgeInsets.all(8.0),
     required this.controller,
-  }) : super(key: key);
+  });
 
   const BumbleScrollbar.web({
-    Key? key,
+    super.key,
     this.strokeWidth = 24,
     this.strokeHeight = 200,
     this.thumbHeight,
@@ -46,7 +46,7 @@ class BumbleScrollbar extends StatefulWidget {
     this.showScrollbar = true,
     this.scrollbarMargin = const EdgeInsets.all(8.0),
     required this.controller,
-  }) : super(key: key);
+  });
 
   final double strokeWidth;
   final double strokeHeight;

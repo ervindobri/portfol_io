@@ -30,8 +30,8 @@ extension<E> on Iterable<E> {
 
 class ShowcaseItemView extends ConsumerWidget {
   const ShowcaseItemView({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -123,8 +123,8 @@ class ShowcaseItemView extends ConsumerWidget {
 
 class MobileShowcaseItemView extends StatelessWidget {
   MobileShowcaseItemView({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final uiShowcaseManager = sl<UiShowcaseManager>();
 

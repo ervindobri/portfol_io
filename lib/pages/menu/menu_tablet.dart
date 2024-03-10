@@ -8,11 +8,10 @@ class MenuTablet extends StatelessWidget {
   final ScrollCallback onItemTapCallback;
 
   const MenuTablet({
-    Key? key,
+    super.key,
     required int selectedIndex,
     required this.onItemTapCallback,
-  })  : _selectedIndex = selectedIndex,
-        super(key: key);
+  })  : _selectedIndex = selectedIndex;
 
   final int _selectedIndex;
 

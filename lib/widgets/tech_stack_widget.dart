@@ -7,8 +7,8 @@ import 'package:animated_text_kit/animated_text_kit.dart' as atkit;
 
 class TechStackWidget extends StatefulWidget {
   const TechStackWidget({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<TechStackWidget> createState() => _TechStackWidgetState();
@@ -70,7 +70,7 @@ class _TechStackWidgetState extends State<TechStackWidget> {
                   child: const SizedBox(
                     height: 24,
                     child: Icon(
-                      FontAwesomeIcons.angleDoubleRight,
+                      FontAwesomeIcons.anglesRight,
                       size: 16,
                       color: GlobalColors.lightGrey,
                     ),

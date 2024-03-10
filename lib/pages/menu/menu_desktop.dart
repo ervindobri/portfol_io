@@ -13,9 +13,8 @@ import 'package:portfol_io/providers/providers.dart';
 import 'package:portfol_io/widgets/hover_button.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-// TODO: menuIndex listener to update the provider
 class MenuDesktop extends ConsumerStatefulWidget {
-  const MenuDesktop({Key? key}) : super(key: key);
+  const MenuDesktop({super.key});
 
   @override
   ConsumerState<MenuDesktop> createState() => _MenuDesktopState();
@@ -100,9 +99,7 @@ class _MenuDesktopState extends ConsumerState<MenuDesktop> {
                     ),
                   );
                 },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(width: 48);
-                },
+                separatorBuilder: (_, __) => const SizedBox(width: 24),
               ),
             ),
             const Spacer(),

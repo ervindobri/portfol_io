@@ -17,7 +17,7 @@ import 'package:portfol_io/widgets/fade_in_slide.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class HomePage extends ConsumerStatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   HomePageState createState() => HomePageState();
@@ -120,8 +120,8 @@ class HomePageState extends ConsumerState<HomePage>
 
 class JumpToHomeButton extends ConsumerWidget {
   JumpToHomeButton({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final uiMenuManager = sl<UiMenuManager>();
 

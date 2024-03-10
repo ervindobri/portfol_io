@@ -6,8 +6,8 @@ import 'package:portfol_io/extensions/list.dart';
 
 class BGShapes extends ConsumerWidget {
   const BGShapes({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
 
   @override
@@ -52,7 +52,7 @@ class BGShapes extends ConsumerWidget {
               .expandWithSeparator<Widget>(
                   (element) => element,
                   const SizedBox(height: 48))
-              .toList(),
+              ,
         ],
       );
     });

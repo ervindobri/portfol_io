@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class HomeTablet extends StatefulWidget {
   const HomeTablet({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   HomeTabletState createState() => HomeTabletState();

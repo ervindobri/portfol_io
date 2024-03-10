@@ -10,9 +10,9 @@ import 'package:portfol_io/pages/work/hover_image.dart';
 
 class ImageCarousel extends StatefulWidget {
   const ImageCarousel({
-    Key? key,
+    super.key,
     required this.item,
-  }) : super(key: key);
+  });
 
   final ShowcaseItem item;
 
@@ -187,9 +187,9 @@ class _ImageCarouselState extends State<ImageCarousel> {
 
 class MobileImageCarousel extends StatelessWidget {
   MobileImageCarousel({
-    Key? key,
+    super.key,
     required this.item,
-  }) : super(key: key);
+  });
 
   final UiShowcaseManager uiShowcaseManager = sl<UiShowcaseManager>();
   final ShowcaseItem item;

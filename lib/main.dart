@@ -12,7 +12,6 @@ Future<void> main() async {
   // Initialize the plugin.
   await Motion.instance.initialize();
 
-  Paint.enableDithering = true;
   // Right before you would be doing any loading
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -34,7 +33,7 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
 }
 
 class MyApp extends ConsumerWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

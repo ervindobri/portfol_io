@@ -25,7 +25,8 @@ class UiMenuManager {
     scrollController = ScrollController();
     offsets = [];
 
-    updateMenuCommand = Command.createSync<int, int>((counter) => counter, 0);
+    updateMenuCommand =
+        Command.createSync<int, int>((counter) => counter, initialValue: 0);
 
     updateMenuCommand
         .debounce(const Duration(milliseconds: 10))

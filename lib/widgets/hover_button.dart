@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class HoverWidget extends StatefulWidget {
   final Widget Function(bool) builder;
 
-  const HoverWidget({Key? key, required this.builder}) : super(key: key);
+  const HoverWidget({super.key, required this.builder});
 
   @override
   State<HoverWidget> createState() => _HoverButtonState();

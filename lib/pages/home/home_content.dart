@@ -4,7 +4,7 @@ import 'package:portfol_io/pages/home/responsive_screens/home.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class HomeContent extends StatefulWidget {
-  const HomeContent({Key? key}) : super(key: key);
+  const HomeContent({super.key});
 
   @override
   HomeContentState createState() => HomeContentState();

@@ -7,9 +7,9 @@ import 'package:portfol_io/managers/showcase_manager.dart';
 
 class FullscreenImageDialog extends StatelessWidget {
   FullscreenImageDialog({
-    Key? key,
+    super.key,
     required this.item,
-  }) : super(key: key);
+  });
 
   final ShowcaseItem item;
 
@@ -104,10 +104,10 @@ class FullscreenImageDialog extends StatelessWidget {
 
 class MobileFullscreenImageDialog extends StatelessWidget {
   MobileFullscreenImageDialog({
-    Key? key,
+    super.key,
     required this.item,
     required this.image,
-  }) : super(key: key);
+  });
 
   final ShowcaseItem item;
   final String image;

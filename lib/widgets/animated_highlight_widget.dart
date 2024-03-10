@@ -8,9 +8,9 @@ import 'package:portfol_io/widgets/hover_button.dart';
 
 class AnimatedHighlightWidget extends ConsumerWidget {
   const AnimatedHighlightWidget({
-    Key? key,
+    super.key,
     required this.index,
-  }) : super(key: key);
+  });
 
   final int index;
 
