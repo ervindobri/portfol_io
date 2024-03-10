@@ -99,4 +99,6 @@ class Globals {
     "user experience",
     "professional design"
   ];
+
+  static const double maxBoxWidth = 1282.0;
 }

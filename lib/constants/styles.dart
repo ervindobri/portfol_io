@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfol_io/constants/colors.dart';
-import 'package:portfol_io/constants/theme_ext.dart';
+import 'package:portfol_io/extensions/theme_ext.dart';
 
 class GlobalStyles {
   static EdgeInsets get horizontalScreenPadding =>

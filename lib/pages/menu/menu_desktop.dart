@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/constants/icons.dart';
-import 'package:portfol_io/constants/theme_ext.dart';
+import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/extensions/list.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/menu_manager.dart';

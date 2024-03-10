@@ -9,7 +9,7 @@ import 'package:motion/motion.dart';
 import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/constants/icons.dart';
 import 'package:portfol_io/constants/images.dart';
-import 'package:portfol_io/constants/theme_ext.dart';
+import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/helpers/email_helper.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/injection_manager.dart';

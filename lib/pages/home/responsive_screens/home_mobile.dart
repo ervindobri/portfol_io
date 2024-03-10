@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/globals.dart';
 import 'package:portfol_io/constants/styles.dart';
-import 'package:portfol_io/constants/theme_ext.dart';
+import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/constants/colors.dart';
 import 'package:portfol_io/helpers/email_helper.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
