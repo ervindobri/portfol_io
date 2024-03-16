@@ -67,37 +67,31 @@ class HomePageState extends ConsumerState<HomePage>
               final double mobilePadding = isMobile ? 16 : 32;
               return Center(
                 child: Stack(
-                  alignment: Alignment.topLeft,
+                  alignment: Alignment.center,
                   children: [
-                    ConstrainedBox(
-                      constraints: BoxConstraints.tight(
-                        Size(
-                          Globals.maxBoxWidth,
-                          context.height,
+                    Container(
+                      padding: context.width < Globals.maxBoxWidth
+                          ? const EdgeInsets.symmetric(horizontal: 24)
+                          : null,
+                      child: ImprovedScrolling(
+                        scrollController: uiMenuManager.scrollController,
+                        enableMMBScrolling: true,
+                        enableCustomMouseWheelScrolling:
+                            ref.watch(scrollEnabledProvider),
+                        customMouseWheelScrollConfig:
+                            const CustomMouseWheelScrollConfig(
+                          scrollAmountMultiplier: 2.25,
+                          scrollDuration: Duration(milliseconds: 300),
+                          scrollCurve: Curves.linearToEaseOut,
+                          mouseWheelTurnsThrottleTimeMs: 20,
                         ),
-                      ),
-                      child: SizedBox(
-                        height: height,
-                        child: ImprovedScrolling(
-                          scrollController: uiMenuManager.scrollController,
-                          enableMMBScrolling: true,
-                          enableCustomMouseWheelScrolling:
-                              ref.watch(scrollEnabledProvider),
-                          customMouseWheelScrollConfig:
-                              const CustomMouseWheelScrollConfig(
-                            scrollAmountMultiplier: 2.25,
-                            scrollDuration: Duration(milliseconds: 300),
-                            scrollCurve: Curves.linearToEaseOut,
-                            mouseWheelTurnsThrottleTimeMs: 20,
-                          ),
-                          child: ScrollConfiguration(
-                            behavior: ScrollConfiguration.of(context)
-                                .copyWith(scrollbars: false),
-                            child: SingleChildScrollView(
-                              physics: const NeverScrollableScrollPhysics(),
-                              controller: uiMenuManager.scrollController,
-                              child: _buildScrollableList(),
-                            ),
+                        child: ScrollConfiguration(
+                          behavior: ScrollConfiguration.of(context)
+                              .copyWith(scrollbars: false),
+                          child: SingleChildScrollView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            controller: uiMenuManager.scrollController,
+                            child: _buildScrollableList(),
                           ),
                         ),
                       ),
@@ -109,7 +103,7 @@ class HomePageState extends ConsumerState<HomePage>
                     Positioned(
                       bottom: mobilePadding,
                       right: mobilePadding,
-                      child: JumpToHomeButton(),
+                      child: const JumpToHomeButton(),
                     ),
                   ],
                 ),
@@ -123,27 +117,17 @@ class HomePageState extends ConsumerState<HomePage>
 
   Widget _buildScrollableList() {
     return const Column(
-      children: [
-        HomeContent(),
-        WorkContent(),
-        ContactContent()
-        // sectionWidget(0),
-        // sectionWidget(1),
-        // sectionWidget(2),
-      ],
+      children: [HomeContent(), WorkContent(), ContactContent()],
     );
   }
 }
 
 class JumpToHomeButton extends ConsumerWidget {
-  JumpToHomeButton({
-    super.key,
-  });
-
-  final uiMenuManager = sl<UiMenuManager>();
+  const JumpToHomeButton({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final uiMenuManager = sl<UiMenuManager>();
     final menuIndex = ref.watch(menuIndexProvider);
     return ResponsiveBuilder(builder: (context, sizingInformation) {
       final isMobile =

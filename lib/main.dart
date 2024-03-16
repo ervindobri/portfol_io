@@ -48,7 +48,7 @@ class MyApp extends ConsumerWidget {
       child: MaterialApp(
         title: 'Portfolio',
         theme: ref.watch(themeProvider),
-        scrollBehavior: MyCustomScrollBehavior(),
+        // scrollBehavior: MyCustomScrollBehavior(),
         home: const HomePage(),
         debugShowCheckedModeBanner: false,
         initialRoute: "/",

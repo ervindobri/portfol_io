@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
@@ -41,8 +42,6 @@ class _MenuDesktopState extends ConsumerState<MenuDesktop> {
 
   @override
   Widget build(BuildContext context) {
-    final width = context.width;
-
     final theme = ref.watch(themeProvider);
     final themeColor = ref.watch(themeColorProvider);
     final selectedIndex = ref.watch(menuIndexProvider);
@@ -50,57 +49,67 @@ class _MenuDesktopState extends ConsumerState<MenuDesktop> {
       borderRadius: BorderRadius.circular(48),
       child: Container(
         height: kToolbarHeight,
-        width: width,
-        constraints: BoxConstraints.tight(
-          const Size(
-            Globals.maxBoxWidth,
-            kToolbarHeight,
-          ),
-        ),
+        width: min(context.width, Globals.maxBoxWidth),
         padding: const EdgeInsets.symmetric(horizontal: 24),
         color: Colors.transparent,
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 24.0, sigmaY: 24.0),
+        child: Center(
           child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                 child: ListView.separated(
                   itemCount: Globals.menu.length,
                   scrollDirection: Axis.horizontal,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   itemBuilder: (_, index) {
                     final isSelected = selectedIndex == index;
-                    return InkWell(
-                      overlayColor:
-                          const MaterialStatePropertyAll(Colors.transparent),
-                      splashColor: Colors.transparent,
-                      onTap: () async {
-                        uiMenuManager.updateMenuCommand.execute(index);
-                      },
-                      child: Row(
-                        children: [
-                          HoverWidget(builder: (_, isHovered) {
-                            return Text(
-                              Globals.menu[index],
-                              style: context.bodyText1?.copyWith(
-                                color: isSelected
-                                    ? themeColor
-                                    : isHovered
-                                        ? themeColor.withOpacity(.7)
-                                        : theme.inverseTextColor,
-                                fontWeight: isSelected
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
+                    return HoverWidget(builder: (_, isHovered) {
+                      return InkWell(
+                        overlayColor:
+                            const MaterialStatePropertyAll(Colors.transparent),
+                        hoverColor: themeColor.withOpacity(.3),
+                        splashColor: Colors.transparent,
+                        onTap: () async {
+                          uiMenuManager.updateMenuCommand.execute(index);
+                        },
+                        child: AnimatedContainer(
+                          duration: kThemeAnimationDuration,
+                          decoration: isSelected
+                              ? null
+                              : BoxDecoration(
+                                  borderRadius: GlobalStyles.borderRadius,
+                                  color: isHovered
+                                      ? themeColor.withOpacity(.1)
+                                      : Colors.transparent,
+                                ),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 4, horizontal: 8),
+                          child: Row(
+                            children: [
+                              Text(
+                                Globals.menu[index],
+                                style: context.bodyText1?.copyWith(
+                                  color: isSelected
+                                      ? themeColor
+                                      : isHovered
+                                          ? themeColor.withOpacity(.7)
+                                          : theme.inverseTextColor,
+                                  fontWeight: isSelected
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                                ),
                               ),
-                            );
-                          }),
-                        ],
-                      ),
-                    );
+                            ],
+                          ),
+                        ),
+                      );
+                    });
                   },
                   separatorBuilder: (_, __) => const SizedBox(width: 24),
                 ),
               ),
-              const Spacer(),
               Row(
                 children: [
                   Container(
@@ -108,6 +117,7 @@ class _MenuDesktopState extends ConsumerState<MenuDesktop> {
                     child: Material(
                       type: MaterialType.transparency,
                       child: InkWell(
+                        splashColor: Colors.transparent,
                         onTap: () async => await showThemeDialog(context, ref),
                         hoverColor: themeColor,
                         child: Container(

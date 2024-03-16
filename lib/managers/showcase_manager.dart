@@ -135,6 +135,9 @@ class UiShowcaseManager {
 
   late PageController carouselController;
 
+  void onPreviousItem() => previousItemCommand.execute();
+  void onNextItem() => nextItemCommand.execute();
+
   int get currentPage => currentIndex + 1;
 
   late Command<int, int?> setImageCommand;
@@ -272,7 +275,23 @@ class UiShowcaseManager {
   }
 
   void select(ShowcaseItem item) {
-    final index = showcaseItems.indexOf(item);
+    final index = indexOf(item);
     currentItemCommand.execute(index);
+  }
+
+  int indexOf(ShowcaseItem item) {
+    return showcaseItems.indexOf(item);
+  }
+
+  int previousItemIndex(ShowcaseItem item) {
+    final currentIndex = indexOf(item);
+    if (currentIndex == 0) return showcaseItems.length - 1;
+    return currentIndex - 1;
+  }
+
+  int nextItemIndex(ShowcaseItem item) {
+    final currentIndex = indexOf(item);
+    if (currentIndex == showcaseItems.length - 1) return 0;
+    return currentIndex + 1;
   }
 }

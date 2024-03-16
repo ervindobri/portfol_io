@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_improved_scrolling/flutter_improved_scrolling.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,11 +28,26 @@ class ImageView extends ConsumerStatefulWidget {
 class _ImageCarouselState extends ConsumerState<ImageView> {
   final UiShowcaseManager uiShowcaseManager = sl<UiShowcaseManager>();
   final ScrollController _controller = ScrollController();
+  late List<AssetImage> images;
+
+  @override
+  void initState() {
+    images = widget.item.imageAssets.map((e) => AssetImage(e)).toList();
+    super.initState();
+  }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    for (var element in images) {
+      precacheImage(element, context);
+    }
+    super.didChangeDependencies();
   }
 
   @override
@@ -49,54 +67,52 @@ class _ImageCarouselState extends ConsumerState<ImageView> {
             //   ref.read(scrollEnabledProvider.notifier).update((state) => true);
             // },
             child: ScrollConfiguration(
-              behavior:
-                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
+              behavior: ScrollConfiguration.of(context)
+                  .copyWith(scrollbars: false, dragDevices: {
+                PointerDeviceKind.mouse,
+                PointerDeviceKind.touch,
+              }),
               child: ImprovedScrolling(
                 scrollController: _controller,
                 enableCustomMouseWheelScrolling: true,
+                enableMMBScrolling: false,
                 enableKeyboardScrolling: true,
                 keyboardScrollConfig: const KeyboardScrollConfig(),
                 child: SingleChildScrollView(
                   controller: _controller,
                   physics: const NeverScrollableScrollPhysics(),
-                  child: IntrinsicHeight(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        ...widget.item.imageAssets.map(
-                          (e) => InkWell(
-                            highlightColor: Colors.transparent,
-                            splashColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            onTap: () {
-                              final imageIndex =
-                                  widget.item.imageAssets.indexOf(e);
-                              uiShowcaseManager.currentImageIndex.value =
-                                  imageIndex;
-                              showDialog(
-                                context: context,
-                                barrierColor:
-                                    GlobalColors.primaryColor.withOpacity(.8),
-                                builder: (context) {
-                                  return Dialog(
-                                      child: FullscreenImageDialog(
-                                          item: widget.item));
-                                },
-                              );
-                            },
-                            child: Hero(
-                              tag: e,
-                              child: Image.asset(
-                                "assets/images/work/${widget.item.imagesPath}/$e.png",
-                                // height: height,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      ...images.map(
+                        (e) => InkWell(
+                          highlightColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          onTap: () {
+                            final imageIndex = images.indexOf(e);
+                            uiShowcaseManager.currentImageIndex.value =
+                                imageIndex;
+                            showDialog(
+                              context: context,
+                              barrierColor:
+                                  GlobalColors.primaryColor.withOpacity(.8),
+                              builder: (context) {
+                                return Dialog(
+                                    child: FullscreenImageDialog(
+                                        item: widget.item));
+                              },
+                            );
+                          },
+                          child: Image(
+                            image: e,
+                            // height: height,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -108,7 +124,7 @@ class _ImageCarouselState extends ConsumerState<ImageView> {
             top: 24,
             child: BumbleScrollbar.web(
               controller: _controller,
-              thumbColor: theme.inverseTextColor,
+              thumbColor: ref.watch(themeColorProvider),
               thumbHeight: 200 / widget.item.imageAssets.length,
             ),
           ),
