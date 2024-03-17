@@ -1,11 +1,10 @@
-import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:portfol_io/constants/constants.dart';
+import 'package:portfol_io/constants/icons.dart';
 import 'package:portfol_io/extensions/build_context.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
@@ -13,8 +12,11 @@ import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/pages/work/scrollable_image_view.dart';
 import 'package:portfol_io/providers/providers.dart';
 import 'package:portfol_io/widgets/animated_collapse.dart';
+import 'package:portfol_io/widgets/delayed_display.dart';
 import 'package:portfol_io/widgets/hover_button.dart';
+import 'package:pro_animated_blur/pro_animated_blur.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class AnimatedShowcaseItemWidget extends ConsumerWidget {
   final ShowcaseItem item;
@@ -25,64 +27,63 @@ class AnimatedShowcaseItemWidget extends ConsumerWidget {
     final theme = ref.watch(themeProvider);
     final themeColor = ref.watch(themeColorProvider);
     final uiShowcaseManager = sl<UiShowcaseManager>();
-    return Stack(
-      clipBehavior: Clip.none,
-      alignment: Alignment.bottomLeft,
-      children: [
-        HoverWidget(builder: (context, hovered) {
-          return Stack(
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(48),
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.bottomLeft,
+        children: [
+          Stack(
             alignment: Alignment.center,
             children: [
-              ImageView(item: item),
-              FadeTransition(
-                opacity: AlwaysStoppedAnimation(hovered ? 1.0 : 0.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 24.0),
-                    child: SizedBox.fromSize(
-                      size: const Size.fromRadius(24),
-                      child: IconButton(
-                        color: themeColor,
-                        hoverColor: themeColor,
-                        style: IconButton.styleFrom(
-                          backgroundColor: themeColor.withOpacity(.4),
-                        ),
-                        onPressed: () => onPrevious(ref, uiShowcaseManager),
-                        icon: const Center(
-                          child: Icon(
-                            CupertinoIcons.chevron_back,
-                            size: 24,
-                            color: Colors.white,
-                          ),
+              DelayedDisplay(
+                slidingBeginOffset: Offset.zero,
+                fadingDuration: const Duration(milliseconds: 100),
+                child: ImageView(item: item),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 24.0),
+                  child: SizedBox.fromSize(
+                    size: const Size.fromRadius(24),
+                    child: IconButton(
+                      color: themeColor,
+                      hoverColor: themeColor,
+                      style: IconButton.styleFrom(
+                        backgroundColor: themeColor.withOpacity(.4),
+                      ),
+                      onPressed: () => onPrevious(ref, uiShowcaseManager),
+                      icon: const Center(
+                        child: Icon(
+                          CupertinoIcons.chevron_back,
+                          size: 24,
+                          color: Colors.white,
                         ),
                       ),
                     ),
                   ),
                 ),
               ),
-              FadeTransition(
-                opacity: AlwaysStoppedAnimation(hovered ? 1.0 : 0.0),
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 24.0),
-                    child: SizedBox.fromSize(
-                      size: const Size.fromRadius(24),
-                      child: IconButton(
-                        style: IconButton.styleFrom(
-                          backgroundColor: themeColor.withOpacity(.4),
-                        ),
-                        color: themeColor,
-                        hoverColor: themeColor,
-                        focusColor: themeColor,
-                        onPressed: () => onNext(ref, uiShowcaseManager),
-                        icon: const Center(
-                          child: Icon(
-                            CupertinoIcons.chevron_forward,
-                            size: 24,
-                            color: Colors.white,
-                          ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 24.0),
+                  child: SizedBox.fromSize(
+                    size: const Size.fromRadius(24),
+                    child: IconButton(
+                      style: IconButton.styleFrom(
+                        backgroundColor: themeColor.withOpacity(.4),
+                      ),
+                      color: themeColor,
+                      hoverColor: themeColor,
+                      focusColor: themeColor,
+                      onPressed: () => onNext(ref, uiShowcaseManager),
+                      icon: const Center(
+                        child: Icon(
+                          CupertinoIcons.chevron_forward,
+                          size: 24,
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -90,20 +91,16 @@ class AnimatedShowcaseItemWidget extends ConsumerWidget {
                 ),
               )
             ],
-          );
-        }),
-        HoverWidget(builder: (context, hovering) {
-          return Padding(
-            padding: const EdgeInsets.all(24),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(24),
+          ),
+          HoverWidget(builder: (context, hovering) {
+            return ClipRRect(
+              clipBehavior: Clip.antiAlias, // Use a clip  option.
               child: AnimatedContainer(
                 duration: kThemeAnimationDuration,
                 width: context.width,
                 decoration: BoxDecoration(
                   color: theme.containerColor.withOpacity(.7),
-                  border: Border.all(color: themeColor.withOpacity(.2)),
-                  borderRadius: BorderRadius.circular(24),
+                  // border: Border.all(color: themeColor.withOpacity(.2)),
                   gradient: const LinearGradient(
                     colors: [
                       Colors.transparent,
@@ -113,73 +110,132 @@ class AnimatedShowcaseItemWidget extends ConsumerWidget {
                     end: Alignment.bottomCenter,
                   ),
                 ),
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        DelayedDisplay(
-                          delay: const Duration(milliseconds: 100),
+                padding: const EdgeInsets.all(24),
+                child: ProAnimatedBlur(
+                  blur: hovering ? 32 : 0,
+                  duration: const Duration(milliseconds: 100),
+                  curve: Curves.linear,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              DelayedDisplay(
+                                delay: const Duration(milliseconds: 100),
+                                fadingDuration: kThemeAnimationDuration,
+                                child: SelectableText(
+                                  item.projectName,
+                                  textAlign: TextAlign.left,
+                                  style: context.headline5?.copyWith(
+                                    color: themeColor,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                              DelayedDisplay(
+                                delay: const Duration(milliseconds: 200),
+                                fadingDuration: kThemeAnimationDuration,
+                                child: SelectableText(
+                                  item.duration,
+                                  textAlign: TextAlign.left,
+                                  style: context.bodyText1!.copyWith(
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 18,
+                                    color: theme.inverseTextColor,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Wrap(
+                            spacing: 12,
+                            children: [
+                              if (item.publishedGooglePlayUrl != null)
+                                DelayedDisplay(
+                                  delay: const Duration(milliseconds: 300),
+                                  child: IconButton(
+                                    splashColor: themeColor,
+                                    highlightColor: Colors.transparent,
+                                    style: IconButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: GlobalStyles.borderRadius,
+                                      ),
+                                      backgroundColor:
+                                          themeColor.withOpacity(.3),
+                                    ),
+                                    onPressed: () async {
+                                      await launchUrlString(
+                                          item.publishedGooglePlayUrl!);
+                                    },
+                                    icon: SvgPicture.asset(AppIcons.playStore),
+                                  ),
+                                ),
+                              if (item.publishedAppStoreUrl != null)
+                                DelayedDisplay(
+                                  delay: const Duration(milliseconds: 500),
+                                  child: IconButton(
+                                    splashColor: themeColor,
+                                    highlightColor: Colors.transparent,
+                                    style: IconButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: GlobalStyles.borderRadius,
+                                      ),
+                                      backgroundColor:
+                                          themeColor.withOpacity(.3),
+                                    ),
+                                    onPressed: () async {
+                                      await launchUrlString(
+                                          item.publishedAppStoreUrl!);
+                                    },
+                                    icon: SvgPicture.asset(AppIcons.appStore),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 32),
+                      AnimatedCollapse(
+                        collapsed: !hovering,
+                        duration: const Duration(milliseconds: 100),
+                        child: DelayedDisplay(
                           fadingDuration: kThemeAnimationDuration,
-                          child: SelectableText(
-                            item.projectName,
-                            textAlign: TextAlign.left,
-                            style: context.headline5?.copyWith(
-                              color: themeColor,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                        DelayedDisplay(
-                          delay: const Duration(milliseconds: 200),
-                          fadingDuration: kThemeAnimationDuration,
-                          child: SelectableText(
-                            item.duration,
-                            textAlign: TextAlign.left,
-                            style: context.bodyText1!.copyWith(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 18,
-                              color: theme.inverseTextColor,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 32),
-                    AnimatedCollapse(
-                      collapsed: !hovering,
-                      duration: const Duration(milliseconds: 100),
-                      child: DelayedDisplay(
-                        fadingDuration: kThemeAnimationDuration,
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            // accessible text line length
-                            maxWidth: context.width * 4 / 12,
-                          ),
-                          child: SelectableText(
-                            item.description,
-                            maxLines: 4,
-                            textAlign: TextAlign.left,
-                            style: context.bodyText2!.copyWith(
-                              color: theme.inverseTextColor,
-                              fontWeight: FontWeight.w100,
-                            ),
+                          child: Column(
+                            children: [
+                              ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  // accessible text line length
+                                  maxWidth: context.width * 4 / 12,
+                                ),
+                                child: SelectableText(
+                                  item.description,
+                                  maxLines: 5,
+                                  textAlign: TextAlign.left,
+                                  style: context.bodyText2!.copyWith(
+                                    color: theme.inverseTextColor,
+                                    fontWeight: FontWeight.w100,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 24),
+                            ],
                           ),
                         ),
                       ),
-                    ),
-                    // Spacer(),
-                    // TODO: add play/appstore icon if applicable
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
-        }),
-      ],
+            );
+          }),
+        ],
+      ),
     );
   }
 

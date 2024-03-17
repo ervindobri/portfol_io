@@ -7,26 +7,6 @@ import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/pages/work/showcase_item_widget.dart';
-import 'package:portfol_io/providers/providers.dart';
-import 'package:portfol_io/widgets/hover_button.dart';
-
-extension<E> on Iterable<E> {
-  Iterable<T> expandWithSeparator<T>(
-    T Function(E element) toElement,
-    T separator,
-  ) sync* {
-    bool first = true;
-
-    for (final element in this) {
-      if (first) {
-        first = false;
-      } else {
-        yield separator;
-      }
-      yield toElement(element);
-    }
-  }
-}
 
 class ShowcaseItemView extends ConsumerWidget {
   const ShowcaseItemView({
@@ -37,20 +17,21 @@ class ShowcaseItemView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final uiShowcaseManager = sl<UiShowcaseManager>();
     return ValueListenableBuilder<CommandResult<int?, ShowcaseItem?>>(
-        valueListenable: uiShowcaseManager.currentItemCommand.results,
-        builder: (context, value, __) {
-          if (value.data == null) {
-            return const SizedBox();
-          }
-          final item = value.data!;
-          return AnimatedSwitcher(
-            transitionBuilder: (child, anim) =>
-                ScaleTransition(scale: anim, child: child),
-            key: ValueKey(item.hashCode),
-            duration: kThemeAnimationDuration,
-            child: AnimatedShowcaseItemWidget(item: item),
-          );
-        });
+      valueListenable: uiShowcaseManager.currentItemCommand.results,
+      builder: (context, value, __) {
+        if (value.data == null) {
+          return const SizedBox();
+        }
+        final item = value.data!;
+        return AnimatedSwitcher(
+          transitionBuilder: (child, anim) =>
+              ScaleTransition(scale: anim, child: child),
+          key: ValueKey(item.hashCode),
+          duration: kThemeAnimationDuration,
+          child: AnimatedShowcaseItemWidget(item: item),
+        );
+      },
+    );
   }
 }
 

@@ -4,6 +4,7 @@ import 'dart:html';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_command/flutter_command.dart';
+import 'package:portfol_io/constants/constants.dart';
 
 class DownloadManager {
   late Command<String, void> downloadFile;
@@ -28,5 +29,9 @@ class DownloadManager {
     document.body?.append(anchor);
     anchor.click();
     anchor.remove();
+  }
+
+  void downloadResume() {
+    downloadFile.execute(Globals.resumeUrl);
   }
 }

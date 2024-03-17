@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/providers/providers.dart';
@@ -31,7 +32,7 @@ class AnimatedIconButton extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(hovering ? 12 : 8),
                 boxShadow: [
                   BoxShadow(
-                    color: themeColor.withOpacity(
+                    color: context.theme.extBackgroundColor.withOpacity(
                       hovering ? .24 : .12,
                     ),
                     offset: const Offset(0, 24),

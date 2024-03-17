@@ -27,15 +27,17 @@ class FullscreenImageDialog extends ConsumerWidget {
           child: ValueListenableBuilder<int>(
             valueListenable: uiShowcaseManager.currentImageIndex,
             builder: (context, value, _) {
-              final path =
-                  "assets/images/work/${item.imagesPath}/${item.imageAssets[value]}.png";
+              final path = item.imageAssets[value];
               return InteractiveViewer(
                 panAxis: PanAxis.aligned,
-                child: Center(
-                  child: Image(
-                    fit: BoxFit.contain,
-                    image: AssetImage(
-                      path,
+                child: Hero(
+                  tag: path,
+                  child: Center(
+                    child: Image(
+                      fit: BoxFit.contain,
+                      image: AssetImage(
+                        path,
+                      ),
                     ),
                   ),
                 ),
@@ -49,16 +51,11 @@ class FullscreenImageDialog extends ConsumerWidget {
           child: IconButton(
             iconSize: 48,
             highlightColor: Colors.transparent,
+            color: context.backgroundColor,
             splashColor: Colors.transparent,
             onPressed: () => Navigator.pop(context),
-            icon: Container(
-              height: 64,
-              width: 64,
-              color: GlobalColors.primaryColor,
-              child: const Center(
-                child:
-                    Icon(CupertinoIcons.xmark, size: 24, color: Colors.white),
-              ),
+            icon: const Center(
+              child: Icon(CupertinoIcons.xmark, size: 24, color: Colors.white),
             ),
           ),
         ),

@@ -12,7 +12,6 @@ class AnimatedCollapse extends StatefulWidget {
     this.reverseDuration,
   });
 
-
   final Widget? child;
 
   /// Show or hide the child
@@ -28,10 +27,11 @@ class AnimatedCollapse extends StatefulWidget {
   final Duration? reverseDuration;
 
   @override
-  _AnimatedCollapseState createState() => _AnimatedCollapseState();
+  AnimatedCollapseState createState() => AnimatedCollapseState();
 }
 
-class _AnimatedCollapseState extends State<AnimatedCollapse> with SingleTickerProviderStateMixin {
+class AnimatedCollapseState extends State<AnimatedCollapse>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 

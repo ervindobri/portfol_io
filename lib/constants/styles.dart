@@ -58,4 +58,6 @@ class GlobalStyles {
         topRight: Radius.circular(24),
         bottomRight: Radius.circular(24),
       );
+
+  static textButtonPadding() => const EdgeInsets.fromLTRB(24, 12, 24, 12);
 }

@@ -1,11 +1,11 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:delayed_display/delayed_display.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:motion/motion.dart';
+import 'package:portfol_io/constants/animations.dart';
 import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/constants/icons.dart';
 import 'package:portfol_io/constants/images.dart';
@@ -19,8 +19,10 @@ import 'package:portfol_io/pages/home/widgets/bg_shapes.dart';
 import 'package:portfol_io/providers/providers.dart';
 import 'package:portfol_io/widgets/animated_highlight_widget.dart';
 import 'package:portfol_io/widgets/animated_icon_button.dart';
+import 'package:portfol_io/widgets/delayed_display.dart';
 import 'package:portfol_io/widgets/hover_button.dart';
 import 'package:portfol_io/extensions/list.dart';
+import 'package:rive/rive.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -102,68 +104,76 @@ class _HomeDesktopState extends ConsumerState<HomeDesktop> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         const SizedBox(height: 48),
-                                        Text(
-                                          Globals.titleText1,
-                                          style: theme.nameStyleSmall?.copyWith(
-                                            fontSize: 24,
-                                          ),
-                                        ),
-                                        // Text(
-                                        //   Globals.titleText2,
-                                        //   style: theme.nameStyleSmall,
-                                        // ),
+                                        const SizedBox(height: 16),
                                         DefaultTextStyle(
-                                          style: theme.nameStyleLarge ??
+                                          style: theme.nameStyleLarge?.copyWith(
+                                                fontSize: context.width <
+                                                        Globals.maxBoxWidth
+                                                    ? 64
+                                                    : 96,
+                                              ) ??
                                               const TextStyle(),
-                                          child: Wrap(
-                                            spacing: 24,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              const Text("I"),
-                                              SizedBox(
-                                                width: "create".length * 60,
-                                                child: DefaultTextStyle(
-                                                  style: theme.nameStyleLarge!
-                                                      .copyWith(
-                                                    color: themeColor,
-                                                  ),
-                                                  child: AnimatedTextKit(
-                                                    repeatForever: true,
-                                                    pause: const Duration(
-                                                        seconds: 2),
-                                                    animatedTexts: [
-                                                      ...Globals.animatedSkills
-                                                          .map(
-                                                        (e) =>
-                                                            TyperAnimatedText(
-                                                          e,
-                                                          speed: const Duration(
-                                                            milliseconds: 200,
-                                                          ),
-                                                        ),
+                                              Row(
+                                                // spacing: 24,
+                                                children: [
+                                                  const Text("I"),
+                                                  const SizedBox(width: 12),
+                                                  Expanded(
+                                                    // width: context.width,
+                                                    child: DefaultTextStyle(
+                                                      style: theme
+                                                          .nameStyleLarge!
+                                                          .copyWith(
+                                                        color: themeColor,
+                                                        fontSize: context
+                                                                    .width <
+                                                                Globals
+                                                                    .maxBoxWidth
+                                                            ? 64
+                                                            : 96,
                                                       ),
-                                                    ],
+                                                      child: AnimatedTextKit(
+                                                        repeatForever: true,
+                                                        pause: const Duration(
+                                                            seconds: 2),
+                                                        animatedTexts: [
+                                                          ...Globals
+                                                              .animatedSkills
+                                                              .map(
+                                                            (e) =>
+                                                                TyperAnimatedText(
+                                                              e,
+                                                              speed:
+                                                                  const Duration(
+                                                                milliseconds:
+                                                                    200,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
+                                                ],
                                               ),
                                               const Text("value"),
                                             ],
                                           ),
                                         ),
-                                        Row(
+                                        const SizedBox(height: 16),
+                                        Wrap(
+                                          spacing: 16,
+                                          runSpacing: 16,
                                           children: [
-                                            ...Globals.techStack
-                                                .map(
-                                                  (e) =>
-                                                      TechItemWidget(item: e),
-                                                )
-                                                .expandWithSeparator(
-                                                  (e) => e,
-                                                  const SizedBox(
-                                                    width: 16,
-                                                  ),
-                                                )
+                                            ...Globals.techStack.map(
+                                              (e) => TechItemWidget(item: e),
+                                            )
                                           ],
-                                        )
+                                        ),
                                       ],
                                     ),
                                     Row(
@@ -276,7 +286,7 @@ class _HomeDesktopState extends ConsumerState<HomeDesktop> {
                                               const SizedBox(
                                                 height: 24,
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -295,7 +305,11 @@ class _HomeDesktopState extends ConsumerState<HomeDesktop> {
                                             scale: hovering ? 1.025 : 1,
                                             child: Image.asset(
                                               AppImages.me,
-                                              height: 700,
+                                              height: context.width >
+                                                      Globals.maxBoxWidth
+                                                  ? Globals.profileImageSizeBig
+                                                  : Globals
+                                                      .profileImageSizeSmall,
                                             ),
                                           );
                                         },
@@ -357,6 +371,7 @@ class TechItemWidget extends ConsumerWidget {
                 horizontal: 12,
               ),
               child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Image.asset(
                     item.asset,
@@ -376,6 +391,7 @@ class TechItemWidget extends ConsumerWidget {
             ),
           ),
           Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset(
                 item.asset,

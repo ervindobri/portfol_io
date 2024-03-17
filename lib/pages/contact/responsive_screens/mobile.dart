@@ -26,9 +26,9 @@ class _ContactDesktopState extends State<ContactMobile> {
         child: Column(
           children: [
             const SizedBox(height: 48 + 48 + 24),
-            MobileParallaxCard(),
+            const ParallaxCard(),
             const SizedBox(height: 24),
-            const MobileContactMeCard(),
+            const ContactMeCard(),
           ],
         ),
       ),

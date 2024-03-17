@@ -1,9 +1,7 @@
-import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_improved_scrolling/flutter_improved_scrolling.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/extensions/build_context.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
@@ -14,8 +12,7 @@ import 'package:portfol_io/pages/home/home_content.dart';
 import 'package:portfol_io/pages/menu/menu.dart';
 import 'package:portfol_io/pages/work/work_content.dart';
 import 'package:portfol_io/providers/providers.dart';
-import 'package:portfol_io/widgets/animated_icon_button.dart';
-import 'package:portfol_io/widgets/fade_in_slide.dart';
+import 'package:portfol_io/widgets/jump_home_button.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -30,13 +27,6 @@ class HomePageState extends ConsumerState<HomePage>
   final uiMenuManager = sl<UiMenuManager>();
 
   @override
-  void initState() {
-    // Initialize scrolling
-
-    super.initState();
-  }
-
-  @override
   void dispose() {
     uiMenuManager.scrollController.dispose();
     super.dispose();
@@ -44,7 +34,6 @@ class HomePageState extends ConsumerState<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
     final previousColor =
         ref.watch(previousBrightnessProvider).extBackgroundColor;
     final nextColor = ref.watch(themeProvider).brightness.extBackgroundColor;
@@ -117,62 +106,11 @@ class HomePageState extends ConsumerState<HomePage>
 
   Widget _buildScrollableList() {
     return const Column(
-      children: [HomeContent(), WorkContent(), ContactContent()],
+      children: [
+        HomeContent(),
+        WorkContent(),
+        ContactContent(),
+      ],
     );
-  }
-}
-
-class JumpToHomeButton extends ConsumerWidget {
-  const JumpToHomeButton({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final uiMenuManager = sl<UiMenuManager>();
-    final menuIndex = ref.watch(menuIndexProvider);
-    return ResponsiveBuilder(builder: (context, sizingInformation) {
-      final isMobile =
-          sizingInformation.deviceScreenType == DeviceScreenType.mobile;
-      if (!isMobile) {
-        return AnimatedSwitcher(
-          duration: kThemeAnimationDuration,
-          child: menuIndex < 1
-              ? const SizedBox()
-              : DelayedDisplay(
-                  slidingBeginOffset: const Offset(0, 2),
-                  fadingDuration: kThemeAnimationDuration,
-                  child: AnimatedIconButton(
-                    onPressed: () {
-                      uiMenuManager.updateMenuCommand.execute(0);
-                      ref.read(menuIndexProvider.notifier).state = 0;
-                    },
-                    icon: const Icon(
-                      FontAwesomeIcons.chevronUp,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-        );
-      }
-      return AnimatedSwitcher(
-        duration: kThemeAnimationDuration,
-        child: menuIndex < 1
-            ? const SizedBox()
-            : FadingSlideWidget(
-                offset: const Offset(0, 2),
-                durationMilliseconds: 300,
-                child: AnimatedIconButton(
-                  onPressed: () {
-                    uiMenuManager.updateMenuCommand.execute(0);
-                    ref.read(menuIndexProvider.notifier).state = 0;
-                  },
-                  icon: const Icon(
-                    FontAwesomeIcons.chevronUp,
-                    color: Colors.white,
-                    size: 24,
-                  ),
-                ),
-              ),
-      );
-    });
   }
 }

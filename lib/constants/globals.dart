@@ -80,14 +80,22 @@ class Globals {
   static const String clickToExpand = "Click to expand";
   static const String wantToWorkWithMe = "Want to work with me?";
   static const String easyDoesIt =
-      "It’s as easy as pressing this big white button";
+      "Just send a quick hello, and let’s start working together.";
 
-  static const String bigWhiteButton = "Big white button";
+  static const String bigWhiteButton = "Send a message";
   static const String details = "Details";
   static const String inspiration =
       "Solving big problems is all about thinking small.";
 
-  // static const String myLocation = "Targu Mures, Romania";
+  static const String myName = "Ervin Dobri";
+  static const List<String> mySkills = [
+    "Medior Flutter Developer",
+    " UI/UX Designer",
+    "Creative mind",
+    "Team player"
+  ];
+  static const String myWorkplace = "Trendency Online";
+  static const String myWorkplaceUrl = "https://trendency.hu/";
   static const String myLocation = "Budapest, Hungary";
   static const String myUniversity = "Sapientia EMTE, Targu Mures";
   static const String themeLabel = "THEME";
@@ -112,4 +120,13 @@ class Globals {
     "code",
     "inspire"
   ];
+
+  static const double profileImageSizeBig = 700;
+  static const double profileImageSizeSmall = 456;
+
+  static const String contactTitle = "Contact me";
+  static const String contactSocialTitle =
+      "You can find me on social media too";
+  static const String downloadResume = "Download resume";
+  static const String resumeUrl = "assets/files/CV.pdf";
 }

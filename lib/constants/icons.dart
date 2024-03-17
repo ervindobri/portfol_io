@@ -7,4 +7,14 @@ class AppIcons {
   static const String flutter = "assets/images/flutter.png";
   static const String figma = "assets/images/figma.png";
   static const String python = "assets/images/python.png";
+
+  // Store icons
+  static const String appStore = "assets/icons/app-store.svg";
+  static const String playStore = "assets/icons/play-store.svg";
+
+  static const String workplace = "assets/icons/workplace.svg";
+  static const String location = "assets/icons/map-pin.svg";
+  static const String book = "assets/icons/book.svg";
+  static const String bulbLine = "assets/icons/bulb-line.svg";
+  static const String downloadCloud = "assets/icons/download-cloud.svg";
 }

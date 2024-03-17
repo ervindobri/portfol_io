@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfol_io/constants/colors.dart';
+import 'package:portfol_io/constants/constants.dart';
 
 extension ThemeExtension on BuildContext {
   ThemeData get theme => Theme.of(this);
@@ -38,6 +39,26 @@ extension ThemeExtension on BuildContext {
       ?.copyWith(color: Theme.of(this).inverseTextColor);
 
   TextStyle? get titleLarge => Theme.of(this).textTheme.titleLarge;
+
+
+  ButtonStyle get textButtonStyle => ButtonStyle(
+        backgroundColor: MaterialStateProperty.resolveWith<Color>(
+          (Set<MaterialState> states) {
+            if (states.contains(MaterialState.hovered) ||
+                states.contains(MaterialState.pressed)) {
+              return theme.containerColor;
+            }
+            return theme.extBackgroundColor;
+          },
+        ),
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+        shape: MaterialStatePropertyAll(
+          RoundedRectangleBorder(
+            borderRadius: GlobalStyles.borderRadius,
+          ),
+        ),
+        splashFactory: NoSplash.splashFactory,
+      );
 }
 
 extension ThemeDataExt on ThemeData {

@@ -1,12 +1,10 @@
 import 'dart:ui';
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_improved_scrolling/flutter_improved_scrolling.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfol_io/constants/constants.dart';
-import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/pages/work/fullscreen_image_dialog.dart';
@@ -52,58 +50,60 @@ class _ImageCarouselState extends ConsumerState<ImageView> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ref.watch(themeProvider);
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(48),
-      child: Stack(
-        children: [
-          MouseRegion(
-            // onEnter: (val) {
-            //   // Disable main page scrolling
-            //   ref.read(scrollEnabledProvider.notifier).update((state) => false);
-            // },
-            // onExit: (val) {
-            //   // Enable main page scrolling
-            //   ref.read(scrollEnabledProvider.notifier).update((state) => true);
-            // },
-            child: ScrollConfiguration(
-              behavior: ScrollConfiguration.of(context)
-                  .copyWith(scrollbars: false, dragDevices: {
-                PointerDeviceKind.mouse,
-                PointerDeviceKind.touch,
-              }),
-              child: ImprovedScrolling(
-                scrollController: _controller,
-                enableCustomMouseWheelScrolling: true,
-                enableMMBScrolling: false,
-                enableKeyboardScrolling: true,
-                keyboardScrollConfig: const KeyboardScrollConfig(),
-                child: SingleChildScrollView(
-                  controller: _controller,
-                  physics: const NeverScrollableScrollPhysics(),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      ...images.map(
-                        (e) => InkWell(
-                          highlightColor: Colors.transparent,
-                          splashColor: Colors.transparent,
-                          hoverColor: Colors.transparent,
-                          onTap: () {
-                            final imageIndex = images.indexOf(e);
-                            uiShowcaseManager.currentImageIndex.value =
-                                imageIndex;
-                            showDialog(
-                              context: context,
-                              barrierColor:
-                                  GlobalColors.primaryColor.withOpacity(.8),
-                              builder: (context) {
-                                return Dialog(
-                                    child: FullscreenImageDialog(
-                                        item: widget.item));
-                              },
-                            );
-                          },
+    return Stack(
+      children: [
+        MouseRegion(
+          onEnter: (val) {
+            // Disable main page scrolling
+            ref.read(scrollEnabledProvider.notifier).update((state) => false);
+          },
+          onExit: (val) {
+            // Enable main page scrolling
+            ref.read(scrollEnabledProvider.notifier).update((state) => true);
+          },
+          child: ScrollConfiguration(
+            behavior: ScrollConfiguration.of(context)
+                .copyWith(scrollbars: false, dragDevices: {
+              PointerDeviceKind.mouse,
+              PointerDeviceKind.touch,
+            }),
+            child: ImprovedScrolling(
+              scrollController: _controller,
+              enableCustomMouseWheelScrolling: true,
+              enableMMBScrolling: false,
+              enableKeyboardScrolling: true,
+              keyboardScrollConfig: const KeyboardScrollConfig(),
+              child: SingleChildScrollView(
+                controller: _controller,
+                physics: const NeverScrollableScrollPhysics(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    ...images.map(
+                      (e) => InkWell(
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        onTap: () {
+                          final imageIndex = images.indexOf(e);
+                          uiShowcaseManager.currentImageIndex.value =
+                              imageIndex;
+                          showDialog(
+                            context: context,
+                            barrierColor:
+                                GlobalColors.primaryColor.withOpacity(.8),
+                            useSafeArea: true,
+                            builder: (context) {
+                              return Dialog(
+                                child: FullscreenImageDialog(
+                                  item: widget.item,
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: Hero(
+                          tag: e.assetName,
                           child: Image(
                             image: e,
                             // height: height,
@@ -112,24 +112,24 @@ class _ImageCarouselState extends ConsumerState<ImageView> {
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
-          // Scrollbar
-          Positioned(
-            right: 24,
-            top: 24,
-            child: BumbleScrollbar.web(
-              controller: _controller,
-              thumbColor: ref.watch(themeColorProvider),
-              thumbHeight: 200 / widget.item.imageAssets.length,
-            ),
+        ),
+        // Scrollbar
+        Positioned(
+          right: 24,
+          top: 24,
+          child: BumbleScrollbar.web(
+            controller: _controller,
+            thumbColor: ref.watch(themeColorProvider),
+            thumbHeight: 200 / widget.item.imageAssets.length,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

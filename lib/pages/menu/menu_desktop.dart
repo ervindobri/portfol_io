@@ -1,6 +1,4 @@
 import 'dart:math';
-import 'dart:ui';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
@@ -75,7 +73,7 @@ class _MenuDesktopState extends ConsumerState<MenuDesktop> {
                           uiMenuManager.updateMenuCommand.execute(index);
                         },
                         child: AnimatedContainer(
-                          duration: kThemeAnimationDuration,
+                          duration: const Duration(milliseconds: 100),
                           decoration: isSelected
                               ? null
                               : BoxDecoration(
@@ -189,7 +187,7 @@ class _MenuDesktopState extends ConsumerState<MenuDesktop> {
 
     await showAnimatedDialog(
         context: context,
-        animationType: DialogTransitionType.slideFromTop,
+        animationType: DialogTransitionType.slideFromTopFade,
         curve: Curves.fastOutSlowIn,
         duration: const Duration(milliseconds: 300),
         barrierColor: Colors.transparent,

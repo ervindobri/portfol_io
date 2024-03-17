@@ -1,5 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:portfol_io/constants/constants.dart';
@@ -7,6 +6,7 @@ import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/pages/work/fullscreen_image_dialog.dart';
 import 'package:portfol_io/pages/work/hover_image.dart';
+import 'package:portfol_io/widgets/delayed_display.dart';
 
 class ImageCarousel extends StatefulWidget {
   const ImageCarousel({
@@ -228,9 +228,8 @@ class MobileImageCarousel extends StatelessWidget {
                       return Opacity(
                         opacity: value2,
                         child: InkWell(
-                          onTap: () {
-                            //TODO: open interactive image viewer for current image
-                            showDialog(
+                          onTap: () async {
+                            await showDialog(
                               context: context,
                               builder: (context) {
                                 return MobileFullscreenImageDialog(
@@ -243,9 +242,7 @@ class MobileImageCarousel extends StatelessWidget {
                             height: height,
                             child: Image(
                               fit: BoxFit.cover,
-                              image: AssetImage(
-                                "assets/images/work/${item.imagesPath}/$image.png",
-                              ),
+                              image: AssetImage(image),
                             ),
                           ),
                         ),
