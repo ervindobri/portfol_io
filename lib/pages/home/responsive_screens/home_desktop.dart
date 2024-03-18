@@ -104,6 +104,17 @@ class _HomeDesktopState extends ConsumerState<HomeDesktop> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         const SizedBox(height: 48),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              Globals.titleText1,
+                                              style: theme.nameStyleSmall
+                                                  ?.copyWith(
+                                                fontSize: 24,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                         const SizedBox(height: 16),
                                         DefaultTextStyle(
                                           style: theme.nameStyleLarge?.copyWith(
