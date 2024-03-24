@@ -1,11 +1,9 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:motion/motion.dart';
-import 'package:portfol_io/constants/animations.dart';
 import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/constants/icons.dart';
 import 'package:portfol_io/constants/images.dart';
@@ -22,7 +20,6 @@ import 'package:portfol_io/widgets/animated_icon_button.dart';
 import 'package:portfol_io/widgets/delayed_display.dart';
 import 'package:portfol_io/widgets/hover_button.dart';
 import 'package:portfol_io/extensions/list.dart';
-import 'package:rive/rive.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -194,7 +191,7 @@ class _HomeDesktopState extends ConsumerState<HomeDesktop> {
                                         TextButton(
                                           style:
                                               GlobalStyles.primaryButtonStyle(
-                                                  theme, themeColor),
+                                                  theme),
                                           onPressed: () async {
                                             await EmailHelper.contactMe();
                                           },
@@ -234,9 +231,8 @@ class _HomeDesktopState extends ConsumerState<HomeDesktop> {
                                           fadingDuration:
                                               const Duration(milliseconds: 300),
                                           child: AnimatedIconButton(
-                                            onPressed: () => uiMenuManager
-                                                .updateMenuCommand
-                                                .execute(1),
+                                            onPressed: () =>
+                                                uiMenuManager.setPage(1),
                                             icon: const Icon(
                                               FontAwesomeIcons.chevronDown,
                                               color: Colors.white,

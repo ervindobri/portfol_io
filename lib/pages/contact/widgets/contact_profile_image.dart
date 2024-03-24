@@ -46,12 +46,12 @@ class ContactProfileImage extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(color: Colors.black.withOpacity(.3)),
                 padding: const EdgeInsets.all(12),
-                child: Center(
+                child: const Center(
                   child: ProAnimatedBlur(
-                    blur: hovering ? 32 : 0,
-                    duration: const Duration(milliseconds: 300),
+                    blur: 32,
+                    duration: Duration(milliseconds: 300),
                     curve: Curves.linear,
-                    child: const DelayedDisplay(
+                    child: DelayedDisplay(
                       delay: Duration(milliseconds: 10),
                       fadingDuration: Duration(milliseconds: 100),
                       child: SocialMediaSection(),

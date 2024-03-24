@@ -86,7 +86,7 @@ class _HomeMobileState extends State<HomeMobile> {
                       const SizedBox(height: 48),
                       TextButton(
                         onPressed: () async {
-                           await EmailHelper.contactMe();        
+                          await EmailHelper.contactMe();
                         },
                         style: GlobalStyles.whiteTextButtonStyle(),
                         child: Container(
@@ -151,14 +151,12 @@ class _HomeMobileState extends State<HomeMobile> {
                                     skill.toUpperCase(),
                                     speed: speed,
                                   ),
-                                  ...list
-                                      .map(
-                                        (e) => atkit.TyperAnimatedText(
-                                          e.toUpperCase(),
-                                          speed: speed,
-                                        ),
-                                      )
-                                      ,
+                                  ...list.map(
+                                    (e) => atkit.TyperAnimatedText(
+                                      e.toUpperCase(),
+                                      speed: speed,
+                                    ),
+                                  ),
                                 ],
                               ),
                             );
@@ -191,7 +189,7 @@ class _HomeMobileState extends State<HomeMobile> {
               offset: const Offset(0, 2),
               durationMilliseconds: mobileAnimationDurationMs,
               child: IconButton(
-                onPressed: () => uiMenuManager.updateMenuCommand.execute(1),
+                onPressed: () => uiMenuManager.setPage(1),
                 iconSize: 42,
                 icon: Container(
                   color: GlobalColors.primaryColor.withOpacity(.4),

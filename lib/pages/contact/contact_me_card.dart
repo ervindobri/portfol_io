@@ -15,73 +15,72 @@ class ContactMeCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.watch(themeProvider);
-    final themeColor = ref.watch(themeColorProvider);
-    return SizedBox(
-      child: Column(
-        children: [
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    AppIcons.bulbLine,
-                    height: 32,
-                    width: 32,
-                  ),
-                  const SizedBox(width: 12),
-                  Text(
-                    Globals.wantToWorkWithMe,
-                    maxLines: 2,
-                    textAlign: TextAlign.right,
-                    style: context.headline5!.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-              Text(
-                Globals.easyDoesIt,
-                textAlign: TextAlign.right,
-                style: context.bodyText2!.copyWith(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w200,
+    return Column(
+      children: [
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  AppIcons.bulbLine,
+                  colorFilter: ColorFilter.mode(
+                      context.theme.inverseTextColor, BlendMode.srcIn),
+                  height: 32,
+                  width: 32,
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 24),
-          TextButton(
-            style: GlobalStyles.primaryButtonStyle(theme, themeColor),
-            onPressed: () async {
-              await EmailHelper.contactMe();
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    Globals.bigWhiteButton,
-                    style: theme.textTheme.titleMedium
-                        ?.copyWith(color: theme.textColor),
+                const SizedBox(width: 12),
+                Text(
+                  Globals.wantToWorkWithMe,
+                  maxLines: 2,
+                  textAlign: TextAlign.right,
+                  style: context.headline5!.copyWith(
+                    fontWeight: FontWeight.w700,
                   ),
-                  const SizedBox(width: 24),
-                  SvgPicture.asset(
-                    AppIcons.coffee,
-                    height: 32,
-                    width: 32,
-                    colorFilter: ColorFilter.mode(
-                      theme.textColor,
-                      BlendMode.srcIn,
-                    ),
-                  )
-                ],
+                ),
+              ],
+            ),
+            Text(
+              Globals.easyDoesIt,
+              textAlign: TextAlign.right,
+              style: context.bodyText2!.copyWith(
+                fontSize: 16,
+                fontWeight: FontWeight.w200,
               ),
             ),
+          ],
+        ),
+        const SizedBox(height: 24),
+        TextButton(
+          style: GlobalStyles.primaryButtonStyle(theme),
+          onPressed: () async {
+            await EmailHelper.contactMe();
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  Globals.bigWhiteButton,
+                  style: theme.textTheme.titleMedium
+                      ?.copyWith(color: theme.textColor),
+                ),
+                const SizedBox(width: 24),
+                SvgPicture.asset(
+                  AppIcons.coffee,
+                  height: 32,
+                  width: 32,
+                  colorFilter: ColorFilter.mode(
+                    theme.textColor,
+                    BlendMode.srcIn,
+                  ),
+                )
+              ],
+            ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:portfol_io/constants/colors.dart';
 import 'package:portfol_io/constants/constants.dart';
 
 extension ThemeExtension on BuildContext {
   ThemeData get theme => Theme.of(this);
+  bool get isDarkMode =>
+      MediaQuery.of(this).platformBrightness == Brightness.dark;
+
   Color? get backgroundColor => Theme.of(this).colorScheme.background;
   TextStyle? get bodyText1 => Theme.of(this)
       .textTheme
@@ -39,7 +41,6 @@ extension ThemeExtension on BuildContext {
       ?.copyWith(color: Theme.of(this).inverseTextColor);
 
   TextStyle? get titleLarge => Theme.of(this).textTheme.titleLarge;
-
 
   ButtonStyle get textButtonStyle => ButtonStyle(
         backgroundColor: MaterialStateProperty.resolveWith<Color>(

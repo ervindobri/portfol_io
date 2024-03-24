@@ -2,11 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_command/flutter_command.dart';
 
 class UiMenuManager {
-  late Command<int, int> updateMenuCommand;
-
   ValueNotifier<int> menuIndex = ValueNotifier(0);
   ValueNotifier<bool> playContactAnimation = ValueNotifier(false);
 
@@ -24,18 +21,6 @@ class UiMenuManager {
   UiMenuManager() {
     scrollController = ScrollController();
     offsets = [];
-
-    updateMenuCommand =
-        Command.createSync<int, int>((counter) => counter, initialValue: 0);
-
-    updateMenuCommand
-        .debounce(const Duration(milliseconds: 10))
-        .listen((index, _) {
-      menuIndex.value = index;
-      final offset = offsets[index];
-      scrollController.animateTo(offset,
-          duration: kThemeAnimationDuration, curve: Curves.easeIn);
-    });
 
     // General listener to update menu index & UI
     scrollController.addListener(() async {
@@ -79,5 +64,16 @@ class UiMenuManager {
     final item = greater.first;
     final index = offsets.indexOf(item);
     return index;
+  }
+
+  void animateToPage(int index) {
+    final offset = offsets[index];
+    scrollController.animateTo(offset,
+        duration: kThemeAnimationDuration, curve: Curves.easeIn);
+  }
+
+  void setPage(int index) {
+    menuIndex.value = index;
+    animateToPage(index);
   }
 }

@@ -19,7 +19,7 @@ class Globals {
     SocialMediaItem(
         label: "LinkedIn",
         icon: FontAwesomeIcons.linkedin,
-        url: "https://www.linkedin.com/in/ervin-dobri-2b8494217/"),
+        url: "https://www.linkedin.com/in/ervin-dobri/"),
     SocialMediaItem(
         label: "Facebook",
         icon: FontAwesomeIcons.facebook,
@@ -129,4 +129,7 @@ class Globals {
       "You can find me on social media too";
   static const String downloadResume = "Download resume";
   static const String resumeUrl = "assets/files/CV.pdf";
+
+  static const String emailSubject = 'A new exciting opportunity';
+  static const String emailBody = 'Dear Ervin,\n';
 }

@@ -565,14 +565,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
-  mouse_parallax:
-    dependency: "direct main"
-    description:
-      name: mouse_parallax
-      sha256: a40423bef0462de641c3638dc0976139e74d1ed3a0894d489076d701db155db0
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.0"
   nested:
     dependency: transitive
     description:

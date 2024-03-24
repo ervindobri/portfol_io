@@ -40,16 +40,18 @@ class GlobalStyles {
         ),
       );
 
-  static primaryButtonStyle(ThemeData theme, Color? themeColor) => ButtonStyle(
+  static ButtonStyle primaryButtonStyle(ThemeData theme) => ButtonStyle(
         shape: MaterialStatePropertyAll(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(48),
           ),
         ),
-        overlayColor: MaterialStatePropertyAll(themeColor),
-        backgroundColor: MaterialStateProperty.resolveWith((states) {
-          return theme.inverseTextColor;
-        }),
+        splashFactory: NoSplash.splashFactory,
+        backgroundColor: MaterialStateProperty.resolveWith(
+          (states) {
+            return theme.inverseTextColor;
+          },
+        ),
       );
 
   static BorderRadius get homeRadius => const BorderRadius.only(

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -30,7 +29,7 @@ class JumpToHomeButton extends ConsumerWidget {
                   fadingDuration: kThemeAnimationDuration,
                   child: AnimatedIconButton(
                     onPressed: () {
-                      uiMenuManager.updateMenuCommand.execute(0);
+                      uiMenuManager.setPage(0);
                       ref.read(menuIndexProvider.notifier).state = 0;
                     },
                     icon: const Icon(
@@ -50,7 +49,7 @@ class JumpToHomeButton extends ConsumerWidget {
                 durationMilliseconds: 300,
                 child: AnimatedIconButton(
                   onPressed: () {
-                    uiMenuManager.updateMenuCommand.execute(0);
+                    uiMenuManager.setPage(0);
                     ref.read(menuIndexProvider.notifier).state = 0;
                   },
                   icon: const Icon(

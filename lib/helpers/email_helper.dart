@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 class EmailHelper {
   static Future<void> contactMe() async {
     const mailUrl =
-        'mailto:${Globals.myEmail}?subject=We want to hire you&body=New%20plugin';
+        'mailto:${Globals.myEmail}?subject=${Globals.emailSubject}&body=${Globals.emailBody}';
     try {
       await launchUrlString(mailUrl);
     } catch (e) {

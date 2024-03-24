@@ -164,11 +164,6 @@ class BumbleScrollbarState extends State<BumbleScrollbar> {
                           final newScrollPosition =
                               maxScrollExtent * multiplier;
 
-                          if (kDebugMode) {
-                            print(
-                                "$multiplier Scrolled to: $newScrollPosition / ${_controller.position.maxScrollExtent}");
-                          }
-
                           // Go to new scroll position
                           _controller.jumpTo(newScrollPosition);
                         },

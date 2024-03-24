@@ -16,7 +16,10 @@ class SocialMediaSection extends StatelessWidget {
         Flexible(
           child: Text(
             Globals.contactSocialTitle,
-            style: context.bodyText1?.copyWith(fontSize: 14),
+            style: context.bodyText1?.copyWith(
+              fontSize: 14,
+              color: context.theme.inverseTextColor,
+            ),
           ),
         ),
         const SizedBox(height: 12),

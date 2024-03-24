@@ -1,20 +1,16 @@
-import 'dart:math';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfol_io/constants/constants.dart';
-import 'package:portfol_io/constants/globals.dart';
 import 'package:portfol_io/extensions/build_context.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
-import 'package:portfol_io/constants/colors.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/providers/providers.dart';
 import 'package:portfol_io/widgets/hover_button.dart';
 
 class MenuMobile extends ConsumerStatefulWidget {
-  MenuMobile({super.key});
+  const MenuMobile({super.key});
 
   @override
   ConsumerState<MenuMobile> createState() => _MenuMobileState();
@@ -70,7 +66,7 @@ class _MenuMobileState extends ConsumerState<MenuMobile> {
                         hoverColor: themeColor.withOpacity(.3),
                         splashColor: Colors.transparent,
                         onTap: () async {
-                          uiMenuManager.updateMenuCommand.execute(index);
+                          uiMenuManager.setPage(index);
                         },
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 100),

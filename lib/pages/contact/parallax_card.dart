@@ -1,6 +1,9 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -12,10 +15,11 @@ import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/download_manager.dart';
 import 'package:portfol_io/pages/contact/widgets/resume_button.dart';
+import 'package:portfol_io/widgets/hover_button.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class ParallaxCard extends StatelessWidget {
-  const ParallaxCard({super.key});
+class ContactInfo extends StatelessWidget {
+  const ContactInfo({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +40,46 @@ class ParallaxCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            SelectableText(
-              Globals.myEmail,
-              maxLines: 2,
-              style: context.bodyText1,
+            HoverWidget(
+              builder: (context, isHovered) {
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SelectableText(
+                      Globals.myEmail,
+                      maxLines: 1,
+                      cursorHeight: 20,
+                      selectionHeightStyle: BoxHeightStyle.tight,
+                      style: context.bodyText1,
+                    ),
+                    AnimatedSwitcher(
+                      duration: kThemeAnimationDuration,
+                      child: !isHovered
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: const SizedBox(),
+                            )
+                          : IconButton(
+                              onPressed: () {
+                                Clipboard.setData(
+                                    const ClipboardData(text: Globals.myEmail));
+                                // Snackba
+                              },
+                              icon: FaIcon(
+                                FontAwesomeIcons.clipboard,
+                                color: context.theme.inverseTextColor,
+                              ),
+                            ),
+                    )
+                  ],
+                );
+              },
             ),
           ],
         ),
+        const SizedBox(height: 24),
         SizedBox(
           width: isBigScreen ? context.width * 3 / 12 : context.width * 4 / 12,
           child: Wrap(
@@ -80,17 +117,29 @@ class ParallaxCard extends StatelessWidget {
               context,
               Globals.myWorkplace,
               url: Globals.myWorkplaceUrl,
-              icon: SvgPicture.asset(AppIcons.workplace),
+              icon: SvgPicture.asset(
+                AppIcons.workplace,
+                colorFilter: ColorFilter.mode(
+                    context.theme.inverseTextColor, BlendMode.srcIn),
+              ),
             ),
             buildInfoRow(
               context,
               Globals.myLocation,
-              icon: SvgPicture.asset(AppIcons.location),
+              icon: SvgPicture.asset(
+                AppIcons.location,
+                colorFilter: ColorFilter.mode(
+                    context.theme.inverseTextColor, BlendMode.srcIn),
+              ),
             ),
             buildInfoRow(
               context,
               Globals.myUniversity,
-              icon: SvgPicture.asset(AppIcons.book),
+              icon: SvgPicture.asset(
+                AppIcons.book,
+                colorFilter: ColorFilter.mode(
+                    context.theme.inverseTextColor, BlendMode.srcIn),
+              ),
             ),
           ]
               .expandWithSeparator(
@@ -124,13 +173,11 @@ class ParallaxCard extends StatelessWidget {
                   await launchUrlString(url);
                 }
               : null,
-          child: Flexible(
-            child: Text(
-              label,
-              maxLines: 2,
-              style: context.bodyText1?.copyWith(
-                decoration: url != null ? TextDecoration.underline : null,
-              ),
+          child: Text(
+            label,
+            maxLines: 2,
+            style: context.bodyText1?.copyWith(
+              decoration: url != null ? TextDecoration.underline : null,
             ),
           ),
         ),

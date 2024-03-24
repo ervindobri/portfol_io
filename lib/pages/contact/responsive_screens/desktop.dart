@@ -7,7 +7,6 @@ import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/pages/contact/contact_me_card.dart';
 import 'package:portfol_io/pages/contact/parallax_card.dart';
-import 'package:portfol_io/pages/contact/social_media_section.dart';
 import 'package:portfol_io/pages/contact/widgets/contact_profile_image.dart';
 import 'package:portfol_io/providers/providers.dart';
 import 'package:portfol_io/widgets/delayed_display.dart';
@@ -56,7 +55,7 @@ class _ContactDesktopState extends ConsumerState<ContactDesktop> {
                     padding: const EdgeInsets.all(24.0),
                     child: Row(
                       children: [
-                        Text(
+                        SelectableText(
                           Globals.contactTitle,
                           style: theme.inverseBodyLarge,
                         ),
@@ -97,7 +96,7 @@ class _ContactDesktopState extends ConsumerState<ContactDesktop> {
                                       delay: Duration(milliseconds: 100),
                                       fadingDuration:
                                           Duration(milliseconds: 100),
-                                      child: ParallaxCard(),
+                                      child: ContactInfo(),
                                     ),
                             ),
                           ],

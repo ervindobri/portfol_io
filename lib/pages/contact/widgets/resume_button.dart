@@ -25,6 +25,8 @@ class ResumeButton extends StatelessWidget {
             const SizedBox(width: 12),
             SvgPicture.asset(
               AppIcons.downloadCloud,
+              colorFilter: ColorFilter.mode(
+                  context.theme.inverseTextColor, BlendMode.srcIn),
               width: 20,
               height: 20,
             ),
