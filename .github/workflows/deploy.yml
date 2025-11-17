@@ -3,7 +3,7 @@ name: Deploy Flutter Web to GitHub Pages Repo
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build-and-deploy:
