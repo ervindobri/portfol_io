@@ -37,6 +37,13 @@ jobs:
           name: web-release
           path: build/web   # ensures folder exists again
 
+
+      - name: Move built files into repo directory
+        run: |
+          mkdir -p repo/build/web
+          cp -R build/web/* repo/build/web/
+
+
       # --- Debug (optional) ---
       - name: Debug workspace
         run: ls -R .
@@ -47,7 +54,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.TARGET_REPO_TOKEN }}
         with:
-          source-files: 'build/web/**'
+          source-files: 'repo/build/web/**'
           destination-username: 'ervindobri'
           destination-repository: 'ervindobri.github.io'
           destination-directory: 'portfolio/web'
