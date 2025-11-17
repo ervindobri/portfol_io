@@ -3,7 +3,7 @@ name: Build & Deploy Flutter Web
 on:
   push:
     branches:
-      - main
+      - master
 
 env:
   REPO_URL: https://github.com/ervindobri/ervindobri.github.io.git
