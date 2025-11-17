@@ -2,62 +2,55 @@ name: Deploy Flutter Web to GitHub Pages Repo
 
 on:
   push:
-    branches:
-      - master
+    branches: [ master ]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # --- Checkout source repo ---
-      - name: Checkout source repository
+      # Checkout source repo
+      - name: Checkout source repo
         uses: actions/checkout@v4
 
-      # --- Install Flutter and build ---
-      - name: Install Flutter
+      # Install Flutter
+      - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
 
+      # Build Flutter web
       - name: Build Flutter Web
         run: flutter build web --release
 
-      # --- Upload build folder as artifact ---
+      # Upload artifact
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: web-release
           path: build/web
 
-      # --- Download artifact so docker-based actions can access it ---
+      # Download artifact (forces clean working-directory)
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: web-release
-          path: build/web   # ensures folder exists again
+          path: web-release
 
+      # Debug (optional)
+      # - name: Debug
+      #   run: ls -R .
 
-      - name: Move built files into repo directory
-        run: |
-          mkdir -p repo/build/web
-          cp -R build/web/* repo/build/web/
-
-
-      # --- Debug (optional) ---
-      - name: Debug workspace
-        run: ls -R .
-
-      # --- Push to external repo ---
-      - name: Push generated webpage to another repository
-        uses: nkoppel/push-files-to-another-repository@v1.1.4
+      # Push files to another repository
+      - name: Push to portfolio repo
+        uses: cpina/github-action-push-to-another-repository@v2.6.0
         env:
           API_TOKEN_GITHUB: ${{ secrets.TARGET_REPO_TOKEN }}
         with:
-          source-files: 'repo/build/web/**'
-          destination-username: 'ervindobri'
-          destination-repository: 'ervindobri.github.io'
-          destination-directory: 'portfolio/web'
-          destination-branch: 'gh-pages'
-          commit-email: 'ervindobri@gmail.com'
-          commit-message: "Auto-update portfolio from main"
+          source-directory: web-release
+          destination-github-username: ervindobri
+          destination-repository-name: ervindobri.github.io
+          user-email: ervindobri@gmail.com
+          target-branch: gh-pages
+          target-directory: portfolio/web
+          commit-message: "Auto-update Flutter web build"
