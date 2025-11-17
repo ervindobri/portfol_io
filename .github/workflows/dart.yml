@@ -1,0 +1,51 @@
+name: Build & Deploy Flutter Web
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout source code
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # Setup Flutter
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      # Get dependencies
+      - name: Flutter pub get
+        run: flutter pub get
+
+      # Build Flutter web
+      - name: Build Flutter Web
+        run: flutter build web --release
+
+      # Clone the target repo
+      - name: Clone deployment repository
+        run: |
+          git clone https://github.com/<username>/<target-repo>.git deploy_repo
+          rm -rf deploy_repo/*
+
+      # Copy build output
+      - name: Copy built web files
+        run: cp -r build/web/* deploy_repo/
+
+      # Commit & push to target repo
+      - name: Push to target repo
+        run: |
+          cd deploy_repo
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Deploy Flutter Web - $(date)"
+          git push https://$TARGET_REPO_TOKEN@github.com/<username>/<target-repo>.git
+        env:
+          TARGET_REPO_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
