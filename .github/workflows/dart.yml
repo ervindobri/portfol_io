@@ -31,11 +31,11 @@ jobs:
       # Build Flutter web
       - name: Build Flutter Web
         run: flutter build web --release
+        working-directory: .
 
-      # Copy built web files
-      - name: List built web files
-        run: |
-          ls
+      # Verify build folder
+      - name: Verify build folder
+        run: ls -l apps/my_flutter_app/build/web
 
       # Push generated webpage to another repository
       - name: Push generated webpage to another repository
@@ -43,7 +43,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.TARGET_REPO_TOKEN }}
         with:
-          source-files: 'build/web'
+          source-files: 'apps/my_flutter_app/build/web'
           destination-username: 'ervindobri'
           destination-repository: 'ervindobri.github.io'
           destination-directory: 'portfolio/web'
