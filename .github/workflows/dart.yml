@@ -9,6 +9,9 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
 
+    variables:
+      REPO_URL: https://github.com/ervindobri/ervindobri.github.io.git
+
     steps:
       # Checkout source code
       - name: Checkout repo
@@ -31,7 +34,7 @@ jobs:
       # Clone the target repo
       - name: Clone deployment repository
         run: |
-          git clone https://github.com/<username>/<target-repo>.git deploy_repo
+          git clone --branch gh-pages $REPO_URL deploy_repo
           rm -rf deploy_repo/*
 
       # Copy build output
@@ -46,6 +49,6 @@ jobs:
           git config user.email "actions@github.com"
           git add .
           git commit -m "Deploy Flutter Web - $(date)"
-          git push https://$TARGET_REPO_TOKEN@github.com/<username>/<target-repo>.git
+          git push https://$TARGET_REPO_TOKEN@github.com/ervindobri/ervindobri.github.io.git
         env:
           TARGET_REPO_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
