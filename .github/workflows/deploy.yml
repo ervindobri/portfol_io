@@ -29,12 +29,6 @@ jobs:
       - name: Flutter pub get
         run: flutter pub get
 
-
-
-      - name: Verify build folder
-        run: |
-          pwd
-
       # Build Flutter web
       - name: Build Flutter Web
         run: flutter build web --release
@@ -45,7 +39,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.TARGET_REPO_TOKEN }}
         with:
-          source-files: '/home/runner/work/portfol_io/portfol_io/build/web'
+          source-files: 'build/web/**'
           destination-username: 'ervindobri'
           destination-repository: 'ervindobri.github.io'
           destination-directory: 'portfolio/web'
