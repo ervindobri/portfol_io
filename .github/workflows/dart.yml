@@ -32,6 +32,11 @@ jobs:
       - name: Build Flutter Web
         run: flutter build web --release
 
+      # Copy built web files
+      - name: List built web files
+        run: |
+          ls -la build/web/
+
       # Push generated webpage to another repository
       - name: Push generated webpage to another repository
         uses: nkoppel/push-files-to-another-repository@v1.1.4
