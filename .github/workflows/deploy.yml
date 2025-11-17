@@ -36,7 +36,7 @@ jobs:
           working-directory: ./
 
       - name: Archive Production artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: release
           path: build/web
