@@ -5,12 +5,12 @@ on:
     branches:
       - main
 
+env:
+  REPO_URL: https://github.com/ervindobri/ervindobri.github.io.git
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
-
-    variables:
-      REPO_URL: https://github.com/ervindobri/ervindobri.github.io.git
 
     steps:
       # Checkout source code
