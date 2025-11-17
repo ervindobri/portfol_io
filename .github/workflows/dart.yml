@@ -35,7 +35,7 @@ jobs:
       # Copy built web files
       - name: List built web files
         run: |
-          ls -la build/web/
+          ls
 
       # Push generated webpage to another repository
       - name: Push generated webpage to another repository
