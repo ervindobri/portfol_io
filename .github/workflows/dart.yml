@@ -43,7 +43,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.TARGET_REPO_TOKEN }}
         with:
-          source-files: 'build/web/'
+          source-files: 'build/web'
           destination-username: 'ervindobri'
           destination-repository: 'ervindobri.github.io'
           destination-directory: 'portfolio/web'
