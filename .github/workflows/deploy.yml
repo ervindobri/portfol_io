@@ -43,9 +43,9 @@ jobs:
 
       # Deploy to OTHER REPO using peaceiris GitHub Pages action
       - name: Deploy to external GitHub Pages repo
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.TARGET_REPO_TOKEN }}
+          personal_token: ${{ secrets.TARGET_REPO_TOKEN }}
           publish_dir: ./build/web
           publish_branch: gh-pages
           external_repository: ervindobri/ervindobri.github.io
