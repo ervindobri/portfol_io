@@ -32,26 +32,14 @@ jobs:
       - name: Build Flutter Web
         run: flutter build web --release
 
-      # Clone the target repo
-      - name: Clone deployment repository
-        run: |
-          git clone --branch gh-pages $REPO_URL deploy_repo
-          rm -rf deploy_repo/*
-
-      # Copy build output
-      - name: Copy built web files
-        run: |
-          mkdir -p deploy_repo/portfolio/web/
-          cp -r build/web/* deploy_repo/portfolio/web/
-
-      # Commit & push to target repo
-      - name: Push to target repo
-        run: |
-          cd deploy_repo
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git add .
-          git commit -m "Deploy Flutter Web - $(date)"
-          git push https://$TARGET_REPO_TOKEN@github.com/ervindobri/ervindobri.github.io.git
+      # Push generated webpage to another repository
+      - name: Push generated webpage to another repository
+        uses: nkoppel/push-files-to-another-repository@v1.1.4
         env:
-          TARGET_REPO_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
+          API_TOKEN_GITHUB: ${{ secrets.TARGET_REPO_TOKEN }}
+        with:
+          source-files: 'build/web/'
+          destination-username: 'ervindobri'
+          destination-repository: 'ervindobri.github.io'
+          destination-directory: 'portfolio/web'
+          commit-email: 'ervindobri@gmail.com'
