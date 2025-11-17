@@ -38,8 +38,8 @@ jobs:
           path: build/web   # ensures folder exists again
 
       # --- Debug (optional) ---
-      # - name: Debug workspace
-      #   run: ls -R .
+      - name: Debug workspace
+        run: ls -R .
 
       # --- Push to external repo ---
       - name: Push generated webpage to another repository
