@@ -30,7 +30,7 @@ jobs:
 
       # Build Flutter web
       - name: Build Flutter Web
-      - uses: cedvdb/action-flutter-build-web@v1
+        uses: cedvdb/action-flutter-build-web@v1
         with:
           build-cmd: flutter build web --release
           working-directory: ./
