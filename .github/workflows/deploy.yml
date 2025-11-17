@@ -33,13 +33,28 @@ jobs:
       - name: Build Flutter Web
         run: flutter build web --release
 
+
+      # Upload build as artifact
+      - name: Archive Production artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release
+          path: build/web
+
+      # ⬇️ DOWNLOAD artifact so the next action can access it
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: release
+          path: build/web       # This recreates build/web folder
+
       # Push generated webpage to another repository
       - name: Push generated webpage to another repository
         uses: nkoppel/push-files-to-another-repository@v1.1.4
         env:
           API_TOKEN_GITHUB: ${{ secrets.TARGET_REPO_TOKEN }}
         with:
-          source-files: 'build/web/**'
+          source-files: 'build/web/'
           destination-username: 'ervindobri'
           destination-repository: 'ervindobri.github.io'
           destination-directory: 'portfolio/web'
