@@ -1,0 +1,56 @@
+name: Build & Deploy Flutter Web
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  REPO_URL: https://github.com/ervindobri/ervindobri.github.io.git
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout source code
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # Setup Flutter
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.6'
+          channel: stable
+
+      # Get dependencies
+      - name: Flutter pub get
+        run: flutter pub get
+        working-directory: apps/my_flutter_app
+
+      # Build Flutter web
+      - name: Build Flutter Web
+      - uses: cedvdb/action-flutter-build-web@v1
+        with:
+          build-cmd: flutter build web --release
+          working-directory: ./
+
+      - name: Archive Production artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: release
+          path: build/web
+
+      # Push generated webpage to another repository
+      - name: Push generated webpage to another repository
+        uses: nkoppel/push-files-to-another-repository@v1.1.4
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.TARGET_REPO_TOKEN }}
+        with:
+          source-files: 'build/web'
+          destination-username: 'ervindobri'
+          destination-repository: 'ervindobri.github.io'
+          destination-directory: 'portfolio/web'
+          destination-branch: 'gh-pages'
+          commit-email: 'ervindobri@gmail.com'
