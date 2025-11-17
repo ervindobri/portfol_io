@@ -41,16 +41,13 @@ jobs:
       # - name: Debug
       #   run: ls -R .
 
-      # Push files to another repository
-      - name: Push to portfolio repo
-        uses: cpina/github-action-push-to-another-repository@v1.7.3
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.TARGET_REPO_TOKEN }}
+      # Deploy to OTHER REPO using peaceiris GitHub Pages action
+      - name: Deploy to external GitHub Pages repo
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          source-directory: web-release
-          destination-github-username: ervindobri
-          destination-repository-name: ervindobri.github.io
-          user-email: ervindobri@gmail.com
-          target-branch: gh-pages
-          target-directory: portfolio/web
-          commit-message: "Auto-update Flutter web build"
+          github_token: ${{ secrets.TARGET_REPO_TOKEN }}
+          publish_dir: ./build/web
+          publish_branch: gh-pages
+          external_repository: ervindobri/ervindobri.github.io
+          destination_dir: portfolio/web
+          commit_message: "Update portfolio from main"
