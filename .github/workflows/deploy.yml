@@ -1,62 +1,56 @@
-name: Build & Deploy Flutter Web
+name: Deploy Flutter Web to GitHub Pages Repo
 
 on:
   push:
     branches:
-      - master
-
-env:
-  REPO_URL: https://github.com/ervindobri/ervindobri.github.io.git
+      - main
 
 jobs:
-  build-deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout source code
-      - name: Checkout repo
+      # --- Checkout source repo ---
+      - name: Checkout source repository
         uses: actions/checkout@v4
 
-      # Setup Flutter
-      - name: Setup Flutter
+      # --- Install Flutter and build ---
+      - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.35.6'
           channel: stable
-          cache: true
 
-      # Get dependencies
-      - name: Flutter pub get
-        run: flutter pub get
-
-      # Build Flutter web
       - name: Build Flutter Web
         run: flutter build web --release
 
-
-      # Upload build as artifact
-      - name: Archive Production artifact
+      # --- Upload build folder as artifact ---
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: release
+          name: web-release
           path: build/web
 
-      # ⬇️ DOWNLOAD artifact so the next action can access it
+      # --- Download artifact so docker-based actions can access it ---
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: release
-          path: build/web       # This recreates build/web folder
+          name: web-release
+          path: build/web   # ensures folder exists again
 
-      # Push generated webpage to another repository
+      # --- Debug (optional) ---
+      # - name: Debug workspace
+      #   run: ls -R .
+
+      # --- Push to external repo ---
       - name: Push generated webpage to another repository
         uses: nkoppel/push-files-to-another-repository@v1.1.4
         env:
           API_TOKEN_GITHUB: ${{ secrets.TARGET_REPO_TOKEN }}
         with:
-          source-files: 'build/web/'
+          source-files: 'build/web/**'
           destination-username: 'ervindobri'
           destination-repository: 'ervindobri.github.io'
           destination-directory: 'portfolio/web'
           destination-branch: 'gh-pages'
           commit-email: 'ervindobri@gmail.com'
+          commit-message: "Auto-update portfolio from main"
