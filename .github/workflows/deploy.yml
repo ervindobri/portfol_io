@@ -35,12 +35,6 @@ jobs:
           build-cmd: flutter build web --release
           working-directory: ./
 
-      - name: Archive Production artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: release
-          path: build/web
-
       # Push generated webpage to another repository
       - name: Push generated webpage to another repository
         uses: nkoppel/push-files-to-another-repository@v1.1.4
