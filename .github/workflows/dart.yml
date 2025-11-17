@@ -30,6 +30,7 @@ jobs:
         working-directory: apps/my_flutter_app
 
       # Build Flutter web
+      - name: Build Flutter Web
       - uses: cedvdb/action-flutter-build-web@v1
         with:
           build-cmd: flutter build web --release
