@@ -19,7 +19,7 @@ class CurvePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Path path = Path();
     Paint paint = Paint();
-    final height = 1080;
+    const height = 1080;
     if (colors != null && begin != null && end != null) {
       paint.shader = LinearGradient(
         colors: colors!,

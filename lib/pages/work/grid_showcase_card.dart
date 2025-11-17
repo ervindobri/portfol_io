@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:portfol_io/constants/constants.dart';
-import 'package:portfol_io/constants/theme_ext.dart';
+import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/pages/work/showcase_item_widget.dart';
@@ -11,8 +11,7 @@ class ShowcaseCard extends StatefulWidget {
   final ShowcaseItem item;
   // final double width;
   final int index;
-  ShowcaseCard({Key? key, required this.item, this.index = 0})
-      : super(key: key);
+  const ShowcaseCard({super.key, required this.item, this.index = 0});
 
   @override
   State<ShowcaseCard> createState() => _ShowcaseCardState();
@@ -65,15 +64,15 @@ class _ShowcaseCardState extends State<ShowcaseCard> {
                           child: Stack(
                             alignment: Alignment.center,
                             children: [
-                              SizedBox(
-                                  height: height * .75,
-                                  child: AnimatedShowcaseItemWidget()),
+                              // SizedBox(
+                              //     height: height * .75,
+                              //     child: AnimatedShowcaseItemWidget()),
                               Positioned(
                                 top: 0,
                                 child: IconButton(
                                   iconSize: 42,
                                   onPressed: () => Navigator.pop(context),
-                                  icon: Center(
+                                  icon: const Center(
                                     child: Icon(CupertinoIcons.xmark, size: 42),
                                   ),
                                 ),
@@ -147,8 +146,7 @@ class MobileShowcaseCard extends StatefulWidget {
   final ShowcaseItem item;
   // final double width;
   final int index;
-  MobileShowcaseCard({Key? key, required this.item, this.index = 0})
-      : super(key: key);
+  const MobileShowcaseCard({super.key, required this.item, this.index = 0});
 
   @override
   State<MobileShowcaseCard> createState() => _MobileShowcaseCardState();
@@ -192,7 +190,7 @@ class _MobileShowcaseCardState extends State<MobileShowcaseCard> {
                 valueListenable: showImageOverlay,
                 builder: (context, showImageOverlay, _) {
                   if (!showImageOverlay) {
-                    return SizedBox();
+                    return const SizedBox();
                   }
                   return AnimatedOpacity(
                     duration: kThemeAnimationDuration,
@@ -236,7 +234,7 @@ class _MobileShowcaseCardState extends State<MobileShowcaseCard> {
                                               iconSize: 42,
                                               onPressed: () =>
                                                   Navigator.pop(context),
-                                              icon: Center(
+                                              icon: const Center(
                                                 child: Icon(
                                                   CupertinoIcons.xmark,
                                                   size: 42,
@@ -272,7 +270,7 @@ class _MobileShowcaseCardState extends State<MobileShowcaseCard> {
                                 )
                                 .toList(),
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           TextButton(
                             onPressed: () => launchUrlString(widget.item.url),
                             style: GlobalStyles.whiteTextButtonStyle(),

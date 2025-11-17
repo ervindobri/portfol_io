@@ -58,7 +58,7 @@ class AnimatedText extends StatefulWidget {
   final int repeatCount;
 
   const AnimatedText(
-      {Key? key,
+      {super.key,
       required this.wordList,
       this.speed = const Duration(milliseconds: 1000),
       this.displayTime = const Duration(milliseconds: 1000),
@@ -73,22 +73,21 @@ class AnimatedText extends StatefulWidget {
         assert(repeatCount > 0,
             'AnimatedText: repeatCount should be greator than 0'),
         assert(textStyle != null,
-            "AnimatedText: textStyle color must not be null"),
-        super(key: key);
+            "AnimatedText: textStyle color must not be null");
   @override
-  _AnimatedTextState createState() => _AnimatedTextState();
+  AnimatedTextState createState() => AnimatedTextState();
 }
 
-class _AnimatedTextState extends State<AnimatedText>
+class AnimatedTextState extends State<AnimatedText>
     with TickerProviderStateMixin {
   bool isFirst = true, pause = false;
   int index = 0, length = 0, finalCounter = 0;
   List<String> words = <String>[];
   List<List<String>> separatedStrings = <List<String>>[];
-  Map<String, Map<String, _Position>> animateDataMap =
-      Map<String, Map<String, _Position>>();
-  Map<String, List<String>> preProcesedFadeIn = Map<String, List<String>>(),
-      preProcesedFadeOut = Map<String, List<String>>();
+  Map<String, Map<String, Position>> animateDataMap =
+      <String, Map<String, Position>>{};
+  Map<String, List<String>> preProcesedFadeIn = <String, List<String>>{},
+      preProcesedFadeOut = <String, List<String>>{};
   Timer? _timer;
 
   late AnimationController fadeController;
@@ -162,20 +161,20 @@ class _AnimatedTextState extends State<AnimatedText>
 
   @override
   void initState() {
-    fadeController = new AnimationController(
+    fadeController = AnimationController(
       duration: widget.speed,
       vsync: this,
     );
 
-    fadeOutAnimation = new Tween<double>(begin: 0.0, end: 1.0).animate(
+    fadeOutAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: fadeController,
-            curve: Interval(0.2, 0.4, curve: Curves.decelerate)));
+            curve: const Interval(0.2, 0.4, curve: Curves.decelerate)));
 
-    fadeInAnimation = new Tween<double>(begin: 0.0, end: 1.0).animate(
+    fadeInAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: fadeController,
-            curve: Interval(0.4, 1.0, curve: Curves.decelerate)));
+            curve: const Interval(0.4, 1.0, curve: Curves.decelerate)));
     _resetAnimation();
     _setInitialValues();
     _processWords();
@@ -195,13 +194,13 @@ class _AnimatedTextState extends State<AnimatedText>
 
   _processWords() {
     words = List<String>.from(widget.wordList);
-    preProcesedFadeIn = Map<String, List<String>>();
-    preProcesedFadeOut = Map<String, List<String>>();
+    preProcesedFadeIn = <String, List<String>>{};
+    preProcesedFadeOut = <String, List<String>>{};
     separatedStrings = <List<String>>[];
-    animateDataMap = Map<String, Map<String, _Position>>();
+    animateDataMap = <String, Map<String, Position>>{};
     // print(words.toString());
     length = words.length;
-    words.forEach((element) {
+    for (var element in words) {
       Map<String, int> map = <String, int>{};
       List<String> lis = <String>[];
       element.replaceAll(' ', ' ').split('').forEach((element) {
@@ -209,14 +208,14 @@ class _AnimatedTextState extends State<AnimatedText>
         lis.add('$element${map[element]}');
       });
       separatedStrings.add(lis);
-    });
+    }
 
     int len = separatedStrings.length;
     for (int i = 0; i < len; i++) {
-      Map<String, _Position> inner = Map<String, _Position>();
+      Map<String, Position> inner = <String, Position>{};
       for (int j = 0; j < separatedStrings[i].length; j++) {
         if (separatedStrings[(i + 1) % len].contains(separatedStrings[i][j])) {
-          inner[separatedStrings[i][j]] = _Position(-1, -1, Size(-1, -1));
+          inner[separatedStrings[i][j]] = Position(-1, -1, const Size(-1, -1));
         }
       }
 
@@ -268,7 +267,7 @@ class _AnimatedTextState extends State<AnimatedText>
   }
 
   _setKey(GlobalKey key, MapEntry e) {
-    Future.delayed(Duration(milliseconds: 400), () {
+    Future.delayed(const Duration(milliseconds: 400), () {
       if (key.currentContext != null) {
         animateDataMap[words[_prevIndex(index)]]?[e.value] =
             _getPositionbyKey(key);
@@ -315,20 +314,20 @@ class _AnimatedTextState extends State<AnimatedText>
 
     if (mounted) setState(() {});
 
-    fadeController = new AnimationController(
+    fadeController = AnimationController(
       duration: widget.speed,
       vsync: this,
     );
 
-    fadeOutAnimation = new Tween<double>(begin: 0.0, end: 1.0).animate(
+    fadeOutAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: fadeController,
-            curve: Interval(0.4, 1.0, curve: Curves.decelerate)));
+            curve: const Interval(0.4, 1.0, curve: Curves.decelerate)));
 
-    fadeInAnimation = new Tween<double>(begin: 0.0, end: 1.0).animate(
+    fadeInAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: fadeController,
-            curve: Interval(0.65, 1.0, curve: Curves.decelerate)))
+            curve: const Interval(0.65, 1.0, curve: Curves.decelerate)))
       ..addStatusListener(_animationEndedListener);
 
     if (widget.controller == AnimatedTextController.play ||
@@ -367,7 +366,7 @@ class _AnimatedTextState extends State<AnimatedText>
     if (_isRun(animateDataMap) &&
         _isRun(animateDataMap[words[_prevIndex(index)]]) &&
         _isRun(animateDataMap[words[_prevIndex(index)]]?[e.value])) {
-      Future.delayed(Duration(milliseconds: 400), () {
+      Future.delayed(const Duration(milliseconds: 400), () {
         if (key.currentContext != null) {
           animateDataMap[words[_prevIndex(index)]]?[e.value] =
               _getPositionbyKey(key);
@@ -383,7 +382,7 @@ class _AnimatedTextState extends State<AnimatedText>
   Widget build(BuildContext context) {
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-      return Container(
+      return SizedBox(
         width: constraints.maxWidth,
         height: constraints.maxHeight,
         child: Stack(
@@ -401,7 +400,7 @@ class _AnimatedTextState extends State<AnimatedText>
             ),
             // Fade out
             if (words.length > 1)
-              new _FadeOut(
+              _FadeOut(
                 first: isFirst,
                 alignment: widget.alignment,
                 textStyle:
@@ -413,7 +412,7 @@ class _AnimatedTextState extends State<AnimatedText>
               ),
             // FadeIn
             if (words.length > 1)
-              new _FadeIn(
+              _FadeIn(
                 first: isFirst,
                 textStyle:
                     widget.textStyle ?? DefaultTextStyle.of(context).style,
@@ -434,8 +433,7 @@ class _AnimatedTextState extends State<AnimatedText>
 
 // ignore: must_be_immutable
 class _FadeIn extends StatefulWidget {
-  final Map<String, _Position>? animatedMap;
-  final Key? key;
+  final Map<String, Position>? animatedMap;
   final List<String>? alphabets;
   final TextStyle textStyle;
   final bool first;
@@ -444,14 +442,13 @@ class _FadeIn extends StatefulWidget {
   final Animation? fadeAnimation;
   const _FadeIn({
     required this.textStyle,
-    this.key,
     this.animatedMap,
     this.alphabets,
     this.first = false,
     this.fadeController,
     this.fadeAnimation,
     @required this.alignment,
-  }) : super(key: key);
+  });
   @override
   _FadeInState createState() => _FadeInState();
 }
@@ -503,8 +500,7 @@ class _FadeInState extends State<_FadeIn> {
 
 // ignore: must_be_immutable
 class _FadeOut extends StatefulWidget {
-  final Map<String, _Position> animatedMap;
-  final Key? key;
+  final Map<String, Position> animatedMap;
   final List<String>? alphabets;
   final TextStyle textStyle;
   final bool first;
@@ -513,14 +509,13 @@ class _FadeOut extends StatefulWidget {
   final Animation? fadeAnimation;
   const _FadeOut({
     required this.textStyle,
-    this.key,
     required this.animatedMap,
     this.alphabets,
     this.first = false,
     this.fadeController,
     this.fadeAnimation,
     @required this.alignment,
-  }) : super(key: key);
+  });
   @override
   _FadeOutState createState() => _FadeOutState();
 }
@@ -572,9 +567,9 @@ class _FadeOutState extends State<_FadeOut> {
                       _isRun(widget.animatedMap[e.value])) {
                     text = e.value.substring(0, 1);
                     isUp = false;
-                    _Position toPosition = widget.animatedMap[e.value]!;
+                    Position toPosition = widget.animatedMap[e.value]!;
                     if (currentKey.currentContext!.findRenderObject() != null) {
-                      _Position fromPosition = _getPositionbyKey(currentKey);
+                      Position fromPosition = _getPositionbyKey(currentKey);
                       x = toPosition.x -
                           fromPosition.x +
                           toPosition.size.width -
@@ -615,14 +610,13 @@ class _FadeOutState extends State<_FadeOut> {
 }
 
 class _OpacityChild extends StatelessWidget {
-  final Key? key;
   final double opacity, x, y;
   final String letter;
   final TextStyle style;
   final Color color;
   const _OpacityChild(
-      {this.key,
-      required this.opacity,
+      {
+        required this.opacity,
       required this.x,
       required this.y,
       required this.letter,
@@ -648,19 +642,19 @@ class _OpacityChild extends StatelessWidget {
   }
 }
 
-class _Position {
+class Position {
   double x, y;
   Size size;
-  _Position(this.x, this.y, this.size);
+  Position(this.x, this.y, this.size);
 }
 
-_Position _getPositionbyKey(GlobalKey key) {
+Position _getPositionbyKey(GlobalKey key) {
   RenderBox? box = key.currentContext!.findRenderObject() as RenderBox?;
   Size size = box!.size;
   Offset position = box.localToGlobal(Offset.zero);
-  return _Position(position.dx, position.dy, size);
+  return Position(position.dx, position.dy, size);
 }
 
 bool _isRun(dynamic d) {
-  return (d ??= null) != null;
+  return (d) != null;
 }

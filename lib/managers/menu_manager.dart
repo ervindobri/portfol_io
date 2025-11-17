@@ -1,71 +1,85 @@
-import 'package:flutter/widgets.dart';
-import 'package:flutter_command/flutter_command.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class UiMenuManager {
-  late Command<int, int> updateMenuCommand;
-  late ItemScrollController itemScrollController;
-  late ItemPositionsListener itemPositionListener;
-
   ValueNotifier<int> menuIndex = ValueNotifier(0);
+  ValueNotifier<List<GlobalKey>> itemKeys = ValueNotifier([]);
+
   ValueNotifier<bool> playContactAnimation = ValueNotifier(false);
 
+  late ScrollController scrollController;
+
+  final menuItemsCount = 3;
+  late List<double> offsets;
+
+  // To add a bit of delay in scrolling/animating
+  Timer? _debounce;
+  final _debounceDuration = const Duration(milliseconds: 50);
+
+  double get offset => scrollController.offset;
+
   UiMenuManager() {
-    itemScrollController = ItemScrollController();
-    itemPositionListener = ItemPositionsListener.create();
-    updateMenuCommand = Command.createSync<int, int>((counter) => counter, 0);
+    scrollController = ScrollController();
+    offsets = [];
 
-    updateMenuCommand
-        .debounce(const Duration(milliseconds: 10))
-        .listen((index, _) {
-      menuIndex.value = index;
-      itemScrollController.scrollTo(
-        index: menuIndex.value,
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOutCubic,
-      );
+    itemKeys.value = List.generate(menuItemsCount, (index) => GlobalKey());
+
+    // General listener to update menu index & UI
+    scrollController.addListener(() async {
+      if (_debounce?.isActive ?? false) _debounce?.cancel();
+      _debounce = Timer(_debounceDuration, () async {
+        // do something with query
+        final index = getCurrentIndex();
+        menuIndex.value = index;
+      });
     });
 
-    itemPositionListener.itemPositions
-        .debounce(const Duration(milliseconds: 25))
-        .addListener(() {
-      final positions = itemPositionListener.itemPositions.value.length;
-      final scrolledPosition =
-          itemPositionListener.itemPositions.value.toList()[positions ~/ 2];
-      if (scrolledPosition.itemLeadingEdge == 0) {
-        menuIndex.value = scrolledPosition.index;
-        // Note: simulate clicking on this menu item
-        // to trigger changing the State of itemScrollController.
-        // Otherwise you can't navigate back to the page you scrolled from.
-        Future.delayed(const Duration(milliseconds: 300), () {
-          updateMenuCommand.execute(scrolledPosition.index);
-          // print("Scrolled to: ${scrolledPosition.index}");
-        });
-      }
-      // print(itemPositionListener.itemPositions.value);
-      // updateMenuCommand
-      //     .execute(itemPositionListener.itemPositions.value.first.index);
-    });
-
-    itemPositionListener.itemPositions
-        .debounce(const Duration(milliseconds: 10))
-        .addListener(() {
-      final list = itemPositionListener.itemPositions.value;
-      //If the list was scrolled to the contact page
-      if (list.isNotEmpty && list.last.index == 2) {
-        //Trigger animation
+    scrollController.addListener(() {
+      final offset = scrollController.offset;
+      if (offset > offsets[1] + 323) {
         playContactAnimation.value = true;
       } else {
         playContactAnimation.value = false;
       }
     });
+  }
 
-    menuIndex.addListener(() {
-      // itemScrollController.scrollTo(
-      //   index: menuIndex.value,
-      //   duration: Duration(milliseconds: 300),
-      //   curve: Curves.easeInOutCubic,
-      // );
-    });
+  setOffsets() {
+    if (scrollController.hasClients) {
+      final contentSize = scrollController.position.viewportDimension +
+          scrollController.position.maxScrollExtent;
+      // Store the scroll offsets
+      offsets = List.generate(
+          menuItemsCount, (index) => contentSize * index / menuItemsCount);
+
+      if (kDebugMode) {
+        print("Offsets: $offsets");
+      }
+    }
+  }
+
+  int getCurrentIndex() {
+    final offset = scrollController.offset;
+    // print(offset);
+    var greater = offsets.where((e) => e >= offset - (646)).toList()
+      ..sort(); //List of the greater values
+    final item = greater.first;
+    final index = offsets.indexOf(item);
+    return index;
+  }
+
+  void animateToPage(int index) {
+    Scrollable.ensureVisible(
+      itemKeys.value[index].currentContext!,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void setPage(int index) {
+    menuIndex.value = index;
+    animateToPage(index);
   }
 }

@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/colors.dart';
-import 'package:portfol_io/constants/theme_ext.dart';
+import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/pages/work/fullscreen_image_dialog.dart';
@@ -11,13 +10,13 @@ class HoverImage extends StatefulWidget {
   final String image;
   final ShowcaseItem item;
 
-  const HoverImage({required this.image, required this.item});
+  const HoverImage({super.key, required this.image, required this.item});
 
   @override
-  _HoverImageState createState() => _HoverImageState();
+  HoverImageState createState() => HoverImageState();
 }
 
-class _HoverImageState extends State<HoverImage>
+class HoverImageState extends State<HoverImage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation _animation;
@@ -79,7 +78,7 @@ class _HoverImageState extends State<HoverImage>
               child: AnimatedSwitcher(
                 duration: kThemeAnimationDuration,
                 child: !uiShowcaseManager.showImageOverlay.value
-                    ? SizedBox()
+                    ? const SizedBox()
                     : FittedBox(
                         child: TextButton(
                           child: Container(
@@ -88,9 +87,9 @@ class _HoverImageState extends State<HoverImage>
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 children: [
-                                  FaIcon(FontAwesomeIcons.expand,
+                                  const FaIcon(FontAwesomeIcons.expand,
                                       color: Colors.white, size: 32),
-                                  SizedBox(width: 16),
+                                  const SizedBox(width: 16),
                                   Text('Expand', style: context.bodyText1),
                                 ],
                               ),
@@ -106,7 +105,7 @@ class _HoverImageState extends State<HoverImage>
                               barrierColor:
                                   GlobalColors.primaryColor.withOpacity(.8),
                               builder: (context) {
-                                return FullscreenImageDialog(item: widget.item);
+                                return Dialog(child: FullscreenImageDialog(item: widget.item));
                               },
                             );
                           },

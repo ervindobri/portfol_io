@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,6 +29,9 @@ class ShowcaseItem {
     this.tags = const [],
   });
 
+  List<String> get images => List.generate(imageAssets.length,
+      (index) => "assets/images/work/$imagesPath/${imageAssets[index]}.png");
+
   @override
   String toString() {
     return 'ShowcaseItem(projectName: $projectName, duration: $duration)';
@@ -50,65 +52,7 @@ class ShowcaseItem {
   }
 }
 
-//TODO: add items: showtime, penzmuzeum, ERP
-// List<ShowcaseItem> showcaseItems = [
-//   ShowcaseItem(
-//       projectName: "Cheesify",
-//       duration: "Two weeks",
-//       url: "https://github.com/ervindobri/cheesify",
-//       imagesPath: 'cheesify',
-//       imageAssets: ['main', '1', '2', '3'],
-//       description:
-//           """This app concept was based on a cheese database application. You can browse various cheese types and find out interesting facts about them. UI Design in Adobe XD, app using flutter!"""),
-//   ShowcaseItem(
-//       projectName: "Adidas Originals Design",
-//       duration: "2 hours",
-//       url:
-//           "https://www.figma.com/file/zBqcTDzvy53cy9msnFSVNd/Adidas?node-id=0%3A1",
-//       imagesPath: 'adidas',
-//       imageAssets: [
-//         'main'
-//       ],
-//       description:
-//           """Buy adidas originals collections & single piece clothing. You can browse various cheese types and find out interesting facts about them. UI Design in Figma, app using flutter!"""),
-//   ShowcaseItem(
-//       projectName: "Barbr",
-//       duration: "Few days",
-//       imagesPath: 'barbr',
-//       imageAssets: ['main', 'light', 'dark'],
-//       description:
-//           "This project was based on a wild idea: finding barbers with the help of a simple app. You can search & find lots of barbers which show up on the map as markers. You can make appointments and set recurring dates when you are free to have a haircut. Furthermore, the barbers have ratings so you know you'll always be in professional hands!"),
-//   ShowcaseItem(
-//     projectName: "bAllerz",
-//     duration: "Few days",
-//     imagesPath: 'ballerz',
-//     imageAssets: ['main', '1', '2'],
-//     description:
-//         "When I was living in Budapest I had trouble finding people to play football with. Of course, there are social media groups where you can do so, but an actual phone app would make everything a lot smoother! Feature include creating a friendly match in a specific location, with a specific team size, so you'll only have people who are really interested. On the other hand, you can browse of many different events, or games which show up on the map!",
-//   ),
-//   ShowcaseItem(
-//       projectName: "Various UI/UX Designs",
-//       duration: "-",
-//       url: "https://www.behance.net/w1nt_r/",
-//       imagesPath: 'others',
-//       imageAssets: ['sepsi', 'barber', 'payment'],
-//       description:
-//           """These images show various design projects I've completed over the last few months."""),
-//   ShowcaseItem(
-//     projectName: "Project#5",
-//   ),
-//   ShowcaseItem(
-//     projectName: "Project#6",
-//   ),
-//   ShowcaseItem(
-//     projectName: "Project#7",
-//   ),
-//   ShowcaseItem(
-//     projectName: "Project#8",
-//   ),
-// ];
-
-enum View { single, grid, detail }
+enum LayoutView { single, grid, detail }
 
 class UiShowcaseManager {
   late Command<void, List<ShowcaseItem>> itemsCommand;
@@ -129,22 +73,27 @@ class UiShowcaseManager {
   ValueNotifier<int> maxItemNumber = ValueNotifier(6);
   ValueNotifier<bool> showImageOverlay = ValueNotifier(false);
   ValueNotifier<bool> showTutorialOverlay = ValueNotifier(true);
-  ValueNotifier<View> showcaseView = ValueNotifier(View.single);
+  ValueNotifier<LayoutView> showcaseView = ValueNotifier(LayoutView.single);
 
   late PageController carouselController;
+
+  void onPreviousItem() => previousItemCommand.execute();
+  void onNextItem() => nextItemCommand.execute();
 
   int get currentPage => currentIndex + 1;
 
   late Command<int, int?> setImageCommand;
   UiShowcaseManager() {
     carouselController = PageController();
-    itemsCommand =
-        Command.createAsync<void, List<ShowcaseItem>>(selectShowcaseItems, []);
-    currentItemCommand = Command.createSync(getCurrentItem, null);
+    itemsCommand = Command.createAsync<void, List<ShowcaseItem>>(
+        selectShowcaseItems,
+        initialValue: []);
+    currentItemCommand = Command.createSync(getCurrentItem, initialValue: null);
 
-    nextItemCommand = Command.createSync<ShowcaseItem?, void>(nextItem, null);
-    previousItemCommand =
-        Command.createSync<ShowcaseItem?, void>(previousItem, null);
+    nextItemCommand =
+        Command.createSync<ShowcaseItem?, void>(nextItem, initialValue: null);
+    previousItemCommand = Command.createSync<ShowcaseItem?, void>(previousItem,
+        initialValue: null);
 
     showcaseView.addListener(() {
       itemsCommand.execute();
@@ -215,8 +164,12 @@ class UiShowcaseManager {
     setImageCommand = Command.createAsync((x) async {
       currentImageIndex.value = x;
       return null;
-    }, 0);
+    }, initialValue: 0);
   }
+
+  List<ShowcaseItem> get otherItems => showcaseItems
+      .where((element) => element != currentItemCommand.value)
+      .toList();
 
   Future<List<ShowcaseItem>> selectShowcaseItems(void s) async {
     try {
@@ -228,7 +181,9 @@ class UiShowcaseManager {
           // .take(maxItemNumber.value)
           .toList();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       return [];
     }
   }
@@ -259,5 +214,26 @@ class UiShowcaseManager {
       return showcaseItems[x];
     }
     return ShowcaseItem();
+  }
+
+  void select(ShowcaseItem item) {
+    final index = indexOf(item);
+    currentItemCommand.execute(index);
+  }
+
+  int indexOf(ShowcaseItem item) {
+    return showcaseItems.indexOf(item);
+  }
+
+  int previousItemIndex(ShowcaseItem item) {
+    final currentIndex = indexOf(item);
+    if (currentIndex == 0) return showcaseItems.length - 1;
+    return currentIndex - 1;
+  }
+
+  int nextItemIndex(ShowcaseItem item) {
+    final currentIndex = indexOf(item);
+    if (currentIndex == showcaseItems.length - 1) return 0;
+    return currentIndex + 1;
   }
 }

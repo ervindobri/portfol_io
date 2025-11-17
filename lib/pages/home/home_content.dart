@@ -4,23 +4,23 @@ import 'package:portfol_io/pages/home/responsive_screens/home.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class HomeContent extends StatefulWidget {
-  const HomeContent({Key? key}) : super(key: key);
+  const HomeContent({super.key});
 
   @override
-  _HomeContentState createState() => _HomeContentState();
+  HomeContentState createState() => HomeContentState();
 }
 
-class _HomeContentState extends State<HomeContent>
+class HomeContentState extends State<HomeContent>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return ResponsiveBuilder(
       builder: (context, sizingInformation) {
         if (sizingInformation.deviceScreenType == DeviceScreenType.desktop) {
-          return HomeDesktop();
+          return const HomeDesktop();
         }
         if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
-          return HomeMobile.landscape();
+          return const HomeTablet();
         }
         return OrientationLayoutBuilder(
           portrait: (context) => HomeMobile.portrait(),

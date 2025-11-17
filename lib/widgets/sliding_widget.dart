@@ -6,11 +6,10 @@ class SlidingWidget extends StatelessWidget {
   final Widget child;
 
   const SlidingWidget(
-      {Key? key,
+      {super.key,
         required this.animation,
         required this.child,
-        this.offset = Offset.zero})
-      : super(key: key);
+        this.offset = Offset.zero});
   @override
   Widget build(BuildContext context) {
     return SlideTransition(

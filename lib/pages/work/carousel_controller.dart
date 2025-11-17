@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_command/flutter_command.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/constants.dart';
-import 'package:portfol_io/constants/theme_ext.dart';
+import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
 
 class CarouselController extends StatefulWidget {
-  CarouselController({Key? key}) : super(key: key);
+  const CarouselController({super.key});
 
   @override
   State<CarouselController> createState() => _CarouselControllerState();
@@ -19,7 +19,7 @@ class _CarouselControllerState extends State<CarouselController> {
   @override
   Widget build(BuildContext context) {
     //TODO: left, right arrow actions -> prev/next item
-    final padding = const EdgeInsets.fromLTRB(12, 8, 12, 8);
+    const padding = EdgeInsets.fromLTRB(12, 8, 12, 8);
     return ValueListenableBuilder<CommandResult<int?, ShowcaseItem?>>(
         valueListenable: uiShowcaseManager.currentItemCommand.results,
         builder: (context, value, __) {
@@ -38,9 +38,9 @@ class _CarouselControllerState extends State<CarouselController> {
                   padding: padding,
                   child: Row(
                     children: [
-                      FaIcon(FontAwesomeIcons.chevronLeft,
+                      const FaIcon(FontAwesomeIcons.chevronLeft,
                           size: 16, color: GlobalColors.primaryColor),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                       Text(
                         "Previous",
                         style: context.bodyText1
@@ -50,13 +50,13 @@ class _CarouselControllerState extends State<CarouselController> {
                   ),
                 ),
               ),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
               Text(
                 "$currentIndex/$totalItems",
                 style: context.bodyText1?.copyWith(
                     color: Colors.white, fontWeight: FontWeight.w100),
               ),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
               TextButton(
                 style: GlobalStyles.whiteTextButtonStyle(),
                 onPressed: () => uiShowcaseManager.nextItemCommand.execute(),
@@ -74,8 +74,8 @@ class _CarouselControllerState extends State<CarouselController> {
                               ?.copyWith(color: GlobalColors.primaryColor),
                         ),
                       ),
-                      SizedBox(width: 8),
-                      FaIcon(FontAwesomeIcons.chevronRight,
+                      const SizedBox(width: 8),
+                      const FaIcon(FontAwesomeIcons.chevronRight,
                           size: 16, color: GlobalColors.primaryColor),
                     ],
                   ),

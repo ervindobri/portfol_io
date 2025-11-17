@@ -1,33 +1,33 @@
 import 'package:flutter/material.dart';
 
 class WorkTablet extends StatefulWidget {
-  WorkTablet({
-    Key? key,
-  }) : super(key: key);
+  const WorkTablet({
+    super.key,
+  });
 
   @override
-  _WorkTabletState createState() => _WorkTabletState();
+  WorkTabletState createState() => WorkTabletState();
 }
 
-class _WorkTabletState extends State<WorkTablet> {
+class WorkTabletState extends State<WorkTablet> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    return Container(
+    return SizedBox(
         // height: height,
         width: width,
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Text("TABLET"),
+              const Text("TABLET"),
               Container(
                 padding: const EdgeInsets.only(top: 100.0),
                 child: Container(
                   width: width / 2,
                   height: height / 2,
                   color: Colors.black26,
-                  child: Column(
+                  child: const Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [],

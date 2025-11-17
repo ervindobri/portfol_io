@@ -1,7 +1,4 @@
-import 'dart:ui';
-
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:delayed_display/delayed_display.dart';
+import 'package:carousel_slider/carousel_slider.dart' as carousel;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:portfol_io/constants/constants.dart';
@@ -9,12 +6,13 @@ import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/pages/work/fullscreen_image_dialog.dart';
 import 'package:portfol_io/pages/work/hover_image.dart';
+import 'package:portfol_io/widgets/delayed_display.dart';
 
 class ImageCarousel extends StatefulWidget {
-  ImageCarousel({
-    Key? key,
+  const ImageCarousel({
+    super.key,
     required this.item,
-  }) : super(key: key);
+  });
 
   final ShowcaseItem item;
 
@@ -88,7 +86,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
                             ..scale(value),
                           child: Opacity(
                             opacity: opacity,
-                            child: Container(
+                            child: SizedBox(
                               width: width / 2,
                               // height: height / 2,
                               // color: Colors.black,
@@ -118,7 +116,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
                           width: value == index ? 8 : 4.0,
                           height: 4.0,
                           duration: kThemeAnimationDuration,
-                          margin: EdgeInsets.symmetric(
+                          margin: const EdgeInsets.symmetric(
                               vertical: 8.0, horizontal: 4.0),
                           decoration: BoxDecoration(
                             // shape: BoxShape.circle,
@@ -151,7 +149,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
                           },
                           icon: Container(
                             color: Colors.white,
-                            child: Icon(
+                            child: const Icon(
                               CupertinoIcons.chevron_up,
                               color: GlobalColors.primaryColor,
                             ),
@@ -169,7 +167,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
                           },
                           icon: Container(
                             color: Colors.white,
-                            child: Icon(
+                            child: const Icon(
                               CupertinoIcons.chevron_down,
                               color: GlobalColors.primaryColor,
                             ),
@@ -189,9 +187,9 @@ class _ImageCarouselState extends State<ImageCarousel> {
 
 class MobileImageCarousel extends StatelessWidget {
   MobileImageCarousel({
-    Key? key,
+    super.key,
     required this.item,
-  }) : super(key: key);
+  });
 
   final UiShowcaseManager uiShowcaseManager = sl<UiShowcaseManager>();
   final ShowcaseItem item;
@@ -210,9 +208,9 @@ class MobileImageCarousel extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              CarouselSlider.builder(
+              carousel.CarouselSlider.builder(
                 itemCount: item.imageAssets.length,
-                options: CarouselOptions(
+                options: carousel.CarouselOptions(
                   aspectRatio: 16 / 12,
                   autoPlay: true,
                   viewportFraction: 1.0,
@@ -230,9 +228,8 @@ class MobileImageCarousel extends StatelessWidget {
                       return Opacity(
                         opacity: value2,
                         child: InkWell(
-                          onTap: () {
-                            //TODO: open interactive image viewer for current image
-                            showDialog(
+                          onTap: () async {
+                            await showDialog(
                               context: context,
                               builder: (context) {
                                 return MobileFullscreenImageDialog(
@@ -240,14 +237,12 @@ class MobileImageCarousel extends StatelessWidget {
                               },
                             );
                           },
-                          child: Container(
+                          child: SizedBox(
                             width: width,
                             height: height,
                             child: Image(
                               fit: BoxFit.cover,
-                              image: AssetImage(
-                                "assets/images/work/${item.imagesPath}/$image.png",
-                              ),
+                              image: AssetImage(image),
                             ),
                           ),
                         ),
@@ -269,7 +264,7 @@ class MobileImageCarousel extends StatelessWidget {
                       child: Container(
                         width: 6.0,
                         height: 6.0,
-                        margin: EdgeInsets.symmetric(
+                        margin: const EdgeInsets.symmetric(
                             vertical: 8.0, horizontal: 4.0),
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,

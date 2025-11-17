@@ -6,13 +6,7 @@ import 'package:portfol_io/managers/showcase_manager.dart';
 final sl = GetIt.instance;
 
 init() {
-  sl.registerLazySingleton<UiMenuManager>(
-    () => UiMenuManager(),
-  );
-  sl.registerLazySingleton<UiShowcaseManager>(
-    () => UiShowcaseManager(),
-  );
-  sl.registerLazySingleton<DownloadManager>(
-    () => DownloadManager(),
-  );
+  sl.registerLazySingleton<UiMenuManager>(() => UiMenuManager());
+  sl.registerLazySingleton<UiShowcaseManager>(() => UiShowcaseManager());
+  sl.registerLazySingleton<DownloadManager>(() => DownloadManager());
 }

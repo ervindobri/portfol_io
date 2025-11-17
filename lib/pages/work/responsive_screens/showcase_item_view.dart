@@ -1,63 +1,44 @@
-import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_command/flutter_command.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfol_io/constants/constants.dart';
-import 'package:portfol_io/constants/theme_ext.dart';
+import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
-import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
-import 'package:portfol_io/pages/work/carousel_controller.dart';
 import 'package:portfol_io/pages/work/showcase_item_widget.dart';
 
-class ShowcaseItemView extends StatelessWidget {
-  ShowcaseItemView({
-    Key? key,
-  }) : super(key: key);
+class ShowcaseItemView extends ConsumerWidget {
+  const ShowcaseItemView({
+    super.key,
+  });
 
-  final uiMenuManager = sl<UiMenuManager>();
   @override
-  Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        SizedBox(
-          width: width,
-          height: height,
-          child: DelayedDisplay(
-            delay: const Duration(milliseconds: 200),
-            fadingDuration: const Duration(milliseconds: 300),
-            slidingBeginOffset: Offset(0, -0.2),
-            child: AnimatedShowcaseItemWidget(),
-          ),
-        ),
-        Positioned(
-          bottom: 0,
-          child: ValueListenableBuilder(
-              valueListenable: uiMenuManager.menuIndex,
-              builder: (context, value, child) {
-                return AnimatedSwitcher(
-                  duration: kThemeAnimationDuration,
-                  child: value != 1
-                      ? SizedBox()
-                      : DelayedDisplay(
-                          delay: const Duration(milliseconds: 200),
-                          fadingDuration: const Duration(milliseconds: 300),
-                          child: CarouselController(),
-                        ),
-                );
-              }),
-        ),
-      ],
+  Widget build(BuildContext context, WidgetRef ref) {
+    final uiShowcaseManager = sl<UiShowcaseManager>();
+    return ValueListenableBuilder<CommandResult<int?, ShowcaseItem?>>(
+      valueListenable: uiShowcaseManager.currentItemCommand.results,
+      builder: (context, value, __) {
+        if (value.data == null) {
+          return const SizedBox();
+        }
+        final item = value.data!;
+        return AnimatedSwitcher(
+          transitionBuilder: (child, anim) =>
+              ScaleTransition(scale: anim, child: child),
+          key: ValueKey(item.hashCode),
+          duration: kThemeAnimationDuration,
+          child: AnimatedShowcaseItemWidget(item: item),
+        );
+      },
     );
   }
 }
 
 class MobileShowcaseItemView extends StatelessWidget {
   MobileShowcaseItemView({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final uiShowcaseManager = sl<UiShowcaseManager>();
 
@@ -79,7 +60,7 @@ class MobileShowcaseItemView extends StatelessWidget {
                   return AnimatedSwitcher(
                     duration: kThemeAnimationDuration,
                     child: !value
-                        ? SizedBox()
+                        ? const SizedBox()
                         : Container(
                             width: width,
                             height: height,
@@ -90,12 +71,12 @@ class MobileShowcaseItemView extends StatelessWidget {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(
+                                const Icon(
                                   CupertinoIcons.arrow_left_right_circle,
                                   color: Colors.white,
                                   size: 42,
                                 ),
-                                Text(
+                                SelectableText(
                                   "Swipe left or right to change current item",
                                   textAlign: TextAlign.center,
                                   style: context.headline6?.copyWith(

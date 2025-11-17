@@ -8,13 +8,12 @@ class FadingSlideWidget extends StatefulWidget {
   final int durationMilliseconds;
 
   const FadingSlideWidget(
-      {Key? key,
+      {super.key,
       // required this.animation,
       required this.child,
       this.noFade = false,
       this.durationMilliseconds = 600,
-      this.offset = Offset.zero})
-      : super(key: key);
+      this.offset = Offset.zero});
 
   @override
   State<FadingSlideWidget> createState() => _FadingSlideWidgetState();

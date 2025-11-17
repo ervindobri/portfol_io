@@ -11,24 +11,23 @@ class BackgroundShape extends StatelessWidget {
   final Alignment? end;
 
   const BackgroundShape(
-      {Key? key,
+      {super.key,
       this.color,
       this.offset = Offset.zero,
       this.colors,
       this.begin,
-      this.end})
-      : super(key: key);
+      this.end});
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return CustomPaint(
-      child: Container(
+      painter: CurvePainter(
+          offset: offset, color: color, colors: colors, begin: begin, end: end),
+      child: SizedBox(
         height: height,
         width: width,
       ),
-      painter: CurvePainter(
-          offset: offset, color: color, colors: colors, begin: begin, end: end),
     );
   }
 }

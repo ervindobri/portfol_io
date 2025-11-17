@@ -1,162 +1,185 @@
-import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mouse_parallax/mouse_parallax.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:portfol_io/constants/constants.dart';
-import 'package:portfol_io/constants/theme_ext.dart';
+import 'package:portfol_io/constants/icons.dart';
+import 'package:portfol_io/extensions/build_context.dart';
+import 'package:portfol_io/extensions/list.dart';
+import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/download_manager.dart';
+import 'package:portfol_io/pages/contact/widgets/resume_button.dart';
+import 'package:portfol_io/widgets/hover_button.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
-class ParallaxCard extends StatelessWidget {
-  ParallaxCard({Key? key}) : super(key: key);
+class ContactInfo extends StatelessWidget {
+  const ContactInfo({super.key});
 
-  final downloadManager = sl<DownloadManager>();
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
-    final imageSize = 256.0;
-    final containerHeight = height * .6;
-    return Container(
-      height: containerHeight,
-      width: width / 4 + 96,
-      child: ParallaxStack(
-        layers: [
-          ParallaxLayer(
-            yRotation: .15,
-            xRotation: .15,
-            // zRotation: .05,
-            child: Container(
-              height: containerHeight,
-              padding: const EdgeInsets.symmetric(horizontal: 48),
-              decoration: BoxDecoration(
-                color: GlobalColors.primaryColor,
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 24,
-                    offset: Offset(0, 1),
-                    color: Colors.black.withOpacity(.2),
-                  ),
-                ],
+    final isBigScreen = context.width >= Globals.maxBoxWidth;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SelectableText(
+              Globals.myName,
+              style: context.titleLarge?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: context.theme.inverseTextColor,
+                fontSize: 36,
               ),
-              child: Stack(
-                alignment: Alignment.topCenter,
-                clipBehavior: Clip.none,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 64 + 24,
-                        ),
-                        Wrap(
-                          direction: Axis.vertical,
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          spacing: 8,
-                          children: [
-                            Text(
-                              "Ervin Dobri (24)",
-                              style: context.bodyText1
-                                  ?.copyWith(fontWeight: FontWeight.w900),
-                            ),
-                            Text(
-                              "Flutter Developer / Aspiring UI/UX Designer",
-                              maxLines: 2,
-                            ),
-                            SizedBox(height: 24),
-                            Text(
-                              Globals.inspiration,
-                              style: context.bodyText1
-                                  ?.copyWith(color: Colors.white),
-                            ),
-                            SizedBox(height: 24),
-                            TextButton.icon(
-                              onPressed: () async {
-                                downloadManager.downloadFile
-                                    .execute("assets/files/CV.pdf");
-                              },
-                              style: GlobalStyles.whiteTextButtonStyle(
-                                backgroundColor: Colors.white,
-                                padding:
-                                    const EdgeInsets.fromLTRB(12, 8, 12, 8),
-                              ),
-                              icon: Icon(
-                                CupertinoIcons.cloud_download,
-                                color: GlobalColors.primaryColor,
-                              ),
-                              label: Text('Download Resume',
-                                  style: context.bodyText1?.copyWith(
-                                    color: GlobalColors.primaryColor,
-                                  )),
-                            ),
-                            SelectableText(
-                              "ervindobri@gmail.com",
-                            ),
-                            SelectableText(
-                              "+40 754 365 846",
-                            ),
-                          ],
-                        ),
-                        Spacer(),
-                        Wrap(direction: Axis.vertical, spacing: 12, children: [
-                          buildInfoRow(
-                            context,
-                            "Sapientia EMTE, Targu Mures",
-                            FontAwesomeIcons.university,
-                          ),
-                          buildInfoRow(
-                            context,
-                            Globals.myLocation,
-                            CupertinoIcons.location,
-                          ),
-                        ]),
-                      ],
+            ),
+            const SizedBox(height: 8),
+            HoverWidget(
+              builder: (context, isHovered) {
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SelectableText(
+                      Globals.myEmail,
+                      maxLines: 1,
+                      cursorHeight: 20,
+                      selectionHeightStyle: BoxHeightStyle.tight,
+                      style: context.bodyText1,
                     ),
-                  ),
-                  Positioned(
-                    top: -128,
-                    child: Container(
-                      width: 256,
-                      height: 256,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Positioned(
-                              child: Image.memory(
-                                base64Decode(Globals.avatarImageBase64),
+                    AnimatedSwitcher(
+                      duration: kThemeAnimationDuration,
+                      child: !isHovered
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: const SizedBox(),
+                            )
+                          : IconButton(
+                              onPressed: () {
+                                Clipboard.setData(
+                                    const ClipboardData(text: Globals.myEmail));
+                                // Snackba
+                              },
+                              icon: FaIcon(
+                                FontAwesomeIcons.clipboard,
+                                color: context.theme.inverseTextColor,
                               ),
-                              width: imageSize,
-                              height: imageSize),
-                        ],
+                            ),
+                    )
+                  ],
+                );
+              },
+            ),
+          ],
+        ),
+        const SizedBox(height: 24),
+        SizedBox(
+          width: isBigScreen ? context.width * 3 / 12 : context.width * 4 / 12,
+          child: Wrap(
+            spacing: 4,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              ...Globals.mySkills
+                  .map(
+                    (e) => SelectableText(
+                      e,
+                      style: context.bodyText1
+                          ?.copyWith(fontWeight: FontWeight.w200),
+                    ),
+                  )
+                  .expandWithSeparator(
+                    (e) => e,
+                    Container(
+                      width: 4,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: context.theme.inverseTextColor,
                       ),
                     ),
                   ),
-                ],
+            ],
+          ),
+        ),
+        const SizedBox(height: 24),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            buildInfoRow(
+              context,
+              Globals.myWorkplace,
+              url: Globals.myWorkplaceUrl,
+              icon: SvgPicture.asset(
+                AppIcons.workplace,
+                colorFilter: ColorFilter.mode(
+                    context.theme.inverseTextColor, BlendMode.srcIn),
               ),
             ),
-          ),
-        ],
-      ),
+            buildInfoRow(
+              context,
+              Globals.myLocation,
+              icon: SvgPicture.asset(
+                AppIcons.location,
+                colorFilter: ColorFilter.mode(
+                    context.theme.inverseTextColor, BlendMode.srcIn),
+              ),
+            ),
+            buildInfoRow(
+              context,
+              Globals.myUniversity,
+              icon: SvgPicture.asset(
+                AppIcons.book,
+                colorFilter: ColorFilter.mode(
+                    context.theme.inverseTextColor, BlendMode.srcIn),
+              ),
+            ),
+          ]
+              .expandWithSeparator(
+                (e) => e,
+                const SizedBox(height: 12),
+              )
+              .toList(),
+        ),
+        const SizedBox(height: 24),
+        const ResumeButton(),
+      ],
     );
   }
 
-  buildInfoRow(BuildContext context, String label, IconData data) {
-    return Wrap(
-      spacing: 16,
+  Widget buildInfoRow(BuildContext context, String label,
+      {IconData? data, Widget? icon, String? url}) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        FaIcon(
-          data,
-          color: Colors.white,
-          size: 16,
-        ),
-        SelectableText(
-          label,
-          style: context.bodyText1?.copyWith(),
+        data != null
+            ? FaIcon(
+                data,
+                color: Colors.white,
+                size: 16,
+              )
+            : icon!,
+        const SizedBox(width: 12),
+        InkWell(
+          onTap: url != null
+              ? () async {
+                  await launchUrlString(url);
+                }
+              : null,
+          child: Text(
+            label,
+            maxLines: 2,
+            style: context.bodyText1?.copyWith(
+              decoration: url != null ? TextDecoration.underline : null,
+            ),
+          ),
         ),
       ],
     );
@@ -164,7 +187,7 @@ class ParallaxCard extends StatelessWidget {
 }
 
 class MobileParallaxCard extends StatelessWidget {
-  MobileParallaxCard({Key? key}) : super(key: key);
+  MobileParallaxCard({super.key});
 
   final downloadManager = sl<DownloadManager>();
   @override
@@ -182,7 +205,7 @@ class MobileParallaxCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             blurRadius: 24,
-            offset: Offset(0, 1),
+            offset: const Offset(0, 1),
             color: Colors.black.withOpacity(.2),
           ),
         ],
@@ -212,47 +235,30 @@ class MobileParallaxCard extends StatelessWidget {
                       fontSize: 12,
                     ),
                   ),
-                  SizedBox(height: 12),
-                  TextButton.icon(
-                    onPressed: () async {
-                      downloadManager.downloadFile
-                          .execute("assets/files/CV.pdf");
-                    },
-                    style: GlobalStyles.whiteTextButtonStyle(
-                      padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-                    ),
-                    icon: Icon(
-                      CupertinoIcons.cloud_download,
-                      color: GlobalColors.primaryColor,
-                    ),
-                    label: Text('Download Resume',
-                        style: context.bodyText1?.copyWith(
-                          color: GlobalColors.primaryColor,
-                          fontWeight: FontWeight.w500,
-                        )),
-                  ),
+                  const SizedBox(height: 12),
+                  const ResumeButton(),
                   InkWell(
                     onTap: () async {
                       await Clipboard.setData(
-                          ClipboardData(text: "ervindobri@gmail.com"));
+                          const ClipboardData(text: "ervindobri@gmail.com"));
 
                       toast('Copied to clipboard!');
                     },
-                    child: Text(
+                    child: const Text(
                       "ervindobri@gmail.com",
                     ),
                   ),
-                  Text(
+                  const Text(
                     "+40 754 365 846",
                   ),
                 ],
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               Wrap(direction: Axis.vertical, spacing: 12, children: [
                 buildInfoRow(
                   context,
                   Globals.myUniversity,
-                  FontAwesomeIcons.university,
+                  FontAwesomeIcons.buildingColumns,
                 ),
                 buildInfoRow(
                   context,
@@ -262,18 +268,18 @@ class MobileParallaxCard extends StatelessWidget {
               ]),
             ],
           ),
-          Positioned(
+          const Positioned(
             top: -128,
-            child: Container(
+            child: SizedBox(
               width: 256,
               height: 256,
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  Positioned(
-                    child: Image.memory(base64Decode(Globals.avatarImageBase64),
-                        width: imageSize, height: imageSize),
-                  ),
+                  // Positioned(
+                  //   child: Image.memory(base64Decode(Globals.avatarImageBase64),
+                  //       width: imageSize, height: imageSize),
+                  // ),
                 ],
               ),
             ),
@@ -283,7 +289,7 @@ class MobileParallaxCard extends StatelessWidget {
     );
   }
 
-  buildInfoRow(BuildContext context, String label, IconData data) {
+  Widget buildInfoRow(BuildContext context, String label, IconData data) {
     return Wrap(
       spacing: 16,
       children: [
