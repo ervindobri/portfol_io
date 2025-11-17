@@ -40,7 +40,9 @@ jobs:
 
       # Copy build output
       - name: Copy built web files
-        run: cp -r build/web/* deploy_repo/
+        run: |
+          mkdir -p deploy_repo/portfolio/web/
+          cp -r build/web/* deploy_repo/portfolio/web/
 
       # Commit & push to target repo
       - name: Push to target repo
