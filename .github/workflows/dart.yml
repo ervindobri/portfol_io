@@ -47,4 +47,5 @@ jobs:
           destination-username: 'ervindobri'
           destination-repository: 'ervindobri.github.io'
           destination-directory: 'portfolio/web'
+          destination-branch: 'gh-pages'
           commit-email: 'ervindobri@gmail.com'
