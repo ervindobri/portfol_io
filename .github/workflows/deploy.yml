@@ -28,7 +28,15 @@ jobs:
       # Get dependencies
       - name: Flutter pub get
         run: flutter pub get
-        
+
+
+
+      - name: Verify build folder
+        run: |
+          pwd
+          ls -la .
+          ls -la build/web
+
       # Build Flutter web
       - name: Build Flutter Web
         run: flutter build web --release
