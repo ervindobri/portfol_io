@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/constants.dart';
@@ -9,16 +8,29 @@ import 'package:portfol_io/providers/providers.dart';
 import 'package:portfol_io/widgets/hover_button.dart';
 
 class Dialogs {
-  static Future<void> showThemeDialog(BuildContext context) async {
-    final ref = context as WidgetRef;
-    await showAnimatedDialog(
+  static Future<void> showThemeDialog(
+      BuildContext context, WidgetRef ref) async {
+    await showGeneralDialog(
         context: context,
-        animationType: DialogTransitionType.slideFromTopFade,
-        curve: Curves.fastOutSlowIn,
-        duration: const Duration(milliseconds: 300),
+        transitionBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0, -1),
+              end: Offset.zero,
+            ).animate(CurvedAnimation(
+              parent: animation,
+              curve: Curves.fastOutSlowIn,
+            )),
+            child: FadeTransition(
+              opacity: animation,
+              child: child,
+            ),
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 300),
         barrierColor: Colors.transparent,
         barrierDismissible: true,
-        builder: (_) {
+        pageBuilder: (_, __, ___) {
           final theme = ref.watch(themeProvider);
           final themeColor = ref.watch(themeColorProvider);
           return Dialog(

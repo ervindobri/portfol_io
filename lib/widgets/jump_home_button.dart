@@ -47,15 +47,18 @@ class JumpToHomeButton extends ConsumerWidget {
             : FadingSlideWidget(
                 offset: const Offset(0, 2),
                 durationMilliseconds: 300,
-                child: AnimatedIconButton(
-                  onPressed: () {
-                    uiMenuManager.setPage(0);
-                    ref.read(menuIndexProvider.notifier).state = 0;
-                  },
-                  icon: const Icon(
-                    FontAwesomeIcons.chevronUp,
-                    color: Colors.white,
-                    size: 24,
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: AnimatedIconButton(
+                    onPressed: () {
+                      uiMenuManager.setPage(0);
+                      ref.read(menuIndexProvider.notifier).state = 0;
+                    },
+                    icon: const Icon(
+                      FontAwesomeIcons.chevronUp,
+                      color: Colors.white,
+                      size: 24,
+                    ),
                   ),
                 ),
               ),

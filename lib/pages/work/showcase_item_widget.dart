@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as carousel;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -259,9 +259,9 @@ class MobileAnimatedShowcaseItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider.builder(
+    return carousel.CarouselSlider.builder(
       itemCount: uiShowcaseManager.showcaseItems.length,
-      options: CarouselOptions(
+      options: carousel.CarouselOptions(
         viewportFraction: 1.0,
         enlargeCenterPage: true,
         aspectRatio: 9 / 16,

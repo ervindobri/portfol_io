@@ -57,281 +57,257 @@ class _HomeDesktopState extends ConsumerState<HomeDesktop> {
             child: SizedBox(
               height: height,
               width: width,
-              child: Stack(
-                alignment: Alignment.center,
-                clipBehavior: Clip.none,
-                children: [
-                  //Content
-                  SizedBox(
-                    height: height - kToolbarHeight * 3,
-                    child: Row(
-                      children: [
-                        //left
-                        Expanded(
-                          child: DelayedDisplay(
-                            slidingBeginOffset: const Offset(-1, 0),
-                            delay: const Duration(seconds: 1),
-                            child: Motion(
-                              controller: MotionController(),
-                              glare: const GlareConfiguration(
-                                maxOpacity: 0,
-                                minOpacity: 0,
-                                color: Colors.transparent,
-                              ),
-                              shadow: const ShadowConfiguration(
-                                opacity: 0,
-                                color: Colors.transparent,
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: theme.containerColor,
-                                  borderRadius: GlobalStyles.homeRadius,
-                                ),
-                                alignment: Alignment.center,
-                                padding: const EdgeInsets.all(48),
-                                margin:
-                                    const EdgeInsets.only(top: kToolbarHeight),
-                                child: Column(
+              child: SizedBox(
+                height: height - kToolbarHeight * 3,
+                child: Row(
+                  children: [
+                    //left
+                    Expanded(
+                      child: DelayedDisplay(
+                        slidingBeginOffset: const Offset(-1, 0),
+                        delay: const Duration(seconds: 1),
+                        child: Motion(
+                          controller: MotionController(),
+                          glare: const GlareConfiguration(
+                            maxOpacity: 0,
+                            minOpacity: 0,
+                            color: Colors.transparent,
+                          ),
+                          shadow: const ShadowConfiguration(
+                            opacity: 0,
+                            color: Colors.transparent,
+                          ),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: theme.containerColor,
+                              borderRadius: GlobalStyles.homeRadius,
+                            ),
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.all(48),
+                            margin: const EdgeInsets.only(top: kToolbarHeight),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: 48),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          Globals.titleText1,
+                                          style: theme.nameStyleSmall?.copyWith(
+                                            fontSize: 24,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 16),
+                                    DefaultTextStyle(
+                                      style: theme.nameStyleLarge?.copyWith(
+                                            fontSize: context.width <
+                                                    Globals.maxBoxWidth
+                                                ? 64
+                                                : 96,
+                                          ) ??
+                                          const TextStyle(),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            // spacing: 24,
+                                            children: [
+                                              const Text("I"),
+                                              const SizedBox(width: 12),
+                                              Expanded(
+                                                // width: context.width,
+                                                child: DefaultTextStyle(
+                                                  style: theme.nameStyleLarge!
+                                                      .copyWith(
+                                                    color: themeColor,
+                                                    fontSize: context.width <
+                                                            Globals.maxBoxWidth
+                                                        ? 64
+                                                        : 96,
+                                                  ),
+                                                  child: AnimatedTextKit(
+                                                    repeatForever: true,
+                                                    pause: const Duration(
+                                                        seconds: 2),
+                                                    animatedTexts: [
+                                                      ...Globals.animatedSkills
+                                                          .map(
+                                                        (e) =>
+                                                            TyperAnimatedText(
+                                                          e,
+                                                          speed: const Duration(
+                                                            milliseconds: 200,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const Text("value"),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Wrap(
+                                      spacing: 16,
+                                      runSpacing: 16,
+                                      children: [
+                                        ...Globals.techStack.map(
+                                          (e) => TechItemWidget(item: e),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(height: 48),
-                                        Row(
+                                    TextButton(
+                                      style: GlobalStyles.primaryButtonStyle(
+                                          theme),
+                                      onPressed: () async {
+                                        await EmailHelper.contactMe();
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 24, horizontal: 24),
+                                        child: Row(
                                           children: [
                                             Text(
-                                              Globals.titleText1,
-                                              style: theme.nameStyleSmall
+                                              Globals.hireMe,
+                                              style: theme.textTheme.titleMedium
                                                   ?.copyWith(
-                                                fontSize: 24,
-                                              ),
+                                                      color: theme.textColor),
                                             ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 16),
-                                        DefaultTextStyle(
-                                          style: theme.nameStyleLarge?.copyWith(
-                                                fontSize: context.width <
-                                                        Globals.maxBoxWidth
-                                                    ? 64
-                                                    : 96,
-                                              ) ??
-                                              const TextStyle(),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                // spacing: 24,
-                                                children: [
-                                                  const Text("I"),
-                                                  const SizedBox(width: 12),
-                                                  Expanded(
-                                                    // width: context.width,
-                                                    child: DefaultTextStyle(
-                                                      style: theme
-                                                          .nameStyleLarge!
-                                                          .copyWith(
-                                                        color: themeColor,
-                                                        fontSize: context
-                                                                    .width <
-                                                                Globals
-                                                                    .maxBoxWidth
-                                                            ? 64
-                                                            : 96,
-                                                      ),
-                                                      child: AnimatedTextKit(
-                                                        repeatForever: true,
-                                                        pause: const Duration(
-                                                            seconds: 2),
-                                                        animatedTexts: [
-                                                          ...Globals
-                                                              .animatedSkills
-                                                              .map(
-                                                            (e) =>
-                                                                TyperAnimatedText(
-                                                              e,
-                                                              speed:
-                                                                  const Duration(
-                                                                milliseconds:
-                                                                    200,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
+                                            const SizedBox(width: 24),
+                                            SvgPicture.asset(
+                                              AppIcons.coffee,
+                                              height: 32,
+                                              width: 32,
+                                              colorFilter: ColorFilter.mode(
+                                                theme.textColor,
+                                                BlendMode.srcIn,
                                               ),
-                                              const Text("value"),
-                                            ],
-                                          ),
-                                        ),
-                                        const SizedBox(height: 16),
-                                        Wrap(
-                                          spacing: 16,
-                                          runSpacing: 16,
-                                          children: [
-                                            ...Globals.techStack.map(
-                                              (e) => TechItemWidget(item: e),
                                             )
                                           ],
                                         ),
+                                      ),
+                                    ),
+                                    DelayedDisplay(
+                                      delay: const Duration(milliseconds: 1000),
+                                      slidingBeginOffset: const Offset(0, 2),
+                                      slidingCurve: Curves.easeInOut,
+                                      fadingDuration:
+                                          const Duration(milliseconds: 300),
+                                      child: AnimatedIconButton(
+                                        onPressed: () =>
+                                            uiMenuManager.setPage(1),
+                                        icon: const Icon(
+                                          FontAwesomeIcons.chevronDown,
+                                          color: Colors.white,
+                                          size: 24,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 48),
+                    Expanded(
+                      child: DelayedDisplay(
+                        slidingBeginOffset: const Offset(1, 0),
+                        delay: const Duration(seconds: 2),
+                        child: Container(
+                          margin: const EdgeInsets.only(top: kToolbarHeight),
+                          child: Stack(
+                            children: [
+                              const BGShapes(),
+                              Align(
+                                alignment: Alignment.topCenter,
+                                child: Container(
+                                  margin: const EdgeInsets.only(left: 48),
+                                  decoration: BoxDecoration(
+                                    color: themeColor,
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(666),
+                                      bottomLeft: Radius.circular(24),
+                                      bottomRight: Radius.circular(128),
+                                    ),
+                                  ),
+                                  padding: const EdgeInsets.all(24),
+                                  alignment: Alignment.topRight,
+                                  child: DelayedDisplay(
+                                    delay: const Duration(seconds: 2),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        const SizedBox(height: 48 + 24),
+                                        ...List.generate(
+                                          Globals.highlightList.length,
+                                          (index) {
+                                            return AnimatedHighlightWidget(
+                                                index: index);
+                                          },
+                                        ).expandWithSeparator(
+                                          (element) => element,
+                                          const SizedBox(
+                                            height: 24,
+                                          ),
+                                        ),
                                       ],
                                     ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        TextButton(
-                                          style:
-                                              GlobalStyles.primaryButtonStyle(
-                                                  theme),
-                                          onPressed: () async {
-                                            await EmailHelper.contactMe();
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 24, horizontal: 24),
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  Globals.hireMe,
-                                                  style: theme
-                                                      .textTheme.titleMedium
-                                                      ?.copyWith(
-                                                          color:
-                                                              theme.textColor),
-                                                ),
-                                                const SizedBox(width: 24),
-                                                SvgPicture.asset(
-                                                  AppIcons.coffee,
-                                                  height: 32,
-                                                  width: 32,
-                                                  colorFilter: ColorFilter.mode(
-                                                    theme.textColor,
-                                                    BlendMode.srcIn,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        DelayedDisplay(
-                                          delay: const Duration(
-                                              milliseconds: 1000),
-                                          slidingBeginOffset:
-                                              const Offset(0, 2),
-                                          slidingCurve: Curves.easeInOut,
-                                          fadingDuration:
-                                              const Duration(milliseconds: 300),
-                                          child: AnimatedIconButton(
-                                            onPressed: () =>
-                                                uiMenuManager.setPage(1),
-                                            icon: const Icon(
-                                              FontAwesomeIcons.chevronDown,
-                                              color: Colors.white,
-                                              size: 24,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 48),
-                        Expanded(
-                          child: DelayedDisplay(
-                            slidingBeginOffset: const Offset(1, 0),
-                            delay: const Duration(seconds: 2),
-                            child: Container(
-                              margin:
-                                  const EdgeInsets.only(top: kToolbarHeight),
-                              child: Stack(
-                                children: [
-                                  const BGShapes(),
-                                  Align(
-                                    alignment: Alignment.topCenter,
-                                    child: Container(
-                                      margin: const EdgeInsets.only(left: 48),
-                                      decoration: BoxDecoration(
-                                        color: themeColor,
-                                        borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(666),
-                                          bottomLeft: Radius.circular(24),
-                                          bottomRight: Radius.circular(128),
+                              Positioned(
+                                left: -24,
+                                bottom: 0,
+                                child: DelayedDisplay(
+                                  slidingBeginOffset: const Offset(0, 2),
+                                  delay: const Duration(seconds: 2),
+                                  child: HoverWidget(
+                                    builder: (context, hovering) {
+                                      return AnimatedScale(
+                                        duration: kThemeAnimationDuration,
+                                        scale: hovering ? 1.025 : 1,
+                                        child: Image.asset(
+                                          AppImages.me,
+                                          height: context.width >
+                                                  Globals.maxBoxWidth
+                                              ? Globals.profileImageSizeBig
+                                              : Globals.profileImageSizeSmall,
                                         ),
-                                      ),
-                                      padding: const EdgeInsets.all(24),
-                                      alignment: Alignment.topRight,
-                                      child: DelayedDisplay(
-                                        delay: const Duration(seconds: 2),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            const SizedBox(height: 48 + 24),
-                                            ...List.generate(
-                                              Globals.highlightList.length,
-                                              (index) {
-                                                return AnimatedHighlightWidget(
-                                                    index: index);
-                                              },
-                                            ).expandWithSeparator(
-                                              (element) => element,
-                                              const SizedBox(
-                                                height: 24,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
+                                      );
+                                    },
                                   ),
-                                  Positioned(
-                                    left: -24,
-                                    bottom: 0,
-                                    child: DelayedDisplay(
-                                      slidingBeginOffset: const Offset(0, 2),
-                                      delay: const Duration(seconds: 2),
-                                      child: HoverWidget(
-                                        builder: (context, hovering) {
-                                          return AnimatedScale(
-                                            duration: kThemeAnimationDuration,
-                                            scale: hovering ? 1.025 : 1,
-                                            child: Image.asset(
-                                              AppImages.me,
-                                              height: context.width >
-                                                      Globals.maxBoxWidth
-                                                  ? Globals.profileImageSizeBig
-                                                  : Globals
-                                                      .profileImageSizeSmall,
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
+                            ],
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -362,7 +338,7 @@ class TechItemWidget extends ConsumerWidget {
         alignment: Alignment.center,
         children: [
           Shimmer.fromColors(
-            baseColor: themeColor.withOpacity(.4),
+            baseColor: themeColor.withAlpha(102),
             period: const Duration(seconds: 10),
             highlightColor: themeColor,
             child: Container(
@@ -371,7 +347,7 @@ class TechItemWidget extends ConsumerWidget {
                   color: themeColor,
                 ),
                 borderRadius: BorderRadius.circular(12),
-                color: themeColor.withOpacity(.4),
+                color: themeColor.withAlpha(102),
               ),
               padding: const EdgeInsets.symmetric(
                 vertical: 8,
@@ -379,13 +355,13 @@ class TechItemWidget extends ConsumerWidget {
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
+                spacing: 8,
                 children: [
                   Image.asset(
                     item.asset,
                     width: 20,
                     height: 20,
                   ),
-                  const SizedBox(width: 8),
                   Text(
                     item.name,
                     style: theme.textTheme.bodySmall?.copyWith(
@@ -399,13 +375,13 @@ class TechItemWidget extends ConsumerWidget {
           ),
           Row(
             mainAxisSize: MainAxisSize.min,
+            spacing: 8,
             children: [
               Image.asset(
                 item.asset,
                 width: 20,
                 height: 20,
               ),
-              const SizedBox(width: 8),
               Text(
                 item.name,
                 style: theme.textTheme.bodySmall?.copyWith(

@@ -1,6 +1,6 @@
 import 'dart:convert';
 // ignore: avoid_web_libraries_in_flutter
-import 'dart:html';
+import 'package:web/web.dart';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_command/flutter_command.dart';
@@ -21,14 +21,12 @@ class DownloadManager {
     final base64 = base64Encode(bytes);
     // Create the link with the file
     final anchor =
-        AnchorElement(href: 'data:application/octet-stream;base64,$base64')
-          ..target = 'blank';
-    // add the name
-    anchor.download = downloadName;
+        HTMLAnchorElement()
+      ..href = 'data:application/octet-stream;base64,$base64'
+      ..target = 'blank'
+      ..download = downloadName;
     // trigger download
-    document.body?.append(anchor);
     anchor.click();
-    anchor.remove();
   }
 
   void downloadResume() {

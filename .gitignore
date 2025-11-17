@@ -6,6 +6,8 @@
 # Project exclude paths
 /build/
 
-
 /android/*
 /ios/*
+
+# FVM Version Cache
+.fvm/

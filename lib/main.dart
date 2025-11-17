@@ -7,7 +7,6 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/pages/main_page.dart';
-import 'package:flutter/gestures.dart';
 import 'package:portfol_io/providers/providers.dart';
 
 Future<void> main() async {
@@ -30,15 +29,6 @@ Future<void> main() async {
   );
 }
 
-class MyCustomScrollBehavior extends MaterialScrollBehavior {
-  // Override behavior methods and getters like dragDevices
-  @override
-  Set<PointerDeviceKind> get dragDevices => {
-        PointerDeviceKind.touch,
-        PointerDeviceKind.mouse,
-      };
-}
-
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
@@ -46,9 +36,8 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return OverlaySupport.global(
       child: MaterialApp(
-        title: 'Portfolio',
+        title: 'Ervin Dobri',
         theme: ref.watch(themeProvider),
-        // scrollBehavior: MyCustomScrollBehavior(),
         home: const HomePage(),
         debugShowCheckedModeBanner: false,
         initialRoute: "/",

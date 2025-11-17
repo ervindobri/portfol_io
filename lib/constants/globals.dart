@@ -4,7 +4,7 @@ import 'package:portfol_io/models/social_media_button.dart';
 import 'package:portfol_io/models/tech_item.dart';
 
 class Globals {
-  static const List<String> menu = ["Home", "Work", "Contact Me"];
+  static const List<String> menu = ["Home", "Showcase", "Contact Me"];
 
   static const String myEmail = "ervindobri@gmail.com";
   static const String myPhone = "+40 754 365 846";
@@ -60,7 +60,7 @@ class Globals {
         asset: AppIcons.flutter,
         link: "https://www.flutter.dev/"),
     const TechItem(
-        name: "Figma", asset: AppIcons.figma, link: "https://wwww.figma.com/"),
+        name: "Figma", asset: AppIcons.figma, link: "https://www.figma.com/"),
     const TechItem(
         name: "Python",
         asset: AppIcons.python,

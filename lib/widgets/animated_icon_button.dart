@@ -11,9 +11,11 @@ class AnimatedIconButton extends ConsumerWidget {
     super.key,
     required this.icon,
     required this.onPressed,
+    this.isMobile = false,
   });
 
   final Widget icon;
+  final bool isMobile;
   final VoidCallback onPressed;
 
   final uiMenuManager = sl<UiMenuManager>();
@@ -32,15 +34,17 @@ class AnimatedIconButton extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(hovering ? 12 : 8),
                 boxShadow: [
                   BoxShadow(
-                    color: context.theme.extBackgroundColor.withOpacity(
-                      hovering ? .24 : .12,
+                    color: context.theme.extBackgroundColor.withAlpha(
+                      hovering ? 64 : 32,
                     ),
                     offset: const Offset(0, 24),
                     blurRadius: 24,
                     spreadRadius: -2,
                   ),
                 ]),
-            padding: const EdgeInsets.all(24.0),
+            padding: isMobile
+                ? const EdgeInsets.all(12.0)
+                : const EdgeInsets.all(24.0),
             duration: kThemeAnimationDuration,
             child: icon,
           ),

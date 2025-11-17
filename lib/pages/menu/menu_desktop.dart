@@ -64,8 +64,8 @@ class _MenuDesktopState extends ConsumerState<MenuDesktop> {
                     return HoverWidget(builder: (_, isHovered) {
                       return InkWell(
                         overlayColor:
-                            const MaterialStatePropertyAll(Colors.transparent),
-                        hoverColor: themeColor.withOpacity(.3),
+                            const WidgetStatePropertyAll(Colors.transparent),
+                        hoverColor: themeColor.withAlpha(77),
                         splashColor: Colors.transparent,
                         onTap: () async {
                           uiMenuManager.setPage(index);
@@ -77,7 +77,7 @@ class _MenuDesktopState extends ConsumerState<MenuDesktop> {
                               : BoxDecoration(
                                   borderRadius: GlobalStyles.borderRadius,
                                   color: isHovered
-                                      ? themeColor.withOpacity(.1)
+                                      ? themeColor.withAlpha(26)
                                       : Colors.transparent,
                                 ),
                           padding: const EdgeInsets.symmetric(
@@ -90,7 +90,7 @@ class _MenuDesktopState extends ConsumerState<MenuDesktop> {
                                   color: isSelected
                                       ? themeColor
                                       : isHovered
-                                          ? themeColor.withOpacity(.7)
+                                          ? themeColor.withAlpha(178)
                                           : theme.inverseTextColor,
                                   fontWeight: isSelected
                                       ? FontWeight.bold
@@ -182,6 +182,6 @@ class _MenuDesktopState extends ConsumerState<MenuDesktop> {
 
   Future<void> showThemeDialog(context, WidgetRef ref) async {
     //themeManager.changeThemeColor(value)
-    await Dialogs.showThemeDialog(context);
+    await Dialogs.showThemeDialog(context, ref);
   }
 }

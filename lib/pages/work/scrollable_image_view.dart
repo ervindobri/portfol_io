@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as carousel;
 import 'package:flutter/material.dart';
 import 'package:flutter_improved_scrolling/flutter_improved_scrolling.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -157,9 +157,9 @@ class MobileImageCarousel extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              CarouselSlider.builder(
+              carousel.CarouselSlider.builder(
                 itemCount: item.imageAssets.length,
-                options: CarouselOptions(
+                options: carousel.CarouselOptions(
                   aspectRatio: 16 / 12,
                   autoPlay: true,
                   viewportFraction: 1.0,

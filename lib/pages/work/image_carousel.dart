@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as carousel;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:portfol_io/constants/constants.dart';
@@ -208,9 +208,9 @@ class MobileImageCarousel extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              CarouselSlider.builder(
+              carousel.CarouselSlider.builder(
                 itemCount: item.imageAssets.length,
-                options: CarouselOptions(
+                options: carousel.CarouselOptions(
                   aspectRatio: 16 / 12,
                   autoPlay: true,
                   viewportFraction: 1.0,

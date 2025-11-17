@@ -6,7 +6,7 @@ extension ThemeExtension on BuildContext {
   bool get isDarkMode =>
       MediaQuery.of(this).platformBrightness == Brightness.dark;
 
-  Color? get backgroundColor => Theme.of(this).colorScheme.background;
+  Color? get backgroundColor => Theme.of(this).colorScheme.surface;
   TextStyle? get bodyText1 => Theme.of(this)
       .textTheme
       .bodyLarge
@@ -43,17 +43,17 @@ extension ThemeExtension on BuildContext {
   TextStyle? get titleLarge => Theme.of(this).textTheme.titleLarge;
 
   ButtonStyle get textButtonStyle => ButtonStyle(
-        backgroundColor: MaterialStateProperty.resolveWith<Color>(
-          (Set<MaterialState> states) {
-            if (states.contains(MaterialState.hovered) ||
-                states.contains(MaterialState.pressed)) {
+        backgroundColor: WidgetStateProperty.resolveWith<Color>(
+          (Set<WidgetState> states) {
+            if (states.contains(WidgetState.hovered) ||
+                states.contains(WidgetState.pressed)) {
               return theme.containerColor;
             }
             return theme.extBackgroundColor;
           },
         ),
-        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-        shape: MaterialStatePropertyAll(
+        foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
+        shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
             borderRadius: GlobalStyles.borderRadius,
           ),

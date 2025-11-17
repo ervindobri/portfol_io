@@ -12,18 +12,18 @@ class GlobalStyles {
           EdgeInsets padding = EdgeInsets.zero}) =>
       ButtonStyle(
         enableFeedback: false,
-        backgroundColor: MaterialStateProperty.all(backgroundColor),
-        shape: MaterialStateProperty.all(
+        backgroundColor: WidgetStateProperty.all(backgroundColor),
+        shape: WidgetStateProperty.all(
           const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
         ),
-        padding: MaterialStateProperty.all(padding),
+        padding: WidgetStateProperty.all(padding),
       );
 
   static iconButtonStyle() => ButtonStyle(
-        overlayColor: MaterialStateProperty.all(GlobalColors.lightGrey),
-        padding: MaterialStateProperty.all(EdgeInsets.zero),
+        overlayColor: WidgetStateProperty.all(GlobalColors.lightGrey),
+        padding: WidgetStateProperty.all(EdgeInsets.zero),
         // side: MaterialStateProperty.all(BorderSide()),
-        shape: MaterialStateProperty.all(
+        shape: WidgetStateProperty.all(
           const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
         ),
       );
@@ -33,7 +33,7 @@ class GlobalStyles {
           borderRadius: BorderRadius.zero,
         ),
         filled: true,
-        fillColor: Colors.black.withOpacity(.66),
+        fillColor: Colors.black.withAlpha(170),
         focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.zero,
           borderSide: BorderSide(color: Colors.white),
@@ -41,13 +41,13 @@ class GlobalStyles {
       );
 
   static ButtonStyle primaryButtonStyle(ThemeData theme) => ButtonStyle(
-        shape: MaterialStatePropertyAll(
+        shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(48),
           ),
         ),
         splashFactory: NoSplash.splashFactory,
-        backgroundColor: MaterialStateProperty.resolveWith(
+        backgroundColor: WidgetStateProperty.resolveWith(
           (states) {
             return theme.inverseTextColor;
           },

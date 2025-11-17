@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 
 class UiMenuManager {
   ValueNotifier<int> menuIndex = ValueNotifier(0);
+  ValueNotifier<List<GlobalKey>> itemKeys = ValueNotifier([]);
+
   ValueNotifier<bool> playContactAnimation = ValueNotifier(false);
 
   late ScrollController scrollController;
@@ -21,6 +23,8 @@ class UiMenuManager {
   UiMenuManager() {
     scrollController = ScrollController();
     offsets = [];
+
+    itemKeys.value = List.generate(menuItemsCount, (index) => GlobalKey());
 
     // General listener to update menu index & UI
     scrollController.addListener(() async {
@@ -67,9 +71,11 @@ class UiMenuManager {
   }
 
   void animateToPage(int index) {
-    final offset = offsets[index];
-    scrollController.animateTo(offset,
-        duration: kThemeAnimationDuration, curve: Curves.easeIn);
+    Scrollable.ensureVisible(
+      itemKeys.value[index].currentContext!,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeInOut,
+    );
   }
 
   void setPage(int index) {

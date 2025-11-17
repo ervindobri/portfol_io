@@ -18,7 +18,7 @@ class GlobalColors {
       end: Alignment.topLeft);
 
   static LinearGradient greenGradient = LinearGradient(
-    colors: [GlobalColors.green.withOpacity(.4), GlobalColors.white],
+    colors: [GlobalColors.green.withAlpha(110), GlobalColors.white],
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
   );
