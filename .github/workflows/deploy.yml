@@ -50,4 +50,5 @@ jobs:
           publish_branch: gh-pages
           external_repository: ervindobri/ervindobri.github.io
           destination_dir: portfolio/web
+          keep_files: true
           commit_message: "Update portfolio from main"
