@@ -43,7 +43,7 @@ jobs:
 
       # Push files to another repository
       - name: Push to portfolio repo
-        uses: cpina/github-action-push-to-another-repository@v2.6.0
+        uses: cpina/github-action-push-to-another-repository@v1.7.3
         env:
           API_TOKEN_GITHUB: ${{ secrets.TARGET_REPO_TOKEN }}
         with:
