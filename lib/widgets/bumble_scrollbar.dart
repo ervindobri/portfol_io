@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:portfol_io/widgets/hover_button.dart';
 
@@ -148,7 +147,9 @@ class BumbleScrollbarState extends State<BumbleScrollbar> {
                               _thumbHeight); // 200 - 33%*200 = 200-66 = 133
 
                           if (valueListener.value == maxVerticalPosition &&
-                              direction > 0) return;
+                              direction > 0) {
+                            return;
+                          }
 
                           final step = _thumbHeight / 44;
                           final newValue =
@@ -174,7 +175,7 @@ class BumbleScrollbarState extends State<BumbleScrollbar> {
                           decoration: BoxDecoration(
                             color: hovering
                                 ? widget.thumbColor
-                                : widget.thumbColor.withOpacity(.4),
+                                : widget.thumbColor.withAlpha(102),
                             borderRadius: connerRadius,
                           ),
                         ),

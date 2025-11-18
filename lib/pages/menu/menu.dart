@@ -16,7 +16,7 @@ class StickyMenu extends StatelessWidget {
         if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
           return const MenuDesktop();
         }
-        return MenuMobile();
+        return const MenuMobile();
       },
     );
   }

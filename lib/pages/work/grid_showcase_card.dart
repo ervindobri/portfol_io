@@ -55,7 +55,7 @@ class _ShowcaseCardState extends State<ShowcaseCard> {
                         .execute(widget.index);
                     showDialog(
                       context: context,
-                      barrierColor: Colors.black.withOpacity(.9),
+                      barrierColor: Colors.black.withAlpha(230),
                       builder: (_) => Dialog(
                         backgroundColor: Colors.transparent,
                         elevation: 0,
@@ -84,7 +84,7 @@ class _ShowcaseCardState extends State<ShowcaseCard> {
                     );
                   },
                   child: Container(
-                    color: GlobalColors.primaryColor.withOpacity(.8),
+                    color: GlobalColors.primaryColor.withAlpha(204),
                     child: Center(
                       child: Wrap(
                         spacing: 32,
@@ -196,7 +196,7 @@ class _MobileShowcaseCardState extends State<MobileShowcaseCard> {
                     duration: kThemeAnimationDuration,
                     opacity: showImageOverlay ? 1.0 : 0.0,
                     child: Container(
-                      color: GlobalColors.primaryColor.withOpacity(.8),
+                      color: GlobalColors.primaryColor.withAlpha(204),
                       padding: const EdgeInsets.all(20),
                       width: width,
                       child: Column(
@@ -206,7 +206,7 @@ class _MobileShowcaseCardState extends State<MobileShowcaseCard> {
                             onTap: () {
                               showDialog(
                                 context: context,
-                                barrierColor: Colors.black.withOpacity(.9),
+                                barrierColor: Colors.black.withAlpha(230),
                                 builder: (_) => Dismissible(
                                   direction: DismissDirection.vertical,
                                   key: const Key('key'),

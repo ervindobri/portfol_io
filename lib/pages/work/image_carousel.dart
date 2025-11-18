@@ -7,6 +7,7 @@ import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/pages/work/fullscreen_image_dialog.dart';
 import 'package:portfol_io/pages/work/hover_image.dart';
 import 'package:portfol_io/widgets/delayed_display.dart';
+import 'package:vector_math/vector_math_64.dart' hide Colors;
 
 class ImageCarousel extends StatefulWidget {
   const ImageCarousel({
@@ -82,8 +83,9 @@ class _ImageCarouselState extends State<ImageCarousel> {
                           alignment: Alignment.center,
                           transform: Matrix4.identity()
                             ..setEntry(3, 2, 0.001)
-                            ..translate(0.0, height / 2 * (1 - value).abs())
-                            ..scale(value),
+                            ..translateByVector3(Vector3(
+                                0.0, height / 2 * (1 - value).abs(), 0.0))
+                            ..scaleByVector3(Vector3(value, value, 1)),
                           child: Opacity(
                             opacity: opacity,
                             child: SizedBox(
@@ -124,7 +126,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
                                 (Theme.of(context).brightness == Brightness.dark
                                         ? Colors.white
                                         : GlobalColors.primaryColor)
-                                    .withOpacity(value == index ? 0.9 : 0.4),
+                                    .withAlpha(value == index ? 230 : 64),
                           ),
                         ),
                       );
@@ -272,7 +274,7 @@ class MobileImageCarousel extends StatelessWidget {
                                 (Theme.of(context).brightness == Brightness.dark
                                         ? Colors.white
                                         : GlobalColors.primaryColor)
-                                    .withOpacity(value == index ? 0.9 : 0.4)),
+                                    .withAlpha(value == index ? 230 : 64)),
                       ),
                     );
                   }).toList(),

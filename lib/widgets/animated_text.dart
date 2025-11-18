@@ -359,7 +359,7 @@ class AnimatedTextState extends State<AnimatedText>
         children: <TextSpan>[
           TextSpan(
               text: e.value.substring(0, 1),
-              style: TextStyle(color: Colors.black.withOpacity(0))),
+              style: TextStyle(color: Colors.black.withAlpha(0))),
         ],
       ),
     );

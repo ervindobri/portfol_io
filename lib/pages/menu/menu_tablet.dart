@@ -86,9 +86,9 @@ class MenuTablet extends StatelessWidget {
             )));
     list.add(ElevatedButton(
       style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(GlobalColors.primaryColor),
-          shadowColor: MaterialStateProperty.all(GlobalColors.primaryColor),
-          shape: MaterialStateProperty.all(
+          backgroundColor: WidgetStateProperty.all(GlobalColors.primaryColor),
+          shadowColor: WidgetStateProperty.all(GlobalColors.primaryColor),
+          shape: WidgetStateProperty.all(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))),
       onPressed: () {
         // print("button");

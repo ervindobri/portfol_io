@@ -91,7 +91,7 @@ class _ImageCarouselState extends ConsumerState<ImageView> {
                           showDialog(
                             context: context,
                             barrierColor:
-                                GlobalColors.primaryColor.withOpacity(.8),
+                                GlobalColors.primaryColor.withAlpha(204),
                             useSafeArea: true,
                             builder: (context) {
                               return Dialog(
@@ -226,7 +226,7 @@ class MobileImageCarousel extends StatelessWidget {
                                 (Theme.of(context).brightness == Brightness.dark
                                         ? Colors.white
                                         : GlobalColors.primaryColor)
-                                    .withOpacity(value == index ? 0.9 : 0.4)),
+                                    .withAlpha(value == index ? 230 : 64)),
                       ),
                     );
                   }).toList(),

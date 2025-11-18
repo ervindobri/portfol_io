@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_command/flutter_command.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfol_io/constants/animations.dart';
@@ -93,13 +92,13 @@ class _WorkDesktopState extends ConsumerState<WorkDesktop> {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(32),
                                       border: Border.all(
-                                        color: themeColor.withOpacity(.3),
+                                        color: themeColor.withAlpha(78),
                                       ),
                                       color: themeColor,
                                       boxShadow: [
                                         BoxShadow(
                                           offset: offset,
-                                          color: themeColor.withOpacity(.2),
+                                          color: themeColor.withAlpha(52),
                                           blurRadius: offset.dx * 8,
                                         )
                                       ],

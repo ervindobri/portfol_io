@@ -38,13 +38,13 @@ class Dialogs {
               borderRadius: BorderRadius.circular(24),
             ),
             elevation: 48,
-            backgroundColor: theme.extBackgroundColor.withOpacity(.6),
-            shadowColor: theme.extBackgroundColor,
+            backgroundColor: theme.extBackgroundColor.withAlpha(153),
+            shadowColor: theme.extBackgroundColor,  
             child: Container(
               width: 676,
               height: 220,
               decoration: BoxDecoration(
-                color: theme.extBackgroundColor.withOpacity(.6),
+                color: theme.extBackgroundColor.withAlpha(153),
                 borderRadius: BorderRadius.circular(24),
               ),
               child: Row(
@@ -55,7 +55,7 @@ class Dialogs {
                     GlobalColors.themeColors.length,
                     (index) {
                       final color = GlobalColors.themeColors[index];
-                      final hoverColor = color.withOpacity(.4);
+                      final hoverColor = color.withAlpha(102);
                       final isSelected = themeColor == color;
                       return InkWell(
                         splashFactory: NoSplash.splashFactory,

@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -56,10 +55,10 @@ class ContactInfo extends StatelessWidget {
                     AnimatedSwitcher(
                       duration: kThemeAnimationDuration,
                       child: !isHovered
-                          ? Padding(
+                          ? const Padding(
                               padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
-                              child: const SizedBox(),
+                                  EdgeInsets.symmetric(vertical: 8.0),
+                              child: SizedBox(),
                             )
                           : IconButton(
                               onPressed: () {
@@ -206,7 +205,7 @@ class MobileParallaxCard extends StatelessWidget {
           BoxShadow(
             blurRadius: 24,
             offset: const Offset(0, 1),
-            color: Colors.black.withOpacity(.2),
+            color: Colors.black.withAlpha(52),
           ),
         ],
       ),

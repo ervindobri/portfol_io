@@ -51,7 +51,7 @@ class AnimatedShowcaseItemWidget extends ConsumerWidget {
                       color: themeColor,
                       hoverColor: themeColor,
                       style: IconButton.styleFrom(
-                        backgroundColor: themeColor.withOpacity(.4),
+                        backgroundColor: themeColor.withAlpha(102),
                       ),
                       onPressed: () => onPrevious(ref, uiShowcaseManager),
                       icon: const Center(
@@ -73,7 +73,7 @@ class AnimatedShowcaseItemWidget extends ConsumerWidget {
                     size: const Size.fromRadius(24),
                     child: IconButton(
                       style: IconButton.styleFrom(
-                        backgroundColor: themeColor.withOpacity(.4),
+                        backgroundColor: themeColor.withAlpha(102),
                       ),
                       color: themeColor,
                       hoverColor: themeColor,
@@ -99,8 +99,7 @@ class AnimatedShowcaseItemWidget extends ConsumerWidget {
                 duration: kThemeAnimationDuration,
                 width: context.width,
                 decoration: BoxDecoration(
-                  color: theme.containerColor.withOpacity(.7),
-                  // border: Border.all(color: themeColor.withOpacity(.2)),
+                  color: theme.containerColor.withAlpha(179),
                   gradient: const LinearGradient(
                     colors: [
                       Colors.transparent,
@@ -167,7 +166,7 @@ class AnimatedShowcaseItemWidget extends ConsumerWidget {
                                         borderRadius: GlobalStyles.borderRadius,
                                       ),
                                       backgroundColor:
-                                          themeColor.withOpacity(.3),
+                                          themeColor.withAlpha(78),
                                     ),
                                     onPressed: () async {
                                       await launchUrlString(
@@ -187,7 +186,7 @@ class AnimatedShowcaseItemWidget extends ConsumerWidget {
                                         borderRadius: GlobalStyles.borderRadius,
                                       ),
                                       backgroundColor:
-                                          themeColor.withOpacity(.3),
+                                          themeColor.withAlpha(78),
                                     ),
                                     onPressed: () async {
                                       await launchUrlString(

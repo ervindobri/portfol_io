@@ -287,7 +287,7 @@ class _TechStackWidgetState extends State<MobileTechStackWidget> {
                     width: iconSize,
                     height: iconSize,
                     decoration: BoxDecoration(
-                      color: GlobalColors.lightGrey.withOpacity(.6),
+                      color: GlobalColors.lightGrey.withAlpha(140),
                       shape: BoxShape.circle,
                     ),
                     padding: const EdgeInsets.all(12),

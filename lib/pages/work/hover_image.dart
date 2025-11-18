@@ -5,6 +5,7 @@ import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/pages/work/fullscreen_image_dialog.dart';
+import 'package:vector_math/vector_math_64.dart' hide Colors;
 
 class HoverImage extends StatefulWidget {
   final String image;
@@ -66,7 +67,8 @@ class HoverImageState extends State<HoverImage>
             Transform(
               alignment: FractionalOffset.center,
               transform: Matrix4.identity()
-                ..scale(_animation.value, _animation.value),
+                ..scaleByVector3(
+                    Vector3(_animation.value, _animation.value, 1)),
               child: Image.asset(
                 "assets/images/work/${widget.item.imagesPath}/${widget.image}.png",
                 fit: BoxFit.contain,
@@ -103,7 +105,7 @@ class HoverImageState extends State<HoverImage>
                             showDialog(
                               context: context,
                               barrierColor:
-                                  GlobalColors.primaryColor.withOpacity(.8),
+                                  GlobalColors.primaryColor.withAlpha(204),
                               builder: (context) {
                                 return Dialog(child: FullscreenImageDialog(item: widget.item));
                               },

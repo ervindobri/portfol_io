@@ -23,12 +23,12 @@ class _ContactDesktopState extends State<ContactMobile> {
         height: height + height / 3,
         width: width,
         color: const Color(0xff292929),
-        child: Column(
+        child: const Column(
           children: [
-            const SizedBox(height: 48 + 48 + 24),
-            const ContactInfo(),
-            const SizedBox(height: 24),
-            const ContactMeCard(),
+            SizedBox(height: 48 + 48 + 24),
+            ContactInfo(),
+            SizedBox(height: 24),
+            ContactMeCard(),
           ],
         ),
       ),

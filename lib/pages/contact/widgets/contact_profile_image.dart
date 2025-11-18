@@ -44,7 +44,7 @@ class ContactProfileImage extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(24),
               child: Container(
-                decoration: BoxDecoration(color: Colors.black.withOpacity(.3)),
+                decoration: BoxDecoration(color: Colors.black.withAlpha(78)),
                 padding: const EdgeInsets.all(12),
                 child: const Center(
                   child: ProAnimatedBlur(

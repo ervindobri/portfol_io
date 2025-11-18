@@ -65,7 +65,7 @@ class MobileShowcaseItemView extends StatelessWidget {
                             width: width,
                             height: height,
                             decoration: BoxDecoration(
-                              color: GlobalColors.darkGrey.withOpacity(.7),
+                              color: GlobalColors.darkGrey.withAlpha(179),
                             ),
                             alignment: Alignment.center,
                             child: Column(
