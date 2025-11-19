@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/injection_manager.dart';
-import 'package:portfol_io/pages/contact/contact_me_card.dart';
-import 'package:portfol_io/pages/contact/parallax_card.dart';
 
 class ContactMobile extends StatefulWidget {
   const ContactMobile({super.key});
@@ -18,18 +17,13 @@ class _ContactDesktopState extends State<ContactMobile> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    return ClipRRect(
-      child: Container(
-        height: height + height / 3,
-        width: width,
-        color: const Color(0xff292929),
-        child: const Column(
-          children: [
-            SizedBox(height: 48 + 48 + 24),
-            ContactInfo(),
-            SizedBox(height: 24),
-            ContactMeCard(),
-          ],
+    return SizedBox(
+      height: height,
+      width: width,
+      child: Center(
+        child: Text(
+          "WIP",
+          style: context.bodyText1,
         ),
       ),
     );
