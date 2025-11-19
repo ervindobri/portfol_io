@@ -23,7 +23,9 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
   }
 
   void changeThemeBrightness(Brightness value) {
-    state = state.copyWith(brightness: value);
+    state = value == Brightness.dark
+        ? PortfolioTheme.defaultDarkTheme
+        : PortfolioTheme.defaultLightTheme;
   }
 
   void switchBrightness() {
@@ -31,9 +33,8 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
         .read(previousBrightnessProvider.notifier)
         .update((_) => state.brightness);
 
-    state = state.copyWith(
-        brightness: state.brightness == Brightness.dark
-            ? Brightness.light
-            : Brightness.dark);
+    state = state.brightness == Brightness.dark
+        ? PortfolioTheme.defaultLightTheme
+        : PortfolioTheme.defaultDarkTheme;
   }
 }

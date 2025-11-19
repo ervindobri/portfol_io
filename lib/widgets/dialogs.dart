@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/constants.dart';
+import 'package:portfol_io/extensions/build_context.dart';
 import 'package:portfol_io/extensions/list.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/providers/providers.dart';
@@ -12,6 +13,7 @@ class Dialogs {
       BuildContext context, WidgetRef ref) async {
     await showGeneralDialog(
         context: context,
+        barrierLabel: '',
         transitionBuilder: (context, animation, secondaryAnimation, child) {
           return SlideTransition(
             position: Tween<Offset>(
@@ -28,7 +30,6 @@ class Dialogs {
           );
         },
         transitionDuration: const Duration(milliseconds: 300),
-        barrierColor: Colors.transparent,
         barrierDismissible: true,
         pageBuilder: (_, __, ___) {
           final theme = ref.watch(themeProvider);
@@ -38,19 +39,22 @@ class Dialogs {
               borderRadius: BorderRadius.circular(24),
             ),
             elevation: 48,
-            backgroundColor: theme.extBackgroundColor.withAlpha(153),
+            backgroundColor: theme.canvasColor,
             shadowColor: theme.extBackgroundColor,  
             child: Container(
-              width: 676,
-              height: 220,
+              width: context.width * .7,
               decoration: BoxDecoration(
                 color: theme.extBackgroundColor.withAlpha(153),
                 borderRadius: BorderRadius.circular(24),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              padding: const EdgeInsets.all(24),
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                runAlignment: WrapAlignment.center,
+                spacing: 12,
+                runSpacing: 24,
                 children: [
-                  const SizedBox(width: 24),
                   ...List.generate(
                     GlobalColors.themeColors.length,
                     (index) {
@@ -99,7 +103,6 @@ class Dialogs {
                     (element) => element,
                     const SizedBox(width: 24),
                   ),
-                  const SizedBox(width: 24),
                 ],
               ),
             ),

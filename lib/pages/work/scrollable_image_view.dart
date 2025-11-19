@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_improved_scrolling/flutter_improved_scrolling.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfol_io/constants/constants.dart';
+import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/pages/work/fullscreen_image_dialog.dart';
@@ -84,14 +85,14 @@ class _ImageCarouselState extends ConsumerState<ImageView> {
                         highlightColor: Colors.transparent,
                         splashColor: Colors.transparent,
                         hoverColor: Colors.transparent,
-                        onTap: () {
+                        onTap: () async {
                           final imageIndex = images.indexOf(e);
                           uiShowcaseManager.currentImageIndex.value =
                               imageIndex;
-                          showDialog(
+                          await showDialog(
                             context: context,
                             barrierColor:
-                                GlobalColors.primaryColor.withAlpha(204),
+                                context.theme.primaryColor.withAlpha(204),
                             useSafeArea: true,
                             builder: (context) {
                               return Dialog(
@@ -150,72 +151,78 @@ class MobileImageCarousel extends StatelessWidget {
     return ValueListenableBuilder<int>(
       valueListenable: uiShowcaseManager.currentImageIndex,
       builder: (_, value, __) {
-        return Container(
-          width: width,
-          height: height * .3,
-          color: GlobalColors.primaryColor,
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(24),
           child: Stack(
             alignment: Alignment.center,
             children: [
-              carousel.CarouselSlider.builder(
-                itemCount: item.imageAssets.length,
-                options: carousel.CarouselOptions(
-                  aspectRatio: 16 / 12,
-                  autoPlay: true,
-                  viewportFraction: 1.0,
-                  onPageChanged: (index, reason) {
-                    uiShowcaseManager.setImageCommand.execute(index);
-                  },
-                ),
-                itemBuilder: (context, index, what) {
-                  return TweenAnimationBuilder(
-                    tween: Tween<double>(begin: 0.0, end: 1.0),
-                    key: Key(item.imageAssets[index]),
-                    duration: const Duration(milliseconds: 300),
-                    builder: (_, double value2, anim) {
-                      final image = item.imageAssets[index];
-                      return Opacity(
-                        opacity: value2,
-                        child: InkWell(
-                          onTap: () {
-                            //TODO: open interactive image viewer for current image
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return MobileFullscreenImageDialog(
-                                  item: item,
-                                  image: image,
-                                );
-                              },
-                            );
-                          },
-                          child: SizedBox(
-                            width: width,
-                            height: height,
-                            child: Image(
-                              fit: BoxFit.cover,
-                              image: AssetImage(
-                                "assets/images/work/${item.imagesPath}/$image.png",
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-              Positioned(
-                bottom: 4,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: item.imageAssets.map((entry) {
-                    final index = item.imageAssets.indexOf(entry);
-                    return InkWell(
-                      onTap: () {
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(24),
+                  child: carousel.CarouselSlider.builder(
+                    itemCount: item.imageAssets.length,
+                    options: carousel.CarouselOptions(
+                      autoPlay: true,
+                      viewportFraction: 1.0,
+                      onPageChanged: (index, reason) {
                         uiShowcaseManager.setImageCommand.execute(index);
                       },
-                      child: Container(
+                    ),
+                    itemBuilder: (context, index, what) {
+                      final image = item.imageAssets[index];
+                      final path = image;
+                      return TweenAnimationBuilder(
+                        tween: Tween<double>(begin: 0.0, end: 1.0),
+                        key: Key(item.imageAssets[index]),
+                        duration: const Duration(milliseconds: 300),
+                        builder: (_, double value2, anim) {
+                          return Opacity(
+                            opacity: value2,
+                            child: InkWell(
+                              onTap: () {
+                                //TODO: open interactive image viewer for current image
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return MobileFullscreenImageDialog(
+                                      item: item,
+                                      image: image,
+                                    );
+                                  },
+                                );
+                              },
+                              child: SizedBox(
+                                width: width,
+                                height: height,
+                                child: Image(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage(
+                                    path,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 8,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: context.theme.containerColor.withAlpha(64),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: item.imageAssets.map(
+                      (entry) {
+                        final index = item.imageAssets.indexOf(entry);
+                        return Container(
                         width: 6.0,
                         height: 6.0,
                         margin: const EdgeInsets.symmetric(
@@ -226,10 +233,14 @@ class MobileImageCarousel extends StatelessWidget {
                                 (Theme.of(context).brightness == Brightness.dark
                                         ? Colors.white
                                         : GlobalColors.primaryColor)
-                                    .withAlpha(value == index ? 230 : 64)),
-                      ),
-                    );
-                  }).toList(),
+                                    .withAlpha(
+                              value == index ? 230 : 64,
+                            ),
+                          ),
+                        );
+                      },
+                    ).toList(),
+                  ),
                 ),
               ),
             ],

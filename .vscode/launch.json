@@ -8,7 +8,7 @@
         {
             "name": "portfol_io",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
         },
         {
             "name": "portfol_io (profile mode)",

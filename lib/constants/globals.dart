@@ -8,7 +8,7 @@ class Globals {
 
   static const String myEmail = "ervindobri@gmail.com";
   static const String myPhone = "+40 754 365 846";
-  static const String contactMe = "Contact Me";
+  static const String contactMe = "Contact";
   static const String checkMeOut = "Check Me out";
   static const String title = "Refining The Future.";
   static const String subtitle = "Since '98";
@@ -76,6 +76,7 @@ class Globals {
   ];
 
   static const String showcase = "Showcase";
+  static const String featuredProjects = "Featured projects";
   static const String checkItOut = "Check it out";
   static const String clickToExpand = "Click to expand";
   static const String wantToWorkWithMe = "Want to work with me?";

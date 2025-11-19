@@ -15,7 +15,6 @@ import 'package:portfol_io/widgets/animated_collapse.dart';
 import 'package:portfol_io/widgets/delayed_display.dart';
 import 'package:portfol_io/widgets/hover_button.dart';
 import 'package:pro_animated_blur/pro_animated_blur.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class AnimatedShowcaseItemWidget extends ConsumerWidget {
@@ -252,12 +251,12 @@ class AnimatedShowcaseItemWidget extends ConsumerWidget {
 }
 
 class MobileAnimatedShowcaseItemWidget extends StatelessWidget {
-  final uiShowcaseManager = sl<UiShowcaseManager>();
 
-  MobileAnimatedShowcaseItemWidget({super.key});
+  const MobileAnimatedShowcaseItemWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final uiShowcaseManager = sl<UiShowcaseManager>();
     return carousel.CarouselSlider.builder(
       itemCount: uiShowcaseManager.showcaseItems.length,
       options: carousel.CarouselOptions(
@@ -297,27 +296,84 @@ class MobileAnimatedShowcaseItemView extends StatelessWidget {
               offset: Offset(0, value2),
               child: Opacity(
                 opacity: value,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      MobileImageCarousel(item: item),
-                      Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  spacing: 12,
+                  children: [
+                    MobileImageCarousel(
+                      item: item,
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 12,
                           children: [
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  item.projectName,
-                                  textAlign: TextAlign.left,
-                                  style: context.headline5!.copyWith(
-                                    color: Colors.white,
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w500,
+                                SizedBox(
+                                  height: 48,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        item.projectName,
+                                        textAlign: TextAlign.left,
+                                        style: context.headline5!.copyWith(
+                                          color: context.theme.primaryColor,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      Row(
+                                        spacing: 12,
+                                        children: [
+                                          if (item.publishedGooglePlayUrl !=
+                                              null)
+                                            IconButton(
+                                              style: IconButton.styleFrom(
+                                                iconSize: 20,
+                                                padding: EdgeInsets.zero,
+                                                backgroundColor:
+                                                    context.theme.primaryColor,
+                                              ),
+                                              icon: SvgPicture.asset(
+                                                AppIcons.playStore,
+                                                width: 20,
+                                                height: 20,
+                                              ),
+                                              onPressed: () {
+                                                launchUrlString(item
+                                                    .publishedGooglePlayUrl!);
+                                              },
+                                            ),
+                                          if (item.publishedAppStoreUrl != null)
+                                            IconButton(
+                                              style: IconButton.styleFrom(
+                                                padding: EdgeInsets.zero,
+                                                backgroundColor:
+                                                    context.theme.primaryColor,
+                                              ),
+                                              icon: SvgPicture.asset(
+                                                AppIcons.appStore,
+                                                width: 20,
+                                                height: 20,
+                                              ),
+                                              onPressed: () {
+                                                launchUrlString(
+                                                    item.publishedAppStoreUrl!);
+                                              },
+                                            ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 Text(
@@ -326,12 +382,10 @@ class MobileAnimatedShowcaseItemView extends StatelessWidget {
                                   style: context.headline6!.copyWith(
                                     fontWeight: FontWeight.w100,
                                     fontSize: 16,
-                                    color: Colors.white,
                                   ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 12),
                             SizedBox(
                               width: width,
                               child: Text(
@@ -339,52 +393,18 @@ class MobileAnimatedShowcaseItemView extends StatelessWidget {
                                 maxLines: 5,
                                 textAlign: TextAlign.left,
                                 style: context.bodyText1!
-                                    .copyWith(color: Colors.white),
-                              ),
-                            ),
-                            const Spacer(),
-                            Wrap(
-                              spacing: 8,
-                              children: item.tags
-                                  .map(
-                                    (e) => Text(
-                                      "#${e.toLowerCase()}",
-                                      style: context.bodyText2?.copyWith(
-                                        fontWeight: FontWeight.w100,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                            const SizedBox(height: 4),
-                            TextButton(
-                              onPressed: () async {
-                                await launchUrl(Uri.parse(item.url));
-                              },
-                              style: GlobalStyles.whiteTextButtonStyle(),
-                              child: Container(
-                                width: width,
-                                color: Colors.white,
-                                padding:
-                                    const EdgeInsets.fromLTRB(24, 12, 24, 12),
-                                child: Center(
-                                  child: Text(
-                                    Globals.checkItOut,
-                                    style: context.bodyText1!.copyWith(
-                                        color: GlobalColors.primaryColor,
-                                        fontSize: 24,
-                                        fontStyle: FontStyle.normal,
-                                        fontWeight: FontWeight.w700),
-                                  ),
+                                    .copyWith(
+                                  fontSize: 16,
+                                  height: 1.5,
+                                  fontWeight: FontWeight.w300,
                                 ),
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             );

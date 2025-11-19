@@ -30,7 +30,7 @@ class ShowcaseItem {
   });
 
   List<String> get images => List.generate(imageAssets.length,
-      (index) => "assets/images/work/$imagesPath/${imageAssets[index]}.png");
+      (index) => "assets/images/work/$imagesPath/${imageAssets[index]}");
 
   @override
   String toString() {
@@ -72,7 +72,7 @@ class UiShowcaseManager {
   ValueNotifier<int> currentImageIndex = ValueNotifier(0);
   ValueNotifier<int> maxItemNumber = ValueNotifier(6);
   ValueNotifier<bool> showImageOverlay = ValueNotifier(false);
-  ValueNotifier<bool> showTutorialOverlay = ValueNotifier(true);
+  ValueNotifier<bool> showTutorialOverlay = ValueNotifier(false);
   ValueNotifier<LayoutView> showcaseView = ValueNotifier(LayoutView.single);
 
   late PageController carouselController;

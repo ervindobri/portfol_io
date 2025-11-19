@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:portfol_io/constants/constants.dart';
+import 'package:portfol_io/extensions/build_context.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
@@ -90,7 +90,7 @@ class FullscreenImageDialog extends ConsumerWidget {
 }
 
 class MobileFullscreenImageDialog extends StatelessWidget {
-  MobileFullscreenImageDialog({
+  const MobileFullscreenImageDialog({
     super.key,
     required this.item,
     required this.image,
@@ -98,12 +98,12 @@ class MobileFullscreenImageDialog extends StatelessWidget {
 
   final ShowcaseItem item;
   final String image;
-  final uiShowcaseManager = sl<UiShowcaseManager>();
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    final uiShowcaseManager = sl<UiShowcaseManager>();
+    final width = context.width;
+    final height = context.height;
     return Dismissible(
       key: const Key('key'),
       direction: DismissDirection.vertical,
@@ -119,11 +119,6 @@ class MobileFullscreenImageDialog extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "Pan around and zoom with your fingers.",
-                    style: context.bodyText1,
-                  ),
-                  const SizedBox(height: 16),
                   ValueListenableBuilder<int>(
                     valueListenable: uiShowcaseManager.currentImageIndex,
                     builder: (context, value, _) {
@@ -137,7 +132,7 @@ class MobileFullscreenImageDialog extends StatelessWidget {
                             child: Image(
                               fit: BoxFit.cover,
                               image: AssetImage(
-                                "assets/images/work/${item.imagesPath}/${item.imageAssets[value]}.png",
+                                item.imageAssets[value],
                               ),
                             ),
                           ),
@@ -156,9 +151,9 @@ class MobileFullscreenImageDialog extends StatelessWidget {
                   splashColor: Colors.transparent,
                   onPressed: () => Navigator.pop(context),
                   icon: Container(
-                    height: 64,
-                    width: 64,
-                    color: GlobalColors.primaryColor,
+                    height: 32,
+                    width: 32,
+                    color: context.theme.primaryColor,
                     child: const Center(
                       child: Icon(CupertinoIcons.xmark,
                           size: 24, color: Colors.white),
@@ -170,15 +165,15 @@ class MobileFullscreenImageDialog extends StatelessWidget {
                 left: 16,
                 bottom: 16,
                 child: IconButton(
-                  iconSize: 48,
+                  iconSize: 32,
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
                   onPressed: () =>
                       uiShowcaseManager.previousImageItemCommand.execute(),
                   icon: Container(
-                    height: 64,
-                    width: 64,
-                    color: GlobalColors.primaryColor,
+                    height: 32,
+                    width: 32,
+                    color: context.theme.primaryColor,
                     child: const Center(
                       child: Icon(CupertinoIcons.chevron_left,
                           size: 24, color: Colors.white),
@@ -190,15 +185,15 @@ class MobileFullscreenImageDialog extends StatelessWidget {
                 right: 16,
                 bottom: 16,
                 child: IconButton(
-                  iconSize: 48,
+                  iconSize: 32,
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
                   onPressed: () =>
                       uiShowcaseManager.nextImageItemCommand.execute(),
                   icon: Container(
-                    height: 64,
-                    width: 64,
-                    color: GlobalColors.primaryColor,
+                    height: 32,
+                    width: 32,
+                    color: context.theme.primaryColor,
                     child: const Center(
                       child: Icon(CupertinoIcons.chevron_right,
                           size: 24, color: Colors.white),

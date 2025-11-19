@@ -41,7 +41,7 @@ class GlobalColors {
   static List<Color> themeColors = [
     const Color(0xffF15E3D),
     const Color(0xff3DF1D1),
-    const Color(0xff3D9BF1),
+    const Color(0xff2655E0),
     const Color(0xffB83DF1),
     const Color(0xffF1483D),
   ];

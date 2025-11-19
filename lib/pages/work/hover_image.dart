@@ -70,7 +70,7 @@ class HoverImageState extends State<HoverImage>
                 ..scaleByVector3(
                     Vector3(_animation.value, _animation.value, 1)),
               child: Image.asset(
-                "assets/images/work/${widget.item.imagesPath}/${widget.image}.png",
+                "assets/images/work/${widget.item.imagesPath}/${widget.image}",
                 fit: BoxFit.contain,
                 cacheWidth: width ~/ 2,
               ),

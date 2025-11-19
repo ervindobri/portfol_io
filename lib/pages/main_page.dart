@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_improved_scrolling/flutter_improved_scrolling.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfol_io/constants/constants.dart';
@@ -8,7 +7,7 @@ import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/pages/contact/contact_content.dart';
-import 'package:portfol_io/pages/home/home_content.dart';
+import 'package:portfol_io/pages/menu/home_content.dart';
 import 'package:portfol_io/pages/menu/menu.dart';
 import 'package:portfol_io/pages/work/work_content.dart';
 import 'package:portfol_io/providers/providers.dart';
@@ -38,9 +37,7 @@ class HomePageState extends ConsumerState<HomePage>
         ref.watch(previousBrightnessProvider).extBackgroundColor;
     final nextColor = ref.watch(themeProvider).brightness.extBackgroundColor;
 
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      uiMenuManager.setOffsets();
-    });
+
     final scrollEnabled = ref.watch(scrollEnabledProvider);
     return TweenAnimationBuilder<Color?>(
       tween: ColorTween(begin: previousColor, end: nextColor),
@@ -98,7 +95,7 @@ class HomePageState extends ConsumerState<HomePage>
                     ),
                   ),
                   Positioned(
-                    top: context.topPadding,
+                    top: isMobile ? 0 : context.topPadding,
                     child: const StickyMenu(),
                   ),
                   Positioned(
@@ -119,6 +116,4 @@ class HomePageState extends ConsumerState<HomePage>
   }
 }
 
-extension on BuildContext {
-  get topPadding => MediaQuery.of(this).padding.top;
-}
+

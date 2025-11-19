@@ -36,73 +36,85 @@ class ShowcaseItemView extends ConsumerWidget {
 }
 
 class MobileShowcaseItemView extends StatelessWidget {
-  MobileShowcaseItemView({
+  const MobileShowcaseItemView({
     super.key,
   });
 
-  final uiShowcaseManager = sl<UiShowcaseManager>();
+  @override
+  Widget build(BuildContext context) {
+    final uiShowcaseManager = sl<UiShowcaseManager>();
+    final width = MediaQuery.of(context).size.width;
+    return Container(
+      width: width,
+      decoration: BoxDecoration(
+        color: context.theme.containerColor,
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 24.0),
+            child: MobileAnimatedShowcaseItemWidget(),
+          ),
+          ValueListenableBuilder<bool>(
+            valueListenable: uiShowcaseManager.showTutorialOverlay,
+            builder: (context, value, child) {
+              return AnimatedSwitcher(
+                duration: kThemeAnimationDuration,
+                child: !value ? const SizedBox() : const TutorialOverlay(),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class TutorialOverlay extends StatelessWidget {
+  const TutorialOverlay({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    return Expanded(
-      child: SizedBox(
-        width: width,
-        child: Stack(
-          alignment: Alignment.center,
-          fit: StackFit.expand,
-          children: [
-            SizedBox(width: width, child: MobileAnimatedShowcaseItemWidget()),
-            ValueListenableBuilder<bool>(
-                valueListenable: uiShowcaseManager.showTutorialOverlay,
-                builder: (context, value, child) {
-                  return AnimatedSwitcher(
-                    duration: kThemeAnimationDuration,
-                    child: !value
-                        ? const SizedBox()
-                        : Container(
-                            width: width,
-                            height: height,
-                            decoration: BoxDecoration(
-                              color: GlobalColors.darkGrey.withAlpha(179),
-                            ),
-                            alignment: Alignment.center,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  CupertinoIcons.arrow_left_right_circle,
-                                  color: Colors.white,
-                                  size: 42,
-                                ),
-                                SelectableText(
-                                  "Swipe left or right to change current item",
-                                  textAlign: TextAlign.center,
-                                  style: context.headline6?.copyWith(
-                                    fontWeight: FontWeight.w100,
-                                  ),
-                                ),
-                                TextButton(
-                                  style: GlobalStyles.whiteTextButtonStyle(),
-                                  onPressed: () {
-                                    uiShowcaseManager
-                                        .showTutorialOverlay.value = false;
-                                  },
-                                  child: Text(
-                                    "Got it.",
-                                    style: context.bodyText1?.copyWith(
-                                      color: GlobalColors.primaryColor,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                  );
-                }),
-          ],
-        ),
+    final height = MediaQuery.of(context).size.height;
+    final uiShowcaseManager = sl<UiShowcaseManager>();
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        color: GlobalColors.darkGrey.withAlpha(179),
+      ),
+      alignment: Alignment.center,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            CupertinoIcons.arrow_left_right_circle,
+            color: Colors.white,
+            size: 42,
+          ),
+          SelectableText(
+            "Swipe left or right to change current item",
+            textAlign: TextAlign.center,
+            style: context.headline6?.copyWith(
+              fontWeight: FontWeight.w100,
+            ),
+          ),
+          TextButton(
+            style: GlobalStyles.whiteTextButtonStyle(),
+            onPressed: () {
+              uiShowcaseManager.showTutorialOverlay.value = false;
+            },
+            child: Text(
+              "Got it.",
+              style: context.bodyText1?.copyWith(
+                color: GlobalColors.primaryColor,
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

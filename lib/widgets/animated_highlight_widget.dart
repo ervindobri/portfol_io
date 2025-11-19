@@ -63,12 +63,9 @@ class AnimatedHighlightMobileWidget extends hooks.HookConsumerWidget {
     final theme = ref.watch(themeProvider);
     final keyword = Globals.highlightList[index];
     final pressed = useState(false);
-    final pressedTransform = Matrix4.identity()
-      ..translateByVector3(Vector3(-64, -8, 0))
-      ..scaleByVector3(Vector3(1.35, 1.35, 1.35));
-    final transform = pressed.value ? pressedTransform : Matrix4.identity();
+
     return DelayedDisplay(
-      delay: Duration(milliseconds: 2500 + 100 + index * 200),
+      delay: Duration(milliseconds: 100 + index * 200),
       child: GestureDetector(
         onTapDown: (details) {
           pressed.value = true;
@@ -79,18 +76,24 @@ class AnimatedHighlightMobileWidget extends hooks.HookConsumerWidget {
         onTapCancel: () {
           pressed.value = false;
         },
-        child: AnimatedContainer(
+        child: AnimatedScale(
+          scale: pressed.value ? 1.35 : 1,
           duration: kThemeAnimationDuration,
           curve: Curves.bounceInOut,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(48),
-            color: theme.extBackgroundColor,
-          ),
-          transform: transform,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          child: Text(
-            keyword.toUpperCase(),
-            style: theme.inverseBodyLarge,
+          child: AnimatedContainer(
+            duration: kThemeAnimationDuration,
+            curve: Curves.bounceInOut,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(48),
+              color: theme.extBackgroundColor,
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            child: Text(
+              keyword.toUpperCase(),
+              style: theme.inverseBodyLarge?.copyWith(
+                letterSpacing: pressed.value ? 2 : 1,
+              ),
+            ),
           ),
         ),
       ),

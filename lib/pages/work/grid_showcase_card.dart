@@ -39,7 +39,7 @@ class _ShowcaseCardState extends State<ShowcaseCard> {
               decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage(
-                    "assets/images/work/${widget.item.imagesPath}/$image.png"),
+                    "assets/images/work/${widget.item.imagesPath}/$image"),
                 fit: BoxFit.cover),
           )),
           ValueListenableBuilder<bool>(
@@ -175,7 +175,7 @@ class _MobileShowcaseCardState extends State<MobileShowcaseCard> {
                   decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                    "assets/images/work/${widget.item.imagesPath}/$image.png",
+                    "assets/images/work/${widget.item.imagesPath}/$image",
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -223,7 +223,7 @@ class _MobileShowcaseCardState extends State<MobileShowcaseCard> {
                                         alignment: Alignment.center,
                                         children: [
                                           SizedBox(
-                                            height: height * .85,
+                                            height: height,
                                             child:
                                                 MobileAnimatedShowcaseItemView(
                                                     item: widget.item),

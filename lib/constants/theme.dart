@@ -9,6 +9,9 @@ class PortfolioTheme {
         primaryColor: GlobalColors.defaultThemeColor,
         // Define the default font family.
         fontFamily: 'Poppins',
+        colorScheme: const ColorScheme.dark(
+          surface: GlobalColors.backgroundColorDark,
+        ),
         useMaterial3: true,
         textTheme: const TextTheme(
           titleMedium: TextStyle(
@@ -55,6 +58,11 @@ class PortfolioTheme {
         // Define the default brightness and colors.
         brightness: Brightness.light,
         primaryColor: GlobalColors.defaultThemeColor,
+        canvasColor: GlobalColors.backgroundColorLight,
+        colorScheme: const ColorScheme.light(
+          surface: GlobalColors.backgroundColorLight,
+        ),
+        scaffoldBackgroundColor: GlobalColors.backgroundColorLight,
         // Define the default font family.
         fontFamily: 'Poppins',
         textTheme: const TextTheme(
