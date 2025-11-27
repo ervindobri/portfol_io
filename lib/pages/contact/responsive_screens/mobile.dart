@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portfol_io/extensions/build_context.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/pages/contact/contact_me_card.dart';
@@ -21,15 +22,15 @@ class _ContactDesktopState extends State<ContactMobile> {
     final width = MediaQuery.of(context).size.width;
     return SizedBox(
       width: width,
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         spacing: 32,
         children: [
-          SizedBox(height: kToolbarHeight + 12),
-          MobileContactProfileImage(),
-          MobileContactInfo(),
-          DelayedDisplay(
+          SizedBox(height: context.topPadding + kToolbarHeight),
+          const MobileContactProfileImage(),
+          const MobileContactInfo(),
+          const DelayedDisplay(
             slidingBeginOffset: Offset(0, 0),
             child: MobileContactMeCard(),
           ),
