@@ -268,24 +268,6 @@ class _ZoomOnDoubleTapImageState extends State<ZoomOnDoubleTapImage>
     super.dispose();
   }
 
-  void _runAnimation(Matrix4 endMatrix) {
-    _animation = Matrix4Tween(
-      begin: _controller.value,
-      end: endMatrix,
-    ).animate(CurveTween(curve: Curves.easeOut).animate(_animationController!));
-
-    _animationController!.addListener(() {
-      _controller.value = _animation!.value;
-      if (_animationController!.value == 1.0) {
-        widget.isZoomed(true);
-      } else if (_animationController!.value == 0.0) {
-        widget.isZoomed(false);
-      }
-    });
-
-    _animationController!.forward();
-  }
-
   @override
   Widget build(BuildContext context) {
     return InteractiveViewer(

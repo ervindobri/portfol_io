@@ -166,6 +166,7 @@ class MobileImageCarousel extends StatelessWidget {
                     options: carousel.CarouselOptions(
                       autoPlay: true,
                       viewportFraction: 1.0,
+                      aspectRatio: 16 / 12,
                       onPageChanged: (index, reason) {
                         uiShowcaseManager.setImageCommand.execute(index);
                       },
