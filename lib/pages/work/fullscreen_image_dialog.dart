@@ -107,6 +107,34 @@ class MobileFullscreenImageDialog extends HookWidget {
     final width = context.width;
     final height = context.height;
     final images = item.imageAssets;
+    
+    // Create transformation controllers for each image
+    final transformationControllers = useMemoized(
+      () => List.generate(
+        images.length,
+        (index) => TransformationController(),
+      ),
+      [images.length],
+    );
+
+    // Track if we're applying custom transformation to avoid loops
+    final isApplyingTransform = useRef(<bool>[]);
+
+    // Initialize the flag list
+    useEffect(() {
+      isApplyingTransform.value = List.filled(images.length, false);
+      return null;
+    }, [images.length]);
+
+    // Dispose controllers when widget is disposed
+    useEffect(() {
+      return () {
+        for (final tc in transformationControllers) {
+          tc.dispose();
+        }
+      };
+    }, [transformationControllers]);
+    
     return Dialog(
       insetPadding: EdgeInsets.zero,
       child: SizedBox(
@@ -122,11 +150,13 @@ class MobileFullscreenImageDialog extends HookWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     DelayedDisplay(
-                        child:
-                            Text(item.projectName, style: context.bodyText1)),
+                      child: Text(
+                        item.projectName,
+                        style: context.bodyText1,
+                      ),
+                    ),
                     IconButton(
                       iconSize: 32,
-                      
                       highlightColor: Colors.transparent,
                       style: IconButton.styleFrom(
                         backgroundColor: context.theme.primaryColor,
@@ -160,20 +190,76 @@ class MobileFullscreenImageDialog extends HookWidget {
                     controller: controller,
                     physics: const AlwaysScrollableScrollPhysics(),
                     child: Row(
-                      children: images
-                          .map((image) => SizedBox(
-                                width: width,
-                                child: InteractiveViewer(
-                                  panEnabled: true,
+                      children: images.asMap().entries.map((entry) {
+                        final index = entry.key;
+                        final image = entry.value;
+                        final transformationController =
+                            transformationControllers[index];
+
+                        return SizedBox(
+                          width: width,
+                          child: ValueListenableBuilder<Matrix4>(
+                            valueListenable: transformationController,
+                            builder: (context, matrix, child) {
+                              // Extract scale to determine if panning should be enabled
+                              final currentScale = matrix.getMaxScaleOnAxis();
+                              final shouldEnablePan = currentScale > 1.0;
+
+                              return InteractiveViewer(
+                                transformationController:
+                                    transformationController,
+                                panEnabled: shouldEnablePan,
                                 scaleEnabled: true,
-                                  minScale: 1.0,
-                                  maxScale: 3.0,
+                                minScale: 1.0,
+                                maxScale: 3.0,
+                                boundaryMargin:
+                                    const EdgeInsets.all(double.infinity),
+                                onInteractionUpdate: (details) {
+                                  if (isApplyingTransform.value[index]) {
+                                    return;
+                                  }
+
+                                  final currentMatrix =
+                                      transformationController.value;
+                                  final currentScale =
+                                      currentMatrix.getMaxScaleOnAxis();
+
+                                  if (currentScale > 1.0) {
+                                    isApplyingTransform.value[index] = true;
+
+                                    // Calculate height scale (taller)
+                                    final heightScale = 1.0 +
+                                        (currentScale - 1.0) * 1.5; // 50% more
+
+                                    // Get translation from current matrix
+                                    final translation =
+                                        currentMatrix.getTranslation();
+
+                                    // Create new matrix with non-uniform scaling
+                                    final newMatrix = Matrix4.identity()
+                                      ..translate(translation.x, translation.y)
+                                      ..scale(currentScale, heightScale);
+
+                                    transformationController.value = newMatrix;
+
+                                    // Reset flag after a frame
+                                    WidgetsBinding.instance
+                                        .addPostFrameCallback((_) {
+                                      isApplyingTransform.value[index] = false;
+                                    });
+                                  }
+                                },
+                                child: Center(
                                   child: Image(
-                                    fit: BoxFit.cover,
+                                    fit: BoxFit.contain,
                                     image: AssetImage(image),
                                   ),
                                 ),
-                              ))
+                              );
+                            },
+                          ),
+                        );
+                      })
                           .toList(),
                     ),
                   ),
