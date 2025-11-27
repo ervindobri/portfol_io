@@ -190,7 +190,6 @@ class MobileFullscreenImageDialog extends HookWidget {
                   controller: controller,
                   thumbVisibility: true,
                   thickness: 24,
-                  
                   thumbColor: context.theme.primaryColor,
                   trackColor: context.theme.primaryColor.withAlpha(100),
                   trackVisibility: true,
@@ -246,6 +245,9 @@ class _ZoomOnDoubleTapImageState extends State<ZoomOnDoubleTapImage>
   AnimationController? _animationController;
   Animation<Matrix4>? _animation;
 
+  final double minScale = 1;
+  final double maxScale = 3;
+
   @override
   void initState() {
     super.initState();
@@ -253,8 +255,10 @@ class _ZoomOnDoubleTapImageState extends State<ZoomOnDoubleTapImage>
 
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 250),
-    );
+      duration: const Duration(milliseconds: 200),
+    )..addListener(() {
+        _controller.value = _animation!.value;
+      });
   }
 
   @override
@@ -282,46 +286,34 @@ class _ZoomOnDoubleTapImageState extends State<ZoomOnDoubleTapImage>
     _animationController!.forward();
   }
 
-  void _onDoubleTap(TapDownDetails details, BuildContext context) {
-    // If currently zoomed → reset
-    if (_controller.value != Matrix4.identity()) {
-      _animationController!.reverse();
-      return;
-    }
-
-    // Zoom around tap position
-    final tapPos = details.localPosition;
-    final zoomed = Matrix4.identity()
-      ..translate(-tapPos.dx * 2, -tapPos.dy * 2)
-      ..scale(3.0);
-
-    _runAnimation(zoomed);
-  }
-
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onDoubleTapDown: (details) => _onDoubleTap(details, context),
-      child: AnimatedBuilder(
-          animation: _animationController!,
-          builder: (context, child) {
-            final panEnabled = _animationController!.value == 1.0;
-            return InteractiveViewer(
-              transformationController: _controller,
-              minScale: 1,
-              maxScale: 3,
-              panEnabled: panEnabled,
-              scaleEnabled: true,
-              child: Image.asset(
-                widget.image,
-                width: lerpDouble(widget.width, context.width * 3,
-                    _animationController!.value),
-                height: lerpDouble(
-                    widget.height, context.height, _animationController!.value),
-                fit: BoxFit.cover,
-              ),
-            );
-          }),
+    return InteractiveViewer(
+      clipBehavior: Clip.none,
+      transformationController: _controller,
+      minScale: minScale,
+      maxScale: maxScale,
+      onInteractionEnd: (details) => resetAnimation(details, context),
+      panEnabled: false,
+      scaleEnabled: true,
+      child: Image.asset(
+        widget.image,
+        width: lerpDouble(
+            widget.width, context.width * 3, _animationController!.value),
+        height: lerpDouble(
+            widget.height, context.height, _animationController!.value),
+        fit: BoxFit.cover,
+      ),
     );
+  }
+
+  void resetAnimation(details, context) {
+    _animation = Matrix4Tween(
+      begin: _controller.value,
+      end: Matrix4.identity(),
+    ).animate(
+      CurveTween(curve: Curves.easeOut).animate(_animationController!),
+    );
+    _animationController!.forward(from: 0);
   }
 }

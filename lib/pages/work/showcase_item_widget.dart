@@ -287,9 +287,9 @@ class MobileAnimatedShowcaseItemWidget extends HookWidget {
           },
         ),
         Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
+          bottom: 24 + context.bottomPadding,
+          left: 20,
+          right: 20,
           child: Align(
             alignment: Alignment.bottomCenter,
             child: Row(

@@ -75,7 +75,7 @@ class _MenuMobileState extends ConsumerState<MenuMobile> {
                           splashColor: Colors.transparent,
                           onTap: () => uiMenuManager.setPage(index),
                           child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 100),
+                            duration: const Duration(milliseconds: 200),
                             decoration: isSelected
                                 ? null
                                 : BoxDecoration(
@@ -89,9 +89,11 @@ class _MenuMobileState extends ConsumerState<MenuMobile> {
                                 Text(
                                   Globals.menu[index],
                                   style: theme.textTheme.labelMedium?.copyWith(
-                                    color: isSelected
-                                        ? themeColor
-                                        : theme.inverseTextColor,
+                                    color: Color.lerp(
+                                      theme.inverseTextColor,
+                                      themeColor,
+                                      isSelected ? 1 : 0,
+                                    ),
                                     fontWeight: isSelected
                                         ? FontWeight.bold
                                         : FontWeight.normal,

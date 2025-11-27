@@ -10,8 +10,8 @@ extension BuildContextExt on BuildContext {
 
 
 extension PaddingExtension on BuildContext {
-  get topPadding => MediaQuery.of(this).padding.top;
-  get bottomPadding => MediaQuery.of(this).padding.bottom;
-  get leftPadding => MediaQuery.of(this).padding.left;
-  get rightPadding => MediaQuery.of(this).padding.right;
+  double get topPadding => MediaQuery.of(this).padding.top;
+  double get bottomPadding => MediaQuery.of(this).padding.bottom;
+  double get leftPadding => MediaQuery.of(this).padding.left;
+  double get rightPadding => MediaQuery.of(this).padding.right;
 }
