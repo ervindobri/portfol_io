@@ -126,10 +126,7 @@ class Dialogs {
             parent: animation,
             curve: Curves.fastOutSlowIn,
           )),
-          child: FadeTransition(
-            opacity: animation,
-            child: child,
-          ),
+          child: child,
         );
       },
       transitionDuration: const Duration(milliseconds: 300),

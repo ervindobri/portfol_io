@@ -1,6 +1,7 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:motion/motion.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -19,6 +20,16 @@ Future<void> main() async {
   await init();
   sl<UiShowcaseManager>().itemsCommand.execute();
 
+  // Set system UI overlay to transparent
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+      systemNavigationBarIconBrightness: Brightness.light,
+    ),
+  );
+
   runApp(
     ProviderScope(
       child: DevicePreview(
@@ -34,13 +45,25 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.watch(themeProvider);
+    final isDark = theme.brightness == Brightness.dark;
+    
     return OverlaySupport.global(
-      child: MaterialApp(
-        title: 'Ervin Dobri',
-        theme: ref.watch(themeProvider),
-        home: const HomePage(),
-        debugShowCheckedModeBanner: false,
-        initialRoute: "/",
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          systemNavigationBarColor: Colors.transparent,
+          statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+          systemNavigationBarIconBrightness:
+              isDark ? Brightness.light : Brightness.dark,
+        ),
+        child: MaterialApp(
+          title: 'Ervin Dobri',
+          theme: theme,
+          home: const HomePage(),
+          debugShowCheckedModeBanner: false,
+          initialRoute: "/",
+        ),
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:portfol_io/extensions/build_context.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/helpers/email_helper.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
@@ -145,6 +146,8 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
                           ),
                         ),
                         Stack(
+                          alignment: Alignment.bottomCenter,
+                          clipBehavior: Clip.none,
                           children: [
                             // Shadow layer
                             Positioned.fill(
@@ -176,51 +179,61 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
                                 fit: BoxFit.contain,
                               ),
                             ),
+                            Positioned(
+                              bottom: -24,
+                              left: 0,
+                              right: 0,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: TextButton(
+                                    style:
+                                        GlobalStyles.primaryButtonStyle(theme),
+                                    onPressed: () async {
+                                      await EmailHelper.contactMe();
+                                      HapticFeedback.mediumImpact();
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 12, horizontal: 24),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        spacing: 12,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            Globals.hireMe,
+                                            style: theme.textTheme.titleSmall
+                                                ?.copyWith(
+                                              color: theme.textColor,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SvgPicture.asset(
+                                            AppIcons.coffee,
+                                            height: 24,
+                                            width: 24,
+                                            colorFilter: ColorFilter.mode(
+                                              theme.textColor,
+                                              BlendMode.srcIn,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: TextButton(
-                        style: GlobalStyles.primaryButtonStyle(theme),
-                        onPressed: () async {
-                          await EmailHelper.contactMe();
-                          HapticFeedback.mediumImpact();
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 12, horizontal: 24),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            spacing: 12,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                Globals.hireMe,
-                                style: theme.textTheme.titleSmall?.copyWith(
-                                  color: theme.textColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SvgPicture.asset(
-                                AppIcons.coffee,
-                                height: 24,
-                                width: 24,
-                                colorFilter: ColorFilter.mode(
-                                  theme.textColor,
-                                  BlendMode.srcIn,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Align(

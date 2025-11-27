@@ -1,5 +1,6 @@
-import 'dart:async';
+// import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class UiMenuManager {
@@ -13,8 +14,8 @@ class UiMenuManager {
   final menuItemsCount = 3;
 
   // To add a bit of delay in scrolling/animating
-  Timer? _debounce;
-  final _debounceDuration = const Duration(milliseconds: 50);
+  // Timer? _debounce;
+  // final _debounceDuration = const Duration(milliseconds: 50);
 
   double get offset => scrollController.offset;
 
@@ -22,7 +23,6 @@ class UiMenuManager {
 
   void setOffset(int index, double offset) {
     offsets[index] = offset;
-    print(offsets);
   }
 
   UiMenuManager() {
@@ -40,11 +40,18 @@ class UiMenuManager {
   }
 
   int getCurrentIndex(double offset) {
+    
+    if (kDebugMode) {
+
     print("find offset: $offset");
+    }
     final currentIndex =
         offsets.indexOf(offsets.where((element) => element <= offset).last);
 
+    if (kDebugMode) {
+
     print("scrolled to : $currentIndex");
+    }
     return currentIndex;
   }
 

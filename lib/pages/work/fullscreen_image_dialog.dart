@@ -7,6 +7,7 @@ import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/providers/providers.dart';
+import 'package:portfol_io/widgets/delayed_display.dart';
 
 class FullscreenImageDialog extends ConsumerWidget {
   FullscreenImageDialog({
@@ -120,12 +121,17 @@ class MobileFullscreenImageDialog extends HookWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(item.projectName, style: context.bodyText1),
+                    DelayedDisplay(
+                        child:
+                            Text(item.projectName, style: context.bodyText1)),
                     IconButton(
-                      iconSize: 48,
+                      iconSize: 32,
+                      
                       highlightColor: Colors.transparent,
                       style: IconButton.styleFrom(
                         backgroundColor: context.theme.primaryColor,
+                        iconSize: 24,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
                       splashColor: Colors.transparent,
                       onPressed: () => Navigator.pop(context),
@@ -141,8 +147,7 @@ class MobileFullscreenImageDialog extends HookWidget {
                   ],
                 ),
               ),
-              AspectRatio(
-                aspectRatio: 9 / 16,
+              Expanded(
                 child: RawScrollbar(
                   controller: controller,
                   thumbVisibility: true,
@@ -156,13 +161,13 @@ class MobileFullscreenImageDialog extends HookWidget {
                     physics: const AlwaysScrollableScrollPhysics(),
                     child: Row(
                       children: images
-                          .map((image) => InteractiveViewer(
+                          .map((image) => SizedBox(
+                                width: width,
+                                child: InteractiveViewer(
+                                  panEnabled: true,
                                 scaleEnabled: true,
-                                minScale: 0.3,
-                                scaleFactor: 1.0,
-                                maxScale: 3,
-                                child: SizedBox(
-                                  height: height,
+                                  minScale: 1.0,
+                                  maxScale: 3.0,
                                   child: Image(
                                     fit: BoxFit.cover,
                                     image: AssetImage(image),
