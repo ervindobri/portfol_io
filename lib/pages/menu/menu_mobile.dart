@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/constants.dart';
@@ -73,7 +74,10 @@ class _MenuMobileState extends ConsumerState<MenuMobile> {
                               const WidgetStatePropertyAll(Colors.transparent),
                           hoverColor: themeColor.withAlpha(77),
                           splashColor: Colors.transparent,
-                          onTap: () => uiMenuManager.setPage(index),
+                          onTap: () {
+                            uiMenuManager.setPage(index);
+                            HapticFeedback.lightImpact();
+                          },
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 200),
                             decoration: isSelected
@@ -83,7 +87,9 @@ class _MenuMobileState extends ConsumerState<MenuMobile> {
                                     color: Colors.transparent,
                                   ),
                             padding: const EdgeInsets.symmetric(
-                                vertical: 4, horizontal: 8),
+                              vertical: 4,
+                              horizontal: 8,
+                            ),
                             child: Row(
                               children: [
                                 Text(
@@ -96,7 +102,7 @@ class _MenuMobileState extends ConsumerState<MenuMobile> {
                                     ),
                                     fontWeight: isSelected
                                         ? FontWeight.bold
-                                        : FontWeight.normal,
+                                        : FontWeight.bold,
                                   ),
                                 ),
                               ],

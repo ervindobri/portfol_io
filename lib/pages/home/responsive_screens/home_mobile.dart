@@ -43,242 +43,244 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
     final height = MediaQuery.of(context).size.height;
     final theme = ref.watch(themeProvider);
     final themeColor = ref.watch(themeColorProvider);
-    return SizedBox(
-      width: width,
-      child: Column(
-        spacing: 24,
-        children: [
-          //left
-          Container(
-            decoration: BoxDecoration(
-              color: theme.containerColor,
-              borderRadius: GlobalStyles.homeRadius,
-            ),
-            alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(vertical: 48),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              spacing: 24,
-              children: [
-                const SizedBox(height: kToolbarHeight),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 12,
-                    children: [
-                      FadingSlideWidget(
-                        offset: const Offset(0, 0.1),
-                        durationMilliseconds: 200,
-                        child: Row(
-                          children: [
-                            Text(
-                              Globals.titleText1,
-                              style: theme.nameStyleSmall?.copyWith(
-                                fontSize: 24,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      DefaultTextStyle(
-                        style: theme.nameStyleLarge!.copyWith(
-                          fontSize: 32,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                const Text("I"),
-                                const SizedBox(width: 12),
-                                Expanded(
-                                  // width: context.width,
-                                  child: DefaultTextStyle(
-                                    style: theme.nameStyleLarge!.copyWith(
-                                      color: themeColor,
-                                      fontSize: 32,
-                                    ),
-                                    child: AnimatedTextKit(
-                                      repeatForever: true,
-                                      pause: const Duration(seconds: 2),
-                                      animatedTexts: [
-                                        ...Globals.animatedSkills.map(
-                                          (e) => TyperAnimatedText(
-                                            e,
-                                            speed: const Duration(
-                                              milliseconds: 200,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const Text("value"),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 350,
-                  width: width,
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      Container(
-                        width: width,
-                        height: 250,
-                        decoration: BoxDecoration(
-                          color: themeColor,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(666),
-                            bottomLeft: Radius.circular(24),
-                            bottomRight: Radius.circular(128),
-                          ),
-                        ),
-                      ),
-                      Stack(
-                        alignment: Alignment.bottomCenter,
-                        clipBehavior: Clip.none,
+    final imageHeight = height * .65;
+    return Column(
+      spacing: 24,
+      children: [
+        Container(
+          height: height,
+          decoration: BoxDecoration(
+            color: theme.containerColor,
+            borderRadius: GlobalStyles.homeRadius,
+          ),
+          alignment: Alignment.center,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 24,
+            children: [
+              SizedBox(height: context.topPadding + kToolbarHeight),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 12,
+                  children: [
+                    FadingSlideWidget(
+                      offset: const Offset(0, 0.1),
+                      durationMilliseconds: 200,
+                      child: Row(
                         children: [
-                          // Shadow layer
-                          Positioned.fill(
-                            left: 36,
-                            child: Opacity(
-                              opacity: 0.25,
-                              child: ImageFiltered(
-                                imageFilter: ImageFilter.blur(
-                                  sigmaX: 12,
-                                  sigmaY: 6,
-                                ),
-                                child: ColorFiltered(
-                                  colorFilter: ColorFilter.mode(
-                                    Colors.black.withAlpha(155),
-                                    BlendMode.srcATop,
-                                  ),
-                                  child: Image.asset(
-                                    AppImages.me,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 300,
-                            width: width,
-                            child: Image.asset(
-                              AppImages.me,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          Positioned(
-                            bottom: -24,
-                            left: 0,
-                            right: 0,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: TextButton(
-                                  style: GlobalStyles.primaryButtonStyle(theme),
-                                  onPressed: () async {
-                                    await EmailHelper.contactMe();
-                                    HapticFeedback.mediumImpact();
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 12, horizontal: 24),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      spacing: 12,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          Globals.hireMe,
-                                          style: theme.textTheme.titleSmall
-                                              ?.copyWith(
-                                            color: theme.textColor,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        SvgPicture.asset(
-                                          AppIcons.coffee,
-                                          height: 24,
-                                          width: 24,
-                                          colorFilter: ColorFilter.mode(
-                                            theme.textColor,
-                                            BlendMode.srcIn,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
+                          Text(
+                            Globals.titleText1,
+                            style: theme.nameStyleSmall?.copyWith(
+                              fontSize: 24,
                             ),
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 24,
-                  ),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Wrap(
-                      spacing: 16,
-                      alignment: WrapAlignment.center,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      runAlignment: WrapAlignment.center,
-                      runSpacing: 16,
-                      children: [
-                        ...Globals.techStack.map(
-                          (e) => TechItemWidget(item: e),
-                        )
-                      ],
                     ),
-                  ),
+                    DefaultTextStyle(
+                      style: theme.nameStyleLarge!.copyWith(
+                        fontSize: 32,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              const Text("I"),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                // width: context.width,
+                                child: DefaultTextStyle(
+                                  style: theme.nameStyleLarge!.copyWith(
+                                    color: themeColor,
+                                    fontSize: 32,
+                                  ),
+                                  child: AnimatedTextKit(
+                                    repeatForever: true,
+                                    pause: const Duration(seconds: 2),
+                                    animatedTexts: [
+                                      ...Globals.animatedSkills.map(
+                                        (e) => TyperAnimatedText(
+                                          e,
+                                          speed: const Duration(
+                                            milliseconds: 200,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const Text("value"),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: themeColor,
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(64),
-                bottomRight: Radius.circular(64),
               ),
-            ),
-            padding: const EdgeInsets.all(32),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              spacing: 12,
-              children: [
-                ...List.generate(
-                  Globals.highlightList.length,
-                  (index) {
-                    return AnimatedHighlightMobileWidget(index: index);
-                  },
+              SizedBox(
+                height: imageHeight - 48 - context.bottomPadding,
+                width: width,
+                child: Stack(
+                  alignment: Alignment.bottomCenter,
+                  clipBehavior: Clip.none,
+                  children: [
+                    Container(
+                      height: imageHeight - 50,
+                      decoration: BoxDecoration(
+                        color: themeColor,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(666),
+                          bottomLeft: Radius.circular(24),
+                          bottomRight: Radius.circular(128),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Transform.scale(
+                          scale: 1.0,
+                          alignment: Alignment.bottomCenter,
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              // Shadow layer
+                              Positioned.fill(
+                                left: 36,
+                                child: Opacity(
+                                  opacity: 0.25,
+                                  child: ImageFiltered(
+                                    imageFilter: ImageFilter.blur(
+                                      sigmaX: 12,
+                                      sigmaY: 6,
+                                    ),
+                                    child: ColorFiltered(
+                                      colorFilter: ColorFilter.mode(
+                                        Colors.black.withAlpha(155),
+                                        BlendMode.srcATop,
+                                      ),
+                                      child: Image.asset(
+                                        AppImages.me,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: width,
+                                child: Image.asset(
+                                  AppImages.me,
+                                  fit: BoxFit.fitWidth,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      
+                    ),
+                    Positioned(
+                      bottom: -36,
+                      left: 0,
+                      right: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: TextButton(
+                            style: GlobalStyles.primaryButtonStyle(theme),
+                            onPressed: () async {
+                              await EmailHelper.contactMe();
+                              HapticFeedback.mediumImpact();
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 24, horizontal: 32),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                spacing: 12,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    Globals.hireMe,
+                                    style: theme.textTheme.titleSmall?.copyWith(
+                                      color: theme.textColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SvgPicture.asset(
+                                    AppIcons.coffee,
+                                    height: 24,
+                                    width: 24,
+                                    colorFilter: ColorFilter.mode(
+                                      theme.textColor,
+                                      BlendMode.srcIn,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 24,
+          ),
+          child: Align(
+            alignment: Alignment.center,
+            child: Wrap(
+              spacing: 16,
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              runAlignment: WrapAlignment.center,
+              runSpacing: 16,
+              children: [
+                ...Globals.techStack.map(
+                  (e) => TechItemWidget(item: e),
+                )
               ],
             ),
           ),
-        ],
-      ),
+        ),
+        Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: themeColor,
+            borderRadius: const BorderRadius.only(
+              topRight: Radius.circular(64),
+              bottomRight: Radius.circular(64),
+            ),
+          ),
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            spacing: 12,
+            children: [
+              ...List.generate(
+                Globals.highlightList.length,
+                (index) {
+                  return AnimatedHighlightMobileWidget(index: index);
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
