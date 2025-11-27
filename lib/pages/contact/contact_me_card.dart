@@ -100,7 +100,10 @@ class MobileContactMeCard extends StatelessWidget {
       width: width,
       decoration: BoxDecoration(
         color: context.theme.containerColor,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
+        ),
       ),
       padding: const EdgeInsets.symmetric(
         horizontal: 20,

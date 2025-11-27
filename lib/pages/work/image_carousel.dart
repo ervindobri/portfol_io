@@ -1,10 +1,8 @@
-import 'package:carousel_slider/carousel_slider.dart' as carousel;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
-import 'package:portfol_io/pages/work/fullscreen_image_dialog.dart';
 import 'package:portfol_io/pages/work/hover_image.dart';
 import 'package:portfol_io/widgets/delayed_display.dart';
 import 'package:vector_math/vector_math_64.dart' hide Colors;
@@ -183,107 +181,6 @@ class _ImageCarouselState extends State<ImageCarousel> {
           );
         },
       ),
-    );
-  }
-}
-
-class MobileImageCarousel extends StatelessWidget {
-  MobileImageCarousel({
-    super.key,
-    required this.item,
-  });
-
-  final UiShowcaseManager uiShowcaseManager = sl<UiShowcaseManager>();
-  final ShowcaseItem item;
-
-  @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-    return ValueListenableBuilder<int>(
-      valueListenable: uiShowcaseManager.currentImageIndex,
-      builder: (_, value, __) {
-        return Container(
-          width: width,
-          height: height * .3,
-          color: GlobalColors.primaryColor,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              carousel.CarouselSlider.builder(
-                itemCount: item.imageAssets.length,
-                options: carousel.CarouselOptions(
-                  aspectRatio: 16 / 12,
-                  autoPlay: true,
-                  viewportFraction: 1.0,
-                  onPageChanged: (index, reason) {
-                    uiShowcaseManager.setImageCommand.execute(index);
-                  },
-                ),
-                itemBuilder: (context, index, what) {
-                  return TweenAnimationBuilder(
-                    tween: Tween<double>(begin: 0.0, end: 1.0),
-                    key: Key(item.imageAssets[index]),
-                    duration: const Duration(milliseconds: 300),
-                    builder: (_, double value2, anim) {
-                      final image = item.imageAssets[index];
-                      return Opacity(
-                        opacity: value2,
-                        child: InkWell(
-                          onTap: () async {
-                            await showDialog(
-                              context: context,
-                              builder: (context) {
-                                return MobileFullscreenImageDialog(
-                                    item: item, image: image);
-                              },
-                            );
-                          },
-                          child: SizedBox(
-                            width: width,
-                            height: height,
-                            child: Image(
-                              fit: BoxFit.cover,
-                              image: AssetImage(image),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-              Positioned(
-                bottom: 4,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: item.imageAssets.map((entry) {
-                    final index = item.imageAssets.indexOf(entry);
-                    return InkWell(
-                      onTap: () {
-                        uiShowcaseManager.setImageCommand.execute(index);
-                      },
-                      child: Container(
-                        width: 6.0,
-                        height: 6.0,
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 8.0, horizontal: 4.0),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color:
-                                (Theme.of(context).brightness == Brightness.dark
-                                        ? Colors.white
-                                        : GlobalColors.primaryColor)
-                                    .withAlpha(value == index ? 230 : 64)),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
     );
   }
 }

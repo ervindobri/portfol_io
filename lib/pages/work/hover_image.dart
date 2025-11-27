@@ -107,7 +107,11 @@ class HoverImageState extends State<HoverImage>
                               barrierColor:
                                   GlobalColors.primaryColor.withAlpha(204),
                               builder: (context) {
-                                return Dialog(child: FullscreenImageDialog(item: widget.item));
+                                return Dialog(
+                                  child: FullscreenImageDialog(
+                                    item: widget.item,
+                                  ),
+                                );
                               },
                             );
                           },

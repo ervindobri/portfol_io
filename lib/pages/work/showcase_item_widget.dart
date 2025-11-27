@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart' as carousel;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:portfol_io/constants/constants.dart';
@@ -250,32 +251,79 @@ class AnimatedShowcaseItemWidget extends ConsumerWidget {
   }
 }
 
-class MobileAnimatedShowcaseItemWidget extends StatelessWidget {
+class MobileAnimatedShowcaseItemWidget extends HookWidget {
 
   const MobileAnimatedShowcaseItemWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     final uiShowcaseManager = sl<UiShowcaseManager>();
-    return ValueListenableBuilder<List<ShowcaseItem>>(
-        valueListenable: uiShowcaseManager.showcaseItems,
-        builder: (context, items, __) {
-          return carousel.CarouselSlider.builder(
-            itemCount: items.length,
-            options: carousel.CarouselOptions(
-              viewportFraction: 1.0,
-              enlargeCenterPage: true,
-              aspectRatio: 9 / 16,
-              onPageChanged: (index, reason) {
-                uiShowcaseManager.currentItemCommand.execute(index);
+    final carouselController =
+        useMemoized(() => carousel.CarouselSliderController(), []);
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        ValueListenableBuilder<List<ShowcaseItem>>(
+          valueListenable: uiShowcaseManager.showcaseItems,
+          builder: (context, items, __) {
+            return carousel.CarouselSlider.builder(
+              itemCount: items.length,
+              carouselController: carouselController,
+              options: carousel.CarouselOptions(
+                viewportFraction: 1.0,
+                enlargeCenterPage: true,
+                aspectRatio: width / (height - 144),
+                onPageChanged: (index, reason) {
+                  uiShowcaseManager.currentItemCommand.execute(index);
+                },
+              ),
+              itemBuilder: (context, index, __) {
+                final item = items[index];
+                return MobileAnimatedShowcaseItemView(item: item);
               },
+            );
+          },
+        ),
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  style: IconButton.styleFrom(
+                    shape: BeveledRectangleBorder(
+                      borderRadius: BorderRadius.circular(0),
+                    ),
+                    backgroundColor: context.theme.primaryColor,
+                  ),
+                  onPressed: () {
+                    carouselController.previousPage();
+                  },
+                  icon: const Icon(CupertinoIcons.chevron_left),
+                ),
+                IconButton(
+                  style: IconButton.styleFrom(
+                    shape: BeveledRectangleBorder(
+                      borderRadius: BorderRadius.circular(0),
+                    ),
+                    backgroundColor: context.theme.primaryColor,
+                  ),
+                  onPressed: () {
+                    carouselController.nextPage();
+                  },
+                  icon: const Icon(CupertinoIcons.chevron_right),
+                ),
+              ],
             ),
-            itemBuilder: (context, index, __) {
-              final item = items[index];
-              return MobileAnimatedShowcaseItemView(item: item);
-            },
-          );
-        }
+          ),
+        )
+      ],
     );
   }
 }

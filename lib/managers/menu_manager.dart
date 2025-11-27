@@ -21,6 +21,8 @@ class UiMenuManager {
 
   List<double> offsets = [0, 0, 0];
 
+  bool animating = false;
+
   void setOffset(int index, double offset) {
     offsets[index] = offset;
   }
@@ -32,25 +34,22 @@ class UiMenuManager {
 
     // General listener to update menu index & UI
     scrollController.addListener(() async {
+      if (animating) return;
       final index = getCurrentIndex(scrollController.offset);
       if (index == menuIndex.value) return;
       menuIndex.value = index;
     });
-
   }
 
   int getCurrentIndex(double offset) {
-    
     if (kDebugMode) {
-
-    print("find offset: $offset");
+      print("find offset: $offset");
     }
     final currentIndex =
         offsets.indexOf(offsets.where((element) => element <= offset).last);
 
     if (kDebugMode) {
-
-    print("scrolled to : $currentIndex");
+      print("scrolled to : $currentIndex");
     }
     return currentIndex;
   }
@@ -63,12 +62,18 @@ class UiMenuManager {
     ).then((_) {
       setOffset(index, scrollController.offset);
       menuIndex.value = index;
+      animating = false;
     });
-
   }
 
   void setPage(int index) {
     menuIndex.value = index;
+    animating = true;
     animateToPage(index);
+  }
+
+  void setVisiblePage(int index) {
+    menuIndex.value = index;
+    animating = true;
   }
 }

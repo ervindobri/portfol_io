@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -107,7 +109,7 @@ class MobileFullscreenImageDialog extends HookWidget {
     final width = context.width;
     final height = context.height;
     final images = item.imageAssets;
-    
+
     // Create transformation controllers for each image
     final transformationControllers = useMemoized(
       () => List.generate(
@@ -120,9 +122,13 @@ class MobileFullscreenImageDialog extends HookWidget {
     // Track if we're applying custom transformation to avoid loops
     final isApplyingTransform = useRef(<bool>[]);
 
+    // Track if animation is in progress for each image
+    final isAnimating = useRef(<bool>[]);
+
     // Initialize the flag list
     useEffect(() {
       isApplyingTransform.value = List.filled(images.length, false);
+      isAnimating.value = List.filled(images.length, false);
       return null;
     }, [images.length]);
 
@@ -134,7 +140,9 @@ class MobileFullscreenImageDialog extends HookWidget {
         }
       };
     }, [transformationControllers]);
-    
+
+    final disabledScroll = useState(false);
+
     return Dialog(
       insetPadding: EdgeInsets.zero,
       child: SizedBox(
@@ -181,86 +189,29 @@ class MobileFullscreenImageDialog extends HookWidget {
                 child: RawScrollbar(
                   controller: controller,
                   thumbVisibility: true,
-                  thickness: 10,
+                  thickness: 24,
+                  
                   thumbColor: context.theme.primaryColor,
                   trackColor: context.theme.primaryColor.withAlpha(100),
                   trackVisibility: true,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     controller: controller,
-                    physics: const AlwaysScrollableScrollPhysics(),
+                    physics: disabledScroll.value
+                        ? const NeverScrollableScrollPhysics()
+                        : const PageScrollPhysics(),
                     child: Row(
                       children: images.asMap().entries.map((entry) {
-                        final index = entry.key;
                         final image = entry.value;
-                        final transformationController =
-                            transformationControllers[index];
-
-                        return SizedBox(
+                        return ZoomOnDoubleTapImage(
+                          image: image,
                           width: width,
-                          child: ValueListenableBuilder<Matrix4>(
-                            valueListenable: transformationController,
-                            builder: (context, matrix, child) {
-                              // Extract scale to determine if panning should be enabled
-                              final currentScale = matrix.getMaxScaleOnAxis();
-                              final shouldEnablePan = currentScale > 1.0;
-
-                              return InteractiveViewer(
-                                transformationController:
-                                    transformationController,
-                                panEnabled: shouldEnablePan,
-                                scaleEnabled: true,
-                                minScale: 1.0,
-                                maxScale: 3.0,
-                                boundaryMargin:
-                                    const EdgeInsets.all(double.infinity),
-                                onInteractionUpdate: (details) {
-                                  if (isApplyingTransform.value[index]) {
-                                    return;
-                                  }
-
-                                  final currentMatrix =
-                                      transformationController.value;
-                                  final currentScale =
-                                      currentMatrix.getMaxScaleOnAxis();
-
-                                  if (currentScale > 1.0) {
-                                    isApplyingTransform.value[index] = true;
-
-                                    // Calculate height scale (taller)
-                                    final heightScale = 1.0 +
-                                        (currentScale - 1.0) * 1.5; // 50% more
-
-                                    // Get translation from current matrix
-                                    final translation =
-                                        currentMatrix.getTranslation();
-
-                                    // Create new matrix with non-uniform scaling
-                                    final newMatrix = Matrix4.identity()
-                                      ..translate(translation.x, translation.y)
-                                      ..scale(currentScale, heightScale);
-
-                                    transformationController.value = newMatrix;
-
-                                    // Reset flag after a frame
-                                    WidgetsBinding.instance
-                                        .addPostFrameCallback((_) {
-                                      isApplyingTransform.value[index] = false;
-                                    });
-                                  }
-                                },
-                                child: Center(
-                                  child: Image(
-                                    fit: BoxFit.contain,
-                                    image: AssetImage(image),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
+                          height: width * 12 / 16,
+                          isZoomed: (isZoomed) {
+                            disabledScroll.value = isZoomed;
+                          },
                         );
-                      })
-                          .toList(),
+                      }).toList(),
                     ),
                   ),
                 ),
@@ -269,6 +220,108 @@ class MobileFullscreenImageDialog extends HookWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class ZoomOnDoubleTapImage extends StatefulWidget {
+  const ZoomOnDoubleTapImage({
+    super.key,
+    required this.image,
+    required this.width,
+    required this.height,
+    required this.isZoomed,
+  });
+  final String image;
+  final double width;
+  final double height;
+  final Function(bool) isZoomed;
+  @override
+  State<ZoomOnDoubleTapImage> createState() => _ZoomOnDoubleTapImageState();
+}
+
+class _ZoomOnDoubleTapImageState extends State<ZoomOnDoubleTapImage>
+    with SingleTickerProviderStateMixin {
+  late TransformationController _controller;
+  AnimationController? _animationController;
+  Animation<Matrix4>? _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TransformationController();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 250),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _animationController?.dispose();
+    super.dispose();
+  }
+
+  void _runAnimation(Matrix4 endMatrix) {
+    _animation = Matrix4Tween(
+      begin: _controller.value,
+      end: endMatrix,
+    ).animate(CurveTween(curve: Curves.easeOut).animate(_animationController!));
+
+    _animationController!.addListener(() {
+      _controller.value = _animation!.value;
+      if (_animationController!.value == 1.0) {
+        widget.isZoomed(true);
+      } else if (_animationController!.value == 0.0) {
+        widget.isZoomed(false);
+      }
+    });
+
+    _animationController!.forward();
+  }
+
+  void _onDoubleTap(TapDownDetails details, BuildContext context) {
+    // If currently zoomed → reset
+    if (_controller.value != Matrix4.identity()) {
+      _animationController!.reverse();
+      return;
+    }
+
+    // Zoom around tap position
+    final tapPos = details.localPosition;
+    final zoomed = Matrix4.identity()
+      ..translate(-tapPos.dx * 2, -tapPos.dy * 2)
+      ..scale(3.0);
+
+    _runAnimation(zoomed);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onDoubleTapDown: (details) => _onDoubleTap(details, context),
+      child: AnimatedBuilder(
+          animation: _animationController!,
+          builder: (context, child) {
+            final panEnabled = _animationController!.value == 1.0;
+            return InteractiveViewer(
+              transformationController: _controller,
+              minScale: 1,
+              maxScale: 3,
+              panEnabled: panEnabled,
+              scaleEnabled: true,
+              child: Image.asset(
+                widget.image,
+                width: lerpDouble(widget.width, context.width * 3,
+                    _animationController!.value),
+                height: lerpDouble(
+                    widget.height, context.height, _animationController!.value),
+                fit: BoxFit.cover,
+              ),
+            );
+          }),
     );
   }
 }

@@ -13,6 +13,7 @@ import 'package:portfol_io/pages/work/work_content.dart';
 import 'package:portfol_io/providers/providers.dart';
 import 'package:portfol_io/widgets/jump_home_button.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -79,14 +80,33 @@ class HomePageState extends ConsumerState<HomePage>
                           controller: uiMenuManager.scrollController,
                           child: Column(
                             children: [
-                              HomeContent(
+                              VisibilityDetector(
                                 key: uiMenuManager.itemKeys.value[0],
+                                onVisibilityChanged: (visibility) {
+                                  if (visibility.visibleFraction > 0.5) {
+                                    uiMenuManager.setVisiblePage(0);
+                                  }
+                                },
+                                child: const HomeContent(
+                                ),
                               ),
-                              WorkContent(
+                              VisibilityDetector(
                                 key: uiMenuManager.itemKeys.value[1],
+                                onVisibilityChanged: (visibility) {
+                                  if (visibility.visibleFraction > 0.5) {
+                                    uiMenuManager.setVisiblePage(1);
+                                  }
+                                },
+                                child: const WorkContent(),
                               ),
-                              ContactContent(
+                              VisibilityDetector(
                                 key: uiMenuManager.itemKeys.value[2],
+                                onVisibilityChanged: (visibility) {
+                                  if (visibility.visibleFraction > 0.5) {
+                                    uiMenuManager.setVisiblePage(2);
+                                  }
+                                },
+                                child: const ContactContent(),
                               ),
                             ],
                           ),
