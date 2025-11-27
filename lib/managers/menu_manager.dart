@@ -18,6 +18,13 @@ class UiMenuManager {
 
   double get offset => scrollController.offset;
 
+  List<double> offsets = [0, 0, 0];
+
+  void setOffset(int index, double offset) {
+    offsets[index] = offset;
+    print(offsets);
+  }
+
   UiMenuManager() {
     scrollController = ScrollController();
 
@@ -25,32 +32,32 @@ class UiMenuManager {
 
     // General listener to update menu index & UI
     scrollController.addListener(() async {
-      if (_debounce?.isActive ?? false) _debounce?.cancel();
-      _debounce = Timer(_debounceDuration, () async {
-        // do something with query
-        // final index = getCurrentIndex();
-        // menuIndex.value = index;
-      });
+      final index = getCurrentIndex(scrollController.offset);
+      if (index == menuIndex.value) return;
+      menuIndex.value = index;
     });
 
-    // scrollController.addListener(() {
-    //   final offset = scrollController.offset;
-    //   if (offset > offsets[1] + 323) {
-    //     playContactAnimation.value = true;
-    //   } else {
-    //     playContactAnimation.value = false;
-    //   }
-    // });
   }
 
+  int getCurrentIndex(double offset) {
+    print("find offset: $offset");
+    final currentIndex =
+        offsets.indexOf(offsets.where((element) => element <= offset).last);
 
+    print("scrolled to : $currentIndex");
+    return currentIndex;
+  }
 
   void animateToPage(int index) {
     Scrollable.ensureVisible(
       itemKeys.value[index].currentContext!,
       duration: const Duration(milliseconds: 200),
       curve: Curves.easeInOut,
-    );
+    ).then((_) {
+      setOffset(index, scrollController.offset);
+      menuIndex.value = index;
+    });
+
   }
 
   void setPage(int index) {

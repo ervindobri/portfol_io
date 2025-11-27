@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/helpers/email_helper.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
@@ -188,6 +189,7 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
                         style: GlobalStyles.primaryButtonStyle(theme),
                         onPressed: () async {
                           await EmailHelper.contactMe();
+                          HapticFeedback.mediumImpact();
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
