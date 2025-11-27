@@ -11,6 +11,7 @@ import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/pages/work/fullscreen_image_dialog.dart';
 import 'package:portfol_io/providers/providers.dart';
 import 'package:portfol_io/widgets/bumble_scrollbar.dart';
+import 'package:portfol_io/widgets/dialogs.dart';
 
 class ImageView extends ConsumerStatefulWidget {
   const ImageView({
@@ -180,16 +181,10 @@ class MobileImageCarousel extends StatelessWidget {
                           return Opacity(
                             opacity: value2,
                             child: InkWell(
-                              onTap: () {
-                                //TODO: open interactive image viewer for current image
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return MobileFullscreenImageDialog(
-                                      item: item,
-                                      image: image,
-                                    );
-                                  },
+                              onTap: () async {
+                                await Dialogs.showFullscreenImageDialog(
+                                  context,
+                                  item,
                                 );
                               },
                               child: SizedBox(

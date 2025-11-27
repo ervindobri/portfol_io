@@ -1,5 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -308,6 +309,8 @@ class TechItemWidget extends ConsumerWidget {
       splashColor: Colors.transparent,
       onTap: () async {
         await launchUrlString(item.link);
+        HapticFeedback.lightImpact();
+
       },
       child: Stack(
         alignment: Alignment.center,

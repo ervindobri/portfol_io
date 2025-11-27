@@ -15,18 +15,24 @@ class ResumeButton extends StatelessWidget {
 
     return TextButton(
       onPressed: downloadManager.downloadResume,
-      style: context.textButtonStyle,
+      style: GlobalStyles.primaryButtonStyle(context.theme),
       child: Padding(
         padding: GlobalStyles.textButtonPadding(),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(Globals.downloadResume, style: context.bodyText1),
+            Text(
+              Globals.downloadResume,
+              style:
+                  context.bodyText1?.copyWith(color: context.theme.textColor),
+            ),
             const SizedBox(width: 12),
             SvgPicture.asset(
               AppIcons.downloadCloud,
               colorFilter: ColorFilter.mode(
-                  context.theme.inverseTextColor, BlendMode.srcIn),
+                context.theme.textColor,
+                BlendMode.srcIn,
+              ),
               width: 20,
               height: 20,
             ),

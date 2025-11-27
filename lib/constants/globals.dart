@@ -90,10 +90,10 @@ class Globals {
 
   static const String myName = "Ervin Dobri";
   static const List<String> mySkills = [
-    "Medior Flutter Developer",
-    " UI/UX Designer",
-    "Creative mind",
-    "Team player"
+    "Flutter Developer",
+    "UI/UX Designer",
+    "Creative Mind",
+    "Team Player"
   ];
   static const String myWorkplace = "Trendency Online";
   static const String myWorkplaceUrl = "https://trendency.hu/";
@@ -129,8 +129,10 @@ class Globals {
   static const String contactSocialTitle =
       "You can find me on social media too";
   static const String downloadResume = "Download resume";
-  static const String resumeUrl = "assets/files/CV.pdf";
+  static const String resumeUrl = "assets/files/myCV.pdf";
 
   static const String emailSubject = 'A new exciting opportunity';
   static const String emailBody = 'Dear Ervin,\n';
+
+  static const String builtWithFlutter = "BUILT WITH FLUTTER 💙";
 }

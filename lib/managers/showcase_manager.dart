@@ -58,7 +58,8 @@ class UiShowcaseManager {
   late Command<void, List<ShowcaseItem>> itemsCommand;
   late Command<int, ShowcaseItem?> currentItemCommand;
 
-  List<ShowcaseItem> showcaseItems = <ShowcaseItem>[];
+  ValueNotifier<List<ShowcaseItem>> showcaseItems =
+      ValueNotifier(<ShowcaseItem>[]);
 
   late Command<ShowcaseItem?, void> nextItemCommand;
   late Command<ShowcaseItem?, void> previousItemCommand;
@@ -167,7 +168,7 @@ class UiShowcaseManager {
     }, initialValue: 0);
   }
 
-  List<ShowcaseItem> get otherItems => showcaseItems
+  List<ShowcaseItem> get otherItems => showcaseItems.value
       .where((element) => element != currentItemCommand.value)
       .toList();
 
@@ -176,10 +177,10 @@ class UiShowcaseManager {
       final source = await rootBundle.loadString('assets/files/items.json');
       final container = json.decode(source) as Iterable;
 
-      showcaseItems = container.map((e) => ShowcaseItem.fromMap(e)).toList();
+      showcaseItems.value =
+          container.map((e) => ShowcaseItem.fromMap(e)).toList();
       return showcaseItems
-          // .take(maxItemNumber.value)
-          .toList();
+          .value;
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -189,7 +190,7 @@ class UiShowcaseManager {
   }
 
   void nextItem(item) async {
-    if (currentIndex < showcaseItems.length - 1) {
+    if (currentIndex < showcaseItems.value.length - 1) {
       currentIndex++;
     } else {
       currentIndex = 0;
@@ -200,7 +201,7 @@ class UiShowcaseManager {
     if (currentIndex > 0) {
       currentIndex--;
     } else {
-      currentIndex = showcaseItems.length - 1;
+      currentIndex = showcaseItems.value.length - 1;
     }
   }
 
@@ -210,8 +211,8 @@ class UiShowcaseManager {
   }
 
   ShowcaseItem getCurrentItem(int x) {
-    if (x < showcaseItems.length) {
-      return showcaseItems[x];
+    if (x < showcaseItems.value.length) {
+      return showcaseItems.value[x];
     }
     return ShowcaseItem();
   }
@@ -222,18 +223,18 @@ class UiShowcaseManager {
   }
 
   int indexOf(ShowcaseItem item) {
-    return showcaseItems.indexOf(item);
+    return showcaseItems.value.indexOf(item);
   }
 
   int previousItemIndex(ShowcaseItem item) {
     final currentIndex = indexOf(item);
-    if (currentIndex == 0) return showcaseItems.length - 1;
+    if (currentIndex == 0) return showcaseItems.value.length - 1;
     return currentIndex - 1;
   }
 
   int nextItemIndex(ShowcaseItem item) {
     final currentIndex = indexOf(item);
-    if (currentIndex == showcaseItems.length - 1) return 0;
+    if (currentIndex == showcaseItems.value.length - 1) return 0;
     return currentIndex + 1;
   }
 }

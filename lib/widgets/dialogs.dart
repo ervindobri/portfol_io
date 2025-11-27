@@ -5,6 +5,8 @@ import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/extensions/build_context.dart';
 import 'package:portfol_io/extensions/list.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
+import 'package:portfol_io/managers/showcase_manager.dart';
+import 'package:portfol_io/pages/work/fullscreen_image_dialog.dart';
 import 'package:portfol_io/providers/providers.dart';
 import 'package:portfol_io/widgets/hover_button.dart';
 
@@ -40,7 +42,7 @@ class Dialogs {
             ),
             elevation: 48,
             backgroundColor: theme.canvasColor,
-            shadowColor: theme.extBackgroundColor,  
+            shadowColor: theme.extBackgroundColor,
             child: Container(
               width: context.width * .7,
               decoration: BoxDecoration(
@@ -108,5 +110,45 @@ class Dialogs {
             ),
           );
         });
+  }
+
+  static Future<void> showFullscreenImageDialog(
+      BuildContext context, ShowcaseItem item) async {
+    await showGeneralDialog(
+      context: context,
+      barrierLabel: '',
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0, 1),
+            end: Offset.zero,
+          ).animate(CurvedAnimation(
+            parent: animation,
+            curve: Curves.fastOutSlowIn,
+          )),
+          child: FadeTransition(
+            opacity: animation,
+            child: child,
+          ),
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 300),
+      barrierDismissible: true,
+      pageBuilder: (_, __, ___) {
+        return Dialog(
+          insetPadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          elevation: 48,
+          backgroundColor: context.theme.canvasColor,
+          shadowColor: context.theme.extBackgroundColor,
+          child: MobileFullscreenImageDialog(
+            item: item,
+            image: '',
+          ),
+        );
+      },
+    );
   }
 }

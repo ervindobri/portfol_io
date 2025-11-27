@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/constants/icons.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
@@ -97,80 +98,84 @@ class MobileContactMeCard extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     return Container(
       width: width,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      decoration: BoxDecoration(
+        color: context.theme.containerColor,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 12,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
+        spacing: 24,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: 12,
             children: [
-              const SizedBox(height: 32),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    Globals.wantToWorkWithMe,
-                    maxLines: 2,
-                    style: context.headline6?.copyWith(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                  Text(
-                    Globals.easyDoesIt,
-                    style: context.bodyText2!.copyWith(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w200,
-                    ),
-                  ),
-                ],
+              Text(
+                Globals.wantToWorkWithMe,
+                maxLines: 2,
+                style: context.bodyText2?.copyWith(
+                  fontSize: 20,
+                ),
               ),
-              const SizedBox(height: 12),
-              TextButton(
-                onPressed: () => showContactDialog(context),
-                style: GlobalStyles.whiteTextButtonStyle(),
-                child: Container(
-                  width: width / 2,
-                  color: Colors.white,
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-                  child: Center(
-                    child: Text(
-                      Globals.bigWhiteButton,
-                      style: context.bodyText1!.copyWith(
-                        color: GlobalColors.primaryColor,
-                        fontWeight: FontWeight.w500,
-                      ),
+              Material(
+                color: context.theme.primaryColor,
+                borderRadius: BorderRadius.circular(24),
+                child: InkWell(
+                  onTap: () => showContactDialog(context),
+                  splashFactory: NoSplash.splashFactory,
+                  borderRadius: BorderRadius.circular(24),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Row(
+                      spacing: 12,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          Globals.bigWhiteButton,
+                          style: context.bodyText1,
+                        ),
+                        const FaIcon(FontAwesomeIcons.message, size: 24),
+                      ],
                     ),
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 24),
           Wrap(
             spacing: 16,
             children: Globals.socialMediaBubbles
                 .map(
                   (e) => Tooltip(
                     message: e.label,
-                    textStyle: context.bodyText1,
-                    decoration: const BoxDecoration(color: Colors.transparent),
-                    child: InkWell(
-                      onTap: () async {
-                        try {
-                          await launchUrl(Uri.parse(e.url));
-                        } catch (e) {
-                          //TODO: toast
-                        }
-                      },
-                      child: Container(
-                        width: 48,
-                        height: 48,
-                        color: GlobalColors.primaryColor,
-                        child: Center(
-                          child: FaIcon(e.icon, size: 24),
+                    textStyle: context.bodyText1?.copyWith(
+                      fontSize: 14,
+                    ),
+                    decoration: BoxDecoration(
+                      color: context.theme.primaryColor,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(24),
+                      child: InkWell(
+                        onTap: () async {
+                          try {
+                            await launchUrl(Uri.parse(e.url));
+                          } catch (e) {
+                            toast('Failed to launch ${e.toString()}');
+                          }
+                        },
+                        child: Container(
+                          width: 48,
+                          height: 48,
+                          color: context.theme.extBackgroundColor,
+                          child: Center(
+                            child: FaIcon(e.icon, size: 24),
+                          ),
                         ),
                       ),
                     ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:portfol_io/constants/globals.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/pages/contact/responsive_screens/contact.dart';
 import 'package:portfol_io/widgets/device_orientation.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ContactContent extends StatelessWidget {
   const ContactContent({super.key});
@@ -11,6 +11,7 @@ class ContactContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      spacing: 24,
       children: [
         OrientationBuilder(builder: (context, orientation) {
           return ResponsiveBuilder(
@@ -36,26 +37,17 @@ class ContactContent extends StatelessWidget {
               return const ContactMobile();
             },
           );
-        }),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Developed with ",
-              style: context.bodyText1
-                  ?.copyWith(fontSize: 14, fontWeight: FontWeight.w100),
-            ),
-            InkWell(
-              onTap: () {
-                launchUrl(Uri.parse("https://flutter.dev"));
-              },
-              child: Text(
-                "Flutter 💙",
-                style: context.bodyText1
-                    ?.copyWith(fontSize: 14, fontWeight: FontWeight.w100),
-              ),
-            ),
-          ],
+          },
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 12,
+          ),
+          child: Text(
+            Globals.builtWithFlutter,
+            style: context.bodyText1
+                ?.copyWith(fontSize: 14, fontWeight: FontWeight.w700),
+          ),
         )
       ],
     );

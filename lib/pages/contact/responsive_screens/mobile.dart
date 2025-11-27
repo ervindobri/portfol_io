@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/injection_manager.dart';
+import 'package:portfol_io/pages/contact/contact_me_card.dart';
+import 'package:portfol_io/pages/contact/parallax_card.dart';
+import 'package:portfol_io/pages/contact/widgets/contact_profile_image.dart';
 
 class ContactMobile extends StatefulWidget {
   const ContactMobile({super.key});
@@ -15,16 +17,19 @@ class _ContactDesktopState extends State<ContactMobile> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return SizedBox(
-      height: height,
       width: width,
-      child: Center(
-        child: Text(
-          "WIP",
-          style: context.bodyText1,
-        ),
+      child: const Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        spacing: 16,
+        children: [
+          SizedBox(height: kToolbarHeight + 48),
+          MobileContactProfileImage(),
+          MobileContactInfo(),
+          MobileContactMeCard(),
+        ],
       ),
     );
   }

@@ -18,13 +18,12 @@ class _CarouselControllerState extends State<CarouselController> {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: left, right arrow actions -> prev/next item
     const padding = EdgeInsets.fromLTRB(12, 8, 12, 8);
     return ValueListenableBuilder<CommandResult<int?, ShowcaseItem?>>(
         valueListenable: uiShowcaseManager.currentItemCommand.results,
         builder: (context, value, __) {
           final currentIndex = uiShowcaseManager.currentPage;
-          final totalItems = uiShowcaseManager.showcaseItems.length;
+          final totalItems = uiShowcaseManager.showcaseItems.value.length;
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

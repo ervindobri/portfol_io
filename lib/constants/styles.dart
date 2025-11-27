@@ -46,6 +46,12 @@ class GlobalStyles {
             borderRadius: BorderRadius.circular(48),
           ),
         ),
+        textStyle: WidgetStateProperty.all(
+          theme.textTheme.bodyMedium?.copyWith(
+            color: theme.canvasColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         splashFactory: NoSplash.splashFactory,
         animationDuration: const Duration(milliseconds: 200),
         backgroundColor: WidgetStateProperty.resolveWith(

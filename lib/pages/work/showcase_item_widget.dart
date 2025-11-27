@@ -257,20 +257,25 @@ class MobileAnimatedShowcaseItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final uiShowcaseManager = sl<UiShowcaseManager>();
-    return carousel.CarouselSlider.builder(
-      itemCount: uiShowcaseManager.showcaseItems.length,
-      options: carousel.CarouselOptions(
-        viewportFraction: 1.0,
-        enlargeCenterPage: true,
-        aspectRatio: 9 / 16,
-        onPageChanged: (index, reason) {
-          uiShowcaseManager.currentItemCommand.execute(index);
-        },
-      ),
-      itemBuilder: (context, index, __) {
-        final item = uiShowcaseManager.showcaseItems[index];
-        return MobileAnimatedShowcaseItemView(item: item);
-      },
+    return ValueListenableBuilder<List<ShowcaseItem>>(
+        valueListenable: uiShowcaseManager.showcaseItems,
+        builder: (context, items, __) {
+          return carousel.CarouselSlider.builder(
+            itemCount: items.length,
+            options: carousel.CarouselOptions(
+              viewportFraction: 1.0,
+              enlargeCenterPage: true,
+              aspectRatio: 9 / 16,
+              onPageChanged: (index, reason) {
+                uiShowcaseManager.currentItemCommand.execute(index);
+              },
+            ),
+            itemBuilder: (context, index, __) {
+              final item = items[index];
+              return MobileAnimatedShowcaseItemView(item: item);
+            },
+          );
+        }
     );
   }
 }

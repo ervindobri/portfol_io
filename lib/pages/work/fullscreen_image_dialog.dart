@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfol_io/extensions/build_context.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
@@ -89,7 +90,7 @@ class FullscreenImageDialog extends ConsumerWidget {
   }
 }
 
-class MobileFullscreenImageDialog extends StatelessWidget {
+class MobileFullscreenImageDialog extends HookWidget {
   const MobileFullscreenImageDialog({
     super.key,
     required this.item,
@@ -101,102 +102,74 @@ class MobileFullscreenImageDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final uiShowcaseManager = sl<UiShowcaseManager>();
+    final controller = useScrollController();
     final width = context.width;
     final height = context.height;
-    return Dismissible(
-      key: const Key('key'),
-      direction: DismissDirection.vertical,
-      onDismissed: (d) => Navigator.pop(context),
-      child: Dialog(
-        insetPadding: EdgeInsets.zero,
-        child: SizedBox(
-          height: height,
-          width: width,
-          child: Stack(
-            alignment: Alignment.center,
+    final images = item.imageAssets;
+    return Dialog(
+      insetPadding: EdgeInsets.zero,
+      child: SizedBox(
+        height: height,
+        width: width,
+        child: SafeArea(
+          child: Column(
+            spacing: 12,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ValueListenableBuilder<int>(
-                    valueListenable: uiShowcaseManager.currentImageIndex,
-                    builder: (context, value, _) {
-                      return AspectRatio(
-                        aspectRatio: 1600 / 1200,
-                        child: InteractiveViewer(
-                          // minScale: .5,
-                          // maxScale: 3.0,
-                          child: Hero(
-                            tag: image,
-                            child: Image(
-                              fit: BoxFit.cover,
-                              image: AssetImage(
-                                item.imageAssets[value],
-                              ),
-                            ),
-                          ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(item.projectName, style: context.bodyText1),
+                    IconButton(
+                      iconSize: 48,
+                      highlightColor: Colors.transparent,
+                      style: IconButton.styleFrom(
+                        backgroundColor: context.theme.primaryColor,
+                      ),
+                      splashColor: Colors.transparent,
+                      onPressed: () => Navigator.pop(context),
+                      icon: const SizedBox(
+                        height: 24,
+                        width: 24,
+                        child: Center(
+                          child: Icon(CupertinoIcons.xmark,
+                              size: 24, color: Colors.white),
                         ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-              Positioned(
-                top: 16,
-                right: 16,
-                child: IconButton(
-                  iconSize: 48,
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  onPressed: () => Navigator.pop(context),
-                  icon: Container(
-                    height: 32,
-                    width: 32,
-                    color: context.theme.primaryColor,
-                    child: const Center(
-                      child: Icon(CupertinoIcons.xmark,
-                          size: 24, color: Colors.white),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
-              Positioned(
-                left: 16,
-                bottom: 16,
-                child: IconButton(
-                  iconSize: 32,
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  onPressed: () =>
-                      uiShowcaseManager.previousImageItemCommand.execute(),
-                  icon: Container(
-                    height: 32,
-                    width: 32,
-                    color: context.theme.primaryColor,
-                    child: const Center(
-                      child: Icon(CupertinoIcons.chevron_left,
-                          size: 24, color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                right: 16,
-                bottom: 16,
-                child: IconButton(
-                  iconSize: 32,
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  onPressed: () =>
-                      uiShowcaseManager.nextImageItemCommand.execute(),
-                  icon: Container(
-                    height: 32,
-                    width: 32,
-                    color: context.theme.primaryColor,
-                    child: const Center(
-                      child: Icon(CupertinoIcons.chevron_right,
-                          size: 24, color: Colors.white),
+              AspectRatio(
+                aspectRatio: 9 / 16,
+                child: RawScrollbar(
+                  controller: controller,
+                  thumbVisibility: true,
+                  thickness: 10,
+                  thumbColor: context.theme.primaryColor,
+                  trackColor: context.theme.primaryColor.withAlpha(100),
+                  trackVisibility: true,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    controller: controller,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Row(
+                      children: images
+                          .map((image) => InteractiveViewer(
+                                scaleEnabled: true,
+                                minScale: 0.3,
+                                scaleFactor: 1.0,
+                                maxScale: 3,
+                                child: SizedBox(
+                                  height: height,
+                                  child: Image(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(image),
+                                  ),
+                                ),
+                              ))
+                          .toList(),
                     ),
                   ),
                 ),

@@ -14,6 +14,7 @@ import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/download_manager.dart';
 import 'package:portfol_io/pages/contact/widgets/resume_button.dart';
+import 'package:portfol_io/widgets/delayed_display.dart';
 import 'package:portfol_io/widgets/hover_button.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -25,6 +26,7 @@ class ContactInfo extends StatelessWidget {
     final isBigScreen = context.width >= Globals.maxBoxWidth;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,16 +114,6 @@ class ContactInfo extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            buildInfoRow(
-              context,
-              Globals.myWorkplace,
-              url: Globals.myWorkplaceUrl,
-              icon: SvgPicture.asset(
-                AppIcons.workplace,
-                colorFilter: ColorFilter.mode(
-                    context.theme.inverseTextColor, BlendMode.srcIn),
-              ),
-            ),
             buildInfoRow(
               context,
               Globals.myLocation,
@@ -297,6 +289,153 @@ class MobileParallaxCard extends StatelessWidget {
           label,
           style: context.bodyText1?.copyWith(
             fontSize: 14,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+
+
+
+class MobileContactInfo extends StatelessWidget {
+  const MobileContactInfo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        spacing: 16,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                Globals.myName,
+                style: context.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: context.theme.inverseTextColor,
+                  fontSize: 36,
+                ),
+              ),
+              InkWell(
+                borderRadius: BorderRadius.circular(24),
+                onTap: () async {
+                  await Clipboard.setData(
+                      const ClipboardData(text: Globals.myEmail));
+
+                  toast('Copied to clipboard!');
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: Text(
+                    Globals.myEmail,
+                    maxLines: 1,
+                    style: context.bodyText1,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: Wrap(
+              spacing: 4,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              runSpacing: 4,
+              runAlignment: WrapAlignment.center,
+              alignment: WrapAlignment.center,
+              children: [
+                ...Globals.mySkills
+                    .map(
+                      (e) => SelectableText(
+                        e,
+                        style: context.bodyText1?.copyWith(
+                          fontWeight: FontWeight.w300,
+                          fontSize: 12,
+                        ),
+                      ),
+                    )
+                    .expandWithSeparator(
+                      (e) => e,
+                      Container(
+                        width: 4,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: context.theme.inverseTextColor,
+                        ),
+                      ),
+                    ),
+              ],
+            ),
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 4,
+            children: [
+              buildInfoRow(
+                context,
+                Globals.myLocation,
+                icon: SvgPicture.asset(
+                  AppIcons.location,
+                  height: 16,
+                  width: 16,
+                  colorFilter: ColorFilter.mode(
+                      context.theme.inverseTextColor, BlendMode.srcIn),
+                ),
+              ),
+              buildInfoRow(
+                context,
+                Globals.myUniversity,
+                icon: SvgPicture.asset(
+                  AppIcons.book,
+                  height: 16,
+                  width: 16,
+                  colorFilter: ColorFilter.mode(
+                      context.theme.inverseTextColor, BlendMode.srcIn),
+                ),
+              ),
+            ],
+          ),
+          const DelayedDisplay(
+            delay: Duration(milliseconds: 100),
+            child: ResumeButton(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildInfoRow(BuildContext context, String label,
+      {IconData? data, Widget? icon, String? url}) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      spacing: 8,
+      children: [
+        data != null
+            ? FaIcon(
+                data,
+                color: Colors.white,
+                size: 12,
+              )
+            : icon!,
+        InkWell(
+          onTap: url != null
+              ? () async {
+                  await launchUrlString(url);
+                }
+              : null,
+          child: Text(
+            label,
+            style: context.bodyText1?.copyWith(
+              fontSize: 14,
+              decoration: url != null ? TextDecoration.underline : null,
+            ),
           ),
         ),
       ],
