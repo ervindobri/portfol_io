@@ -12,31 +12,11 @@ import 'package:portfol_io/providers/providers.dart';
 import 'package:portfol_io/widgets/dialogs.dart';
 import 'package:pro_animated_blur/pro_animated_blur.dart';
 
-class MenuMobile extends ConsumerStatefulWidget {
+class MenuMobile extends ConsumerWidget {
   const MenuMobile({super.key});
 
   @override
-  ConsumerState<MenuMobile> createState() => _MenuMobileState();
-}
-
-class _MenuMobileState extends ConsumerState<MenuMobile> {
-  final uiMenuManager = sl<UiMenuManager>();
-
-  @override
-  void initState() {
-    // uiMenuManager.scrollController.addListener(() {
-    //   final index = uiMenuManager.getCurrentIndex();
-    //   if (index == ref.read(menuIndexProvider)) return;
-    //   if (kDebugMode) {
-    //     print("update menu to $index");
-    //   }
-    //   ref.read(menuIndexProvider.notifier).update((state) => index);
-    // });
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final uiMenuManager = sl<UiMenuManager>();
     final theme = ref.watch(themeProvider);
     final themeColor = ref.watch(themeColorProvider);

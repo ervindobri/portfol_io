@@ -17,6 +17,8 @@ class ContactMeCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.watch(themeProvider);
     return Column(
+      spacing: 24,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Column(
           children: [
@@ -41,17 +43,8 @@ class ContactMeCard extends ConsumerWidget {
                 ),
               ],
             ),
-            Text(
-              Globals.easyDoesIt,
-              textAlign: TextAlign.right,
-              style: context.bodyText2!.copyWith(
-                fontSize: 16,
-                fontWeight: FontWeight.w200,
-              ),
-            ),
           ],
         ),
-        const SizedBox(height: 24),
         TextButton(
           style: GlobalStyles.primaryButtonStyle(theme),
           onPressed: () async {

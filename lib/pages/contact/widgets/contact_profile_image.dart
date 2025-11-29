@@ -50,7 +50,10 @@ class ContactProfileImage extends StatelessWidget {
 class MobileContactProfileImage extends StatefulWidget {
   const MobileContactProfileImage({
     super.key,
+    this.height,
   });
+
+  final double? height;
 
   @override
   State<MobileContactProfileImage> createState() =>
@@ -134,7 +137,7 @@ class _MobileContactProfileImageState extends State<MobileContactProfileImage>
               borderRadius: BorderRadius.circular(24),
               child: Image.asset(
                 AppImages.profileBg,
-                height: context.height / 3,
+                height: widget.height ?? context.height / 3,
                 fit: BoxFit.cover,
               ),
             ),
@@ -144,4 +147,3 @@ class _MobileContactProfileImageState extends State<MobileContactProfileImage>
     );
   }
 }
-

@@ -6,6 +6,8 @@ class PortfolioTheme {
   static ThemeData get defaultDarkTheme => ThemeData(
         // Define the default brightness and colors.
         brightness: Brightness.dark,
+        splashColor: Colors.transparent,
+        splashFactory: NoSplash.splashFactory,
         primaryColor: GlobalColors.defaultThemeColor,
         // Define the default font family.
         fontFamily: 'Poppins',

@@ -38,8 +38,6 @@ class Globals {
         url: "https://www.behance.net/w1nt_r"),
   ];
 
-  static String letsWorkTogether = "Let's work together.";
-
   static const skills = <String>[
     "flutter",
     "python",
@@ -101,6 +99,7 @@ class Globals {
   static const String myUniversity = "Sapientia EMTE, Targu Mures";
   static const String themeLabel = "THEME";
   static const String hireMe = "Hire me";
+  static const String letsWorkTogether = "Let's work togerther";
   static const List<String> highlightList = [
     "10+ projects",
     "user-centric design",
@@ -118,8 +117,10 @@ class Globals {
   static const List<String> animatedSkills = [
     "design",
     "create",
+    "implement",
     "code",
-    "inspire"
+    "inspire",
+    "admire"
   ];
 
   static const double profileImageSizeBig = 700;

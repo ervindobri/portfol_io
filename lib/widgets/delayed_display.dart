@@ -20,14 +20,18 @@ class DelayedDisplay extends StatefulWidget {
   /// If true, make the child appear, disappear otherwise. Default to true.
   final bool fadeIn;
 
+  final bool hasSlide;
+
   /// DelayedDisplay constructor
-  const DelayedDisplay({super.key, 
+  const DelayedDisplay({
+    super.key,
     required this.child,
     this.delay = Duration.zero,
     this.fadingDuration = const Duration(milliseconds: 800),
     this.slidingCurve = Curves.decelerate,
     this.slidingBeginOffset = const Offset(0.0, 0.35),
     this.fadeIn = true,
+    this.hasSlide = true,
   });
 
   @override

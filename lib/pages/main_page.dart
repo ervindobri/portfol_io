@@ -11,7 +11,6 @@ import 'package:portfol_io/pages/menu/home_content.dart';
 import 'package:portfol_io/pages/menu/menu.dart';
 import 'package:portfol_io/pages/work/work_content.dart';
 import 'package:portfol_io/providers/providers.dart';
-import 'package:portfol_io/widgets/jump_home_button.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -38,7 +37,6 @@ class HomePageState extends ConsumerState<HomePage>
         ref.watch(previousBrightnessProvider).extBackgroundColor;
     final nextColor = ref.watch(themeProvider).brightness.extBackgroundColor;
 
-
     final scrollEnabled = ref.watch(scrollEnabledProvider);
     return TweenAnimationBuilder<Color?>(
       tween: ColorTween(begin: previousColor, end: nextColor),
@@ -64,8 +62,7 @@ class HomePageState extends ConsumerState<HomePage>
                     child: ImprovedScrolling(
                       scrollController: uiMenuManager.scrollController,
                       enableMMBScrolling: true,
-                      enableCustomMouseWheelScrolling:
-                          scrollEnabled,
+                      enableCustomMouseWheelScrolling: scrollEnabled,
                       customMouseWheelScrollConfig:
                           const CustomMouseWheelScrollConfig(
                         scrollAmountMultiplier: 2.25,
@@ -87,8 +84,7 @@ class HomePageState extends ConsumerState<HomePage>
                                     uiMenuManager.setVisiblePage(0);
                                   }
                                 },
-                                child: const HomeContent(
-                                ),
+                                child: const HomeContent(),
                               ),
                               VisibilityDetector(
                                 key: uiMenuManager.itemKeys.value[1],
@@ -118,14 +114,6 @@ class HomePageState extends ConsumerState<HomePage>
                     top: isMobile ? 0 : context.topPadding,
                     child: const StickyMenu(),
                   ),
-                  Positioned(
-                    bottom: mobilePadding,
-                    right: mobilePadding,
-                    child: const Align(
-                      alignment: Alignment.bottomRight,
-                      child: JumpToHomeButton(),
-                    ),
-                  ),
                 ],
               ),
             );
@@ -135,5 +123,3 @@ class HomePageState extends ConsumerState<HomePage>
     );
   }
 }
-
-

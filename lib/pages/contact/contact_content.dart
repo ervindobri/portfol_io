@@ -13,30 +13,31 @@ class ContactContent extends StatelessWidget {
     return Column(
       spacing: 24,
       children: [
-        OrientationBuilder(builder: (context, orientation) {
-          return ResponsiveBuilder(
-            builder: (context, sizingInformation) {
-              if (sizingInformation.deviceScreenType ==
-                      DeviceScreenType.desktop ||
-                  sizingInformation.deviceScreenType ==
-                      DeviceScreenType.tablet) {
-                return OrientationLayoutBuilder(
-                  portrait: (context) => const OrientationProvider(
-                    orientation: Orientation.portrait,
-                    child: ContactDesktop(),
-                  ),
-                  landscape: (context) => OrientationProvider(
-                    orientation: sizingInformation.deviceScreenType ==
-                            DeviceScreenType.desktop
-                        ? Orientation.portrait
-                        : Orientation.landscape,
-                    child: const ContactDesktop(),
-                  ),
-                );
-              }
-              return const ContactMobile();
-            },
-          );
+        OrientationBuilder(
+          builder: (context, orientation) {
+            return ResponsiveBuilder(
+              builder: (context, sizingInformation) {
+                if (sizingInformation.deviceScreenType ==
+                        DeviceScreenType.desktop ||
+                    sizingInformation.deviceScreenType ==
+                        DeviceScreenType.tablet) {
+                  return OrientationLayoutBuilder(
+                    portrait: (context) => const OrientationProvider(
+                      orientation: Orientation.portrait,
+                      child: ContactDesktop(),
+                    ),
+                    landscape: (context) => OrientationProvider(
+                      orientation: sizingInformation.deviceScreenType ==
+                              DeviceScreenType.desktop
+                          ? Orientation.portrait
+                          : Orientation.landscape,
+                      child: const ContactDesktop(),
+                    ),
+                  );
+                }
+                return const ContactMobile();
+              },
+            );
           },
         ),
         Padding(

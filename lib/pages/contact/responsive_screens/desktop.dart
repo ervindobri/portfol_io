@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfol_io/constants/globals.dart';
 import 'package:portfol_io/extensions/build_context.dart';
-import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/pages/contact/contact_me_card.dart';
@@ -24,82 +23,77 @@ class _ContactDesktopState extends ConsumerState<ContactDesktop> {
   @override
   Widget build(BuildContext context) {
     final width = context.width;
-    final theme = ref.watch(themeProvider);
 
     return ClipRRect(
       child: Container(
-        constraints: const BoxConstraints(maxWidth: Globals.maxBoxWidth),
-        margin: const EdgeInsets.all(24).copyWith(
-          top: kToolbarHeight * 2,
+        constraints: BoxConstraints(
+          minHeight: context.height - kToolbarHeight * 4,
+          maxWidth: Globals.maxBoxWidth,
         ),
         width: width,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-            bottomLeft: Radius.circular(64),
-            topRight: Radius.circular(128),
+        margin: const EdgeInsets.only(
+            top: kToolbarHeight * 2, bottom: kToolbarHeight * 2),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(64),
+              topRight: Radius.circular(128),
+            ),
+            color: ref.watch(themeColorProvider),
           ),
-          color: ref.watch(themeColorProvider),
-        ),
-        alignment: Alignment.center,
-        child: Column(
-          spacing: 24,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Row(
+          child: const Column(
+            spacing: 48,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 48,
                 children: [
-                  SelectableText(
-                    Globals.contactTitle,
-                    style: theme.inverseBodyLarge,
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        AnimatedSwitcher(
+                          duration: kThemeAnimationDuration,
+                          child: DelayedDisplay(
+                            delay: Duration(milliseconds: 100),
+                            fadingDuration: Duration(milliseconds: 100),
+                            child: MobileContactProfileImage(
+                              height: 400,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        AnimatedSwitcher(
+                          duration: kThemeAnimationDuration,
+                          child: DelayedDisplay(
+                            delay: Duration(milliseconds: 100),
+                            fadingDuration: Duration(milliseconds: 100),
+                            child: ContactInfo(),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
-            ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      AnimatedSwitcher(
-                        duration: kThemeAnimationDuration,
-                        child: DelayedDisplay(
-                          delay: Duration(milliseconds: 100),
-                          fadingDuration: Duration(milliseconds: 100),
-                          child: ContactProfileImage(),
-                        ),
-                      ),
-                    ],
-                  ),
+              AnimatedSwitcher(
+                duration: kThemeAnimationDuration,
+                child: DelayedDisplay(
+                  delay: Duration(milliseconds: 300),
+                  fadingDuration: Duration(milliseconds: 100),
+                  child: ContactMeCard(),
                 ),
-                SizedBox(width: 24),
-                Expanded(
-                  child: Row(
-                    children: [
-                      AnimatedSwitcher(
-                        duration: kThemeAnimationDuration,
-                        child: DelayedDisplay(
-                          delay: Duration(milliseconds: 100),
-                          fadingDuration: Duration(milliseconds: 100),
-                          child: ContactInfo(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const AnimatedSwitcher(
-              duration: kThemeAnimationDuration,
-              child: DelayedDisplay(
-                delay: Duration(milliseconds: 300),
-                fadingDuration: Duration(milliseconds: 100),
-                child: ContactMeCard(),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
