@@ -15,8 +15,8 @@ import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/models/tech_item.dart';
 import 'package:portfol_io/providers/providers.dart';
 import 'package:portfol_io/widgets/delayed_display.dart';
+import 'package:portfol_io/widgets/hover_button.dart';
 import 'package:portfol_io/widgets/primary_button.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class HomeDesktop extends ConsumerStatefulWidget {
@@ -145,34 +145,6 @@ class _HomeDesktopState extends ConsumerState<HomeDesktop> {
                         ),
                       ),
                     ),
-                    // DelayedDisplay(
-                    //   delay: const Duration(milliseconds: 1000),
-                    //   slidingBeginOffset: const Offset(0, 2),
-                    //   slidingCurve: Curves.easeInOut,
-                    //   fadingDuration: const Duration(milliseconds: 300),
-                    //   child: InkWell(
-                    //     splashFactory: NoSplash.splashFactory,
-                    //     onTap: () => uiMenuManager.setPage(1),
-                    //     child: Padding(
-                    //       padding: const EdgeInsets.all(8.0),
-                    //       child: Row(
-                    //         spacing: 8,
-                    //         mainAxisSize: MainAxisSize.min,
-                    //         children: [
-                    //           Text(
-                    //             "Scroll down",
-                    //             style: context.bodyText1,
-                    //           ),
-                    //           Icon(
-                    //             FontAwesomeIcons.arrowDownLong,
-                    //             color: context.theme.inverseTextColor,
-                    //             size: 20,
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                     Expanded(
                       child: DelayedDisplay(
                         delay: const Duration(milliseconds: 800),
@@ -227,37 +199,6 @@ class _HomeDesktopState extends ConsumerState<HomeDesktop> {
                         ),
                       ),
                     ),
-
-                    // Align(
-                    //             alignment: Alignment.topCenter,
-                    //             child: Container(
-                    //               margin: const EdgeInsets.only(left: 48),
-                    //               padding: const EdgeInsets.all(24),
-                    //               alignment: Alignment.topRight,
-                    //               child: DelayedDisplay(
-                    //                 delay: const Duration(seconds: 2),
-                    //                 child: Column(
-                    //                   mainAxisAlignment: MainAxisAlignment.start,
-                    //                   crossAxisAlignment: CrossAxisAlignment.end,
-                    //                   children: [
-                    //                     const SizedBox(height: 48 + 24),
-                    //                     ...List.generate(
-                    //                       Globals.highlightList.length,
-                    //                       (index) {
-                    //                         return AnimatedHighlightWidget(
-                    //                             index: index);
-                    //                       },
-                    //                     ).expandWithSeparator(
-                    //                       (element) => element,
-                    //                       const SizedBox(
-                    //                         height: 24,
-                    //                       ),
-                    //                     ),
-                    //                   ],
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //           ),
                   ],
                 ),
               ),
@@ -378,14 +319,18 @@ class Expertise extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(24),
-              child: Wrap(
-                children: [
-                  ...Globals.techStack.map(
-                    (e) => TechItemWidget(item: e),
-                  )
-                ],
+            DelayedDisplay(
+              delay: const Duration(milliseconds: 1400),
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ...Globals.techStack.map(
+                      (e) => TechItemWidget(item: e),
+                    )
+                  ],
+                ),
               ),
             )
           ],
@@ -395,7 +340,7 @@ class Expertise extends StatelessWidget {
   }
 }
 
-class TechItemWidget extends ConsumerWidget {
+class TechItemWidget extends StatelessWidget {
   const TechItemWidget({
     super.key,
     required this.item,
@@ -404,74 +349,65 @@ class TechItemWidget extends ConsumerWidget {
   final TechItem item;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final themeColor = ref.watch(themeColorProvider);
-    final theme = ref.watch(themeProvider);
-    return InkWell(
-      splashColor: Colors.transparent,
-      onTap: () async {
-        await launchUrlString(item.link);
-        HapticFeedback.lightImpact();
-      },
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Shimmer.fromColors(
-            baseColor: themeColor.withAlpha(102),
-            period: const Duration(seconds: 10),
-            highlightColor: themeColor,
-            child: Container(
+  Widget build(BuildContext context) {
+    return HoverWidget(builder: (context, hovering) {
+      return GestureDetector(
+        onTap: () async {
+          await launchUrlString(item.link);
+          HapticFeedback.lightImpact();
+        },
+        child: Column(
+          spacing: 16,
+          children: [
+            AnimatedContainer(
+              duration: kThemeAnimationDuration,
               decoration: BoxDecoration(
-                border: Border.all(
-                  color: themeColor,
-                ),
-                borderRadius: BorderRadius.circular(12),
-                color: themeColor.withAlpha(102),
+                borderRadius: BorderRadius.circular(48),
+                color: hovering
+                    ? context.theme.primaryColor
+                    : context.theme.containerColor,
               ),
               padding: const EdgeInsets.symmetric(
                 vertical: 8,
                 horizontal: 12,
               ),
-              child: Row(
+              child: Column(
                 mainAxisSize: MainAxisSize.min,
-                spacing: 8,
+                spacing: 16,
                 children: [
-                  Image.asset(
-                    item.asset,
-                    width: 20,
-                    height: 20,
+                  AnimatedScale(
+                    scale: hovering ? 1 : 0.8,
+                    duration: kThemeAnimationDuration,
+                    child: ColorFiltered(
+                      colorFilter: hovering
+                          ? const ColorFilter.mode(
+                              Colors.transparent,
+                              BlendMode.multiply,
+                            )
+                          : Globals.greyscaleColorFilter,
+                      child: Image.asset(
+                        item.asset,
+                        width: 96,
+                        height: 96,
+                      ),
+                    ),
                   ),
                   Text(
-                    item.name,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: themeColor,
+                    '${item.knowledgePercentage.toString()}%',
+                    style: context.theme.textTheme.bodySmall?.copyWith(
+                      fontSize: 24,
                     ),
                   ),
                 ],
               ),
             ),
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            spacing: 8,
-            children: [
-              Image.asset(
-                item.asset,
-                width: 20,
-                height: 20,
-              ),
-              Text(
-                item.name,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: themeColor,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+            Text(
+              item.name,
+              style: context.theme.textTheme.bodySmall,
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

@@ -5,8 +5,11 @@ class AppIcons {
   static const String bulbDark = "assets/icons/bulb-dark.png";
 
   static const String flutter = "assets/images/flutter.png";
+  static const String dart = "assets/images/dart.png";
   static const String figma = "assets/images/figma.png";
   static const String python = "assets/images/python.png";
+  static const String firebase = "assets/images/firebase.png";
+  static const String csharp = "assets/images/csharp.png";
 
   // Store icons
   static const String appStore = "assets/icons/app-store.svg";
