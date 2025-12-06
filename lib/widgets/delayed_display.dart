@@ -115,6 +115,12 @@ class DelayedDisplayState extends State<DelayedDisplay>
 
   @override
   Widget build(BuildContext context) {
+    if (!widget.hasSlide) {
+      return FadeTransition(
+        opacity: _opacityController,
+        child: widget.child,
+      );
+    }
     return FadeTransition(
       opacity: _opacityController,
       child: SlideTransition(
