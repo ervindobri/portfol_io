@@ -39,9 +39,9 @@ class _HomeDesktopState extends ConsumerState<HomeDesktop> {
       tween: ColorTween(begin: previousColor, end: nextColor),
       duration: const Duration(milliseconds: 300),
       builder: (_, Color? themeColor, __) {
-        // <-- Colo
-        return Stack(
-          alignment: Alignment.center,
+        return Column(
+          spacing: 48,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ConstrainedBox(
               constraints: BoxConstraints.tight(
@@ -227,28 +227,6 @@ class _HomeDesktopState extends ConsumerState<HomeDesktop> {
                         ),
                       ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(
-                    //     horizontal: 24,
-                    //   ),
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.start,
-                    //     spacing: 12,
-                    //     children: [
-                    //       Container(
-                    //         height: 1,
-                    //         width: 128,
-                    //         color: context.theme.inverseTextColor,
-                    //       ),
-                    //       Text(
-                    //         'Ervin Dobri'.toUpperCase(),
-                    //         style: context.bodyText1?.copyWith(
-                    //           fontWeight: FontWeight.w100,
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
 
                     // Align(
                     //             alignment: Alignment.topCenter,
@@ -284,9 +262,135 @@ class _HomeDesktopState extends ConsumerState<HomeDesktop> {
                 ),
               ),
             ),
+            const AboutMe(),
+            const Expertise(),
           ],
         );
       },
+    );
+  }
+}
+
+class AboutMe extends StatelessWidget {
+  const AboutMe({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: Globals.maxBoxWidth),
+      child: DefaultTextStyle(
+        style: context.bodyText1!.copyWith(
+          fontWeight: FontWeight.w100,
+        ),
+        child: Column(
+          spacing: 24,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Text(
+                Globals.aboutMe,
+                style: context.headline5?.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                spacing: 12,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    Globals.aboutMeDesc1,
+                    style: context.bodyText1?.copyWith(
+                      fontFamily: 'Playfair Display',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 24,
+                    ),
+                  ),
+                  Text(
+                    Globals.aboutMeDesc2,
+                    style: context.bodyText1?.copyWith(
+                      fontFamily: 'Playfair Display',
+                      height: 2,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    spacing: 12,
+                    children: [
+                      Container(
+                        height: 1,
+                        width: 128,
+                        color: context.theme.inverseTextColor,
+                      ),
+                      Text(
+                        'Ervin Dobri'.toUpperCase(),
+                        style: context.bodyText1?.copyWith(
+                          fontWeight: FontWeight.w100,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Expertise extends StatelessWidget {
+  const Expertise({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: Globals.maxBoxWidth),
+      child: DefaultTextStyle(
+        style: context.bodyText1!.copyWith(
+          fontWeight: FontWeight.w100,
+        ),
+        child: Column(
+          spacing: 24,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Text(
+                Globals.expertise,
+                style: context.headline5?.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(24),
+              child: Wrap(
+                children: [
+                  ...Globals.techStack.map(
+                    (e) => TechItemWidget(item: e),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
