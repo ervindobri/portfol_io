@@ -99,7 +99,7 @@ class Globals {
   static const String myUniversity = "Sapientia EMTE, Targu Mures";
   static const String themeLabel = "THEME";
   static const String hireMe = "Hire me";
-  static const String letsWorkTogether = "Let's work togerther";
+  static const String letsWorkTogether = "Let's work together";
   static const List<String> highlightList = [
     "10+ projects",
     "user-centric design",
