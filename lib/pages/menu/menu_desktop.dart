@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,9 +11,9 @@ import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/pages/menu/widgets/brightness_button.dart';
 import 'package:portfol_io/providers/providers.dart';
-import 'package:portfol_io/widgets/delayed_display.dart';
 import 'package:portfol_io/widgets/dialogs.dart';
 import 'package:portfol_io/widgets/hover_button.dart';
+import 'package:pro_animated_blur/pro_animated_blur.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class MenuDesktop extends HookConsumerWidget {
@@ -28,34 +28,36 @@ class MenuDesktop extends HookConsumerWidget {
     final showMenu = useState(false);
     return ValueListenableBuilder(
       valueListenable: uiMenuManager.menuIndex,
-      builder: (context, selectedIndex, child) {
-        return Container(
-          height: kToolbarHeight,
-          width: min(context.width, Globals.maxBoxWidth),
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          color: context.theme.scaffoldBackgroundColor,
-          child: Row(
-            spacing: 24,
-            children: [
-              IconButton(
-                onPressed: () {
-                  showMenu.value = !showMenu.value;
-                },
-                icon: FaIcon(
-                  FontAwesomeIcons.barsStaggered,
-                  color: context.theme.primaryColor,
-                  size: 24,
-                ),
+      builder: (context, selectedIndex, child) => ClipRRect(
+        child: ProAnimatedBlur(
+          blur: 24,
+          duration: kThemeAnimationDuration,
+          child: Container(
+            height: kToolbarHeight,
+            width: context.width,
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            color: context.theme.scaffoldBackgroundColor.withAlpha(220),
+            alignment: Alignment.center,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: Globals.maxBoxWidth,
               ),
-              AnimatedSlide(
-                offset:
-                    showMenu.value ? const Offset(0, 0) : const Offset(-0.3, 0),
-                duration: const Duration(milliseconds: 150),
-                child: IgnorePointer(
-                  ignoring: !showMenu.value,
-                  child: AnimatedOpacity(
-                    opacity: showMenu.value ? 1 : 0,
-                    duration: const Duration(milliseconds: 150),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 24,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      showMenu.value = !showMenu.value;
+                    },
+                    icon: FaIcon(
+                      FontAwesomeIcons.barsStaggered,
+                      color: context.theme.primaryColor,
+                      size: 24,
+                    ),
+                  ),
+                  IgnorePointer(
+                    ignoring: !showMenu.value,
                     child: ListView.separated(
                       itemCount: Globals.menu.length,
                       shrinkWrap: true,
@@ -64,7 +66,9 @@ class MenuDesktop extends HookConsumerWidget {
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       itemBuilder: (_, index) {
                         final isSelected = selectedIndex == index;
-                        return DelayedDisplay(
+                        return FadeInLeft(
+                          animate: showMenu.value,
+                          duration: const Duration(milliseconds: 150),
                           delay: Duration(milliseconds: 50 * index),
                           child: HoverWidget(
                             builder: (_, isHovered) {
@@ -109,61 +113,61 @@ class MenuDesktop extends HookConsumerWidget {
                       separatorBuilder: (_, __) => const SizedBox(width: 24),
                     ),
                   ),
-                ),
-              ),
-              const Spacer(),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Row(
-                  spacing: 12,
-                  children: [
-                    Container(
-                      color: themeColor,
-                      child: Material(
-                        type: MaterialType.transparency,
-                        child: InkWell(
-                          splashColor: Colors.transparent,
-                          onTap: () async =>
-                              await Dialogs.showThemeDialog(context, ref),
-                          hoverColor: themeColor,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 6, horizontal: 8),
-                            child: Text(
-                              Globals.themeLabel,
-                              style: theme.textTheme.labelSmall?.copyWith(
-                                fontWeight: FontWeight.bold,
+                  const Spacer(),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Row(
+                      spacing: 12,
+                      children: [
+                        Container(
+                          color: themeColor,
+                          child: Material(
+                            type: MaterialType.transparency,
+                            child: InkWell(
+                              splashColor: Colors.transparent,
+                              onTap: () async =>
+                                  await Dialogs.showThemeDialog(context, ref),
+                              hoverColor: themeColor,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 6, horizontal: 8),
+                                child: Text(
+                                  Globals.themeLabel,
+                                  style: theme.textTheme.labelSmall?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                    const BrightnessButton(),
-                    InkWell(
-                      onTap: () async =>
-                          await launchUrlString(Globals.githubUrl),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: theme.inverseTextColor,
+                        const BrightnessButton(),
+                        InkWell(
+                          onTap: () async =>
+                              await launchUrlString(Globals.githubUrl),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: theme.inverseTextColor,
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 4, horizontal: 4),
+                            child: Image.asset(
+                              AppIcons.github,
+                              color: theme.textColor,
+                              width: 24,
+                              height: 24,
+                            ),
+                          ),
                         ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 4, horizontal: 4),
-                        child: Image.asset(
-                          AppIcons.github,
-                          color: theme.textColor,
-                          width: 24,
-                          height: 24,
-                        ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

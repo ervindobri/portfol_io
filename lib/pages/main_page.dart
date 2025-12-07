@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_improved_scrolling/flutter_improved_scrolling.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -65,44 +66,31 @@ class HomePageState extends ConsumerState<HomePage>
                       enableCustomMouseWheelScrolling: scrollEnabled,
                       customMouseWheelScrollConfig:
                           const CustomMouseWheelScrollConfig(
-                        scrollAmountMultiplier: 2.25,
-                        scrollDuration: Duration(milliseconds: 300),
+                        scrollDuration: Duration(milliseconds: 200),
                         scrollCurve: Curves.linearToEaseOut,
-                        mouseWheelTurnsThrottleTimeMs: 20,
                       ),
                       child: ScrollConfiguration(
                         behavior: ScrollConfiguration.of(context)
                             .copyWith(scrollbars: false),
                         child: SingleChildScrollView(
                           controller: uiMenuManager.scrollController,
+                          physics: const NeverScrollableScrollPhysics(),
                           child: Column(
                             children: [
-                              VisibilityDetector(
-                                key: uiMenuManager.itemKeys.value[0],
-                                onVisibilityChanged: (visibility) {
-                                  if (visibility.visibleFraction > 0.5) {
-                                    uiMenuManager.setVisiblePage(0);
-                                  }
-                                },
-                                child: const HomeContent(),
-                              ),
-                              VisibilityDetector(
-                                key: uiMenuManager.itemKeys.value[1],
-                                onVisibilityChanged: (visibility) {
-                                  if (visibility.visibleFraction > 0.5) {
-                                    uiMenuManager.setVisiblePage(1);
-                                  }
-                                },
-                                child: const WorkContent(),
-                              ),
-                              VisibilityDetector(
-                                key: uiMenuManager.itemKeys.value[2],
-                                onVisibilityChanged: (visibility) {
-                                  if (visibility.visibleFraction > 0.5) {
-                                    uiMenuManager.setVisiblePage(2);
-                                  }
-                                },
-                                child: const ContactContent(),
+                              ...[
+                                const HomeContent(),
+                                const WorkContent(),
+                                const ContactContent(),
+                              ].mapIndexed(
+                                (index, page) => VisibilityDetector(
+                                  key: uiMenuManager.itemKeys.value[index],
+                                  onVisibilityChanged: (visibility) {
+                                    if (visibility.visibleFraction > 0.489999) {
+                                      uiMenuManager.setVisiblePage(index);
+                                    }
+                                  },
+                                  child: page,
+                                ),
                               ),
                             ],
                           ),

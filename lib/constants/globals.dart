@@ -159,7 +159,7 @@ class Globals {
   static const String aboutMeDesc1 = 'Hi there! 👋🏻';
   static const String aboutMeDesc2 =
       """”I am a multilingual IT Engineer (Hungarian, English and Romanian speaking) professional with over 5 years of experience across development and product design. \nHaving experience in multiple sectors for the last 5 years, I’ve completed multiple projects both as a developer and as a UI/UX designer. 
-\nMy current passions are design, gaming and football”""";
+\nMy current passions are design, gaming and football and I'm currently learning Portuguese 🇧🇷”""";
   static const String expertise = 'Expertise';
 
   static const ColorFilter greyscaleColorFilter = ColorFilter.matrix(<double>[

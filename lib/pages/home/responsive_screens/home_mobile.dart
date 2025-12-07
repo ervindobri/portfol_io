@@ -8,9 +8,10 @@ import 'package:portfol_io/helpers/email_helper.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/pages/home/responsive_screens/home_desktop.dart';
 import 'package:portfol_io/injection_manager.dart';
+import 'package:portfol_io/widgets/animated_text_switcher.dart';
 import 'package:portfol_io/widgets/fade_in_slide.dart';
+import 'package:pretty_animated_text/pretty_animated_text.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:portfol_io/constants/constants.dart';
@@ -88,7 +89,7 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
                         children: [
                           Row(
                             children: [
-                              const Text("I"),
+                              const BlurText(text: "I"),
                               const SizedBox(width: 12),
                               Expanded(
                                 // width: context.width,
@@ -97,25 +98,17 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
                                     color: themeColor,
                                     fontSize: 32,
                                   ),
-                                  child: AnimatedTextKit(
-                                    repeatForever: true,
-                                    pause: const Duration(seconds: 2),
-                                    animatedTexts: [
-                                      ...Globals.animatedSkills.map(
-                                        (e) => TyperAnimatedText(
-                                          e,
-                                          speed: const Duration(
-                                            milliseconds: 200,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                  child: AnimatedTextSwitcher(
+                                    texts: Globals.animatedSkills,
+                                    toWidget: (value) => BlurText(
+                                      text: value,
+                                    ),
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                          const Text("value"),
+                          const BlurText(text: "value"),
                         ],
                       ),
                     ),
@@ -183,7 +176,6 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
                           ),
                         ),
                       ),
-                      
                     ),
                     Positioned(
                       bottom: -36,

@@ -34,6 +34,8 @@ Future<void> main() async {
     ProviderScope(
       child: DevicePreview(
         enabled: !kReleaseMode,
+        availableLocales: const [Locale('en_US')],
+
         builder: (_) => const MyApp(), // Wrap your app
       ),
     ),
@@ -47,7 +49,7 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.watch(themeProvider);
     final isDark = theme.brightness == Brightness.dark;
-    
+
     return OverlaySupport.global(
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(

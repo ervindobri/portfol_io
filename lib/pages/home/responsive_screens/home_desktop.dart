@@ -1,6 +1,8 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:animate_do/animate_do.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:motion/motion.dart';
@@ -14,10 +16,10 @@ import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/models/tech_item.dart';
 import 'package:portfol_io/providers/providers.dart';
-import 'package:portfol_io/widgets/delayed_display.dart';
-import 'package:portfol_io/widgets/hover_button.dart';
-import 'package:portfol_io/widgets/primary_button.dart';
+import 'package:portfol_io/widgets/widgets.dart';
+import 'package:pretty_animated_text/pretty_animated_text.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class HomeDesktop extends ConsumerStatefulWidget {
   const HomeDesktop({super.key});
@@ -31,309 +33,349 @@ class _HomeDesktopState extends ConsumerState<HomeDesktop> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ref.watch(themeProvider);
-    final previousColor = ref.watch(previousThemeColorProvider);
-    final nextColor = ref.watch(themeColorProvider);
-    return TweenAnimationBuilder<Color?>(
-      // <-- Color might be null
-      tween: ColorTween(begin: previousColor, end: nextColor),
-      duration: const Duration(milliseconds: 300),
-      builder: (_, Color? themeColor, __) {
-        return Column(
-          spacing: 48,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ConstrainedBox(
-              constraints: BoxConstraints.tight(
-                Size(
-                  Globals.maxBoxWidth,
-                  context.height,
-                ),
-              ),
-              child: Motion(
-                controller: MotionController(
-                  damping: 0.5,
-                  maxAngle: 0.1,
-                ),
-                translation: const TranslationConfiguration(
-                  maxOffset: Offset(0.1, 0.1),
-                ),
-                shadow: const ShadowConfiguration(
-                  opacity: 0,
-                ),
-                glare: const GlareConfiguration(
-                  minOpacity: 0,
-                  maxOpacity: 0,
-                  color: Colors.transparent,
-                ),
-                child: Row(
-                  spacing: 0,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    //left
-                    Expanded(
-                      child: DelayedDisplay(
-                        delay: const Duration(milliseconds: 300),
-                        slidingBeginOffset: const Offset(0.0, 0.1),
-                        child: Container(
-                          margin: const EdgeInsets.all(48),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            spacing: 48,
-                            children: [
-                              DefaultTextStyle(
-                                style: theme.nameStyleLarge!.copyWith(
-                                  fontSize: context.width < Globals.maxBoxWidth
-                                      ? 64
-                                      : 96,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      spacing: 24,
-                                      children: [
-                                        const Text("I"),
-                                        Flexible(
-                                          child: DefaultTextStyle(
-                                            maxLines: 1,
-                                            overflow: TextOverflow.visible,
-                                            style:
-                                                theme.nameStyleLarge!.copyWith(
-                                              color: themeColor,
-                                              fontSize: context.width <
-                                                      Globals.maxBoxWidth
-                                                  ? 64
-                                                  : 96,
-                                            ),
-                                            child: AnimatedTextKit(
-                                              repeatForever: true,
-                                              pause: const Duration(seconds: 2),
-                                              animatedTexts: [
-                                                ...Globals.animatedSkills.map(
-                                                  (e) => TyperAnimatedText(
-                                                    e,
-                                                    speed: const Duration(
-                                                      milliseconds: 200,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const Text("value."),
-                                  ],
-                                ),
-                              ),
-                              DelayedDisplay(
-                                delay: const Duration(milliseconds: 800),
-                                slidingBeginOffset: const Offset(0.0, 0.1),
-                                child: AppPrimaryButton(
-                                  onPressed: () {
-                                    EmailHelper.contactMe();
-                                  },
-                                  label: Globals.letsWorkTogether,
-                                  icon: AppIcons.coffee,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: DelayedDisplay(
-                        delay: const Duration(milliseconds: 800),
-                        hasSlide: false,
-                        child: Container(
-                          margin: const EdgeInsets.all(48),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(256),
-                            gradient: LinearGradient(
-                              colors: [
-                                context.theme.primaryColor.withAlpha(0),
-                                context.theme.primaryColor.withAlpha(64),
-                              ],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                            border: GradientBoxBorder(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  context.theme.inverseTextColor.withAlpha(0),
-                                  context.theme.inverseTextColor,
-                                ],
-                              ),
-                              width: 2,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color:
-                                    context.theme.inverseTextColor.withAlpha(4),
-                                blurRadius: 24,
-                                offset: const Offset(0, 48),
-                              ),
-                            ],
-                          ),
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(256),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 4.0),
-                              child: Image.asset(
-                                AppImages.me,
-                                height: context.width > Globals.maxBoxWidth
-                                    ? Globals.profileImageSizeBig
-                                    : Globals.profileImageSizeSmall,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const AboutMe(),
-            const Expertise(),
-          ],
-        );
-      },
+    return Column(
+      spacing: 48,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const LandingContent(),
+        SizedBox(
+          height: context.height,
+          child: const Column(
+            spacing: 48,
+            children: [
+              AboutMe(),
+              Expertise(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
 
-class AboutMe extends StatelessWidget {
-  const AboutMe({super.key});
+class LandingContent extends ConsumerWidget {
+  const LandingContent({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: Globals.maxBoxWidth),
-      child: DefaultTextStyle(
-        style: context.bodyText1!.copyWith(
-          fontWeight: FontWeight.w100,
-        ),
-        child: Column(
-          spacing: 24,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Text(
-                Globals.aboutMe,
-                style: context.headline5?.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.watch(themeProvider);
+    final previousColor = ref.watch(previousThemeColorProvider);
+    final nextColor = ref.watch(themeColorProvider);
+    return TweenAnimationBuilder<Color?>(
+        // <-- Color might be null
+        tween: ColorTween(begin: previousColor, end: nextColor),
+        duration: const Duration(milliseconds: 300),
+        builder: (_, Color? themeColor, __) {
+          return ConstrainedBox(
+            constraints: BoxConstraints.tight(
+              Size(
+                Globals.maxBoxWidth,
+                context.height,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                spacing: 12,
-                crossAxisAlignment: CrossAxisAlignment.start,
+            child: Motion(
+              controller: MotionController(
+                damping: 0.5,
+                maxAngle: 0.1,
+              ),
+              translation: const TranslationConfiguration(
+                maxOffset: Offset(0.1, 0.1),
+              ),
+              shadow: const ShadowConfiguration(
+                opacity: 0,
+              ),
+              glare: const GlareConfiguration(
+                minOpacity: 0,
+                maxOpacity: 0,
+                color: Colors.transparent,
+              ),
+              child: Row(
+                spacing: 0,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    Globals.aboutMeDesc1,
-                    style: context.bodyText1?.copyWith(
-                      fontFamily: 'Playfair Display',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 24,
+                  //left
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                      margin: const EdgeInsets.fromLTRB(48, 48, 0, 48),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        spacing: 48,
+                        children: [
+                          DefaultTextStyle(
+                            style: theme.nameStyleLarge!.copyWith(
+                              fontSize:
+                                  context.width < Globals.maxBoxWidth ? 64 : 96,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  spacing: 24,
+                                  children: [
+                                    const Text("I"),
+                                    Flexible(
+                                      child: DefaultTextStyle(
+                                        maxLines: 1,
+                                        overflow: TextOverflow.visible,
+                                        style: theme.nameStyleLarge!.copyWith(
+                                          color: themeColor,
+                                          fontSize: context.width <
+                                                  Globals.maxBoxWidth
+                                              ? 64
+                                              : 96,
+                                        ),
+                                        child: AnimatedTextSwitcher(
+                                          texts: Globals.animatedSkills,
+                                          initialDelay:
+                                              const Duration(milliseconds: 800),
+                                          toWidget: (value) => BlurText(
+                                            key: ValueKey(value),
+                                            type: AnimationType.letter,
+                                            text: value,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const Text("value."),
+                              ],
+                            ),
+                          ),
+                          AppPrimaryButton(
+                            onPressed: () {
+                              EmailHelper.contactMe();
+                            },
+                            label: Globals.letsWorkTogether,
+                            icon: AppIcons.coffee,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  Text(
-                    Globals.aboutMeDesc2,
-                    style: context.bodyText1?.copyWith(
-                      fontFamily: 'Playfair Display',
-                      height: 2,
+                  Expanded(
+                    flex: 2,
+                    child: DelayedDisplay(
+                      delay: const Duration(milliseconds: 800),
+                      hasSlide: false,
+                      child: Container(
+                        margin: const EdgeInsets.fromLTRB(0, 48, 48, 48),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(256),
+                          gradient: LinearGradient(
+                            colors: [
+                              context.theme.primaryColor.withAlpha(
+                                  theme.brightness == Brightness.dark ? 0 : 64),
+                              context.theme.primaryColor.withAlpha(
+                                  theme.brightness == Brightness.dark
+                                      ? 64
+                                      : 128),
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                          border: GradientBoxBorder(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                context.theme.inverseTextColor.withAlpha(0),
+                                context.theme.inverseTextColor,
+                              ],
+                            ),
+                            width: 2,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: context.theme.primaryColor.withAlpha(16),
+                              blurRadius: 24,
+                              offset: const Offset(0, 24),
+                            ),
+                          ],
+                        ),
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(256),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 4.0),
+                            child: Image.asset(
+                              AppImages.me,
+                              height: context.width > Globals.maxBoxWidth
+                                  ? Globals.profileImageSizeBig
+                                  : Globals.profileImageSizeSmall,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    spacing: 12,
-                    children: [
-                      Container(
-                        height: 1,
-                        width: 128,
-                        color: context.theme.inverseTextColor,
-                      ),
-                      Text(
-                        'Ervin Dobri'.toUpperCase(),
-                        style: context.bodyText1?.copyWith(
-                          fontWeight: FontWeight.w100,
-                        ),
-                      ),
-                    ],
+          );
+        });
+  }
+}
+
+class AboutMe extends HookWidget {
+  const AboutMe({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final animate = useState(false);
+    return VisibilityDetector(
+      onVisibilityChanged: (visible) {
+        animate.value = visible.visibleFraction > 0.2;
+      },
+      key: const ValueKey('aboutme'),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: Globals.maxBoxWidth),
+        child: DefaultTextStyle(
+          style: context.bodyText1!.copyWith(
+            fontWeight: FontWeight.w100,
+          ),
+          child: Column(
+            spacing: 24,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Text(
+                  Globals.aboutMe,
+                  style: context.headline5?.copyWith(
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-              ],
-            ),
-          ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  spacing: 12,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FadeIn(
+                      animate: animate.value,
+                      child: Text(
+                        Globals.aboutMeDesc1,
+                        style: context.bodyText1?.copyWith(
+                          fontFamily: 'Playfair Display',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 32,
+                        ),
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ...Globals.aboutMeDesc2.split('\n').map(
+                              (e) => BlurText(
+                                text: e,
+                                textStyle: context.bodyText1?.copyWith(
+                                    fontFamily: 'Playfair Display',
+                                    fontSize: 24,
+                                    color: animate.value
+                                        ? null
+                                        : Colors.transparent),
+                              ),
+                            ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SlideInRight(
+                animate: animate.value,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        spacing: 12,
+                        children: [
+                          Container(
+                            height: 1,
+                            width: 128,
+                            color: context.theme.inverseTextColor,
+                          ),
+                          Text(
+                            'Ervin Dobri'.toUpperCase(),
+                            style: context.bodyText1?.copyWith(
+                              fontWeight: FontWeight.w100,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class Expertise extends StatelessWidget {
+class Expertise extends HookWidget {
   const Expertise({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: Globals.maxBoxWidth),
-      child: DefaultTextStyle(
-        style: context.bodyText1!.copyWith(
-          fontWeight: FontWeight.w100,
-        ),
-        child: Column(
-          spacing: 24,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Text(
-                Globals.expertise,
-                style: context.headline5?.copyWith(
-                  fontWeight: FontWeight.w500,
+    final animate = useState(false);
+    return VisibilityDetector(
+      onVisibilityChanged: (visible) {
+        animate.value = visible.visibleFraction > 0.3;
+      },
+      key: const ValueKey('expertise'),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: Globals.maxBoxWidth),
+        child: DefaultTextStyle(
+          style: context.bodyText1!.copyWith(
+            fontWeight: FontWeight.w100,
+          ),
+          child: Column(
+            spacing: 24,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Text(
+                  Globals.expertise,
+                  style: context.headline5?.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
-            ),
-            DelayedDisplay(
-              delay: const Duration(milliseconds: 1400),
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ...Globals.techStack.map(
-                      (e) => TechItemWidget(item: e),
-                    )
-                  ],
+              DelayedDisplay(
+                delay: const Duration(milliseconds: 1400),
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ...Globals.techStack.mapIndexed(
+                        (index, e) => FadeIn(
+                          animate: animate.value,
+                          delay: Duration(milliseconds: 50 * index),
+                          child: TechItemWidget(item: e),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -401,9 +443,11 @@ class TechItemWidget extends StatelessWidget {
                 ],
               ),
             ),
-            Text(
-              item.name,
-              style: context.theme.textTheme.bodySmall,
+            SlideInUp(
+              child: Text(
+                item.name,
+                style: context.theme.textTheme.bodySmall,
+              ),
             ),
           ],
         ),
