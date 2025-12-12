@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_command/flutter_command.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfol_io/constants/animations.dart';
 import 'package:portfol_io/constants/constants.dart';
@@ -28,7 +27,6 @@ class _WorkDesktopState extends ConsumerState<WorkDesktop> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final workIndex = ref.watch(workIndexProvider);
     return ConstrainedBox(
       constraints: BoxConstraints.tight(
         Size(
