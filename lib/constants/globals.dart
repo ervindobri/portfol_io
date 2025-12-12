@@ -158,7 +158,7 @@ class Globals {
   static const String aboutMe = 'About me';
   static const String aboutMeDesc1 = 'Hi there! 👋🏻';
   static const String aboutMeDesc2 =
-      """”I am a multilingual IT Engineer (Hungarian, English and Romanian speaking) professional with over 5 years of experience across development and product design. \nHaving experience in multiple sectors for the last 5 years, I’ve completed multiple projects both as a developer and as a UI/UX designer. 
+      """”I am a multilingual IT Engineer (Hungarian, English and Romanian speaking) professional with over 5 years of experience across development and product design. \nHaving experience in multiple sectors for the last 5 years, I’ve completed multiple projects both as a developer and as a UI/UX designer for different multinational companies and international teams. 
 \nMy current passions are design, gaming and football and I'm currently learning Portuguese 🇧🇷”""";
   static const String expertise = 'Expertise';
 

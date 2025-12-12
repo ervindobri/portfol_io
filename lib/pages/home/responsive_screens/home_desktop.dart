@@ -259,7 +259,7 @@ class AboutMe extends HookWidget {
                   children: [
                     FadeIn(
                       animate: animate.value,
-                      child: Text(
+                      child: SelectableText(
                         Globals.aboutMeDesc1,
                         style: context.bodyText1?.copyWith(
                           fontFamily: 'Playfair Display',
@@ -272,9 +272,9 @@ class AboutMe extends HookWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ...Globals.aboutMeDesc2.split('\n').map(
-                              (e) => BlurText(
-                                text: e,
-                                textStyle: context.bodyText1?.copyWith(
+                              (e) => SelectableText(
+                                e,
+                                style: context.bodyText1?.copyWith(
                                     fontFamily: 'Playfair Display',
                                     fontSize: 24,
                                     color: animate.value

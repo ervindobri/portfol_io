@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:carousel_slider/carousel_slider.dart' as carousel;
 import 'package:flutter/material.dart';
-import 'package:flutter_improved_scrolling/flutter_improved_scrolling.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
@@ -12,6 +11,7 @@ import 'package:portfol_io/pages/work/fullscreen_image_dialog.dart';
 import 'package:portfol_io/providers/providers.dart';
 import 'package:portfol_io/widgets/bumble_scrollbar.dart';
 import 'package:portfol_io/widgets/dialogs.dart';
+import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 
 class ImageView extends ConsumerStatefulWidget {
   const ImageView({
@@ -69,12 +69,8 @@ class _ImageCarouselState extends ConsumerState<ImageView> {
               PointerDeviceKind.mouse,
               PointerDeviceKind.touch,
             }),
-            child: ImprovedScrolling(
-              scrollController: _controller,
-              enableCustomMouseWheelScrolling: true,
-              enableMMBScrolling: false,
-              enableKeyboardScrolling: true,
-              keyboardScrollConfig: const KeyboardScrollConfig(),
+            child: WebSmoothScroll(
+              controller: _controller,
               child: SingleChildScrollView(
                 controller: _controller,
                 physics: const NeverScrollableScrollPhysics(),

@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_improved_scrolling/flutter_improved_scrolling.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/extensions/build_context.dart';
@@ -14,6 +13,7 @@ import 'package:portfol_io/pages/work/work_content.dart';
 import 'package:portfol_io/providers/providers.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -38,7 +38,6 @@ class HomePageState extends ConsumerState<HomePage>
         ref.watch(previousBrightnessProvider).extBackgroundColor;
     final nextColor = ref.watch(themeProvider).brightness.extBackgroundColor;
 
-    final scrollEnabled = ref.watch(scrollEnabledProvider);
     return TweenAnimationBuilder<Color?>(
       tween: ColorTween(begin: previousColor, end: nextColor),
       duration: const Duration(milliseconds: 50),
@@ -60,39 +59,36 @@ class HomePageState extends ConsumerState<HomePage>
                         : context.width < Globals.maxBoxWidth
                             ? const EdgeInsets.symmetric(horizontal: 24)
                             : null,
-                    child: ImprovedScrolling(
-                      scrollController: uiMenuManager.scrollController,
-                      enableMMBScrolling: true,
-                      enableCustomMouseWheelScrolling: scrollEnabled,
-                      customMouseWheelScrollConfig:
-                          const CustomMouseWheelScrollConfig(
-                        scrollDuration: Duration(milliseconds: 200),
-                        scrollCurve: Curves.linearToEaseOut,
-                      ),
+                    child: WebSmoothScroll(
+                      controller: uiMenuManager.scrollController,
                       child: ScrollConfiguration(
                         behavior: ScrollConfiguration.of(context)
                             .copyWith(scrollbars: false),
                         child: SingleChildScrollView(
                           controller: uiMenuManager.scrollController,
                           physics: const NeverScrollableScrollPhysics(),
-                          child: Column(
-                            children: [
-                              ...[
-                                const HomeContent(),
-                                const WorkContent(),
-                                const ContactContent(),
-                              ].mapIndexed(
-                                (index, page) => VisibilityDetector(
-                                  key: uiMenuManager.itemKeys.value[index],
-                                  onVisibilityChanged: (visibility) {
-                                    if (visibility.visibleFraction > 0.489999) {
-                                      uiMenuManager.setVisiblePage(index);
-                                    }
-                                  },
-                                  child: page,
+                          child: SizedBox(
+                            width: context.width,
+                            child: Column(
+                              children: [
+                                ...[
+                                  const HomeContent(),
+                                  const WorkContent(),
+                                  const ContactContent(),
+                                ].mapIndexed(
+                                  (index, page) => VisibilityDetector(
+                                    key: uiMenuManager.itemKeys.value[index],
+                                    onVisibilityChanged: (visibility) {
+                                      if (visibility.visibleFraction >
+                                          0.489999) {
+                                        uiMenuManager.setVisiblePage(index);
+                                      }
+                                    },
+                                    child: page,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
