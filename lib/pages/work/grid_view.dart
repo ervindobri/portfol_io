@@ -9,7 +9,6 @@ class ProjectsGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final uiShowcaseManager = sl<UiShowcaseManager>();
-    final items = uiShowcaseManager.showcaseItems.value;
     return ValueListenableBuilder<List<ShowcaseItem>>(
       valueListenable: uiShowcaseManager.showcaseItems,
       builder: (context, value, __) {
