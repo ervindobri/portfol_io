@@ -32,7 +32,9 @@ class AppPrimaryButton extends HookWidget {
         child: AnimatedGradientBorder(
           colors: [
             Colors.transparent,
+            Colors.white,
             context.theme.primaryColor,
+            Colors.white,
             Colors.transparent,
           ],
           glowSigma: 1.4,

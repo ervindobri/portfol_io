@@ -6,6 +6,7 @@ import 'package:portfol_io/extensions/build_context.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
+import 'package:portfol_io/pages/work_details/work_details.dart';
 import 'package:portfol_io/widgets/widgets.dart';
 import 'package:pro_animated_blur/pro_animated_blur.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -148,7 +149,13 @@ class WorkGridItem extends StatelessWidget {
                               ),
                             ),
                             onPressed: () {
-                              // Navigator.push
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      WorkDetailsScreen(item: item),
+                                ),
+                              );
                             },
                             child: Row(
                               spacing: 12,
@@ -159,7 +166,7 @@ class WorkGridItem extends StatelessWidget {
                                   style: context.bodyText1,
                                 ),
                                 Icon(
-                                  CupertinoIcons.arrow_right,
+                                  Icons.arrow_forward,
                                   color: context.theme.inverseTextColor,
                                 ),
                               ],

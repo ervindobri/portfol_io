@@ -12,13 +12,18 @@ enum Orientation { portrait, landscape }
 
 class WorkMobile extends StatefulWidget {
   final Orientation orientation;
-  const WorkMobile._({required this.orientation});
+  final ShowcaseItem? item;
 
-  factory WorkMobile.portrait() =>
-      const WorkMobile._(orientation: Orientation.portrait);
+  const WorkMobile._({
+    required this.orientation,
+    this.item,
+  });
 
-  factory WorkMobile.landscape() =>
-      const WorkMobile._(orientation: Orientation.landscape);
+  factory WorkMobile.portrait({ShowcaseItem? item}) =>
+      WorkMobile._(orientation: Orientation.portrait, item: item);
+
+  factory WorkMobile.landscape({ShowcaseItem? item}) =>
+      WorkMobile._(orientation: Orientation.landscape, item: item);
 
   @override
   State<WorkMobile> createState() => _WorkMobileState();
@@ -31,6 +36,23 @@ class _WorkMobileState extends State<WorkMobile> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+
+    // If we have an item, show details instead of the grid
+    if (widget.item != null) {
+      return Scaffold(
+        body: Padding(
+          padding: EdgeInsets.only(top: context.topPadding + kToolbarHeight),
+          child: Column(
+            children: [
+              Text(widget.item!.projectName),
+              const Expanded(child: Placeholder()),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // Original grid view logic
     return SizedBox(
       width: width,
       child: Padding(

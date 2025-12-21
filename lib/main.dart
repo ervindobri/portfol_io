@@ -35,7 +35,6 @@ Future<void> main() async {
       child: DevicePreview(
         enabled: !kReleaseMode,
         availableLocales: const [Locale('en_US')],
-
         builder: (_) => const MyApp(), // Wrap your app
       ),
     ),
@@ -64,7 +63,6 @@ class MyApp extends ConsumerWidget {
           theme: theme,
           home: const HomePage(),
           debugShowCheckedModeBanner: false,
-          initialRoute: "/",
         ),
       ),
     );
