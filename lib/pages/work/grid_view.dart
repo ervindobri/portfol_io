@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:portfol_io/extensions/build_context.dart';
@@ -101,7 +102,7 @@ class WorkGridItem extends StatelessWidget {
                 image: DecorationImage(
                   scale: hovering ? 1.1 : 1.0,
                   image: AssetImage(
-                    item.imageAssets.first,
+                    item.images.first,
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -149,6 +150,9 @@ class WorkGridItem extends StatelessWidget {
                               ),
                             ),
                             onPressed: () {
+                              if (kDebugMode) {
+                                print("navigating to details");
+                              }
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

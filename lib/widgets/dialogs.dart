@@ -113,7 +113,10 @@ class Dialogs {
   }
 
   static Future<void> showFullscreenImageDialog(
-      BuildContext context, ShowcaseItem item) async {
+    BuildContext context,
+    ShowcaseItem item, {
+    bool isMobile = true,
+  }) async {
     await showGeneralDialog(
       context: context,
       barrierLabel: '',
@@ -140,10 +143,14 @@ class Dialogs {
           elevation: 48,
           backgroundColor: context.theme.canvasColor,
           shadowColor: context.theme.extBackgroundColor,
-          child: MobileFullscreenImageDialog(
-            item: item,
-            image: '',
-          ),
+          child: isMobile
+              ? MobileFullscreenImageDialog(
+                  item: item,
+                  image: '',
+                )
+              : FullscreenImageDialog(
+                  item: item,
+                ),
         );
       },
     );

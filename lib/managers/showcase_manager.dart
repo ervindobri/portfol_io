@@ -16,12 +16,14 @@ class ShowcaseItem {
   final String imagesPath;
   final List<String> imageAssets;
   final List<String> tags;
+  final List<String> roles;
 
   ShowcaseItem({
     this.projectName = "Project Name",
     this.duration = "3 months",
     this.description = "Lorem ipsum dolor sit amet, consectetur adipiscing...",
     this.url = "https://github.com/ervindobri/",
+    this.roles = const [],
     this.publishedAppStoreUrl,
     this.publishedGooglePlayUrl,
     this.imagesPath = "others", //must be under images/work directory
@@ -42,6 +44,7 @@ class ShowcaseItem {
       projectName: e['projectName'] ?? "",
       duration: e['duration'] ?? "",
       imagesPath: e['imagesPath'] ?? "",
+      roles: e['roles']?.cast<String>() ?? const <String>[],
       imageAssets: e['imageAssets'].cast<String>(),
       url: e['url'] ?? "https://github.com/ervindobri/",
       publishedAppStoreUrl: e['publishedAppStoreUrl'],
@@ -179,8 +182,7 @@ class UiShowcaseManager {
 
       showcaseItems.value =
           container.map((e) => ShowcaseItem.fromMap(e)).toList();
-      return showcaseItems
-          .value;
+      return showcaseItems.value;
     } catch (e) {
       if (kDebugMode) {
         print(e);
