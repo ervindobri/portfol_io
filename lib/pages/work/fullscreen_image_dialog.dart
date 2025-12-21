@@ -25,94 +25,89 @@ class FullscreenImageDialog extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeColor = ref.watch(themeColorProvider);
-    useEffect(() {
-      // ignore: deprecated_member_use
-      window.onKeyData = (final keyData) {
-        if (keyData.logical == LogicalKeyboardKey.escape.keyId) {
+    final focusNode = useFocusNode();
+    return KeyboardListener(
+      focusNode: focusNode,
+      onKeyEvent: (event) {
+        if (event.physicalKey == PhysicalKeyboardKey.escape) {
+          // Do something
           Navigator.pop(context);
-
-          return true;
         }
-
-        /// Let event pass to other focuses if it is not the key we looking for
-        return false;
-      };
-      // ignore: deprecated_member_use
-      return () => window.onKeyData = null;
-    }, []);
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        SizedBox(
-          child: ValueListenableBuilder<int>(
-            valueListenable: uiShowcaseManager.currentImageIndex,
-            builder: (context, value, _) {
-              final path = item.images[value];
-              return InteractiveViewer(
-                panAxis: PanAxis.aligned,
-                child: Hero(
-                  tag: path,
-                  child: Center(
-                    child: Image(
-                      fit: BoxFit.contain,
-                      image: AssetImage(
-                        path,
+      },
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          SizedBox(
+            child: ValueListenableBuilder<int>(
+              valueListenable: uiShowcaseManager.currentImageIndex,
+              builder: (context, value, _) {
+                final path = item.images[value];
+                return InteractiveViewer(
+                  panAxis: PanAxis.aligned,
+                  child: Hero(
+                    tag: path,
+                    child: Center(
+                      child: Image(
+                        fit: BoxFit.contain,
+                        image: AssetImage(
+                          path,
+                        ),
                       ),
                     ),
                   ),
+                );
+              },
+            ),
+          ),
+          Positioned(
+            top: 24,
+            right: 24,
+            child: IconButton(
+              iconSize: 48,
+              color: context.backgroundColor,
+              onPressed: () => Navigator.pop(context),
+              icon: Center(
+                child: Icon(
+                  CupertinoIcons.xmark,
+                  size: 24,
+                  color: context.theme.inverseTextColor,
                 ),
-              );
-            },
-          ),
-        ),
-        Positioned(
-          top: 24,
-          right: 24,
-          child: IconButton(
-            iconSize: 48,
-            color: context.backgroundColor,
-            onPressed: () => Navigator.pop(context),
-            icon: Center(
-              child: Icon(
-                CupertinoIcons.xmark,
-                size: 24,
-                color: context.theme.inverseTextColor,
               ),
             ),
           ),
-        ),
-        Positioned(
-          left: 24,
-          child: IconButton(
-            iconSize: 48,
-            style: IconButton.styleFrom(backgroundColor: themeColor),
-            onPressed: () =>
-                uiShowcaseManager.previousImageItemCommand.execute(),
-            icon: Center(
-              child: Icon(
-                CupertinoIcons.chevron_left,
-                size: 24,
-                color: context.theme.inverseTextColor,
+          Positioned(
+            left: 24,
+            child: IconButton(
+              iconSize: 48,
+              style: IconButton.styleFrom(backgroundColor: themeColor),
+              onPressed: () =>
+                  uiShowcaseManager.previousImageItemCommand.execute(),
+              icon: Center(
+                child: Icon(
+                  CupertinoIcons.chevron_left,
+                  size: 24,
+                  color: context.theme.inverseTextColor,
+                ),
               ),
             ),
           ),
-        ),
-        Positioned(
-          right: 24,
-          child: IconButton(
-            iconSize: 48,
-            style: IconButton.styleFrom(backgroundColor: themeColor),
-            onPressed: () => uiShowcaseManager.nextImageItemCommand.execute(),
-            icon: Center(
-              child: Icon(
-                CupertinoIcons.chevron_right,
-                size: 24,
-                color: context.theme.inverseTextColor,
+          Positioned(
+            right: 24,
+            child: IconButton(
+              iconSize: 48,
+              style: IconButton.styleFrom(backgroundColor: themeColor),
+              onPressed: () => uiShowcaseManager.nextImageItemCommand.execute(),
+              icon: Center(
+                child: Icon(
+                  CupertinoIcons.chevron_right,
+                  size: 24,
+                  color: context.theme.inverseTextColor,
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
