@@ -54,10 +54,11 @@ class UiMenuManager {
     return currentIndex;
   }
 
-  void animateToPage(int index) {
-    Scrollable.ensureVisible(
+  Future<void> animateToPage(int index,
+      {Duration duration = const Duration(milliseconds: 200)}) async {
+    await Scrollable.ensureVisible(
       itemKeys.value[index].currentContext!,
-      duration: const Duration(milliseconds: 200),
+      duration: duration,
       curve: Curves.easeInOut,
     ).then((_) {
       setOffset(index, scrollController.offset);
@@ -66,10 +67,10 @@ class UiMenuManager {
     });
   }
 
-  void setPage(int index) {
+  Future<void> setPage(int index) async {
     menuIndex.value = index;
     animating = true;
-    animateToPage(index);
+    await animateToPage(index);
   }
 
   void setVisiblePage(int index) {

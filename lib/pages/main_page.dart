@@ -66,7 +66,7 @@ class HomePageState extends ConsumerState<HomePage>
                             .copyWith(scrollbars: false),
                         child: SingleChildScrollView(
                           controller: uiMenuManager.scrollController,
-                          physics: const NeverScrollableScrollPhysics(),
+                          physics: const AlwaysScrollableScrollPhysics(),
                           child: SizedBox(
                             width: context.width,
                             child: Column(

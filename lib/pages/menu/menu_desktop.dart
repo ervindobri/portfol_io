@@ -26,6 +26,18 @@ class MenuDesktop extends HookConsumerWidget {
     final themeColor = ref.watch(themeColorProvider);
 
     final showMenu = useState(false);
+
+    useEffect(() {
+      const duration = Duration.zero;
+      uiMenuManager.animateToPage(2, duration: duration).then((_) {
+        uiMenuManager.animateToPage(1, duration: duration).then((_) {
+          uiMenuManager.animateToPage(0, duration: duration).then((_) {
+            showMenu.value = false;
+          });
+        });
+      });
+      return null;
+    }, []);
     return ValueListenableBuilder(
       valueListenable: uiMenuManager.menuIndex,
       builder: (context, selectedIndex, child) => ClipRRect(

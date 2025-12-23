@@ -8,7 +8,6 @@ import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/pages/work/fullscreen_image_dialog.dart';
-import 'package:portfol_io/widgets/dialogs.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 
@@ -40,6 +39,7 @@ class WorkDetailsDesktop extends HookWidget {
                   padding: const EdgeInsets.symmetric(vertical: 24.0),
                   child: AppBar(
                     surfaceTintColor: Colors.transparent,
+                    centerTitle: false,
                     scrolledUnderElevation: 0,
                     leading: IconButton(
                       onPressed: () {
@@ -136,10 +136,16 @@ class WorkDetailsDesktop extends HookWidget {
                             Row(
                               spacing: 24,
                               children: [
-                                Text("Store links:", style: context.headline2),
+                                Text("Store links", style: context.headline3),
                                 if (item.publishedAppStoreUrl == null &&
                                     item.publishedGooglePlayUrl == null)
-                                  const Text("No store links available yet"),
+                                  Text(
+                                    "No store links available yet",
+                                    style: context.bodyText2?.copyWith(
+                                      fontStyle: FontStyle.italic,
+                                      fontWeight: FontWeight.w100,
+                                    ),
+                                  ),
                                 Row(
                                   spacing: 12,
                                   children: [
