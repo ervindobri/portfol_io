@@ -10,6 +10,7 @@ import 'package:portfol_io/extensions/build_context.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
+import 'package:portfol_io/models/showcase_item.dart';
 import 'package:portfol_io/pages/work/scrollable_image_view.dart';
 import 'package:portfol_io/providers/providers.dart';
 import 'package:portfol_io/widgets/animated_collapse.dart';

@@ -5,6 +5,7 @@ import 'package:portfol_io/extensions/build_context.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
+import 'package:portfol_io/models/showcase_item.dart';
 import 'package:portfol_io/pages/work/responsive_screens/showcase_item_view.dart';
 import 'package:portfol_io/injection_manager.dart';
 

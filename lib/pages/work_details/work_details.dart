@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:portfol_io/managers/showcase_manager.dart';
+import 'package:portfol_io/models/showcase_item.dart';
 import 'package:portfol_io/pages/work/responsive_screens/work.dart';
 import 'package:portfol_io/pages/work_details/desktop.dart';
 import 'package:responsive_builder/responsive_builder.dart';

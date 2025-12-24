@@ -73,6 +73,9 @@ flutter:
     - assets/images/
     - assets/images/work/
     - assets/images/work/cheesify/
+    - assets/images/work/caresens-companion/
+    - assets/images/work/ecoshift/
+    - assets/images/work/cashmap/
     - assets/images/work/myo/
     - assets/images/work/penzmuzeum/
     - assets/images/work/barbr/

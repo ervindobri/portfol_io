@@ -6,6 +6,7 @@ import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
+import 'package:portfol_io/models/showcase_item.dart';
 import 'package:portfol_io/pages/work/showcase_item_widget.dart';
 
 class ShowcaseItemView extends ConsumerWidget {

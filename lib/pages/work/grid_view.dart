@@ -7,6 +7,7 @@ import 'package:portfol_io/extensions/build_context.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
+import 'package:portfol_io/models/showcase_item.dart';
 import 'package:portfol_io/pages/work_details/work_details.dart';
 import 'package:portfol_io/widgets/widgets.dart';
 import 'package:pro_animated_blur/pro_animated_blur.dart';

@@ -1,5 +1,81 @@
 [
   {
+    "projectName": "Caresens Companion",
+    "duration": "2 months",
+    "imagesPath": "caresens-companion",
+    "figmaLink": "https://www.figma.com/design/QHuJKYdCJE0rywB962zet0/CaresensCompanion?node-id=0-1&t=xw7kPEGRJKl8qqRb-1",
+    "roles": [
+      "Design UI/UX using Figma",
+      "Implement authentication via i-sens API",
+      "Implementing REST API & services",
+      "Implement Live activity and dynamic island support",
+      "Implement local notifications"
+    ],
+    "imageAssets": [
+      "main.png",
+      "1.png",
+      "2.png",
+      "3.png"
+    ],
+    "description": "This app helps you compare the prices of products in different stores. Find the best prices near you!",
+    "tags": ["figma", "Swift UI" ,"ui/ux design", "product design", "live activity"]
+  },
+  {
+    "projectName": "EcoShift",
+    "duration": "1 year 3 months",
+    "imagesPath": "ecoshift",
+    "roles": [
+      "Implementing app UI/UX with animations and transitions",
+      "Improve UX and usability",
+      "Implementing accessibility features",
+      "Implement SQLite database integration and migrations",
+      "Document app features and technical specifications",
+      "Implementing REST API & services",
+      "Handling push notifications & deep linking",      
+      "Implementing QR code scanning"
+    ],
+    "imageAssets": [
+      "main.png",
+      "1.png",
+      "2.png"
+    ],
+    "description": "A company-wide solution to decrease climate impact by reducing CO2 emissions via car-sharing. Increase sustainability and reduce costs for the company.",
+    "tags": ["figma", "ui/ux design", "product design"]
+  },
+  {
+    "projectName": "CashMap",
+    "duration": "Few days",
+    "imagesPath": "cashmap",
+    "figmaLink": "https://www.figma.com/design/bgFzjvsNLZzPeNNM119Fn9/Cashmapp?m=auto&t=o1R6KGtqpm7z6u5R-6",
+    "roles": [
+      "Design UI/UX using Figma",
+      "Practice light and dark mode"
+    ],
+    "imageAssets": [
+      "main.png",
+      "1.png"
+    ],
+    "description": "This app helps you compare the prices of products in different stores. Find the best prices near you!",
+    "tags": ["figma", "ui/ux design", "product design"]
+  },
+  {
+    "projectName": "bAllerz",
+    "duration": "Few days",
+    "imagesPath": "ballerz",
+    "figmaLink": "https://www.figma.com/design/yFxnmgZ6ZZYfpkEnVqfeXc/FootWhere?m=auto&t=FafoeV63z56hBpOx-6",
+    "roles": [
+      "Design UI/UX using Figma",
+      "Practice light and dark mode"
+    ],
+    "imageAssets": [
+      "main.png",
+      "1.png",
+      "2.png"
+    ],
+    "description": "When I was living in Budapest I had trouble finding people to play football with. \n Of course, there are social media groups where you can do so, but an actual phone app would make everything a lot smoother! \nFeatures include creating a friendly match in a specific location, with a specific team size, so you'll only have people who are really interested. On the other hand, you can browse of many different events, or games which show up on the map!",
+    "tags": ["sports", "figma", "ui/ux design"]
+  },
+  {
     "projectName": "Pénzmúzeum",
     "duration": "v1  - worked on this project for 6 months",
     "roles": [
@@ -33,6 +109,7 @@
     "duration": "Two weeks - personal hobby project",
     "url": "https://github.com/ervindobri/cheesify",
     "imagesPath": "cheesify",
+    "figmaLink": "",
     "roles": [
       "design UI/UX using Adobe XD",
       "implementing app UI/UX with animations and transitions",
@@ -70,6 +147,7 @@
     "duration": "-",
     "url": "https://www.behance.net/w1nt_r/",
     "imagesPath": "others",
+    "figmaLink": "https://www.figma.com/design/8nfADGNT4m5BOHfNI0dL3F/DailyUI?node-id=0-1&t=kJMkMnbhJwFqpD4a-1",
     "roles": [
       "Parts of a daily challenge where I was completing 100 designs for 100 days",
       "design UI/UX using Figma",
@@ -104,21 +182,5 @@
     ],
     "description": "This project was based on a wild idea: finding barbers with the help of a simple app.\nYou can search & find lots of barbers which show up on the map as markers.\nYou can make appointments and set recurring dates when you are free to have a haircut.\nFurthermore, the barbers have ratings so you know you'll always be in professional hands!",
     "tags": ["figma", "flutter"]
-  },
-  {
-    "projectName": "bAllerz",
-    "duration": "Few days",
-    "imagesPath": "ballerz",
-    "roles": [
-      "Design UI/UX using Figma",
-      "Practice light and dark mode"
-    ],
-    "imageAssets": [
-      "main.png",
-      "1.png",
-      "2.png"
-    ],
-    "description": "When I was living in Budapest I had trouble finding people to play football with. \n Of course, there are social media groups where you can do so, but an actual phone app would make everything a lot smoother! \nFeatures include creating a friendly match in a specific location, with a specific team size, so you'll only have people who are really interested. On the other hand, you can browse of many different events, or games which show up on the map!",
-    "tags": ["sports", "figma", "ui/ux design"]
   }
 ]
