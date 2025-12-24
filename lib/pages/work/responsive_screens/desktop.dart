@@ -108,7 +108,7 @@ class WorkDesktop extends HookConsumerWidget {
                         0, lerpDouble(context.height / 4, 0, progress.value)!),
                     child: Transform.scale(
                       scale:
-                          0.9 + (0.1 * progress.value), // Slight zoom-in effect
+                          0.5 + (0.5 * progress.value), // Slight zoom-in effect
                       child: Padding(
                         padding:
                             const EdgeInsets.only(top: 64, left: 20, right: 20),

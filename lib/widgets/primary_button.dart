@@ -31,11 +31,12 @@ class AppPrimaryButton extends HookWidget {
         behavior: HitTestBehavior.translucent,
         child: AnimatedGradientBorder(
           colors: [
+            context.theme.primaryColor.withAlpha(128),
             Colors.transparent,
-            Colors.white,
             context.theme.primaryColor,
-            Colors.white,
             Colors.transparent,
+            context.theme.primaryColor.withAlpha(128),
+
           ],
           glowSigma: 1.4,
           borderWidth: 4,
