@@ -17,17 +17,12 @@ class Globals {
   static const String title = "Refining The Future.";
   static const String subtitle = "Since '98";
   static const String githubUrl = "https://github.com/ervindobri";
-  static const String facebookPage = "https://www.facebook.com/ervindobri/";
 
   static List<SocialMediaItem> socialMediaBubbles = [
     SocialMediaItem(
         label: "LinkedIn",
         icon: FontAwesomeIcons.linkedin,
         url: "https://www.linkedin.com/in/ervin-dobri/"),
-    SocialMediaItem(
-        label: "Facebook",
-        icon: FontAwesomeIcons.facebook,
-        url: "https://www.facebook.com/ervindobri/"),
     SocialMediaItem(
         label: "Instagram",
         icon: FontAwesomeIcons.instagram,
