@@ -229,92 +229,95 @@ class AboutMe extends HookWidget {
         animate.value = visible.visibleFraction > 0.2;
       },
       key: const ValueKey('aboutme'),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: Globals.maxBoxWidth),
-        child: DefaultTextStyle(
-          style: context.bodyText1!.copyWith(
-            fontWeight: FontWeight.w100,
-          ),
-          child: Column(
-            spacing: 24,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Text(
-                  Globals.aboutMe,
-                  style: context.headline5?.copyWith(
-                    fontWeight: FontWeight.w500,
+      child: SelectableRegion(
+        selectionControls: DesktopTextSelectionControls(),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Globals.maxBoxWidth),
+          child: DefaultTextStyle(
+            style: context.bodyText1!.copyWith(
+              fontWeight: FontWeight.w100,
+            ),
+            child: Column(
+              spacing: 24,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Text(
+                    Globals.aboutMe,
+                    style: context.headline5?.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  spacing: 12,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    FadeIn(
-                      animate: animate.value,
-                      child: SelectableText(
-                        Globals.aboutMeDesc1,
-                        style: context.bodyText1?.copyWith(
-                          fontFamily: Globals.fontFamilyPlayfair,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 32,
+                Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    spacing: 12,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FadeIn(
+                        animate: animate.value,
+                        child: Text(
+                          Globals.aboutMeDesc1,
+                          style: context.bodyText1?.copyWith(
+                            fontFamily: Globals.fontFamilyPlayfair,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 32,
+                          ),
                         ),
                       ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ...Globals.aboutMeDesc2.split('\n').map(
-                              (e) => SelectableText(
-                                e,
-                                style: context.bodyText1?.copyWith(
-                                    fontFamily: Globals.fontFamilyPlayfair,
-                                    fontSize: 24,
-                                    color: animate.value
-                                        ? null
-                                        : Colors.transparent),
-                              ),
-                            ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              SlideInRight(
-                animate: animate.value,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        spacing: 12,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            height: 1,
-                            width: 128,
-                            color: context.theme.inverseTextColor,
-                          ),
-                          Text(
-                            'Ervin Dobri'.toUpperCase(),
-                            style: context.bodyText1?.copyWith(
-                              fontWeight: FontWeight.w100,
-                            ),
-                          ),
+                          ...Globals.aboutMeDesc2.split('\n').map(
+                                (e) => Text(
+                                  e,
+                                  style: context.bodyText1?.copyWith(
+                                      fontFamily: Globals.fontFamilyPlayfair,
+                                      fontSize: 24,
+                                      color: animate.value
+                                          ? null
+                                          : Colors.transparent),
+                                ),
+                              ),
                         ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                SlideInRight(
+                  animate: animate.value,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          spacing: 12,
+                          children: [
+                            Container(
+                              height: 1,
+                              width: 128,
+                              color: context.theme.inverseTextColor,
+                            ),
+                            Text(
+                              'Ervin Dobri'.toUpperCase(),
+                              style: context.bodyText1?.copyWith(
+                                fontWeight: FontWeight.w100,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

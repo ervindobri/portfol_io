@@ -33,7 +33,7 @@ class ContactInfo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SelectableText(
+              Text(
                 Globals.myName,
                 style: context.titleLarge?.copyWith(
                   fontWeight: FontWeight.w700,
@@ -339,7 +339,7 @@ class MobileContactInfo extends StatelessWidget {
               children: [
                 ...Globals.mySkills
                     .map(
-                      (e) => SelectableText(
+                      (e) => Text(
                         e,
                         style: context.bodyText1?.copyWith(
                           fontWeight: FontWeight.w300,
