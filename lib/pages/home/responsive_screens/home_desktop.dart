@@ -33,20 +33,17 @@ class _HomeDesktopState extends ConsumerState<HomeDesktop> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       spacing: 48,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const LandingContent(),
-        SizedBox(
-          height: context.height,
-          child: const Column(
-            spacing: 48,
-            children: [
-              AboutMe(),
-              Expertise(),
-            ],
-          ),
+        LandingContent(),
+        Column(
+          spacing: 96,
+          children: [
+            AboutMe(),
+            Expertise(),
+          ],
         ),
       ],
     );
@@ -262,7 +259,7 @@ class AboutMe extends HookWidget {
                       child: SelectableText(
                         Globals.aboutMeDesc1,
                         style: context.bodyText1?.copyWith(
-                          fontFamily: 'Playfair Display',
+                          fontFamily: Globals.fontFamilyPlayfair,
                           fontWeight: FontWeight.w500,
                           fontSize: 32,
                         ),
@@ -275,7 +272,7 @@ class AboutMe extends HookWidget {
                               (e) => SelectableText(
                                 e,
                                 style: context.bodyText1?.copyWith(
-                                    fontFamily: 'Playfair Display',
+                                    fontFamily: Globals.fontFamilyPlayfair,
                                     fontSize: 24,
                                     color: animate.value
                                         ? null

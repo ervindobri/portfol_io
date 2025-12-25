@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:motion/motion.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:portfol_io/constants/globals.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/pages/main_page.dart';
@@ -59,7 +60,7 @@ class MyApp extends ConsumerWidget {
               isDark ? Brightness.light : Brightness.dark,
         ),
         child: MaterialApp(
-          title: 'Ervin Dobri',
+          title: Globals.appTitle,
           theme: theme,
           home: const HomePage(),
           debugShowCheckedModeBanner: false,

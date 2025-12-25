@@ -6,8 +6,10 @@ import 'package:portfol_io/models/social_media_button.dart';
 import 'package:portfol_io/models/tech_item.dart';
 
 class Globals {
+  static const String fontFamilyPlayfair = 'Playfair Display';
   static const List<String> menu = ["Home", "Showcase", "Contact Me"];
 
+  static const String appTitle = 'Portfolio';
   static const String myEmail = "ervindobri@gmail.com";
   static const String myPhone = "+40 754 365 846";
   static const String contactMe = "Contact";
@@ -184,4 +186,8 @@ class Globals {
     1,
     0,
   ]);
+
+  static const Duration durationFast = Duration(milliseconds: 200);
+  static const Duration durationMedium = Duration(milliseconds: 300);
+  static const Duration durationSlow = Duration(milliseconds: 400);
 }

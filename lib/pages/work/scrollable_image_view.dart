@@ -159,7 +159,7 @@ class MobileImageCarousel extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(24),
                   child: carousel.CarouselSlider.builder(
-                    itemCount: item.imageAssets.length,
+                    itemCount: item.images.length,
                     options: carousel.CarouselOptions(
                       autoPlay: true,
                       viewportFraction: 1.0,
@@ -169,11 +169,11 @@ class MobileImageCarousel extends StatelessWidget {
                       },
                     ),
                     itemBuilder: (context, index, what) {
-                      final image = item.imageAssets[index];
+                      final image = item.images[index];
                       final path = image;
                       return TweenAnimationBuilder(
                         tween: Tween<double>(begin: 0.0, end: 1.0),
-                        key: Key(item.imageAssets[index]),
+                        key: Key(image),
                         duration: const Duration(milliseconds: 300),
                         builder: (_, double value2, anim) {
                           return Opacity(
@@ -212,15 +212,15 @@ class MobileImageCarousel extends StatelessWidget {
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: item.imageAssets.map(
+                    children: item.images.map(
                       (entry) {
-                        final index = item.imageAssets.indexOf(entry);
+                        final index = item.images.indexOf(entry);
                         return Container(
-                        width: 6.0,
-                        height: 6.0,
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 8.0, horizontal: 4.0),
-                        decoration: BoxDecoration(
+                          width: 6.0,
+                          height: 6.0,
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 4.0),
+                          decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color:
                                 (Theme.of(context).brightness == Brightness.dark

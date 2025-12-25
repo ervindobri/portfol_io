@@ -56,9 +56,9 @@ class GlobalStyles {
         animationDuration: const Duration(milliseconds: 200),
         backgroundColor: WidgetStateProperty.resolveWith(
           (states) {
-            if (states.contains(WidgetState.pressed)) {
-              return theme.primaryColor;
-            }
+            // if (states.contains(WidgetState.pressed)) {
+            //   return theme.primaryColor;
+            // }
             return theme.inverseTextColor;
           },
         ),

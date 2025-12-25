@@ -127,7 +127,7 @@ class MobileFullscreenImageDialog extends HookWidget {
     final controller = useScrollController();
     final width = context.width;
     final height = context.height;
-    final images = item.imageAssets;
+    final images = item.images;
 
     // Create transformation controllers for each image
     final transformationControllers = useMemoized(

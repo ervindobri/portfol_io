@@ -13,7 +13,16 @@ import 'package:portfol_io/widgets/widgets.dart';
 import 'package:pro_animated_blur/pro_animated_blur.dart';
 
 class ProjectsGridView extends HookWidget {
-  const ProjectsGridView({super.key});
+  const ProjectsGridView({
+    super.key,
+    this.isMobile = false,
+  });
+  const ProjectsGridView.mobile({
+    super.key,
+    this.isMobile = true,
+  });
+
+  final bool isMobile;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +35,7 @@ class ProjectsGridView extends HookWidget {
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           gridDelegate: SliverQuiltedGridDelegate(
-            crossAxisCount: 4,
+            crossAxisCount: isMobile ? 2 : 4,
             mainAxisSpacing: 24,
             crossAxisSpacing: 24,
             repeatPattern: QuiltedGridRepeatPattern.inverted,
@@ -41,7 +50,9 @@ class ProjectsGridView extends HookWidget {
             childCount: 9,
             (context, index) {
               if (index < value.length) {
-                return WorkGridItem(item: value[index]);
+                return isMobile
+                    ? MobileWorkGridItem(item: value[index])
+                    : WorkGridItem(item: value[index]);
               }
               return const PlaceholderGridItem();
             },
@@ -185,6 +196,128 @@ class WorkGridItem extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class MobileWorkGridItem extends HookWidget {
+  const MobileWorkGridItem({
+    super.key,
+    required this.item,
+  });
+
+  final ShowcaseItem item;
+
+  @override
+  Widget build(BuildContext context) {
+    final isPressed = useState(false);
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: GestureDetector(
+        onTap: () {
+          isPressed.value = !isPressed.value;
+        },
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            AnimatedScale(
+              scale: isPressed.value ? 1.5 : 1.0,
+              duration: kThemeAnimationDuration,
+              child: AnimatedContainer(
+                duration: kThemeAnimationDuration,
+                decoration: BoxDecoration(
+                  color: context.theme.cardColor,
+                  borderRadius: BorderRadius.circular(12),
+                  image: DecorationImage(
+                    scale: isPressed.value ? 1.5 : 1.0,
+                    image: AssetImage(
+                      item.images.first,
+                    ),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            IgnorePointer(
+              ignoring: !isPressed.value,
+              child: ProAnimatedBlur(
+                duration: kThemeAnimationDuration,
+                blur: isPressed.value ? 12 : 0,
+                child: AnimatedOpacity(
+                  duration: kThemeAnimationDuration,
+                  opacity: isPressed.value ? 1 : 0,
+                  child: Container(
+                    width: context.width,
+                    color: context.theme.containerColor.withAlpha(128),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      spacing: 24,
+                      children: [
+                        SlideInUp(
+                          animate: isPressed.value,
+                          duration: const Duration(milliseconds: 200),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              item.projectName,
+                              maxLines: 2,
+                              textAlign: TextAlign.center,
+                              style: context.bodyText1,
+                            ),
+                          ),
+                        ),
+                        SlideInUp(
+                          delay: const Duration(
+                            milliseconds: 50,
+                          ),
+                          duration: const Duration(milliseconds: 200),
+                          animate: isPressed.value,
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: context.theme.primaryColor,
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 16,
+                                horizontal: 12,
+                              ),
+                            ),
+                            onPressed: () {
+                              if (kDebugMode) {
+                                print("navigating to details");
+                              }
+                              Navigator.push(
+                                context,
+                                AnimatedPageRoute(
+                                  child: WorkDetailsScreen(
+                                    item: item,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Row(
+                              spacing: 12,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  "See details",
+                                  style: context.bodyText1,
+                                ),
+                                Icon(
+                                  Icons.arrow_forward,
+                                  color: context.theme.inverseTextColor,
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

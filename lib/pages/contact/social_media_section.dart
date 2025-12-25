@@ -12,6 +12,7 @@ class SocialMediaSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Flexible(
           child: Text(
@@ -24,11 +25,14 @@ class SocialMediaSection extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         Row(
+          mainAxisSize: MainAxisSize.min,
           children: Globals.socialMediaBubbles
               .map(
                 (e) => IconButton(
                   tooltip: e.label,
-                  style: context.textButtonStyle,
+                  style: IconButton.styleFrom(
+                    backgroundColor: context.theme.containerColor,
+                  ),
                   hoverColor: context.theme.extBackgroundColor,
                   splashColor: Colors.black,
                   highlightColor: Colors.black,

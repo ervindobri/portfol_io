@@ -1,27 +1,22 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:portfol_io/constants/globals.dart';
 import 'package:portfol_io/extensions/build_context.dart';
-import 'package:portfol_io/managers/menu_manager.dart';
-import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/pages/contact/contact_me_card.dart';
 import 'package:portfol_io/pages/contact/parallax_card.dart';
 import 'package:portfol_io/pages/contact/widgets/contact_profile_image.dart';
-import 'package:portfol_io/widgets/delayed_display.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
-class ContactDesktop extends ConsumerStatefulWidget {
+class ContactDesktop extends HookWidget {
   const ContactDesktop({super.key});
-
-  @override
-  ConsumerState<ContactDesktop> createState() => _ContactDesktopState();
-}
-
-class _ContactDesktopState extends ConsumerState<ContactDesktop> {
-  final uiMenuManager = sl<UiMenuManager>();
 
   @override
   Widget build(BuildContext context) {
     final width = context.width;
+    final animateImage = useState(false);
+    final animateInfo = useState(false);
+    final animateActions = useState(false);
 
     return ClipRRect(
       child: Container(
@@ -31,9 +26,11 @@ class _ContactDesktopState extends ConsumerState<ContactDesktop> {
         ),
         width: width,
         margin: const EdgeInsets.only(
-            top: kToolbarHeight * 2, bottom: kToolbarHeight * 2),
-        child: const Column(
-          spacing: 96,
+          top: kToolbarHeight * 2,
+          bottom: kToolbarHeight * 2,
+        ),
+        child: Column(
+          spacing: 128,
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -43,44 +40,55 @@ class _ContactDesktopState extends ConsumerState<ContactDesktop> {
               spacing: 96,
               children: [
                 Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      AnimatedSwitcher(
-                        duration: kThemeAnimationDuration,
-                        child: DelayedDisplay(
-                          delay: Duration(milliseconds: 100),
-                          fadingDuration: Duration(milliseconds: 100),
-                          child: MobileContactProfileImage(
-                            height: 400,
+                  child: VisibilityDetector(
+                    key: const ValueKey('contact_image'),
+                    onVisibilityChanged: (visible) {
+                      animateImage.value = visible.visibleFraction > 0.15;
+                    },
+                    child: FadeInLeft(
+                      animate: animateImage.value,
+                      delay: const Duration(milliseconds: 200),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          AnimatedSwitcher(
+                            duration: kThemeAnimationDuration,
+                            child: MobileContactProfileImage(
+                              height: 500,
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
                 Expanded(
-                  child: Row(
-                    children: [
-                      AnimatedSwitcher(
+                  child: VisibilityDetector(
+                    key: const ValueKey('contact_info'),
+                    onVisibilityChanged: (visible) {
+                      animateInfo.value = visible.visibleFraction > 0.21;
+                    },
+                    child: FadeInRight(
+                      animate: animateInfo.value,
+                      delay: const Duration(milliseconds: 500),
+                      child: const AnimatedSwitcher(
                         duration: kThemeAnimationDuration,
-                        child: DelayedDisplay(
-                          delay: Duration(milliseconds: 100),
-                          fadingDuration: Duration(milliseconds: 100),
-                          child: ContactInfo(),
-                        ),
+                        child: ContactInfo(),
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ],
             ),
-            AnimatedSwitcher(
-              duration: kThemeAnimationDuration,
-              child: DelayedDisplay(
-                delay: Duration(milliseconds: 300),
-                fadingDuration: Duration(milliseconds: 100),
-                child: ContactMeCard(),
+            VisibilityDetector(
+              key: const ValueKey('contact_actions'),
+              onVisibilityChanged: (visible) {
+                animateActions.value = visible.visibleFraction > 0.21;
+              },
+              child: ZoomIn(
+                animate: animateActions.value,
+                delay: const Duration(milliseconds: 700),
+                child: const ContactMeCard(),
               ),
             ),
           ],

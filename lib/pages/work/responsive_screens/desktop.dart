@@ -27,7 +27,7 @@ class WorkDesktop extends HookConsumerWidget {
 
     final progress = useState(0.0);
     final height = context.height;
-    final parentHeight = context.height * 1.3;
+    final parentHeight = context.height * 1.4;
     final difference = parentHeight - height;
     useEffect(() {
       currentOffset.value = uiMenuManager.offsets[1];
@@ -76,7 +76,6 @@ class WorkDesktop extends HookConsumerWidget {
       return () => uiMenuManager.scrollController.removeListener(listener);
     }, [uiMenuManager.scrollController.offset]);
 
-
     void scrollToTop() {
       uiMenuManager.scrollController.animateTo(
         currentOffset.value + difference - kToolbarHeight,
@@ -84,7 +83,6 @@ class WorkDesktop extends HookConsumerWidget {
         curve: Curves.easeInOut,
       );
     }
-
 
     return ConstrainedBox(
       constraints: const BoxConstraints.tightFor(
@@ -187,8 +185,6 @@ class WorkHeader extends StatelessWidget {
     );
   }
 }
-
-
 
 class AnimatedNumberIndicator extends ConsumerWidget {
   const AnimatedNumberIndicator({

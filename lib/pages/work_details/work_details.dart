@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:portfol_io/models/showcase_item.dart';
-import 'package:portfol_io/pages/work/responsive_screens/work.dart';
 import 'package:portfol_io/pages/work_details/desktop.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
@@ -24,8 +23,11 @@ class WorkDetailsScreen extends StatelessWidget {
           return WorkDetailsDesktop(item: item);
         }
         return OrientationLayoutBuilder(
-          portrait: (context) => WorkMobile.portrait(item: item),
-          landscape: (context) => WorkMobile.landscape(item: item),
+          portrait: (context) => WorkDetailsDesktop(
+            item: item,
+            isMobile: true,
+          ),
+          landscape: (context) => WorkDetailsDesktop(item: item),
         );
       },
     );

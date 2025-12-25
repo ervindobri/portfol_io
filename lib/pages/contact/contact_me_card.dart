@@ -27,8 +27,8 @@ class ContactMeCard extends StatelessWidget {
                   AppIcons.bulbLine,
                   colorFilter: ColorFilter.mode(
                       context.theme.inverseTextColor, BlendMode.srcIn),
-                  height: 32,
-                  width: 32,
+                  height: 64,
+                  width: 64,
                 ),
                 const SizedBox(width: 12),
                 Text(
