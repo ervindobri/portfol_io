@@ -59,6 +59,7 @@ class PortfolioTheme {
   static ThemeData get defaultLightTheme => ThemeData(
         // Define the default brightness and colors.
         brightness: Brightness.light,
+        splashFactory: NoSplash.splashFactory,
         primaryColor: GlobalColors.defaultThemeColor,
         canvasColor: GlobalColors.backgroundColorLight,
         colorScheme: const ColorScheme.light(

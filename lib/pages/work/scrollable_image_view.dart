@@ -2,16 +2,17 @@ import 'dart:ui';
 
 import 'package:carousel_slider/carousel_slider.dart' as carousel;
 import 'package:flutter/material.dart';
-import 'package:flutter_improved_scrolling/flutter_improved_scrolling.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
+import 'package:portfol_io/models/showcase_item.dart';
 import 'package:portfol_io/pages/work/fullscreen_image_dialog.dart';
 import 'package:portfol_io/providers/providers.dart';
 import 'package:portfol_io/widgets/bumble_scrollbar.dart';
 import 'package:portfol_io/widgets/dialogs.dart';
+import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 
 class ImageView extends ConsumerStatefulWidget {
   const ImageView({
@@ -69,12 +70,8 @@ class _ImageCarouselState extends ConsumerState<ImageView> {
               PointerDeviceKind.mouse,
               PointerDeviceKind.touch,
             }),
-            child: ImprovedScrolling(
-              scrollController: _controller,
-              enableCustomMouseWheelScrolling: true,
-              enableMMBScrolling: false,
-              enableKeyboardScrolling: true,
-              keyboardScrollConfig: const KeyboardScrollConfig(),
+            child: WebSmoothScroll(
+              controller: _controller,
               child: SingleChildScrollView(
                 controller: _controller,
                 physics: const NeverScrollableScrollPhysics(),
@@ -162,7 +159,7 @@ class MobileImageCarousel extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(24),
                   child: carousel.CarouselSlider.builder(
-                    itemCount: item.imageAssets.length,
+                    itemCount: item.images.length,
                     options: carousel.CarouselOptions(
                       autoPlay: true,
                       viewportFraction: 1.0,
@@ -172,11 +169,11 @@ class MobileImageCarousel extends StatelessWidget {
                       },
                     ),
                     itemBuilder: (context, index, what) {
-                      final image = item.imageAssets[index];
+                      final image = item.images[index];
                       final path = image;
                       return TweenAnimationBuilder(
                         tween: Tween<double>(begin: 0.0, end: 1.0),
-                        key: Key(item.imageAssets[index]),
+                        key: Key(image),
                         duration: const Duration(milliseconds: 300),
                         builder: (_, double value2, anim) {
                           return Opacity(
@@ -215,15 +212,15 @@ class MobileImageCarousel extends StatelessWidget {
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: item.imageAssets.map(
+                    children: item.images.map(
                       (entry) {
-                        final index = item.imageAssets.indexOf(entry);
+                        final index = item.images.indexOf(entry);
                         return Container(
-                        width: 6.0,
-                        height: 6.0,
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 8.0, horizontal: 4.0),
-                        decoration: BoxDecoration(
+                          width: 6.0,
+                          height: 6.0,
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 4.0),
+                          decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color:
                                 (Theme.of(context).brightness == Brightness.dark

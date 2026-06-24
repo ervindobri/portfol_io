@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -7,15 +6,14 @@ import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/constants/icons.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/helpers/email_helper.dart';
-import 'package:portfol_io/providers/providers.dart';
+import 'package:portfol_io/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ContactMeCard extends ConsumerWidget {
+class ContactMeCard extends StatelessWidget {
   const ContactMeCard({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final theme = ref.watch(themeProvider);
+  Widget build(BuildContext context) {
     return Column(
       spacing: 24,
       mainAxisSize: MainAxisSize.min,
@@ -29,8 +27,8 @@ class ContactMeCard extends ConsumerWidget {
                   AppIcons.bulbLine,
                   colorFilter: ColorFilter.mode(
                       context.theme.inverseTextColor, BlendMode.srcIn),
-                  height: 32,
-                  width: 32,
+                  height: 64,
+                  width: 64,
                 ),
                 const SizedBox(width: 12),
                 Text(
@@ -45,34 +43,12 @@ class ContactMeCard extends ConsumerWidget {
             ),
           ],
         ),
-        TextButton(
-          style: GlobalStyles.primaryButtonStyle(theme),
+        AppPrimaryButton(
           onPressed: () async {
             await EmailHelper.contactMe();
           },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  Globals.bigWhiteButton,
-                  style: theme.textTheme.titleMedium
-                      ?.copyWith(color: theme.textColor),
-                ),
-                const SizedBox(width: 24),
-                SvgPicture.asset(
-                  AppIcons.coffee,
-                  height: 32,
-                  width: 32,
-                  colorFilter: ColorFilter.mode(
-                    theme.textColor,
-                    BlendMode.srcIn,
-                  ),
-                )
-              ],
-            ),
-          ),
+          label: Globals.bigWhiteButton,
+          icon: AppIcons.coffee,
         ),
       ],
     );

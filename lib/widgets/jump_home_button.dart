@@ -32,8 +32,8 @@ class JumpToHomeButton extends ConsumerWidget {
                       uiMenuManager.setPage(0);
                       ref.read(menuIndexProvider.notifier).state = 0;
                     },
-                    icon: const Icon(
-                      FontAwesomeIcons.chevronUp,
+                    icon: Icon(
+                      FontAwesomeIcons.chevronUp.data,
                       color: Colors.white,
                     ),
                   ),
@@ -54,8 +54,8 @@ class JumpToHomeButton extends ConsumerWidget {
                       uiMenuManager.setPage(0);
                       ref.read(menuIndexProvider.notifier).state = 0;
                     },
-                    icon: const Icon(
-                      FontAwesomeIcons.chevronUp,
+                    icon: Icon(
+                      FontAwesomeIcons.chevronUp.data,
                       color: Colors.white,
                       size: 24,
                     ),

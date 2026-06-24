@@ -1,5 +1,5 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_improved_scrolling/flutter_improved_scrolling.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/extensions/build_context.dart';
@@ -13,6 +13,7 @@ import 'package:portfol_io/pages/work/work_content.dart';
 import 'package:portfol_io/providers/providers.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -37,7 +38,6 @@ class HomePageState extends ConsumerState<HomePage>
         ref.watch(previousBrightnessProvider).extBackgroundColor;
     final nextColor = ref.watch(themeProvider).brightness.extBackgroundColor;
 
-    final scrollEnabled = ref.watch(scrollEnabledProvider);
     return TweenAnimationBuilder<Color?>(
       tween: ColorTween(begin: previousColor, end: nextColor),
       duration: const Duration(milliseconds: 50),
@@ -59,52 +59,36 @@ class HomePageState extends ConsumerState<HomePage>
                         : context.width < Globals.maxBoxWidth
                             ? const EdgeInsets.symmetric(horizontal: 24)
                             : null,
-                    child: ImprovedScrolling(
-                      scrollController: uiMenuManager.scrollController,
-                      enableMMBScrolling: true,
-                      enableCustomMouseWheelScrolling: scrollEnabled,
-                      customMouseWheelScrollConfig:
-                          const CustomMouseWheelScrollConfig(
-                        scrollAmountMultiplier: 2.25,
-                        scrollDuration: Duration(milliseconds: 300),
-                        scrollCurve: Curves.linearToEaseOut,
-                        mouseWheelTurnsThrottleTimeMs: 20,
-                      ),
+                    child: WebSmoothScroll(
+                      controller: uiMenuManager.scrollController,
                       child: ScrollConfiguration(
                         behavior: ScrollConfiguration.of(context)
                             .copyWith(scrollbars: false),
                         child: SingleChildScrollView(
                           controller: uiMenuManager.scrollController,
-                          child: Column(
-                            children: [
-                              VisibilityDetector(
-                                key: uiMenuManager.itemKeys.value[0],
-                                onVisibilityChanged: (visibility) {
-                                  if (visibility.visibleFraction > 0.5) {
-                                    uiMenuManager.setVisiblePage(0);
-                                  }
-                                },
-                                child: const HomeContent(),
-                              ),
-                              VisibilityDetector(
-                                key: uiMenuManager.itemKeys.value[1],
-                                onVisibilityChanged: (visibility) {
-                                  if (visibility.visibleFraction > 0.5) {
-                                    uiMenuManager.setVisiblePage(1);
-                                  }
-                                },
-                                child: const WorkContent(),
-                              ),
-                              VisibilityDetector(
-                                key: uiMenuManager.itemKeys.value[2],
-                                onVisibilityChanged: (visibility) {
-                                  if (visibility.visibleFraction > 0.5) {
-                                    uiMenuManager.setVisiblePage(2);
-                                  }
-                                },
-                                child: const ContactContent(),
-                              ),
-                            ],
+                          physics: const NeverScrollableScrollPhysics(),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Column(
+                              children: [
+                                ...[
+                                  const HomeContent(),
+                                  const WorkContent(),
+                                  const ContactContent(),
+                                ].mapIndexed(
+                                  (index, page) => VisibilityDetector(
+                                    key: uiMenuManager.itemKeys.value[index],
+                                    onVisibilityChanged: (visibility) {
+                                      if (visibility.visibleFraction >
+                                          0.489999) {
+                                        uiMenuManager.setVisiblePage(index);
+                                      }
+                                    },
+                                    child: page,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -112,7 +96,9 @@ class HomePageState extends ConsumerState<HomePage>
                   ),
                   Positioned(
                     top: isMobile ? 0 : context.topPadding,
-                    child: const StickyMenu(),
+                    left: 0,
+                    right: 0,
+                    child: const RepaintBoundary(child: StickyMenu()),
                   ),
                 ],
               ),

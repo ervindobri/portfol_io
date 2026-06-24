@@ -4,6 +4,7 @@ import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
+import 'package:portfol_io/models/showcase_item.dart';
 import 'package:portfol_io/pages/work/showcase_item_widget.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -26,12 +27,8 @@ class _ShowcaseCardState extends State<ShowcaseCard> {
     // final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return MouseRegion(
-      onEnter: (event) {
-        setState(() => showImageOverlay.value = true);
-      },
-      onExit: (event) {
-        setState(() => showImageOverlay.value = false);
-      },
+      onEnter: (event) => showImageOverlay.value = true,
+      onExit: (event) => showImageOverlay.value = false,
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -161,9 +158,7 @@ class _MobileShowcaseCardState extends State<MobileShowcaseCard> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return InkWell(
-      onTap: () {
-        setState(() => showImageOverlay.value = !showImageOverlay.value);
-      },
+      onTap: () => showImageOverlay.value = !showImageOverlay.value,
       child: SizedBox(
         width: width,
         height: height / 3,
@@ -182,10 +177,7 @@ class _MobileShowcaseCardState extends State<MobileShowcaseCard> {
               )),
             ),
             InkWell(
-              onTap: () {
-                setState(
-                    () => showImageOverlay.value = !showImageOverlay.value);
-              },
+              onTap: () => showImageOverlay.value = !showImageOverlay.value,
               child: ValueListenableBuilder<bool>(
                 valueListenable: showImageOverlay,
                 builder: (context, showImageOverlay, _) {

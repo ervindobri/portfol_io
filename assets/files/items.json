@@ -1,17 +1,99 @@
 [
   {
+    "projectName": "Caresens Companion",
+    "duration": "2 months",
+    "imagesPath": "caresens-companion",
+    "figmaLink": "https://www.figma.com/design/QHuJKYdCJE0rywB962zet0/CaresensCompanion?node-id=0-1&t=xw7kPEGRJKl8qqRb-1",
+    "roles": [
+      "Design UI/UX using Figma",
+      "Implement authentication via i-sens API",
+      "Implementing REST API & services",
+      "Implement Live activity and dynamic island support",
+      "Implement local notifications"
+    ],
+    "imageAssets": [
+      "main.png",
+      "1.png",
+      "2.png",
+      "3.png"
+    ],
+    "description": "This app helps you compare the prices of products in different stores. Find the best prices near you!",
+    "tags": ["figma", "Swift UI" ,"ui/ux design", "product design", "live activity"]
+  },
+  {
+    "projectName": "EcoShift",
+    "duration": "1 year 3 months",
+    "imagesPath": "ecoshift",
+    "roles": [
+      "Implementing app UI/UX with animations and transitions",
+      "Improve UX and usability",
+      "Implementing accessibility features",
+      "Implement SQLite database integration and migrations",
+      "Document app features and technical specifications",
+      "Implementing REST API & services",
+      "Handling push notifications & deep linking",      
+      "Implementing QR code scanning"
+    ],
+    "imageAssets": [
+      "main.png",
+      "1.png",
+      "2.png"
+    ],
+    "description": "A company-wide solution to decrease climate impact by reducing CO2 emissions via car-sharing. Increase sustainability and reduce costs for the company.",
+    "tags": ["figma", "ui/ux design", "product design"]
+  },
+  {
+    "projectName": "CashMap",
+    "duration": "Few days",
+    "imagesPath": "cashmap",
+    "figmaLink": "https://www.figma.com/design/bgFzjvsNLZzPeNNM119Fn9/Cashmapp?m=auto&t=o1R6KGtqpm7z6u5R-6",
+    "roles": [
+      "Design UI/UX using Figma",
+      "Practice light and dark mode"
+    ],
+    "imageAssets": [
+      "main.png",
+      "1.png"
+    ],
+    "description": "This app helps you compare the prices of products in different stores. Find the best prices near you!",
+    "tags": ["figma", "ui/ux design", "product design"]
+  },
+  {
+    "projectName": "bAllerz",
+    "duration": "Few days",
+    "imagesPath": "ballerz",
+    "figmaLink": "https://www.figma.com/design/yFxnmgZ6ZZYfpkEnVqfeXc/FootWhere?m=auto&t=FafoeV63z56hBpOx-6",
+    "roles": [
+      "Design UI/UX using Figma",
+      "Practice light and dark mode"
+    ],
+    "imageAssets": [
+      "main.png",
+      "1.png",
+      "2.png"
+    ],
+    "description": "When I was living in Budapest I had trouble finding people to play football with. \n Of course, there are social media groups where you can do so, but an actual phone app would make everything a lot smoother! \nFeatures include creating a friendly match in a specific location, with a specific team size, so you'll only have people who are really interested. On the other hand, you can browse of many different events, or games which show up on the map!",
+    "tags": ["sports", "figma", "ui/ux design"]
+  },
+  {
     "projectName": "Pénzmúzeum",
     "duration": "v1  - worked on this project for 6 months",
+    "roles": [
+      "implementing app UI/UX with animations and transitions",
+      "integrating REST API & services",
+      "handling push notifications & deep linking",
+      "implementing biometric authentication"
+    ],
     "url": "https://github.com/ervindobri/",
     "publishedGooglePlayUrl": "https://play.google.com/store/apps/details?id=hu.mnb.penzmuzeum",
     "publishedAppStoreUrl": "https://apps.apple.com/hu/app/p%C3%A9nzm%C3%BAzeum/id1622586522",
     "imagesPath": "penzmuzeum",
     "imageAssets": [
-      "assets/images/work/penzmuzeum/main.png",
-      "assets/images/work/penzmuzeum/1.png",
-      "assets/images/work/penzmuzeum/2.png"
+      "main.png",
+      "1.png",
+      "2.png"
     ],
-    "description": "NFT coin marketplace, scanning new coins with QR and trading them in the marketplace. Features include: push notifications, coin catalog, private coin & nft collection, sending coins into raffle & win prizes. A lot of useful information about the museum is displayed in the app.",
+    "description": "This app was built as a NFT coin marketplace for the digital face of the hungarian currency 'Forint', scanning new coins with QR and trading them in the marketplace. Features include: push notifications, coin catalog, private coin & nft collection, sending coins into raffle & win prizes. A lot of useful information about the museum is displayed in the app.",
     "tags": [
       "flutter",
       "biometric authentication",
@@ -27,11 +109,17 @@
     "duration": "Two weeks - personal hobby project",
     "url": "https://github.com/ervindobri/cheesify",
     "imagesPath": "cheesify",
+    "figmaLink": "",
+    "roles": [
+      "design UI/UX using Adobe XD",
+      "implementing app UI/UX with animations and transitions",
+      "implementing app features"
+    ],
     "imageAssets": [
-      "assets/images/work/cheesify/main.png",
-      "assets/images/work/cheesify/1.png",
-      "assets/images/work/cheesify/2.png",
-      "assets/images/work/cheesify/3.png"
+      "main.png",
+      "1.png",
+      "2.png",
+      "3.png"
     ],
     "description": "This app concept was based on a cheese database application. You can browse various types of cheeses and find out interesting facts about them. UI Design in Adobe XD, app using flutter!",
     "tags": ["flutter", "adobe xd"]
@@ -41,10 +129,15 @@
     "duration": "6 months",
     "url": "https://github.com/ervindobri/MyoExercises",
     "imagesPath": "myo",
+    "roles": [
+      "Create and train a dedicated gesture recognition model",
+      "Designing & Implementing desktop app in PyQt as interface",
+      "Implementing mini games using Unity & C#"
+    ],
     "imageAssets": [
-      "assets/images/work/myo/main.png",
-      "assets/images/work/myo/1.png",
-      "assets/images/work/myo/2.png"
+      "main.png",
+      "1.png",
+      "2.png"
     ],
     "description": "Combining gesture controlled armband Myo by Thalmic Labs and foot exercises for children. With the use of serious games, flat foot can be treated using this system. As my thesis project, I had developed a Python Gesture Recognition software with PyQt UI components (Image #1) and two Unity Engine games(Images #2 and #3). The system is able to record & detect 4 different foot gestures which are used in physiotherapy. The project was inspired from HIMO (himo.appforte.ro).",
     "tags": ["python", "unity", "firebase", "neural network", "myo armband"]
@@ -54,16 +147,22 @@
     "duration": "-",
     "url": "https://www.behance.net/w1nt_r/",
     "imagesPath": "others",
+    "figmaLink": "https://www.figma.com/design/8nfADGNT4m5BOHfNI0dL3F/DailyUI?node-id=0-1&t=kJMkMnbhJwFqpD4a-1",
+    "roles": [
+      "Parts of a daily challenge where I was completing 100 designs for 100 days",
+      "design UI/UX using Figma",
+      "Practice figma with real world examples"
+    ],
     "imageAssets": [
-      "assets/images/work/others/adidas.png",
-      "assets/images/work/others/day73.png",
-      "assets/images/work/others/day75.png",
-      "assets/images/work/others/day96.png",
-      "assets/images/work/others/day94.png",
-      "assets/images/work/others/day98.png",
-      "assets/images/work/others/sepsi.png",
-      "assets/images/work/others/barber.png",
-      "assets/images/work/others/payment.png"
+      "adidas.png",
+      "day73.png",
+      "day75.png",
+      "day96.png",
+      "day94.png",
+      "day98.png",
+      "sepsi.png",
+      "barber.png",
+      "payment.png"
     ],
     "description": "These images show various design projects I've completed over the last few months.",
     "tags": ["figma", "adobe xd", "ui design"]
@@ -72,24 +171,16 @@
     "projectName": "Barbr",
     "duration": "Few days",
     "imagesPath": "barbr",
+    "roles": [
+      "Design UI/UX using Figma",
+      "Practice light and dark mode"
+    ],
     "imageAssets": [
-      "assets/images/work/barbr/main.png",
-      "assets/images/work/barbr/light.png",
-      "assets/images/work/barbr/dark.png"
+      "main.png",
+      "light.png",
+      "dark.png"
     ],
     "description": "This project was based on a wild idea: finding barbers with the help of a simple app.\nYou can search & find lots of barbers which show up on the map as markers.\nYou can make appointments and set recurring dates when you are free to have a haircut.\nFurthermore, the barbers have ratings so you know you'll always be in professional hands!",
     "tags": ["figma", "flutter"]
-  },
-  {
-    "projectName": "bAllerz",
-    "duration": "Few days",
-    "imagesPath": "ballerz",
-    "imageAssets": [
-      "assets/images/work/ballerz/main.png",
-      "assets/images/work/ballerz/1.png",
-      "assets/images/work/ballerz/2.png"
-    ],
-    "description": "When I was living in Budapest I had trouble finding people to play football with. \n Of course, there are social media groups where you can do so, but an actual phone app would make everything a lot smoother! \nFeatures include creating a friendly match in a specific location, with a specific team size, so you'll only have people who are really interested. On the other hand, you can browse of many different events, or games which show up on the map!",
-    "tags": ["sports", "figma", "ui/ux design"]
   }
 ]

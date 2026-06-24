@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
+import 'package:portfol_io/models/showcase_item.dart';
 import 'package:portfol_io/pages/work/hover_image.dart';
 import 'package:portfol_io/widgets/delayed_display.dart';
 import 'package:vector_math/vector_math_64.dart' hide Colors;

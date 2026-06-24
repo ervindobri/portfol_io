@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:motion/motion.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:portfol_io/constants/globals.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
 import 'package:portfol_io/pages/main_page.dart';
@@ -34,6 +35,7 @@ Future<void> main() async {
     ProviderScope(
       child: DevicePreview(
         enabled: !kReleaseMode,
+        availableLocales: const [Locale('en_US')],
         builder: (_) => const MyApp(), // Wrap your app
       ),
     ),
@@ -47,7 +49,7 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.watch(themeProvider);
     final isDark = theme.brightness == Brightness.dark;
-    
+
     return OverlaySupport.global(
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
@@ -58,11 +60,10 @@ class MyApp extends ConsumerWidget {
               isDark ? Brightness.light : Brightness.dark,
         ),
         child: MaterialApp(
-          title: 'Ervin Dobri',
+          title: Globals.appTitle,
           theme: theme,
           home: const HomePage(),
           debugShowCheckedModeBanner: false,
-          initialRoute: "/",
         ),
       ),
     );

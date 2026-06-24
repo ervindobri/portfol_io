@@ -1,6 +1,5 @@
 // import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class UiMenuManager {
@@ -42,22 +41,14 @@ class UiMenuManager {
   }
 
   int getCurrentIndex(double offset) {
-    if (kDebugMode) {
-      print("find offset: $offset");
-    }
-    final currentIndex =
-        offsets.indexOf(offsets.where((element) => element <= offset).last);
-
-    if (kDebugMode) {
-      print("scrolled to : $currentIndex");
-    }
-    return currentIndex;
+    return offsets.indexOf(offsets.where((element) => element <= offset).last);
   }
 
-  void animateToPage(int index) {
-    Scrollable.ensureVisible(
+  Future<void> animateToPage(int index,
+      {Duration duration = const Duration(milliseconds: 200)}) async {
+    await Scrollable.ensureVisible(
       itemKeys.value[index].currentContext!,
-      duration: const Duration(milliseconds: 200),
+      duration: duration,
       curve: Curves.easeInOut,
     ).then((_) {
       setOffset(index, scrollController.offset);
@@ -66,10 +57,10 @@ class UiMenuManager {
     });
   }
 
-  void setPage(int index) {
+  Future<void> setPage(int index) async {
     menuIndex.value = index;
     animating = true;
-    animateToPage(index);
+    await animateToPage(index);
   }
 
   void setVisiblePage(int index) {

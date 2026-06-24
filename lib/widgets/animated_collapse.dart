@@ -78,7 +78,6 @@ class AnimatedCollapseState extends State<AnimatedCollapse>
     return SizeTransition(
       sizeFactor: _animation,
       axis: widget.axis,
-      axisAlignment: widget.axisAlignment,
       child: widget.child,
     );
   }

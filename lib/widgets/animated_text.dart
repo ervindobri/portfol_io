@@ -447,7 +447,7 @@ class _FadeIn extends StatefulWidget {
     this.first = false,
     this.fadeController,
     this.fadeAnimation,
-    @required this.alignment,
+    this.alignment,
   });
   @override
   _FadeInState createState() => _FadeInState();
@@ -514,7 +514,7 @@ class _FadeOut extends StatefulWidget {
     this.first = false,
     this.fadeController,
     this.fadeAnimation,
-    @required this.alignment,
+    this.alignment,
   });
   @override
   _FadeOutState createState() => _FadeOutState();

@@ -4,6 +4,7 @@ import 'package:portfol_io/constants/colors.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/showcase_manager.dart';
+import 'package:portfol_io/models/showcase_item.dart';
 import 'package:portfol_io/pages/work/fullscreen_image_dialog.dart';
 import 'package:vector_math/vector_math_64.dart' hide Colors;
 

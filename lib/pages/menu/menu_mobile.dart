@@ -29,7 +29,7 @@ class MenuMobile extends ConsumerWidget {
             duration: const Duration(milliseconds: 300),
             curve: Curves.linear,
             child: Container(
-              width: context.width,
+              width: double.infinity,
               decoration: BoxDecoration(
                 color: theme.colorScheme.surface.withAlpha(240),
               ),
@@ -37,13 +37,14 @@ class MenuMobile extends ConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    height: kToolbarHeight,
-                    child: ListView.separated(
+                  Flexible(
+                    child: SizedBox(
+                      height: kToolbarHeight,
+                      child: ListView.separated(
                       shrinkWrap: true,
                       itemCount: Globals.menu.length,
                       scrollDirection: Axis.horizontal,
-                      physics: const NeverScrollableScrollPhysics(),
+                      physics: const ClampingScrollPhysics(),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 4, vertical: 8),
                       separatorBuilder: (_, __) => const SizedBox(width: 4),
@@ -90,6 +91,7 @@ class MenuMobile extends ConsumerWidget {
                           ),
                         );
                       },
+                    ),
                     ),
                   ),
                   Row(

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,9 +11,9 @@ import 'package:portfol_io/extensions/list.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/download_manager.dart';
+import 'package:portfol_io/pages/contact/social_media_section.dart';
 import 'package:portfol_io/pages/contact/widgets/resume_button.dart';
 import 'package:portfol_io/widgets/delayed_display.dart';
-import 'package:portfol_io/widgets/hover_button.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class ContactInfo extends StatelessWidget {
@@ -24,124 +22,116 @@ class ContactInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isBigScreen = context.width >= Globals.maxBoxWidth;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SelectableText(
-              Globals.myName,
-              style: context.titleLarge?.copyWith(
-                fontWeight: FontWeight.w700,
-                color: context.theme.inverseTextColor,
-                fontSize: 36,
-              ),
-            ),
-            const SizedBox(height: 8),
-            HoverWidget(
-              builder: (context, isHovered) {
-                return Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SelectableText(
-                      Globals.myEmail,
-                      maxLines: 1,
-                      cursorHeight: 20,
-                      selectionHeightStyle: BoxHeightStyle.tight,
-                      style: context.bodyText1,
-                    ),
-                    AnimatedSwitcher(
-                      duration: kThemeAnimationDuration,
-                      child: !isHovered
-                          ? const Padding(
-                              padding:
-                                  EdgeInsets.symmetric(vertical: 8.0),
-                              child: SizedBox(),
-                            )
-                          : IconButton(
-                              onPressed: () {
-                                Clipboard.setData(
-                                    const ClipboardData(text: Globals.myEmail));
-                                // Snackba
-                              },
-                              icon: FaIcon(
-                                FontAwesomeIcons.clipboard,
-                                color: context.theme.inverseTextColor,
-                              ),
-                            ),
-                    )
-                  ],
-                );
-              },
-            ),
-          ],
-        ),
-        const SizedBox(height: 24),
-        SizedBox(
-          width: isBigScreen ? context.width * 3 / 12 : context.width * 4 / 12,
-          child: Wrap(
-            spacing: 4,
-            crossAxisAlignment: WrapCrossAlignment.center,
+    return SelectableRegion(
+      selectionControls: DesktopTextSelectionControls(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        spacing: 24,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              ...Globals.mySkills
-                  .map(
-                    (e) => SelectableText(
-                      e,
-                      style: context.bodyText1
-                          ?.copyWith(fontWeight: FontWeight.w200),
+              Text(
+                Globals.myName,
+                style: context.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: context.theme.inverseTextColor,
+                  fontSize: 36,
+                ),
+              ),
+              const SizedBox(height: 8),
+              InkWell(
+                borderRadius: BorderRadius.circular(24),
+                onTap: () {
+                  Clipboard.setData(const ClipboardData(text: Globals.myEmail));
+
+                  const snackbar = SnackBar(
+                    behavior: SnackBarBehavior.floating,
+                    width: 300,
+                    content: Text(
+                      'E-mail copied to clipboard ;)',
                     ),
-                  )
-                  .expandWithSeparator(
-                    (e) => e,
-                    Container(
-                      width: 4,
-                      height: 4,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: context.theme.inverseTextColor,
-                      ),
-                    ),
+                  );
+
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Text(
+                    Globals.myEmail,
+                    maxLines: 1,
+                    style: context.bodyText1,
                   ),
+                ),
+              ),
             ],
           ),
-        ),
-        const SizedBox(height: 24),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            buildInfoRow(
-              context,
-              Globals.myLocation,
-              icon: SvgPicture.asset(
-                AppIcons.location,
-                colorFilter: ColorFilter.mode(
-                    context.theme.inverseTextColor, BlendMode.srcIn),
-              ),
+          SizedBox(
+            width:
+                isBigScreen ? context.width * 3 / 12 : context.width * 4 / 12,
+            child: Wrap(
+              spacing: 4,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                ...Globals.mySkills
+                    .map(
+                      (e) => Text(
+                        e,
+                        style: context.bodyText1
+                            ?.copyWith(fontWeight: FontWeight.w200),
+                      ),
+                    )
+                    .expandWithSeparator(
+                      (e) => e,
+                      Container(
+                        width: 4,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: context.theme.inverseTextColor,
+                        ),
+                      ),
+                    ),
+              ],
             ),
-            buildInfoRow(
-              context,
-              Globals.myUniversity,
-              icon: SvgPicture.asset(
-                AppIcons.book,
-                colorFilter: ColorFilter.mode(
-                    context.theme.inverseTextColor, BlendMode.srcIn),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              buildInfoRow(
+                context,
+                Globals.myLocation,
+                icon: SvgPicture.asset(
+                  AppIcons.location,
+                  colorFilter: ColorFilter.mode(
+                      context.theme.inverseTextColor, BlendMode.srcIn),
+                ),
               ),
-            ),
-          ]
-              .expandWithSeparator(
-                (e) => e,
-                const SizedBox(height: 12),
-              )
-              .toList(),
-        ),
-        const SizedBox(height: 24),
-        const ResumeButton(),
-      ],
+              buildInfoRow(
+                context,
+                Globals.myUniversity,
+                icon: SvgPicture.asset(
+                  AppIcons.book,
+                  colorFilter: ColorFilter.mode(
+                      context.theme.inverseTextColor, BlendMode.srcIn),
+                ),
+              ),
+            ]
+                .expandWithSeparator(
+                  (e) => e,
+                  const SizedBox(height: 12),
+                )
+                .toList(),
+          ),
+          const ResumeButton(),
+          // Socials
+          const SocialMediaSection(),
+        ],
+      ),
     );
   }
 
@@ -151,7 +141,7 @@ class ContactInfo extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         data != null
-            ? FaIcon(
+            ? Icon(
                 data,
                 color: Colors.white,
                 size: 16,
@@ -249,7 +239,7 @@ class MobileParallaxCard extends StatelessWidget {
                 buildInfoRow(
                   context,
                   Globals.myUniversity,
-                  FontAwesomeIcons.buildingColumns,
+                  FontAwesomeIcons.buildingColumns.data,
                 ),
                 buildInfoRow(
                   context,
@@ -284,7 +274,7 @@ class MobileParallaxCard extends StatelessWidget {
     return Wrap(
       spacing: 16,
       children: [
-        FaIcon(data, color: Colors.white, size: 16),
+        Icon(data, color: Colors.white, size: 16),
         Text(
           label,
           style: context.bodyText1?.copyWith(
@@ -295,9 +285,6 @@ class MobileParallaxCard extends StatelessWidget {
     );
   }
 }
-
-
-
 
 class MobileContactInfo extends StatelessWidget {
   const MobileContactInfo({super.key});
@@ -352,7 +339,7 @@ class MobileContactInfo extends StatelessWidget {
               children: [
                 ...Globals.mySkills
                     .map(
-                      (e) => SelectableText(
+                      (e) => Text(
                         e,
                         style: context.bodyText1?.copyWith(
                           fontWeight: FontWeight.w300,
@@ -418,7 +405,7 @@ class MobileContactInfo extends StatelessWidget {
       spacing: 8,
       children: [
         data != null
-            ? FaIcon(
+            ? Icon(
                 data,
                 color: Colors.white,
                 size: 12,

@@ -1,11 +1,15 @@
+import 'dart:ui';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfol_io/constants/icons.dart';
 import 'package:portfol_io/models/social_media_button.dart';
 import 'package:portfol_io/models/tech_item.dart';
 
 class Globals {
+  static const String fontFamilyPlayfair = 'Playfair Display';
   static const List<String> menu = ["Home", "Showcase", "Contact Me"];
 
+  static const String appTitle = 'Portfolio';
   static const String myEmail = "ervindobri@gmail.com";
   static const String myPhone = "+40 754 365 846";
   static const String contactMe = "Contact";
@@ -13,17 +17,12 @@ class Globals {
   static const String title = "Refining The Future.";
   static const String subtitle = "Since '98";
   static const String githubUrl = "https://github.com/ervindobri";
-  static const String facebookPage = "https://www.facebook.com/ervindobri/";
 
   static List<SocialMediaItem> socialMediaBubbles = [
     SocialMediaItem(
         label: "LinkedIn",
         icon: FontAwesomeIcons.linkedin,
         url: "https://www.linkedin.com/in/ervin-dobri/"),
-    SocialMediaItem(
-        label: "Facebook",
-        icon: FontAwesomeIcons.facebook,
-        url: "https://www.facebook.com/ervindobri/"),
     SocialMediaItem(
         label: "Instagram",
         icon: FontAwesomeIcons.instagram,
@@ -56,17 +55,33 @@ class Globals {
     const TechItem(
         name: "Flutter",
         asset: AppIcons.flutter,
+        knowledgePercentage: 94,
         link: "https://www.flutter.dev/"),
     const TechItem(
-        name: "Figma", asset: AppIcons.figma, link: "https://www.figma.com/"),
+        name: "Dart",
+        asset: AppIcons.dart,
+        knowledgePercentage: 91,
+        link: "https://www.dart.dev/"),
+    const TechItem(
+        name: "Figma",
+        knowledgePercentage: 89,
+        asset: AppIcons.figma,
+        link: "https://www.figma.com/"),
+    const TechItem(
+        name: "Firebase",
+        knowledgePercentage: 91,
+        asset: AppIcons.firebase,
+        link: "https://firebase.google.com/"),
     const TechItem(
         name: "Python",
+        knowledgePercentage: 87,
         asset: AppIcons.python,
         link: "https://www.python.org/"),
-    // TechItem(
-    //     name: "C#",
-    //     asset: "csharp",
-    //     link: "https://docs.microsoft.com/en-us/dotnet/csharp/"),
+    const TechItem(
+        name: "C#",
+        asset: AppIcons.csharp,
+        knowledgePercentage: 78,
+        link: "https://docs.microsoft.com/en-us/dotnet/csharp/"),
     // TechItem(
     //     name: "Azure DevOps",
     //     asset: "devops",
@@ -136,4 +151,38 @@ class Globals {
   static const String emailBody = 'Dear Ervin,\n';
 
   static const String builtWithFlutter = "BUILT WITH FLUTTER 💙";
+
+  static const String aboutMe = 'About me';
+  static const String aboutMeDesc1 = 'Hi there! 👋🏻';
+  static const String aboutMeDesc2 =
+      """”I am a multilingual IT Engineer (Hungarian, English and Romanian speaking) professional with over 5 years of experience across development and product design. \nHaving experience in multiple sectors for the last 5 years, I’ve completed multiple projects both as a developer and as a UI/UX designer for different multinational companies and international teams. 
+\nMy current passions are design, gaming and football and I'm currently learning Portuguese 🇧🇷”""";
+  static const String expertise = 'Expertise';
+
+  static const ColorFilter greyscaleColorFilter = ColorFilter.matrix(<double>[
+    0.2126,
+    0.7152,
+    0.0722,
+    0,
+    0,
+    0.2126,
+    0.7152,
+    0.0722,
+    0,
+    0,
+    0.2126,
+    0.7152,
+    0.0722,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+  ]);
+
+  static const Duration durationFast = Duration(milliseconds: 200);
+  static const Duration durationMedium = Duration(milliseconds: 300);
+  static const Duration durationSlow = Duration(milliseconds: 400);
 }

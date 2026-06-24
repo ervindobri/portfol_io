@@ -4,53 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_command/flutter_command.dart';
+import 'package:portfol_io/models/showcase_item.dart';
 
-class ShowcaseItem {
-  final String projectName;
-  final String duration;
-  final String description;
-  final String url;
-  final String? publishedGooglePlayUrl;
-  final String? publishedAppStoreUrl;
 
-  final String imagesPath;
-  final List<String> imageAssets;
-  final List<String> tags;
-
-  ShowcaseItem({
-    this.projectName = "Project Name",
-    this.duration = "3 months",
-    this.description = "Lorem ipsum dolor sit amet, consectetur adipiscing...",
-    this.url = "https://github.com/ervindobri/",
-    this.publishedAppStoreUrl,
-    this.publishedGooglePlayUrl,
-    this.imagesPath = "others", //must be under images/work directory
-    this.imageAssets = const ['placeholder'],
-    this.tags = const [],
-  });
-
-  List<String> get images => List.generate(imageAssets.length,
-      (index) => "assets/images/work/$imagesPath/${imageAssets[index]}");
-
-  @override
-  String toString() {
-    return 'ShowcaseItem(projectName: $projectName, duration: $duration)';
-  }
-
-  factory ShowcaseItem.fromMap(Map<String, dynamic> e) {
-    return ShowcaseItem(
-      projectName: e['projectName'] ?? "",
-      duration: e['duration'] ?? "",
-      imagesPath: e['imagesPath'] ?? "",
-      imageAssets: e['imageAssets'].cast<String>(),
-      url: e['url'] ?? "https://github.com/ervindobri/",
-      publishedAppStoreUrl: e['publishedAppStoreUrl'],
-      publishedGooglePlayUrl: e['publishedGooglePlayUrl'],
-      description: e['description'] ?? "",
-      tags: e['tags'] != null ? e['tags'].cast<String>() : [],
-    );
-  }
-}
 
 enum LayoutView { single, grid, detail }
 
@@ -179,8 +135,7 @@ class UiShowcaseManager {
 
       showcaseItems.value =
           container.map((e) => ShowcaseItem.fromMap(e)).toList();
-      return showcaseItems
-          .value;
+      return showcaseItems.value;
     } catch (e) {
       if (kDebugMode) {
         print(e);
