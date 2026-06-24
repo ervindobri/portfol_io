@@ -68,7 +68,7 @@ class HomePageState extends ConsumerState<HomePage>
                           controller: uiMenuManager.scrollController,
                           physics: const NeverScrollableScrollPhysics(),
                           child: SizedBox(
-                            width: context.width,
+                            width: double.infinity,
                             child: Column(
                               children: [
                                 ...[
@@ -96,7 +96,9 @@ class HomePageState extends ConsumerState<HomePage>
                   ),
                   Positioned(
                     top: isMobile ? 0 : context.topPadding,
-                    child: const StickyMenu(),
+                    left: 0,
+                    right: 0,
+                    child: const RepaintBoundary(child: StickyMenu()),
                   ),
                 ],
               ),

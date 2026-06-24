@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:portfol_io/constants/constants.dart';
 import 'package:portfol_io/constants/icons.dart';
-import 'package:portfol_io/extensions/build_context.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/injection_manager.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
@@ -46,7 +45,7 @@ class MenuDesktop extends HookConsumerWidget {
           duration: kThemeAnimationDuration,
           child: Container(
             height: kToolbarHeight,
-            width: context.width,
+            width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 24),
             color: context.theme.scaffoldBackgroundColor.withAlpha(220),
             alignment: Alignment.center,

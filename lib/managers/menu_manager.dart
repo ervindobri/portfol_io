@@ -1,6 +1,5 @@
 // import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class UiMenuManager {
@@ -42,16 +41,7 @@ class UiMenuManager {
   }
 
   int getCurrentIndex(double offset) {
-    if (kDebugMode) {
-      print("find offset: $offset");
-    }
-    final currentIndex =
-        offsets.indexOf(offsets.where((element) => element <= offset).last);
-
-    if (kDebugMode) {
-      print("scrolled to : $currentIndex");
-    }
-    return currentIndex;
+    return offsets.indexOf(offsets.where((element) => element <= offset).last);
   }
 
   Future<void> animateToPage(int index,

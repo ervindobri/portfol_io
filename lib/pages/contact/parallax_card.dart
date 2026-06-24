@@ -141,7 +141,7 @@ class ContactInfo extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         data != null
-            ? FaIcon(
+            ? Icon(
                 data,
                 color: Colors.white,
                 size: 16,
@@ -239,7 +239,7 @@ class MobileParallaxCard extends StatelessWidget {
                 buildInfoRow(
                   context,
                   Globals.myUniversity,
-                  FontAwesomeIcons.buildingColumns,
+                  FontAwesomeIcons.buildingColumns.data,
                 ),
                 buildInfoRow(
                   context,
@@ -274,7 +274,7 @@ class MobileParallaxCard extends StatelessWidget {
     return Wrap(
       spacing: 16,
       children: [
-        FaIcon(data, color: Colors.white, size: 16),
+        Icon(data, color: Colors.white, size: 16),
         Text(
           label,
           style: context.bodyText1?.copyWith(
@@ -405,7 +405,7 @@ class MobileContactInfo extends StatelessWidget {
       spacing: 8,
       children: [
         data != null
-            ? FaIcon(
+            ? Icon(
                 data,
                 color: Colors.white,
                 size: 12,
