@@ -1,17 +1,20 @@
 import 'dart:ui';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:portfol_io/extensions/build_context.dart';
 import 'package:portfol_io/extensions/theme_ext.dart';
 import 'package:portfol_io/helpers/email_helper.dart';
 import 'package:portfol_io/managers/menu_manager.dart';
-import 'package:portfol_io/pages/home/responsive_screens/home_desktop.dart';
 import 'package:portfol_io/injection_manager.dart';
+import 'package:portfol_io/models/tech_item.dart';
 import 'package:portfol_io/widgets/animated_text_switcher.dart';
 import 'package:portfol_io/widgets/fade_in_slide.dart';
 import 'package:pretty_animated_text/pretty_animated_text.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:portfol_io/constants/constants.dart';
@@ -19,6 +22,7 @@ import 'package:portfol_io/constants/icons.dart';
 import 'package:portfol_io/constants/images.dart';
 import 'package:portfol_io/providers/providers.dart';
 import 'package:portfol_io/widgets/animated_highlight_widget.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 enum Orientation { portrait, landscape }
 
@@ -228,25 +232,36 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
             ],
           ),
         ),
+        const AboutMeMobile(),
         Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 20,
             vertical: 24,
           ),
-          child: Align(
-            alignment: Alignment.center,
-            child: Wrap(
-              spacing: 16,
-              alignment: WrapAlignment.center,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              runAlignment: WrapAlignment.center,
-              runSpacing: 16,
-              children: [
-                ...Globals.techStack.map(
-                  (e) => TechItemWidget(item: e),
-                )
-              ],
-            ),
+          child: Column(
+            spacing: 16,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                Globals.expertise,
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  color: theme.inverseTextColor,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Wrap(
+                spacing: 16,
+                runSpacing: 16,
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                runAlignment: WrapAlignment.center,
+                children: [
+                  ...Globals.techStack.map(
+                    (e) => MobileTechItemWidget(item: e),
+                  )
+                ],
+              ),
+            ],
           ),
         ),
         Container(
@@ -273,6 +288,155 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class AboutMeMobile extends HookWidget {
+  const AboutMeMobile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final animate = useState(false);
+    return VisibilityDetector(
+      key: const ValueKey('aboutme_mobile'),
+      onVisibilityChanged: (visible) {
+        animate.value = visible.visibleFraction > 0.2;
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          spacing: 16,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              Globals.aboutMe,
+              style: context.headline5?.copyWith(fontWeight: FontWeight.w500),
+            ),
+            Column(
+              spacing: 8,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FadeIn(
+                  animate: animate.value,
+                  child: Text(
+                    Globals.aboutMeDesc1,
+                    style: context.bodyText1?.copyWith(
+                      fontFamily: Globals.fontFamilyPlayfair,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ...Globals.aboutMeDesc2.split('\n').map(
+                          (e) => Text(
+                            e,
+                            style: context.bodyText1?.copyWith(
+                              fontFamily: Globals.fontFamilyPlayfair,
+                              fontSize: 14,
+                              color: animate.value ? null : Colors.transparent,
+                            ),
+                          ),
+                        ),
+                  ],
+                ),
+              ],
+            ),
+            SlideInRight(
+              animate: animate.value,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Row(
+                    spacing: 8,
+                    children: [
+                      Container(
+                        height: 1,
+                        width: 64,
+                        color: context.theme.inverseTextColor,
+                      ),
+                      Text(
+                        'Ervin Dobri'.toUpperCase(),
+                        style: context.bodyText1?.copyWith(
+                          fontWeight: FontWeight.w100,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class MobileTechItemWidget extends StatefulWidget {
+  const MobileTechItemWidget({super.key, required this.item});
+  final TechItem item;
+
+  @override
+  State<MobileTechItemWidget> createState() => _MobileTechItemWidgetState();
+}
+
+class _MobileTechItemWidgetState extends State<MobileTechItemWidget> {
+  bool _pressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () async {
+        await launchUrlString(widget.item.link);
+        HapticFeedback.lightImpact();
+      },
+      onTapDown: (_) => setState(() => _pressed = true),
+      onTapUp: (_) => setState(() => _pressed = false),
+      onTapCancel: () => setState(() => _pressed = false),
+      child: Column(
+        spacing: 8,
+        children: [
+          AnimatedContainer(
+            duration: kThemeAnimationDuration,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(32),
+              color: _pressed
+                  ? context.theme.primaryColor
+                  : context.theme.containerColor,
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 8,
+              children: [
+                AnimatedScale(
+                  scale: _pressed ? 1.1 : 1.0,
+                  duration: kThemeAnimationDuration,
+                  child: Image.asset(
+                    widget.item.asset,
+                    width: 64,
+                    height: 64,
+                  ),
+                ),
+                Text(
+                  '${widget.item.knowledgePercentage}%',
+                  style: context.theme.textTheme.bodySmall
+                      ?.copyWith(fontSize: 14),
+                ),
+              ],
+            ),
+          ),
+          Text(
+            widget.item.name,
+            style: context.theme.textTheme.bodySmall?.copyWith(fontSize: 12),
+          ),
+        ],
+      ),
     );
   }
 }
