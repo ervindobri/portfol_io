@@ -20,7 +20,7 @@ class HomeContentState extends State<HomeContent>
           return const HomeDesktop();
         }
         if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
-          return const HomeTablet();
+          return HomeMobile.landscape();
         }
         return OrientationLayoutBuilder(
           portrait: (context) => HomeMobile.portrait(),
